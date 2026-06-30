@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 // ─── CONFIG ──────────────────────────────────────────────
 const FREE_USES = 1;
-const GUMROAD_URL = "https://gumroad.com/l/YOUR_PRODUCT_LINK"; // ← replace after Gumroad setup
+const GUMROAD_URL = "https://automate071.gumroad.com/l/wybhu";
 const STORAGE_KEY = "ct_uses";
 
 // ─── THEME ───────────────────────────────────────────────
