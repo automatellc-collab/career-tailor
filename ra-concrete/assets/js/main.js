@@ -1,4 +1,4 @@
-/* R&A Concrete LLC — site behaviour. No dependencies. */
+/* R&A Concrete Construction LLC — site behaviour. No dependencies. */
 (function () {
   "use strict";
 
@@ -28,7 +28,10 @@
       fixOne: "Please fix 1 item below",
       fixMany: "Please fix {n} items below",
       demoTitle: "Not sent &mdash; this is a demo form",
-      demoBody: "Your details passed validation, but this form isn&rsquo;t connected to R&amp;A Concrete yet, so nothing was delivered. Your entries are still in the form. To reach us now, call <a href=\"tel:+14703920670\">(470) 392-0670</a>.",
+      demoBody: "This form isn&rsquo;t connected yet, so nothing was delivered. Your entries are still in the form. Send them by email instead, or call <a href=\"tel:+14703920670\">(470) 392-0670</a>.",
+      emailInstead: "Send by email instead",
+      mailSubject: "Estimate request",
+      mailLabels: ["Name", "Project location", "Phone", "Email", "Project type", "Project description"],
       okTitle: "Request received",
       okBody: "Thanks. Your project details were sent to R&amp;A Concrete, and we&rsquo;ll be in touch using the contact information you provided.",
       failTitle: "Your request didn&rsquo;t go through",
@@ -47,7 +50,10 @@
       fixOne: "Corrija 1 dato a continuación",
       fixMany: "Corrija {n} datos a continuación",
       demoTitle: "No se envió &mdash; este formulario es de demostración",
-      demoBody: "Sus datos son válidos, pero este formulario todavía no está conectado con R&amp;A Concrete, así que no se envió nada. Sus datos siguen en el formulario. Para comunicarse ahora, llame al <a href=\"tel:+14703920670\">(470) 392-0670</a>.",
+      demoBody: "Este formulario todavía no está conectado, así que no se envió nada. Sus datos siguen en el formulario. Envíelos por correo electrónico o llame al <a href=\"tel:+14703920670\">(470) 392-0670</a>.",
+      emailInstead: "Enviar por correo electrónico",
+      mailSubject: "Solicitud de estimado",
+      mailLabels: ["Nombre", "Ubicación del proyecto", "Teléfono", "Correo electrónico", "Tipo de proyecto", "Descripción del proyecto"],
       okTitle: "Solicitud recibida",
       okBody: "Gracias. Los detalles de su proyecto se enviaron a R&amp;A Concrete y nos comunicaremos con usted por el medio de contacto que nos dejó.",
       failTitle: "Su solicitud no se envió",
@@ -210,6 +216,22 @@
     return problems;
   }
 
+  // Pre-filled email to the owner, used while the form has no backend.
+  var OWNER_EMAIL = "alanconcrete97@gmail.com";
+  function mailtoHref() {
+    var typeOpt = fields.type.options[fields.type.selectedIndex];
+    var values = [
+      fields.name.value, fields.location.value, fields.phone.value,
+      fields.email.value, typeOpt ? typeOpt.text : "", fields.description.value
+    ];
+    var body = t.mailLabels.map(function (label, i) {
+      return label + ": " + values[i].trim();
+    }).join("\n");
+    return "mailto:" + OWNER_EMAIL +
+      "?subject=" + encodeURIComponent(t.mailSubject + " – " + (typeOpt ? typeOpt.text : "")) +
+      "&body=" + encodeURIComponent(body);
+  }
+
   function showStatus(state, html) {
     status.dataset.state = state;
     status.innerHTML = html;
@@ -245,7 +267,8 @@
     if (!FORM_ENDPOINT) {
       showStatus(
         "demo",
-        "<h3>" + t.demoTitle + "</h3><p>" + t.demoBody + "</p>"
+        "<h3>" + t.demoTitle + "</h3><p>" + t.demoBody + "</p>" +
+          '<p><a class="btn btn--dark mail-fallback" href="' + mailtoHref() + '">' + t.emailInstead + "</a></p>"
       );
       return;
     }

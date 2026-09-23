@@ -1,6 +1,6 @@
-# R&A Concrete LLC — website & identity
+# R&A Concrete Construction LLC — website & identity
 
-A static, dependency-free marketing site and brand identity for R&A Concrete LLC, a concrete pouring company serving metro Atlanta, Georgia.
+A static, dependency-free marketing site and brand identity for R&A Concrete Construction LLC, a residential and commercial concrete contractor serving metro Atlanta, Georgia.
 
 - `index.html`: the website (English)
 - `es/index.html`: the Spanish site, **generated** from `index.html` (see below)
@@ -44,26 +44,31 @@ Nothing below has been invented. Each item is marked on the page with a dashed *
 
 | Item | Where | Status |
 |---|---|---|
-| Service list (driveways, patios, walkways, slabs, repair/replacement) and scope tags | Services | Proposed |
+| Legal name | Title, footer, JSON-LD, brand guide | **Confirmed** from business card: R&A Concrete Construction LLC. The logo wordmark reads "R&A Concrete" |
+| Service list | Services, hero, form options, JSON-LD | **Confirmed** from business card: residential & commercial; driveways/slabs/patios; sidewalks; stamped & colored; hardscape/pavers; retaining walls/fire pits; sitting walls; pool renovations |
+| Exact scope of "pool renovations" | Services | Copy says concrete and hardscape around an existing pool. Confirm with owner |
+| Scope tags under each service (e.g. "Outdoor kitchen pads") | Services | Descriptive; owner to confirm |
 | Workmanship priorities / wording | Why R&A | Proposed |
 | Six-step process | Process | Proposed |
 | Service area limits (which counties/cities, travel radius) | Service area | Only "metro Atlanta" is verified |
 | Tear-out & haul-off offered? | FAQ | Unconfirmed |
 | Who handles permits? | FAQ | Unconfirmed |
 | License & insurance details | FAQ | **Required before claiming anything** |
-| Phone number | Header, hero, estimate section, footer, mobile call bar, JSON-LD | **Confirmed:** (470) 392-0670 |
-| Email | Footer, JSON-LD | Not supplied |
+| Phone numbers | Header, hero, estimate section, footer, mobile call bar, JSON-LD | **Confirmed:** (470) 392-0670 (primary), (470) 392-0666 |
+| Email | Estimate section, footer, JSON-LD, demo-form email fallback | **Confirmed:** alanconcrete97@gmail.com |
+| Project videos | Work section, footer | **Confirmed link:** https://vqr.vc/jV6PxfV80 (opens in a new tab; not embedded) |
 | Spanish-language service | Hero, FAQ, footer, JSON-LD `availableLanguage`, `/es/` | **Confirmed** (owner speaks Spanish) |
 | Street address / service-area-business setup | JSON-LD, Google Business Profile | Not supplied |
 | Domain | `og:image`, `og:url`, JSON-LD `url`, `hreflang` links | Not supplied. These must be absolute URLs once the domain exists |
 
 ### 2. Missing assets
+- **Project videos → gallery.** The Work section links to the owner's video page. Embedding the videos (or stills from them) in the gallery needs the video files or their direct URLs; the link page could not be read from the build environment.
 - **Project photography.** The five gallery tiles are labeled placeholders with procedural concrete textures. Replace each `.photo` div's contents with an `<img>` (WebP/AVIF, ~1600px on the long edge, `loading="lazy"`, descriptive `alt`) and fill in location, scope and finish. Only use R&A's own completed work. Good shots: low-angle raking light across the finish, joint and edge close-ups, and wide "after" shots with the house for context.
 - **Hero image (optional).** The hero is an illustrated plan drawing, captioned "Illustration only". A real photo of an R&A crew finishing a pour could replace it later, but keep the caption honest.
 - **Social image.** `assets/img/og-image.jpg` is ready. Change `og:image` to an absolute URL once the domain is live, since most platforms ignore relative paths.
 
 ### 3. Integrations needed
-- **Estimate form backend.** Set `FORM_ENDPOINT` at the top of `assets/js/main.js` (Formspree, Basin, Netlify Forms, or your own API accepting a `FormData` POST). Until then the form validates but **explicitly reports that nothing was sent** and shows a "Demo form" banner. Setting the endpoint removes the banner automatically and turns on real success/error states. Add spam protection (honeypot or Turnstile) with it.
+- **Estimate form backend.** Set `FORM_ENDPOINT` at the top of `assets/js/main.js` (Formspree, Basin, Netlify Forms, or your own API accepting a `FormData` POST). Until then the form validates but **explicitly reports that nothing was sent**, shows a "Demo form" banner, and offers a **"Send by email instead"** button that opens the visitor's email app with their details pre-filled to alanconcrete97@gmail.com. Quickest real fix: a free Formspree form pointed at that address. Setting the endpoint removes the banner automatically and turns on real success/error states. Add spam protection (honeypot or Turnstile) with it.
 - **Analytics** (optional): track clicks on "Request an Estimate" and form submissions as conversions.
 - **Google Business Profile**: set it up as a service-area business for metro Atlanta. It matters more for local search than anything on this page.
 - **Privacy note**: once the form sends real data, add a short privacy policy page and link it next to the submit button.

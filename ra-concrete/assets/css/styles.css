@@ -1177,3 +1177,52 @@ p { margin: 0; text-wrap: pretty; }
   .header-tools { gap: 10px; }
   .site-header .wrap { gap: 16px; }
 }
+
+/* --- Service swatches for decorative work ------------------------------ */
+
+.swatch-stamped {
+  background-color: #b89f84;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='132' height='132'%3E%3Cpath d='M0 38H54V0M54 38H132M86 38V84M0 84H132M40 84V132M100 84V132M24 38V84' fill='none' stroke='%2322221f' stroke-opacity='.28' stroke-width='2.5'/%3E%3C/svg%3E"),
+    url("../img/grain.svg"), url("../img/mottle.svg");
+  background-size: 132px, 220px, 640px;
+}
+.swatch-pavers {
+  background-color: #a9a095;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='66' height='44'%3E%3Cpath d='M0 .75H66M0 22.75H66M33 0V22M0 22V44M66 22V44' fill='none' stroke='%23f3efe7' stroke-opacity='.55' stroke-width='2'/%3E%3C/svg%3E"),
+    url("../img/grain.svg"), url("../img/mottle.svg");
+  background-size: 66px 44px, 220px, 640px;
+}
+.swatch-wall {
+  background-color: #8a857c;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='60'%3E%3Cpath d='M0 1H88M0 31H88M44 0V30M0 30V60M88 30V60' fill='none' stroke='%2322221f' stroke-opacity='.4' stroke-width='3'/%3E%3C/svg%3E"),
+    url("../img/grain.svg"), url("../img/mottle.svg");
+  background-size: 88px 60px, 220px, 640px;
+}
+.swatch-pool {
+  background-image:
+    linear-gradient(180deg, #7ea3ad 0 30%, #d8d3c9 30% 33%, transparent 33%),
+    url("../img/grain.svg"), url("../img/mottle.svg");
+  background-size: auto, 220px, 640px;
+}
+.swatch-stamped::after, .swatch-pavers::after, .swatch-wall::after, .swatch-pool::after { display: none; }
+
+/* --- Video link and extra contact lines -------------------------------- */
+
+.video-cta svg { width: 22px; height: 22px; }
+.video-cta:hover svg { transform: none; }
+.call-card-alt {
+  width: fit-content;
+  color: var(--ivory);
+  font-size: 17px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+  border-bottom: 1px solid var(--line-dark);
+  overflow-wrap: anywhere;
+}
+.call-card-alt:hover { border-bottom-color: var(--ivory); }
+.site-footer li a[href^="mailto"] { overflow-wrap: anywhere; }
+.form-status .mail-fallback { margin-top: 14px; min-height: 48px; }

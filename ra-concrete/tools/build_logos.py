@@ -77,7 +77,7 @@ def build():
     OUT.mkdir(parents=True, exist_ok=True)
 
     # Line 1: "R" "&" "A" — kept as separate paths so the ampersand can take the accent.
-    CAP1, CAP2 = 60, 17
+    CAP1, CAP2 = 60, 19
     track1 = 5
     parts, cursor = [], 0.0
     for i, ch in enumerate("R&A"):
@@ -86,7 +86,7 @@ def build():
         cursor += w + (track1 if i < 2 else 0)
     line1_w = cursor
     # Line 2 justified to line 1's width.
-    l2 = "CONCRETE LLC"
+    l2 = "CONCRETE"
     nat = natural_width(medium, l2, CAP2)
     track2 = (line1_w - nat) / (len(l2) - 1)
 
@@ -133,7 +133,7 @@ def build():
         body, lw = lockup(120 + gap, 0, cols)
         w = 120 + gap + lw
         (OUT / f"ra-logo-horizontal-{name}.svg").write_text(
-            svg(w, 120, f'<path fill="{cols[0]}" fill-rule="evenodd" d="{MARK}"/>{body}', "R&amp;A Concrete LLC")
+            svg(w, 120, f'<path fill="{cols[0]}" fill-rule="evenodd" d="{MARK}"/>{body}', "R&amp;A Concrete Construction LLC")
         )
 
     # Stacked lockup ───────────────────────────────────
@@ -146,7 +146,7 @@ def build():
             svg(
                 w, 120 + 34 + 120,
                 f'<path transform="translate({mx:.2f} 0)" fill="{cols[0]}" fill-rule="evenodd" d="{MARK}"/>{body}',
-                "R&amp;A Concrete LLC",
+                "R&amp;A Concrete Construction LLC",
             )
         )
     print("line1 width", round(line1_w, 1), "line2 tracking", round(track2, 2))
