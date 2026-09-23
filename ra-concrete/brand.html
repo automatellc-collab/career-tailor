@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Brand Guidelines | R&amp;A Concrete LLC</title>
+  <meta name="description" content="Logo, color and typography guidelines for R&amp;A Concrete LLC.">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>
+    .bg-section { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid var(--line); }
+    .bg-intro { padding-block: clamp(48px, 7vw, 96px) clamp(40px, 5vw, 72px); }
+    .bg-intro h1 { font-size: clamp(44px, 6vw, 84px); letter-spacing: -0.03em; }
+    .bg-intro p { margin-top: 24px; max-width: 62ch; font-size: clamp(17px, 1vw + 12px, 20px); color: var(--stone); }
+    .prose { display: grid; gap: 16px; max-width: 64ch; }
+    .prose p { color: var(--ink); }
+    .prose strong { color: var(--charcoal); }
+
+    .concepts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px); }
+    .concept { display: grid; gap: 16px; align-content: start; }
+    .concept-art { aspect-ratio: 1; display: grid; place-items: center; background: var(--paper); border: 1px solid var(--line); position: relative; }
+    .concept-art svg { width: 56%; }
+    .concept.is-chosen .concept-art { border: 2px solid var(--charcoal); }
+    .concept .chip { position: absolute; left: 12px; top: 12px; }
+    .chip { font-family: var(--f-mono); font-size: 11.5px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; padding: 5px 9px; background: var(--ivory-2); color: var(--charcoal); }
+    .chip--on { background: var(--charcoal); color: var(--ivory); }
+    .concept h3 { font-size: 22px; font-stretch: 108%; }
+    .concept p { color: var(--stone); font-size: 16px; }
+
+    .lockups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2vw, 24px); }
+    .lockup { display: grid; place-items: center; min-height: 260px; padding: 40px; position: relative; }
+    .lockup img { max-height: 150px; width: auto; }
+    .lockup .chip { position: absolute; left: 12px; top: 12px; }
+    .lockup--light { background: var(--ivory); border: 1px solid var(--line); }
+    .lockup--paper { background: #fff; border: 1px solid var(--line); }
+    .lockup--dark { background: var(--charcoal); }
+    .lockup--concrete { background-color: #8e897f; }
+    .lockup--wide { grid-column: 1 / -1; }
+    .lockup--small img { max-height: 120px; }
+
+    .rules { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-top: 48px; }
+    .rules h3 { font-size: 20px; font-stretch: 106%; margin-bottom: 10px; }
+    .rules p, .rules li { color: var(--stone); font-size: 16px; }
+    .rules ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+    .clearspace { display: grid; place-items: center; padding: 40px; background: var(--paper); border: 1px solid var(--line); }
+    .clearspace div { outline: 1.5px dashed var(--oxide); outline-offset: 0; padding: 30px; background: repeating-linear-gradient(45deg, rgba(168,67,42,.07) 0 6px, transparent 6px 12px); }
+    .clearspace img { height: 120px; width: auto; background: var(--paper); }
+
+    .swatches { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); }
+    .swatch { display: grid; grid-template-rows: 160px auto; }
+    .swatch + .swatch { border-left: 1px solid var(--line); }
+    .swatch-chip { display: flex; align-items: flex-end; padding: 14px; font-family: var(--f-mono); font-size: 12px; letter-spacing: .06em; }
+    .swatch-info { padding: 16px; display: grid; gap: 4px; font-size: 14.5px; background: var(--paper); }
+    .swatch-info strong { font-size: 16px; color: var(--charcoal); }
+    .swatch-info code { font-family: var(--f-mono); font-size: 12.5px; color: var(--stone); }
+    .swatch-info span { color: var(--stone); }
+
+    .type-specimen { display: grid; gap: 0; border-top: 1px solid var(--line-strong); }
+    .type-row { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 24px; padding: 28px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+    .type-row .meta { font-family: var(--f-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--stone); line-height: 1.6; }
+    .t-display { font-size: clamp(40px, 5vw, 72px); font-weight: 700; font-stretch: 114%; letter-spacing: -0.03em; line-height: 1; color: var(--charcoal); }
+    .t-h { font-size: 28px; font-weight: 700; font-stretch: 108%; letter-spacing: -0.012em; color: var(--charcoal); }
+    .t-body { font-size: 18px; max-width: 58ch; }
+    .t-mono { font-family: var(--f-mono); font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+
+    .apps { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: clamp(16px, 2vw, 24px); }
+    .app { display: grid; gap: 14px; align-content: start; }
+    .app-art { aspect-ratio: 4 / 3; display: grid; place-items: center; position: relative; overflow: hidden; }
+    .app h3 { font-size: 18px; font-stretch: 106%; }
+    .app p { font-size: 15px; color: var(--stone); }
+    /* Truck door */
+    .truck { background: linear-gradient(180deg, #e9e7e2, #d6d3cc); }
+    .truck-door { width: 78%; height: 70%; background: #f4f3ef; border: 2px solid #b9b5ad; border-radius: 6px 22px 6px 6px; display: grid; place-items: center; box-shadow: inset 0 -10px 20px rgba(0,0,0,.05); position: relative; }
+    .truck-door::after { content: ""; position: absolute; right: 12%; top: 46%; width: 14%; height: 5%; background: #b9b5ad; border-radius: 3px; }
+    .truck-door img { width: 56%; transform: translateX(-12%); }
+    /* Shirt */
+    .shirt { background: #cfcac0; }
+    .shirt-body { width: 70%; height: 86%; margin-top: 18%; background: var(--charcoal); clip-path: polygon(22% 0, 38% 0, 50% 8%, 62% 0, 78% 0, 100% 16%, 90% 32%, 82% 26%, 82% 100%, 18% 100%, 18% 26%, 10% 32%, 0 16%); position: relative; }
+    .shirt-body img { position: absolute; width: 14%; right: 28%; top: 20%; }
+    /* Yard sign */
+    .yard { background: linear-gradient(180deg, #d9d5cc 0 76%, #9c9a86 76%); }
+    .sign { width: 62%; aspect-ratio: 24 / 18; background: var(--charcoal); display: grid; align-content: center; justify-items: start; gap: 8%; padding: 8%; position: relative; margin-bottom: 14%; }
+    .sign::before, .sign::after { content: ""; position: absolute; bottom: -24%; width: 2px; height: 24%; background: #555; }
+    .sign::before { left: 20%; } .sign::after { right: 20%; }
+    .sign img { width: 100%; }
+    .sign span { font-family: var(--f-sans); font-weight: 700; font-stretch: 112%; font-size: clamp(9px, 1vw, 13px); color: #fff; background: var(--oxide); padding: 4px 7px; }
+
+    .downloads { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line-strong); }
+    .downloads li { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .downloads a { font-family: var(--f-mono); font-size: 13.5px; }
+
+    @media (max-width: 900px) {
+      .concepts, .apps, .rules { grid-template-columns: 1fr; }
+      .lockups { grid-template-columns: 1fr; }
+      .swatches { grid-template-columns: 1fr 1fr; }
+      .swatch + .swatch { border-left: 0; }
+      .swatch { border-bottom: 1px solid var(--line); }
+      .swatch:nth-child(even) { border-left: 1px solid var(--line); }
+      .type-row { grid-template-columns: 1fr; gap: 10px; }
+      .downloads { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 520px) {
+      .downloads { grid-template-columns: 1fr; }
+      .lockup { padding: 48px 20px 28px; min-height: 200px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header is-scrolled">
+    <div class="wrap">
+      <a class="brand" href="index.html" aria-label="R&amp;A Concrete LLC home">
+        <img src="assets/brand/ra-logo-horizontal-color.svg" alt="" width="160" height="48">
+      </a>
+      <a class="text-link" href="index.html">Back to site</a>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="bg-intro">
+      <div class="wrap">
+        <span class="label">Brand guidelines &middot; v1.0</span>
+        <h1 style="margin-top:20px">Two slabs. One joint.</h1>
+        <p>The R&amp;A Concrete identity is built on the geometry of the work itself: poured panels, saw-cut control joints and the chamfered edge left by a good set of forms. It is meant to read cleanly on a phone screen, a truck door, a shirt and a yard sign.</p>
+      </div>
+    </section>
+
+    <!-- Rationale -->
+    <section class="bg-section">
+      <div class="wrap">
+        <div class="section-head"><span class="label">01 &mdash; Direction</span><h2>Architectural concrete.</h2></div>
+        <div class="prose">
+          <p><strong>Precision, permanence and craft.</strong> Instead of the usual contractor cues (trucks, trowels, hard hats), the identity borrows from finished architectural concrete: calm gray and ivory surfaces, sharp edges and deliberate joint lines.</p>
+          <p><strong>Warm, not cold.</strong> Warm ivory replaces stark white, and a single iron-oxide accent ties to rebar, pigmented concrete and Georgia red clay. The result feels approachable for a homeowner and serious for a general contractor.</p>
+          <p><strong>Specification language.</strong> Small monospace labels act like drawing annotations. They set up expectations the way a set of plans does, and they let the site mark provisional content honestly without looking unfinished.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Concepts -->
+    <section class="bg-section">
+      <div class="wrap">
+        <div class="section-head"><span class="label">02 &mdash; Logo exploration</span><h2>Three concepts, one direction.</h2></div>
+        <div class="concepts">
+          <article class="concept is-chosen">
+            <div class="concept-art">
+              <span class="chip chip--on">Selected</span>
+              <img src="assets/brand/ra-mark-color.svg" alt="Concept A: split-slab R A monogram" width="160" height="160" style="width:52%">
+            </div>
+            <h3>A &middot; Split slab</h3>
+            <p>Two poured panels divided by a saw-cut joint, with R and A cut straight through. The partnership in the name becomes the structure of the mark. It&rsquo;s solid, reads at 16&nbsp;px and cuts cleanly in one color of vinyl or thread.</p>
+          </article>
+          <article class="concept">
+            <div class="concept-art">
+              <span class="chip">Explored</span>
+              <svg viewBox="0 0 120 120" aria-labelledby="c2t"><title id="c2t">Concept B: board-form monogram</title>
+                <g fill="#22221f"><rect y="0" width="120" height="17"/><rect y="21" width="120" height="17"/><rect y="42" width="120" height="17"/><rect y="63" width="120" height="17"/><rect y="84" width="120" height="17"/><rect y="105" width="120" height="15"/></g>
+                <text x="60" y="84" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="800" font-size="58" font-stretch="125%" fill="#f3efe7" letter-spacing="-2">R&amp;A</text>
+              </svg>
+            </div>
+            <h3>B &middot; Board-form</h3>
+            <p>Letters set in horizontal striations like board-formed concrete. It has plenty of texture, but the gaps fill in when small and embroider poorly. Set aside as a pattern idea, not a logo.</p>
+          </article>
+          <article class="concept">
+            <div class="concept-art">
+              <span class="chip">Explored</span>
+              <svg viewBox="0 0 120 120" aria-labelledby="c3t"><title id="c3t">Concept C: chamfered-corner ampersand</title>
+                <path d="M0 0H92L120 28V120H0Z" fill="none" stroke="#22221f" stroke-width="6"/>
+                <text x="56" y="88" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="700" font-size="76" fill="#a8432a">&amp;</text>
+                <text x="12" y="30" font-family="Archivo, sans-serif" font-weight="700" font-size="20" font-stretch="118%" fill="#22221f">R</text>
+                <text x="94" y="110" font-family="Archivo, sans-serif" font-weight="700" font-size="20" font-stretch="118%" fill="#22221f">A</text>
+              </svg>
+            </div>
+            <h3>C &middot; Chamfered frame</h3>
+            <p>An oversized ampersand in a form-edge frame. It&rsquo;s elegant at large sizes, but the initials become secondary and the thin frame disappears on a favicon or a shirt.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lockups -->
+    <section class="bg-section">
+      <div class="wrap">
+        <div class="section-head"><span class="label">03 &mdash; Logo system</span><h2>Lockups and color versions.</h2>
+          <p class="lede">All logo files are outlined SVG, so no fonts are needed to open, print or cut them.</p></div>
+        <div class="lockups">
+          <div class="lockup lockup--light lockup--wide"><span class="chip">Primary &middot; horizontal</span><img src="assets/brand/ra-logo-horizontal-color.svg" alt="Horizontal logo, full color" width="490" height="150"></div>
+          <div class="lockup lockup--dark"><span class="chip">Reverse</span><img src="assets/brand/ra-logo-horizontal-reverse.svg" alt="Horizontal logo, reverse" width="390" height="120" style="max-width:100%"></div>
+          <div class="lockup lockup--light"><span class="chip">Stacked</span><img src="assets/brand/ra-logo-stacked-color.svg" alt="Stacked logo, full color" width="130" height="150"></div>
+          <div class="lockup lockup--paper lockup--small"><span class="chip">Mono black</span><img src="assets/brand/ra-logo-horizontal-black.svg" alt="Horizontal logo, black" width="390" height="120" style="max-width:100%"></div>
+          <div class="lockup lockup--concrete lockup--small"><span class="chip">Mono white</span><img src="assets/brand/ra-logo-horizontal-white.svg" alt="Horizontal logo, white" width="390" height="120" style="max-width:100%"></div>
+          <div class="lockup lockup--light"><span class="chip">Mark &middot; favicon</span>
+            <div style="display:flex;align-items:end;gap:28px">
+              <img src="assets/brand/ra-mark-color.svg" alt="Mark at 96 pixels" width="96" height="96" style="height:96px">
+              <img src="assets/brand/ra-mark-color.svg" alt="Mark at 48 pixels" width="48" height="48" style="height:48px">
+              <img src="assets/brand/ra-mark-color.svg" alt="Mark at 32 pixels" width="32" height="32" style="height:32px">
+              <img src="assets/brand/ra-mark-color.svg" alt="Mark at 16 pixels" width="16" height="16" style="height:16px">
+            </div>
+          </div>
+          <div class="lockup lockup--dark"><span class="chip">Stacked reverse</span><img src="assets/brand/ra-logo-stacked-reverse.svg" alt="Stacked logo, reverse" width="130" height="150"></div>
+        </div>
+
+        <div class="rules">
+          <div>
+            <h3>Clear space</h3>
+            <p>Keep space equal to <strong>one quarter of the mark&rsquo;s height</strong> clear on every side (the distance from the top of the slab to the top of the letters).</p>
+            <div class="clearspace" style="margin-top:20px"><div><img src="assets/brand/ra-mark-color.svg" alt="" width="120" height="120"></div></div>
+          </div>
+          <div>
+            <h3>Minimum size</h3>
+            <ul>
+              <li>Horizontal: 40&nbsp;px tall on screen, 0.5&nbsp;in in print</li>
+              <li>Stacked: 72&nbsp;px tall on screen, 1&nbsp;in in print</li>
+              <li>Mark alone: 16&nbsp;px / 0.25&nbsp;in</li>
+              <li>Embroidery: mark at least 1&nbsp;in wide; use the mark alone below 3&nbsp;in</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Don&rsquo;t</h3>
+            <ul>
+              <li>Stretch, skew, rotate or outline the logo</li>
+              <li>Recolor the ampersand anything other than oxide or the logo&rsquo;s own color</li>
+              <li>Add shadows, bevels, gradients or concrete textures to the logo</li>
+              <li>Place it on busy photos without a solid panel behind it</li>
+              <li>Rebuild the wordmark in another typeface</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Color -->
+    <section class="bg-section">
+      <div class="wrap">
+        <div class="section-head"><span class="label">04 &mdash; Color</span><h2>A restrained palette.</h2>
+          <p class="lede">Neutrals do nearly all the work. Oxide is reserved for the primary action and small structural accents, and should cover no more than 5% of any layout.</p></div>
+        <div class="swatches">
+          <div class="swatch"><div class="swatch-chip" style="background:#F3EFE7;color:#22221f">Ground</div><div class="swatch-info"><strong>Warm Ivory</strong><code>#F3EFE7 &middot; 243 239 231</code><span>Page background, reverse logo</span></div></div>
+          <div class="swatch"><div class="swatch-chip concrete" style="color:#22221f">Surface</div><div class="swatch-info"><strong>Poured Gray</strong><code>#C9C4B9 &middot; 201 196 185</code><span>Panels, textures, rules</span></div></div>
+          <div class="swatch"><div class="swatch-chip" style="background:#66625B;color:#f3efe7">Text 2</div><div class="swatch-info"><strong>Stone</strong><code>#66625B &middot; 102 98 91</code><span>Secondary text &middot; 5.3:1 on ivory</span></div></div>
+          <div class="swatch"><div class="swatch-chip" style="background:#22221F;color:#f3efe7">Text 1</div><div class="swatch-info"><strong>Charcoal</strong><code>#22221F &middot; 34 34 31</code><span>Logo, headings &middot; 13.9:1 on ivory</span></div></div>
+          <div class="swatch"><div class="swatch-chip" style="background:#A8432A;color:#fff">Accent</div><div class="swatch-info"><strong>Iron Oxide</strong><code>#A8432A &middot; 168 67 42</code><span>CTA, accents &middot; 5.3:1 on ivory. On charcoal use #E08A6D</span></div></div>
+        </div>
+        <p style="margin-top:20px;font-size:15px;color:var(--stone);max-width:70ch">Print and vinyl: match Iron Oxide to the nearest Pantone or vinyl stock with a physical swatch before ordering. Screen values shift noticeably on coated stock and outdoor film.</p>
+      </div>
+    </section>
+
+    <!-- Type -->
+    <section class="bg-section">
+      <div class="wrap">
+        <div class="section-head"><span class="label">05 &mdash; Typography</span><h2>One family, one utility face.</h2>
+          <p class="lede">Archivo&rsquo;s width axis gives headlines a broad, structural stance without a second display font. IBM Plex Mono handles labels and annotations. Both are free under the SIL Open Font License and self-hosted.</p></div>
+        <div class="type-specimen">
+          <div class="type-row"><div class="meta">Display<br>Archivo 700 &middot; width 114%<br>Tracking &minus;3%</div><div class="t-display">Poured right.</div></div>
+          <div class="type-row"><div class="meta">Heading<br>Archivo 700 &middot; width 108%</div><div class="t-h">Driveways, patios, walkways and slabs</div></div>
+          <div class="type-row"><div class="meta">Body<br>Archivo 400 &middot; width 100%<br>17&ndash;18 px / 1.6</div><div class="t-body">Good concrete comes down to preparation, timing and finishing. Body copy stays at normal width for comfortable reading.</div></div>
+          <div class="type-row"><div class="meta">Label<br>IBM Plex Mono 500<br>Uppercase &middot; +8%</div><div class="t-mono">Saw-cut control joint &middot; Metro Atlanta, GA</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Applications -->
+    <section class="bg-section">
+      <div class="wrap">
+        <div class="section-head"><span class="label">06 &mdash; Applications</span><h2>Built for the jobsite.</h2>
+          <p class="lede">Schematic mockups showing scale and contrast, not production artwork.</p></div>
+        <div class="apps">
+          <div class="app">
+            <div class="app-art truck"><div class="truck-door"><img src="assets/brand/ra-logo-stacked-color.svg" alt="" width="130" height="150"></div></div>
+            <h3>Truck door</h3><p>Stacked lockup, full color on white doors. On dark vehicles, use Stacked Reverse. Add a phone number or website below it only once they&rsquo;re confirmed.</p>
+          </div>
+          <div class="app">
+            <div class="app-art shirt"><div class="shirt-body"><img src="assets/brand/ra-mark-reverse.svg" alt="" width="40" height="40"></div></div>
+            <h3>Work shirt</h3><p>Mark alone, left chest, about 3&nbsp;in wide, in ivory thread on charcoal. Optional horizontal logo across the back.</p>
+          </div>
+          <div class="app">
+            <div class="app-art yard"><div class="sign"><img src="assets/brand/ra-logo-horizontal-reverse.svg" alt="" width="390" height="120"><span>Request an estimate</span></div></div>
+            <h3>Yard sign</h3><p>18&times;24&nbsp;in, reverse logo on charcoal with one oxide call-to-action bar. Keep it to the logo plus one line of contact info.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Files -->
+    <section class="bg-section">
+      <div class="wrap">
+        <div class="section-head"><span class="label">07 &mdash; Files</span><h2>Logo files.</h2></div>
+        <ul class="downloads">
+          <li><a href="assets/brand/ra-logo-horizontal-color.svg" download>ra-logo-horizontal-color.svg</a></li>
+          <li><a href="assets/brand/ra-logo-horizontal-reverse.svg" download>ra-logo-horizontal-reverse.svg</a></li>
+          <li><a href="assets/brand/ra-logo-horizontal-black.svg" download>ra-logo-horizontal-black.svg</a></li>
+          <li><a href="assets/brand/ra-logo-horizontal-white.svg" download>ra-logo-horizontal-white.svg</a></li>
+          <li><a href="assets/brand/ra-logo-stacked-color.svg" download>ra-logo-stacked-color.svg</a></li>
+          <li><a href="assets/brand/ra-logo-stacked-reverse.svg" download>ra-logo-stacked-reverse.svg</a></li>
+          <li><a href="assets/brand/ra-logo-stacked-black.svg" download>ra-logo-stacked-black.svg</a></li>
+          <li><a href="assets/brand/ra-logo-stacked-white.svg" download>ra-logo-stacked-white.svg</a></li>
+          <li><a href="assets/brand/ra-mark-color.svg" download>ra-mark-color.svg</a></li>
+          <li><a href="assets/brand/ra-mark-reverse.svg" download>ra-mark-reverse.svg</a></li>
+          <li><a href="assets/brand/ra-mark-black.svg" download>ra-mark-black.svg</a></li>
+          <li><a href="assets/brand/ra-mark-white.svg" download>ra-mark-white.svg</a></li>
+          <li><a href="assets/brand/favicon.svg" download>favicon.svg</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer on-dark" style="padding-bottom:32px">
+    <div class="wrap footer-bottom" style="padding-top:0">
+      <span>&copy; 2026 R&amp;A Concrete LLC &middot; Brand guidelines v1.0</span>
+      <a href="index.html">Back to site</a>
+    </div>
+  </footer>
+</body>
+</html>
