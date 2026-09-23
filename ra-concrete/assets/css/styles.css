@@ -1062,3 +1062,118 @@ p { margin: 0; text-wrap: pretty; }
 @media (max-width: 560px) {
   .slab { aspect-ratio: 1; }
 }
+
+/* --- Header tools: language switch, phone ------------------------------ */
+
+.nav { margin-left: auto; }
+.nav-actions { display: none; }
+.header-tools { display: flex; align-items: center; gap: 16px; flex: none; }
+.header-cta { min-height: 46px; padding: 0 20px; font-size: 15px; }
+
+.lang-switch {
+  display: inline-flex;
+  box-shadow: inset 0 0 0 1.5px var(--line-strong);
+  border-radius: var(--radius);
+}
+.lang-switch a {
+  display: grid;
+  place-items: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 8px;
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  color: var(--stone);
+  border-radius: var(--radius);
+  transition: background-color 0.2s, color 0.2s;
+}
+.lang-switch a:hover { color: var(--charcoal); background: var(--ivory-2); }
+.lang-switch a[aria-current="true"] { background: var(--charcoal); color: var(--ivory); }
+
+.header-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+  color: var(--charcoal);
+  white-space: nowrap;
+}
+.header-call svg { width: 18px; height: 18px; color: var(--oxide); flex: none; }
+.header-call:hover .header-call-num { text-decoration: underline; text-underline-offset: 4px; }
+
+@media (max-width: 1200px) {
+  .header-call-num { display: none; }
+  .header-call {
+    justify-content: center;
+    width: 44px;
+    box-shadow: inset 0 0 0 1.5px var(--line-strong);
+    border-radius: var(--radius);
+  }
+}
+@media (max-width: 960px) {
+  .header-cta { display: none; }
+  .header-tools { gap: 8px; }
+  .lang-switch a { height: 44px; min-width: 42px; }
+  .nav-actions { display: grid; gap: 12px; }
+  .nav-actions .btn svg { width: 20px; height: 20px; }
+}
+@media (max-width: 380px) {
+  .brand img { height: 34px; }
+  .lang-switch a { min-width: 38px; padding: 0 6px; }
+}
+
+/* --- Phone moments ------------------------------------------------------ */
+
+.hero-call svg { width: 18px; height: 18px; color: var(--oxide); }
+.lang-note { margin-top: 22px; font-size: 15.5px; color: var(--stone); }
+.lang-note span { color: var(--charcoal); font-weight: 600; }
+
+.call-card {
+  padding: 24px;
+  border: 1px solid var(--line-dark);
+  display: grid;
+  gap: 6px;
+}
+.call-card p { color: #b9b4aa; }
+.call-card-num {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+  font-size: clamp(26px, 2.4vw, 32px);
+  font-weight: 700;
+  font-stretch: 110%;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ivory);
+  text-decoration: none;
+}
+.call-card-num svg { width: 26px; height: 26px; color: var(--oxide-light); }
+.call-card-num:hover { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; }
+.call-card .call-card-note { font-family: var(--f-mono); font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+.faq-body a { color: var(--charcoal); font-weight: 600; }
+
+.sticky-cta { gap: 10px; }
+.sticky-cta.is-visible, .sticky-cta { align-items: center; }
+@media (max-width: 760px) {
+  .sticky-cta { display: flex; }
+  .sticky-cta .btn { width: auto; flex: 1; }
+  .sticky-cta .sticky-call { flex: none; padding: 0 18px; }
+  .sticky-cta .sticky-call svg { width: 18px; height: 18px; }
+}
+
+.footer-links { display: flex; flex-wrap: wrap; gap: 20px; }
+@media (min-width: 961px) and (max-width: 1180px) {
+  .nav ul { gap: 16px; }
+  .nav a:not(.btn) { font-size: 14.5px; }
+  .header-tools { gap: 10px; }
+  .site-header .wrap { gap: 16px; }
+}

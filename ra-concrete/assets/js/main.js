@@ -12,6 +12,57 @@
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* ---- Language ------------------------------------------------------- */
+  var LANG = document.documentElement.lang === "es" ? "es" : "en";
+  var STRINGS = {
+    en: {
+      nameMissing: "Name is missing",
+      locationMissing: "Project location is missing",
+      emailBad: "Email address looks incomplete",
+      phoneBad: "Phone number looks incomplete",
+      contactMissing: "Phone or email is needed",
+      typeMissing: "Project type is not selected",
+      descMissing: "Project description is missing",
+      contactHintPhone: "Please enter a full phone number, including area code.",
+      contactHint: "Please give us a phone number or an email so we can reach you.",
+      fixOne: "Please fix 1 item below",
+      fixMany: "Please fix {n} items below",
+      demoTitle: "Not sent &mdash; this is a demo form",
+      demoBody: "Your details passed validation, but this form isn&rsquo;t connected to R&amp;A Concrete yet, so nothing was delivered. Your entries are still in the form. To reach us now, call <a href=\"tel:+14703920670\">(470) 392-0670</a>.",
+      okTitle: "Request received",
+      okBody: "Thanks. Your project details were sent to R&amp;A Concrete, and we&rsquo;ll be in touch using the contact information you provided.",
+      failTitle: "Your request didn&rsquo;t go through",
+      failBody: "Something went wrong while sending. Your details are still in the form, so please try again in a moment, or call <a href=\"tel:+14703920670\">(470) 392-0670</a>."
+    },
+    es: {
+      nameMissing: "Falta su nombre",
+      locationMissing: "Falta la ubicación del proyecto",
+      emailBad: "El correo electrónico parece incompleto",
+      phoneBad: "El número de teléfono parece incompleto",
+      contactMissing: "Se necesita un teléfono o un correo",
+      typeMissing: "No ha elegido el tipo de proyecto",
+      descMissing: "Falta la descripción del proyecto",
+      contactHintPhone: "Escriba el número completo, con código de área.",
+      contactHint: "Déjenos un teléfono o un correo electrónico para poder comunicarnos con usted.",
+      fixOne: "Corrija 1 dato a continuación",
+      fixMany: "Corrija {n} datos a continuación",
+      demoTitle: "No se envió &mdash; este formulario es de demostración",
+      demoBody: "Sus datos son válidos, pero este formulario todavía no está conectado con R&amp;A Concrete, así que no se envió nada. Sus datos siguen en el formulario. Para comunicarse ahora, llame al <a href=\"tel:+14703920670\">(470) 392-0670</a>.",
+      okTitle: "Solicitud recibida",
+      okBody: "Gracias. Los detalles de su proyecto se enviaron a R&amp;A Concrete y nos comunicaremos con usted por el medio de contacto que nos dejó.",
+      failTitle: "Su solicitud no se envió",
+      failBody: "Hubo un problema al enviar. Sus datos siguen en el formulario; inténtelo de nuevo en un momento o llame al <a href=\"tel:+14703920670\">(470) 392-0670</a>."
+    }
+  };
+  var t = STRINGS[LANG];
+
+  // Remember an explicit language choice for the next visit.
+  document.querySelectorAll("[data-lang]").forEach(function (link) {
+    link.addEventListener("click", function () {
+      try { localStorage.setItem("ra-lang", link.getAttribute("data-lang")); } catch (e) {}
+    });
+  });
+
   /* ---- Header state ---------------------------------------------------- */
   var header = document.querySelector(".site-header");
   function onScroll() {
@@ -126,17 +177,17 @@
 
     var nameBad = !v(fields.name);
     setError(fields.name, "e-name", nameBad);
-    if (nameBad) problems.push({ id: "f-name", text: "Name is missing" });
+    if (nameBad) problems.push({ id: "f-name", text: t.nameMissing });
 
     var locBad = !v(fields.location);
     setError(fields.location, "e-location", locBad);
-    if (locBad) problems.push({ id: "f-location", text: "Project location is missing" });
+    if (locBad) problems.push({ id: "f-location", text: t.locationMissing });
 
     var phone = v(fields.phone);
     var email = v(fields.email);
     var emailBad = !!email && !EMAIL_RE.test(email);
     setError(fields.email, "e-email", emailBad);
-    if (emailBad) problems.push({ id: "f-email", text: "Email address looks incomplete" });
+    if (emailBad) problems.push({ id: "f-email", text: t.emailBad });
 
     var phoneBad = !!phone && phone.replace(/\D/g, "").length < 10;
     var contactBad = (!phone && !email) || phoneBad;
@@ -144,17 +195,17 @@
     fields.phone.setAttribute("aria-invalid", contactBad ? "true" : "false");
     if (!email) fields.email.setAttribute("aria-invalid", contactBad ? "true" : String(emailBad));
     document.getElementById("e-contact").textContent = phoneBad
-      ? "Please enter a full phone number, including area code."
-      : "Please give us a phone number or an email so we can reach you.";
-    if (contactBad) problems.push({ id: "f-phone", text: phoneBad ? "Phone number looks incomplete" : "Phone or email is needed" });
+      ? t.contactHintPhone
+      : t.contactHint;
+    if (contactBad) problems.push({ id: "f-phone", text: phoneBad ? t.phoneBad : t.contactMissing });
 
     var typeBad = !fields.type.value;
     setError(fields.type, "e-type", typeBad);
-    if (typeBad) problems.push({ id: "f-type", text: "Project type is not selected" });
+    if (typeBad) problems.push({ id: "f-type", text: t.typeMissing });
 
     var descBad = v(fields.description).length < 5;
     setError(fields.description, "e-desc", descBad);
-    if (descBad) problems.push({ id: "f-desc", text: "Project description is missing" });
+    if (descBad) problems.push({ id: "f-desc", text: t.descMissing });
 
     return problems;
   }
@@ -184,7 +235,7 @@
     if (problems.length) {
       showStatus(
         "error",
-        "<h3>Please fix " + (problems.length === 1 ? "1 item" : problems.length + " items") + " below</h3><ul>" +
+        "<h3>" + (problems.length === 1 ? t.fixOne : t.fixMany.replace("{n}", problems.length)) + "</h3><ul>" +
           problems.map(function (p) { return '<li><a href="#' + p.id + '">' + p.text + "</a></li>"; }).join("") +
           "</ul>"
       );
@@ -194,8 +245,7 @@
     if (!FORM_ENDPOINT) {
       showStatus(
         "demo",
-        "<h3>Not sent &mdash; this is a demo form</h3>" +
-          "<p>Your details passed validation, but this form isn&rsquo;t connected to R&amp;A Concrete yet, so nothing was delivered. Your entries are still in the form.</p>"
+        "<h3>" + t.demoTitle + "</h3><p>" + t.demoBody + "</p>"
       );
       return;
     }
@@ -215,13 +265,13 @@
         attempted = false;
         showStatus(
           "success",
-          "<h3>Request received</h3><p>Thanks. Your project details were sent to R&amp;A Concrete, and we&rsquo;ll be in touch using the contact information you provided.</p>"
+          "<h3>" + t.okTitle + "</h3><p>" + t.okBody + "</p>"
         );
       })
       .catch(function () {
         showStatus(
           "error",
-          "<h3>Your request didn&rsquo;t go through</h3><p>Something went wrong while sending. Your details are still in the form, so please try again in a moment.</p>"
+          "<h3>" + t.failTitle + "</h3><p>" + t.failBody + "</p>"
         );
       })
       .finally(function () {
