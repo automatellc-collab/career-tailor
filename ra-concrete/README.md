@@ -10,6 +10,8 @@ A static, dependency-free marketing site and brand identity for R&A Concrete Con
 
 **Stack.** Plain HTML, CSS and ~200 lines of vanilla JS. No framework and no build step, with self-hosted fonts (Archivo variable + IBM Plex Mono, both SIL OFL). All page imagery is procedural SVG, so the whole site is about 470 KB including fonts and the social image. It can be deployed to any static host (Netlify, Cloudflare Pages, Vercel, GitHub Pages, S3) by uploading this folder.
 
+**After any change, run `python3 tools/build.py`.** It stamps every CSS, JS and image link with a content hash (`styles.css?v=1a2b3c4d`) so returning visitors never get a stale stylesheet with new HTML, and it regenerates the Spanish page. Commit the result.
+
 **Preview locally.** `npx serve .` from this folder, then open http://localhost:3000.
 
 ## Deploying to Vercel
@@ -21,7 +23,7 @@ The site lives in the `ra-concrete/` folder of this repo, next to an unrelated N
 3. Set **Framework Preset** to **Other**. Leave the build command empty and the output directory as the default (`.`).
 4. Deploy. Every push to the production branch redeploys automatically.
 
-`vercel.json` adds security headers, font caching and a `/es` → `/es/` redirect. `.vercelignore` keeps `tools/` and this README out of the deployment.
+`vercel.json` adds security headers, a `/es` → `/es/` redirect, long caching for fonts, and makes browsers re-check CSS, JS and images on every visit. `.vercelignore` keeps `tools/` and this README out of the deployment.
 
 Or from a terminal: `cd ra-concrete && npx vercel --prod`.
 
@@ -30,7 +32,7 @@ After the first deploy, add the custom domain under **Settings → Domains**, th
 ## Spanish version
 
 - The EN | ES switch in the header (and a link in the footer) moves between `/` and `/es/`. The choice is remembered: someone who picked Spanish lands on `/es/` the next time they visit `/`.
-- `es/index.html` is generated. **Don't edit it by hand.** Change the English page, update the matching entry in `tools/es_strings.py`, then run `python3 tools/build_es.py`. The script refuses to write the page if any English text it expects has changed, so the two versions can't quietly drift apart.
+- `es/index.html` is generated. **Don't edit it by hand.** Change the English page, update the matching entry in `tools/es_strings.py`, then run `python3 tools/build.py`. The script refuses to write the page if any English text it expects has changed, so the two versions can't quietly drift apart.
 - Form messages in both languages are in `assets/js/main.js` (`STRINGS`).
 - Every estimate request includes a hidden `language` field (`en` or `es`), so the owner knows which language to reply in.
 - **Before launch, have the owner (or another native speaker) read the Spanish page.** It uses formal *usted*, neutral Latin American Spanish, and trade terms common in Mexico and Central America (*colado*, *cimbra*, *allanado*). The owner should check that these match how R&A's customers actually talk.
@@ -70,7 +72,7 @@ Nothing below has been invented. Items still open are marked with a dashed **"ow
 | Domain | see "When the domain is live" below | Not supplied |
 
 **When the domain is live** (search engines ignore relative URLs in these):
-- In `index.html`: make `og:image` absolute, add `og:url`, `<link rel="canonical">`, and hreflang links for `en`, `es` and `x-default` (all absolute), and add `"url"` to the JSON-LD. Mirror the structural parts in `tools/build_es.py` and rebuild.
+- In `index.html`: make `og:image` absolute, add `og:url`, `<link rel="canonical">`, and hreflang links for `en`, `es` and `x-default` (all absolute), and add `"url"` to the JSON-LD. Mirror the structural parts in `tools/build_es.py` and run `python3 tools/build.py`.
 - Add `sitemap.xml` listing `/` and `/es/` (with `xhtml:link` hreflang alternates) and uncomment the `Sitemap:` line in `robots.txt`.
 
 ### 2. Missing assets
