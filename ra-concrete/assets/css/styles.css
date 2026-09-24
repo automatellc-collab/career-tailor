@@ -952,7 +952,8 @@ p { margin: 0; text-wrap: pretty; }
   padding-bottom: 48px;
   border-bottom: 1px solid var(--line-dark);
 }
-.footer-brand img { height: 64px; width: auto; }
+.footer-brand img { height: 64px; width: auto; display: block; }
+.brand-plate { display: inline-block; background: var(--ivory); padding: 14px 18px; border-radius: var(--radius); }
 .footer-brand p { margin-top: 24px; max-width: 36ch; }
 .site-footer h2 { font-size: 12.5px; font-family: var(--f-mono); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #8f8a81; margin-bottom: 16px; }
 .site-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
@@ -1114,7 +1115,7 @@ p { margin: 0; text-wrap: pretty; }
   .nav-actions .btn svg { width: 20px; height: 20px; }
 }
 @media (max-width: 380px) {
-  .brand img { height: 34px; }
+  .brand img { height: 42px; }
   .lang-switch a { min-width: 38px; padding: 0 6px; }
 }
 
