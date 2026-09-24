@@ -4,8 +4,9 @@
 
   /**
    * Form delivery. Leave empty until a real endpoint exists (Formspree,
-   * Netlify Forms, Basin, or your own API). While empty, the form runs in
-   * demo mode: it validates input but never claims a request was sent.
+   * Netlify Forms, Basin, or your own API). While empty, a valid submission
+   * opens the visitor's email app with the request pre-filled to the owner;
+   * nothing is claimed as sent until the visitor presses send there.
    * The endpoint must accept a POST of FormData and return a 2xx on success.
    */
   var FORM_ENDPOINT = "";
@@ -27,9 +28,9 @@
       contactHint: "Please give us a phone number or an email so we can reach you.",
       fixOne: "Please fix 1 item below",
       fixMany: "Please fix {n} items below",
-      demoTitle: "Not sent &mdash; this is a demo form",
-      demoBody: "This form isn&rsquo;t connected yet, so nothing was delivered. Your entries are still in the form. Send them by email instead, or call <a href=\"tel:+14703920670\">(470) 392-0670</a>.",
-      emailInstead: "Send by email instead",
+      mailTitle: "Almost done: press send in your email app",
+      mailBody: "Your request is ready to send to alanconcrete97@gmail.com. It isn&rsquo;t delivered until you press send. If your email app didn&rsquo;t open, use the button below, or call or text <a href=\"tel:+14703920670\">(470) 392-0670</a>.",
+      mailAgain: "Open email again",
       mailSubject: "Estimate request",
       mailLabels: ["Name", "Project location", "Phone", "Email", "Project type", "Project description"],
       okTitle: "Request received",
@@ -49,9 +50,9 @@
       contactHint: "Déjenos un teléfono o un correo electrónico para poder comunicarnos con usted.",
       fixOne: "Corrija 1 dato a continuación",
       fixMany: "Corrija {n} datos a continuación",
-      demoTitle: "No se envió &mdash; este formulario es de demostración",
-      demoBody: "Este formulario todavía no está conectado, así que no se envió nada. Sus datos siguen en el formulario. Envíelos por correo electrónico o llame al <a href=\"tel:+14703920670\">(470) 392-0670</a>.",
-      emailInstead: "Enviar por correo electrónico",
+      mailTitle: "Casi listo: presione enviar en su correo",
+      mailBody: "Su solicitud está lista para enviarse a alanconcrete97@gmail.com. No se entrega hasta que presione enviar. Si su correo no se abrió, use el botón de abajo, o llame o mande un mensaje al <a href=\"tel:+14703920670\">(470) 392-0670</a>.",
+      mailAgain: "Abrir el correo otra vez",
       mailSubject: "Solicitud de estimado",
       mailLabels: ["Nombre", "Ubicación del proyecto", "Teléfono", "Correo electrónico", "Tipo de proyecto", "Descripción del proyecto"],
       okTitle: "Solicitud recibida",
@@ -82,13 +83,20 @@
   var nav = document.getElementById("site-nav");
   var mq = window.matchMedia("(max-width: 960px)");
 
+  // While the drawer is open, everything behind it is unreachable.
+  var behindMenu = [document.getElementById("main"), document.querySelector(".site-footer"), document.getElementById("sticky-cta")];
   function setMenu(open) {
     toggle.setAttribute("aria-expanded", String(open));
     nav.classList.toggle("is-open", open);
     document.body.classList.toggle("menu-open", open);
+    behindMenu.forEach(function (el) { if (el) el.toggleAttribute("inert", open); });
     if (mq.matches) {
       // Keep the hidden drawer out of the tab order.
       nav.toggleAttribute("inert", !open);
+      if (open) {
+        var first = nav.querySelector("a");
+        if (first) first.focus();
+      }
     }
   }
   function syncNavForViewport() {
@@ -156,9 +164,9 @@
   /* ---- Estimate form ------------------------------------------------- */
   var form = document.getElementById("estimate-form");
   var status = document.getElementById("form-status");
-  var banner = document.getElementById("demo-banner");
+  var note = document.getElementById("form-note");
   if (!form) return;
-  if (FORM_ENDPOINT && banner) banner.remove();
+  if (FORM_ENDPOINT && note) note.remove();
 
   var fields = {
     name: form.elements.name,
@@ -265,11 +273,13 @@
     }
 
     if (!FORM_ENDPOINT) {
+      var href = mailtoHref();
       showStatus(
         "demo",
-        "<h3>" + t.demoTitle + "</h3><p>" + t.demoBody + "</p>" +
-          '<p><a class="btn btn--dark mail-fallback" href="' + mailtoHref() + '">' + t.emailInstead + "</a></p>"
+        "<h3>" + t.mailTitle + "</h3><p>" + t.mailBody + "</p>" +
+          '<p><a class="btn btn--dark mail-fallback" href="' + href + '">' + t.mailAgain + "</a></p>"
       );
+      window.location.href = href;
       return;
     }
 

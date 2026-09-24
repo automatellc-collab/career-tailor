@@ -51,11 +51,13 @@
         "availableLanguage": ["English", "Spanish"]
       }
     ],
-    "knowsAbout": ["Concrete driveways", "Concrete patios", "Concrete slabs", "Sidewalks", "Stamped concrete", "Colored concrete", "Hardscape and pavers", "Retaining walls", "Sitting walls", "Fire pits", "Pool renovations"]
+    "knowsAbout": ["Entradas de autos de concreto", "Patios de concreto", "Losas de concreto", "Banquetas", "Concreto estampado", "Concreto de color", "Hardscape y adoquines", "Muros de contención", "Muros para sentarse", "Fogatas", "Renovación de albercas"]
   }
   </script>
   <script>
     document.documentElement.classList.add("js");
+    // Review mode: add ?draft to the URL to show owner-confirmation notes.
+    if (/[?&]draft\b/.test(location.search)) document.documentElement.classList.add("draft");
   </script>
 </head>
 <body>
@@ -68,11 +70,11 @@
       </a>
       <nav class="nav" id="site-nav" aria-label="Principal">
         <ul>
-          <li><a href="#services" data-n="01">Servicios</a></li>
-          <li><a href="#work" data-n="02">Trabajos</a></li>
-          <li><a href="#process" data-n="04">Proceso</a></li>
-          <li><a href="#area" data-n="05">Área de servicio</a></li>
-          <li><a href="#faq" data-n="06">Preguntas</a></li>
+          <li><a href="#services">Servicios</a></li>
+          <li><a href="#work">Trabajos</a></li>
+          <li><a href="#process">Proceso</a></li>
+          <li><a href="#area">Service Area</a></li>
+          <li><a href="#faq">Preguntas</a></li>
         </ul>
         <div class="nav-actions">
           <a class="btn btn--primary" href="#estimate">Solicite un estimado</a>
@@ -100,17 +102,16 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="wrap">
         <div class="hero-copy">
-          <span class="label">Concreto residencial y comercial &middot; Metro Atlanta, GA</span>
-          <h1 id="hero-title">Concreto bien hecho. <em>Acabado limpio.</em></h1>
-          <p class="hero-sub">Entradas de autos, patios, banquetas y losas, además de concreto estampado, adoquines, muros y renovación de albercas, para casas y negocios en todo el área metropolitana de Atlanta. Cuéntenos sobre su proyecto y nos comunicaremos con usted para hablar del terreno, del trabajo y del estimado.</p>
+          <h1 id="hero-title"><span class="hero-kicker">Contratista de concreto &middot; Metro Atlanta, GA</span> Concreto bien hecho. <em>Acabado limpio.</em></h1>
+          <p class="hero-sub">Entradas de autos, patios, banquetas y losas, además de concreto estampado, adoquines, muros y renovación de albercas, para casas y negocios en todo el área metropolitana de Atlanta. Llame, mande un mensaje o envíenos los detalles de su proyecto para empezar su estimado.</p>
           <div class="hero-actions">
             <a class="btn btn--primary" href="#estimate">
               Solicite un estimado
               <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10h13M11 4.5 16.5 10 11 15.5" stroke="currentColor" stroke-width="2"/></svg>
             </a>
-            <a class="text-link hero-call" href="tel:+14703920670"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 3.5h3.6l1.8 4.6-2.3 1.5a11.5 11.5 0 0 0 6.3 6.3l1.5-2.3 4.6 1.8v3.6a2 2 0 0 1-2 2A17.5 17.5 0 0 1 3 5.5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Llame al (470) 392-0670</a>
+            <a class="btn btn--dark" href="tel:+14703920670"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 3.5h3.6l1.8 4.6-2.3 1.5a11.5 11.5 0 0 0 6.3 6.3l1.5-2.3 4.6 1.8v3.6a2 2 0 0 1-2 2A17.5 17.5 0 0 1 3 5.5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Llame al (470) 392-0670</a>
           </div>
-          <p class="lang-note"><span>Hablamos español.</span> Llame o escríbanos en español o en inglés.</p>
+          <p class="lang-note"><span>Hablamos español.</span> ¿Prefiere mandar un mensaje? <a href="sms:+14703920670">Envíenos fotos de su proyecto</a>.</p>
           <ul class="hero-services" aria-label="Servicios">
             <li>Entradas de autos</li>
             <li>Patios</li>
@@ -172,7 +173,7 @@
         <div class="section-head reveal">
           <span class="label">01 &mdash; Servicios</span>
           <h2 id="services-title">Concreto residencial y comercial.</h2>
-          <p class="lede">Desde entradas de autos y losas hasta acabados estampados, muros y renovación de albercas. Cada trabajo se planea según el drenaje, el uso diario y el terreno.</p>
+          <p class="lede">Desde entradas de autos y losas hasta acabados estampados, muros y renovación de albercas, para casas y negocios en todo el área metropolitana de Atlanta.</p>
           <div class="services-note">
             <p>¿No ve su proyecto aquí? Pregúntenos. Hacemos todo tipo de trabajos de concreto y hardscape.</p>
           </div>
@@ -183,7 +184,7 @@
             <span class="service-num">01</span>
             <div>
               <h3>Entradas de autos</h3>
-              <p>Entradas nuevas, ampliaciones y reemplazos completos. Con la pendiente, el grosor y la separación de juntas que requieren sus vehículos y el drenaje.</p>
+              <p>Entradas nuevas, ampliaciones y reemplazos completos. Del tamaño de sus vehículos y con la pendiente para drenar.</p>
               <ul class="service-tags" aria-label="Trabajos típicos">
                 <li>Entradas nuevas</li><li>Ampliaciones</li><li>Reemplazos</li>
               </ul>
@@ -216,7 +217,7 @@
             <span class="service-num">04</span>
             <div>
               <h3>Losas</h3>
-              <p>Bases niveladas para garajes, bodegas, talleres y equipos. Cimbradas a escuadra, con la base preparada para el peso que van a cargar.</p>
+              <p>Bases niveladas para garajes, bodegas, talleres y equipos. Cimbradas a escuadra y hechas para el peso que cargan.</p>
               <ul class="service-tags" aria-label="Trabajos típicos">
                 <li>Losas para garaje y bodega</li><li>Bases para equipos</li>
               </ul>
@@ -260,7 +261,7 @@
             <span class="service-num">08</span>
             <div>
               <h3>Renovación de albercas</h3>
-              <p>Renovamos el concreto y el hardscape alrededor de una alberca existente. Cuéntenos qué tiene en mente y lo revisamos en el lugar.</p>
+              <p>Renovación del concreto y el hardscape alrededor de una alberca existente. Cuéntenos qué tiene en mente.</p>
             </div>
             <div class="service-swatch concrete swatch-pool" aria-hidden="true"></div>
           </li>
@@ -271,285 +272,42 @@
     <!-- ============================== WORK ============================== -->
     <section class="work" id="work" aria-labelledby="work-title">
       <div class="wrap">
-        <div class="work-head">
-          <div class="section-head reveal">
-            <span class="label">02 &mdash; Trabajos</span>
-            <h2 id="work-title">La superficie terminada es la prueba.</h2>
-            <p class="lede">Los videos de proyectos recientes de R&amp;A están a un clic. Pronto esta galería tendrá fotos de proyectos, con la superficie de cerca y los detalles que importan al comparar contratistas.</p>
-          </div>
-          <a class="btn btn--dark video-cta reveal" href="https://vqr.vc/jV6PxfV80" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><path d="M10 8.5v7l5.5-3.5z" fill="currentColor"/></svg>
-            Vea videos de nuestros trabajos<span class="visually-hidden"> (se abre en otra pestaña)</span>
-          </a>
+        <div class="section-head reveal">
+          <span class="label">02 &mdash; Trabajos</span>
+          <h2 class="h2-xl" id="work-title">La superficie terminada es la prueba.</h2>
         </div>
 
-        <ul class="gallery">
-          <li class="project reveal">
-            <div class="photo concrete">
-              <svg class="photo-joints" viewBox="0 0 700 744" preserveAspectRatio="none" aria-hidden="true"><path d="M0 250 700 190M0 520 700 470M350 0 330 744" stroke="#5e5a53" stroke-width="3" fill="none" opacity=".6"/></svg>
-              <span class="photo-tag">Foto pendiente</span>
-              <span class="photo-mono">Estudio de textura</span>
-            </div>
-            <h3>Reemplazo de entrada de autos</h3>
-            <dl class="project-meta">
-              <div><dt>Ubicación</dt><dd>[Ciudad], GA</dd></div>
-              <div><dt>Trabajo</dt><dd>[Por agregar]</dd></div>
-              <div><dt>Acabado</dt><dd>[Por agregar]</dd></div>
-            </dl>
+        <a class="video-card reveal" href="https://vqr.vc/jV6PxfV80" target="_blank" rel="noopener">
+          <span class="video-card-copy">
+            <span class="label">Videos de proyectos</span>
+            <span class="video-card-title">Vea los trabajos recientes de R&amp;A</span>
+            <span class="video-card-sub">Proyectos reales en video. Se abre en otra pestaña.</span>
+          </span>
+          <span class="video-card-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg></span>
+        </a>
+
+        <div class="finishes-head reveal">
+          <h3>Acabados que ofrecemos</h3>
+          <p>Cada superficie empieza con la elección del acabado. Estas ilustraciones muestran los tres más comunes.</p>
+        </div>
+        <ul class="finishes">
+          <li class="finish reveal">
+            <div class="finish-art concrete swatch-broom" aria-hidden="true"><span class="finish-joint"></span></div>
+            <h4>Acabado escobillado</h4>
+            <p>El acabado más común para entradas y caminos. Una textura fina y pareja que da agarre cuando llueve.</p>
           </li>
-          <li class="project reveal">
-            <div class="photo concrete concrete--warm">
-              <svg class="photo-joints" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><path d="M200 0V300M0 150H400" stroke="#5e5a53" stroke-width="2.5" fill="none" opacity=".55"/></svg>
-              <span class="photo-tag">Foto pendiente</span>
-            </div>
-            <h3>Patio trasero</h3>
-            <dl class="project-meta">
-              <div><dt>Ubicación</dt><dd>[Ciudad], GA</dd></div>
-              <div><dt>Trabajo</dt><dd>[Por agregar]</dd></div>
-              <div><dt>Acabado</dt><dd>[Por agregar]</dd></div>
-            </dl>
+          <li class="finish reveal">
+            <div class="finish-art concrete swatch-stamped" aria-hidden="true"></div>
+            <h4>Estampado y de color</h4>
+            <p>Diseño y color aplicados al concreto fresco para lograr la apariencia de piedra, pizarra o ladrillo.</p>
           </li>
-          <li class="project reveal">
-            <div class="photo concrete concrete--dark">
-              <svg class="photo-joints" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><path d="M0 100H400M0 200H400" stroke="#2e2d29" stroke-width="2.5" fill="none" opacity=".5"/></svg>
-              <span class="photo-tag">Foto pendiente</span>
-            </div>
-            <h3>Losa de garaje</h3>
-            <dl class="project-meta">
-              <div><dt>Ubicación</dt><dd>[Ciudad], GA</dd></div>
-              <div><dt>Trabajo</dt><dd>[Por agregar]</dd></div>
-              <div><dt>Acabado</dt><dd>[Por agregar]</dd></div>
-            </dl>
-          </li>
-          <li class="project reveal">
-            <div class="photo concrete concrete--light">
-              <svg class="photo-joints" viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true"><path d="M130 0V300M270 0V300" stroke="#5e5a53" stroke-width="2.5" fill="none" opacity=".5"/></svg>
-              <span class="photo-tag">Foto pendiente</span>
-            </div>
-            <h3>Camino al frente</h3>
-            <dl class="project-meta">
-              <div><dt>Ubicación</dt><dd>[Ciudad], GA</dd></div>
-              <div><dt>Trabajo</dt><dd>[Por agregar]</dd></div>
-              <div><dt>Acabado</dt><dd>[Por agregar]</dd></div>
-            </dl>
-          </li>
-          <li class="project reveal">
-            <div class="photo concrete concrete--charcoal">
-              <svg class="photo-joints" viewBox="0 0 640 360" preserveAspectRatio="none" aria-hidden="true"><path d="M213 0V360M426 0V360" stroke="#1b1b19" stroke-width="3" fill="none" opacity=".6"/><path d="M215.5 0V360M428.5 0V360" stroke="#fff" stroke-width="1" opacity=".12"/></svg>
-              <span class="photo-tag">Foto pendiente</span>
-              <span class="photo-mono">De cerca: bordes y juntas</span>
-            </div>
-            <h3>Concreto estampado y de color</h3>
-            <dl class="project-meta">
-              <div><dt>Ubicación</dt><dd>[Ciudad], GA</dd></div>
-              <div><dt>Trabajo</dt><dd>[Por agregar]</dd></div>
-              <div><dt>Acabado</dt><dd>[Por agregar]</dd></div>
-            </dl>
+          <li class="finish reveal">
+            <div class="finish-art concrete swatch-pavers" aria-hidden="true"></div>
+            <h4>Adoquines</h4>
+            <p>Piezas individuales colocadas en un diseño, para patios, caminos y bordes.</p>
           </li>
         </ul>
-      </div>
-    </section>
-
-    <!-- ============================ WHY R&A ============================= -->
-    <section class="why on-dark" id="why" aria-labelledby="why-title">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <span class="label">03 &mdash; Por qué R&amp;A</span>
-          <h2 id="why-title">Lo que usted ve es el último paso. Lo que hay debajo importa más.</h2>
-        </div>
-        <div class="why-grid">
-          <div class="why-statement reveal">
-            <blockquote>
-              <p>Un buen concreto depende de la preparación, el tiempo y el acabado. Preferimos dedicarle una hora más a la base <span>que dejarle una superficie que falle antes de tiempo.</span></p>
-            </blockquote>
-            <span class="confirm">Prioridades propuestas &mdash; confirmar texto con el dueño</span>
-          </div>
-          <ol class="priorities">
-            <li class="reveal">
-              <h3>Primero, la base</h3>
-              <p>La mayoría de los problemas del concreto empiezan debajo de la superficie. Revisamos el suelo, el nivel y el drenaje antes de poner la cimbra, y preparamos la base para el peso que va a cargar la losa.</p>
-            </li>
-            <li class="reveal">
-              <h3>Juntas bien planeadas</h3>
-              <p>El concreto se mueve mientras fragua y con los años. Las juntas de control se colocan para que ese movimiento siga líneas limpias y no atraviese el centro de un tablero.</p>
-            </li>
-            <li class="reveal">
-              <h3>Bordes y acabado que se notan</h3>
-              <p>Cimbra a escuadra, bordes boleados y un acabado parejo de un extremo al otro. Los detalles que verá cada vez que llegue a casa.</p>
-            </li>
-            <li class="reveal">
-              <h3>Un plan claro</h3>
-              <p>Sabrá qué incluye el trabajo, qué podría cambiar por el clima y qué esperar el día del colado, para que no haya sorpresas cuando llegue la revolvedora.</p>
-            </li>
-            <li class="reveal">
-              <h3>Un lugar limpio al terminar</h3>
-              <p>Cimbra retirada, escombro recogido e indicaciones claras de cuándo se puede caminar y pasar con vehículos sobre el concreto nuevo.</p>
-            </li>
-          </ol>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================= PROCESS ============================ -->
-    <section class="process" id="process" aria-labelledby="process-title">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <span class="label">04 &mdash; Proceso</span>
-          <h2 id="process-title">De la primera llamada a la superficie terminada.</h2>
-          <p class="lede">Seis pasos, y cada uno se termina antes de empezar el siguiente. Los tiempos dependen de su proyecto, del terreno y del clima; se los explicamos desde el principio.</p>
-        </div>
-        <ol class="steps">
-          <li class="step reveal">
-            <span class="step-n">Paso 01</span>
-            <h3>Solicitud</h3>
-            <p>Envíe la solicitud de estimado con su ubicación y unas palabras sobre el proyecto. Las fotos ayudan.</p>
-          </li>
-          <li class="step reveal">
-            <span class="step-n">Paso 02</span>
-            <h3>Visita al terreno</h3>
-            <p>Revisamos el área, el acceso, el nivel, el drenaje y cualquier concreto existente que haya que quitar.</p>
-          </li>
-          <li class="step reveal">
-            <span class="step-n">Paso 03</span>
-            <h3>Alcance y estimado</h3>
-            <p>Recibe un alcance claro: medidas, preparación, acabado y qué incluye el estimado.</p>
-          </li>
-          <li class="step reveal">
-            <span class="step-n">Paso 04</span>
-            <h3>Programación</h3>
-            <p>Fijamos la fecha del colado según el pronóstico. Si el clima cambia, le avisamos con tiempo.</p>
-          </li>
-          <li class="step reveal">
-            <span class="step-n">Paso 05</span>
-            <h3>Cimbra y colado</h3>
-            <p>Base preparada, cimbra colocada y revisada, y luego el colado, el reglado, el aplanado y el acabado.</p>
-          </li>
-          <li class="step reveal">
-            <span class="step-n">Paso 06</span>
-            <h3>Fraguado y entrega</h3>
-            <p>Juntas cortadas, cimbra retirada y lugar limpio. Lo revisamos con usted y le explicamos los cuidados durante el fraguado.</p>
-          </li>
-        </ol>
-        <span class="confirm reveal">Proceso propuesto &mdash; confirmar con el dueño</span>
-      </div>
-    </section>
-
-    <!-- =========================== SERVICE AREA ========================= -->
-    <section class="area" id="area" aria-labelledby="area-title">
-      <div class="wrap">
-        <div class="reveal">
-          <div class="section-head">
-            <span class="label">05 &mdash; Área de servicio</span>
-            <h2 id="area-title">Con base en Metro Atlanta. Trabajamos en toda el área.</h2>
-            <p class="lede">R&amp;A Concrete atiende a dueños de casas y propiedades en el área metropolitana de Atlanta.</p>
-          </div>
-          <ul class="area-points">
-            <li>¿No sabe si su dirección está dentro del área? Incluya su ciudad o código postal en la solicitud y le avisamos.</li>
-            <li>Los proyectos fuera del área metropolitana pueden ser posibles según el tamaño y la agenda.</li>
-          </ul>
-          <a class="btn btn--dark" href="#estimate">
-            Consulte su ubicación
-            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10h13M11 4.5 16.5 10 11 15.5" stroke="currentColor" stroke-width="2"/></svg>
-          </a>
-        </div>
-
-        <figure class="area-map reveal">
-          <svg viewBox="0 0 520 520" role="img" aria-labelledby="map-title map-desc">
-            <title id="map-title">Diagrama del área metropolitana de Atlanta</title>
-            <desc id="map-desc">Esquema del periférico I-285 y las principales autopistas alrededor de Atlanta. No está a escala; la cobertura exacta está por confirmar.</desc>
-            <defs>
-              <pattern id="map-grid" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M26 0H0V26" fill="none" stroke="#22221f" stroke-opacity=".07"/></pattern>
-            </defs>
-            <rect width="520" height="520" fill="url(#map-grid)"/>
-            <!-- approximate metro region -->
-            <path d="M260 34C352 30 452 88 478 184c26 96-6 214-84 268-78 54-196 60-276 12C38 416 22 318 44 228 66 138 168 38 260 34Z" fill="#a8432a" fill-opacity=".06" stroke="#a8432a" stroke-width="1.5" stroke-dasharray="6 6"/>
-            <!-- interstates -->
-            <g fill="none" stroke="#22221f" stroke-linecap="round">
-              <path d="M70 110 L232 244 L262 270 L300 320 L420 450" stroke-width="3"/>
-              <path d="M468 96 L300 228 L262 270 L220 330 L112 450" stroke-width="3"/>
-              <path d="M40 286 L480 262" stroke-width="3"/>
-              <path d="M280 40 L270 180 L262 226" stroke-width="2" stroke-dasharray="1 0"/>
-            </g>
-            <circle cx="262" cy="264" r="118" fill="none" stroke="#22221f" stroke-width="5"/>
-            <circle cx="262" cy="264" r="118" fill="none" stroke="#f3efe7" stroke-width="1.5" stroke-dasharray="8 10"/>
-            <!-- city marker -->
-            <rect x="253" y="255" width="18" height="18" transform="rotate(45 262 264)" fill="#a8432a"/>
-            <g font-family="Plex Mono, ui-monospace, monospace" font-size="15" font-weight="500" letter-spacing=".04em" fill="#22221f">
-              <text x="284" y="258">ATLANTA</text>
-              <text x="60" y="100">I-75</text>
-              <text x="430" y="86">I-85</text>
-              <text x="58" y="304">I-20</text>
-              <text x="290" y="56">GA-400</text>
-              <text x="240" y="408">I-285</text>
-              <text x="262" y="506" text-anchor="middle" fill="#a8432a">METRO ATLANTA (APROX.)</text>
-            </g>
-          </svg>
-          <figcaption><span class="confirm">Esquema, no está a escala &mdash; límites de cobertura por confirmar</span></figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <!-- =============================== FAQ ============================== -->
-    <section class="faq" id="faq" aria-labelledby="faq-title">
-      <div class="wrap">
-        <div class="section-head reveal">
-          <span class="label">06 &mdash; Preguntas frecuentes</span>
-          <h2 id="faq-title">Respuestas claras antes de pedir un precio.</h2>
-          <p class="lede">¿Tiene otra pregunta? Escríbala en la descripción del proyecto y se la contestamos directamente.</p>
-        </div>
-        <div class="faq-list reveal">
-          <details>
-            <summary>¿Cuánto costará mi proyecto?<span class="pm" aria-hidden="true"></span></summary>
-            <div class="faq-body">
-              <p>Depende del tamaño del área, el acceso al terreno, si hay que quitar concreto viejo, cuánta preparación necesita la base, el grosor, el refuerzo y el acabado que elija. No damos un precio sin conocer el terreno. Envíe la solicitud y nos comunicaremos para preparar un estimado.</p>
-            </div>
-          </details>
-          <details>
-            <summary>¿Quitan el concreto viejo?<span class="pm" aria-hidden="true"></span></summary>
-            <div class="faq-body">
-              <p>Muchos reemplazos empiezan con la demolición y el retiro del escombro. Mencione el concreto existente en su solicitud para incluirlo en la evaluación.</p>
-              <span class="confirm">Confirmar con el dueño: demolición y retiro de escombro</span>
-            </div>
-          </details>
-          <details>
-            <summary>¿Cuándo puedo caminar o pasar con el carro sobre el concreto nuevo?<span class="pm" aria-hidden="true"></span></summary>
-            <div class="faq-body">
-              <p>Depende de la mezcla, el grosor, la temperatura y la humedad. El concreto sigue ganando resistencia durante semanas después del colado, así que en lugar de darle un número general, le diremos lo que aplica a su colado antes de irnos.</p>
-            </div>
-          </details>
-          <details>
-            <summary>¿Se va a agrietar mi concreto?<span class="pm" aria-hidden="true"></span></summary>
-            <div class="faq-body">
-              <p>Siendo honestos, el concreto puede agrietarse. Se contrae al fraguar y se mueve con la temperatura y el suelo. Una buena base, la separación correcta de juntas y un buen curado ayudan mucho a controlar dónde aparecen las grietas y a que sean menores.</p>
-            </div>
-          </details>
-          <details>
-            <summary>¿Qué pasa si llueve el día del colado?<span class="pm" aria-hidden="true"></span></summary>
-            <div class="faq-body">
-              <p>El clima sí afecta al concreto. Revisamos el pronóstico antes del colado y cambiamos la fecha si las condiciones ponen en riesgo el acabado. Le avisamos en cuanto un cambio parezca probable.</p>
-            </div>
-          </details>
-          <details>
-            <summary>¿Necesito un permiso?<span class="pm" aria-hidden="true"></span></summary>
-            <div class="faq-body">
-              <p>Los permisos varían según la ciudad, el condado y el tipo de proyecto. Las rampas de entrada y los trabajos junto a la calle suelen tener sus propias reglas. En la visita le explicamos qué aplica en su ubicación.</p>
-              <span class="confirm">Confirmar con el dueño quién tramita los permisos</span>
-            </div>
-          </details>
-          <details>
-            <summary>¿Puedo hablar con ustedes en español?<span class="pm" aria-hidden="true"></span></summary>
-            <div class="faq-body">
-              <p>Sí. El dueño habla español. Llame al <a href="tel:+14703920670">(470) 392-0670</a> o llene la solicitud de estimado en español, y lo atendemos en el idioma que usted prefiera.</p>
-            </div>
-          </details>
-          <details>
-            <summary>¿Tienen licencia y seguro?<span class="pm" aria-hidden="true"></span></summary>
-            <div class="faq-body">
-              <p>Los datos de licencia y seguro aparecerán aquí cuando estén confirmados. Siempre puede pedirnos la documentación antes de empezar el trabajo.</p>
-              <span class="confirm">El dueño debe proporcionar los datos verificados de licencia y seguro</span>
-            </div>
-          </details>
-        </div>
+        <p class="finishes-note reveal">Ilustraciones de tipos de acabado, no fotos de proyectos terminados.</p>
       </div>
     </section>
 
@@ -558,18 +316,19 @@
       <div class="wrap">
         <div class="estimate-aside">
           <div class="section-head reveal" style="margin-bottom:0">
-            <span class="label">07 &mdash; Solicite un estimado</span>
+            <span class="label">03 &mdash; Solicite un estimado</span>
             <h2 id="estimate-title">Cuéntenos sobre su proyecto.</h2>
-            <p class="lede">Cinco datos rápidos. Mientras más nos cuente del terreno, más útil será nuestra primera conversación.</p>
+            <p class="lede">Unos cuantos datos rápidos. Mientras más nos cuente del terreno, más útil será nuestra primera conversación.</p>
           </div>
-          <ol class="expect reveal" aria-label="Qué sigue">
-            <li><span>01</span>Revisamos su solicitud y ubicación.</li>
-            <li><span>02</span>Nos comunicamos con usted para hacerle preguntas y programar una visita.</li>
-            <li><span>03</span>Recibe el alcance y el estimado de su proyecto.</li>
-          </ol>
+          <ul class="expect reveal" aria-label="Qué sigue">
+            <li>Revisamos su proyecto y ubicación.</li>
+            <li>Nos comunicamos con usted con preguntas y los siguientes pasos.</li>
+            <li>Recibe un estimado para su proyecto.</li>
+          </ul>
           <div class="call-card reveal">
-            <p>¿Prefiere hablar por teléfono?</p>
+            <p>¿Prefiere llamar o mandar un mensaje?</p>
             <a class="call-card-num" href="tel:+14703920670"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 3.5h3.6l1.8 4.6-2.3 1.5a11.5 11.5 0 0 0 6.3 6.3l1.5-2.3 4.6 1.8v3.6a2 2 0 0 1-2 2A17.5 17.5 0 0 1 3 5.5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>(470) 392-0670</a>
+            <a class="call-card-alt" href="sms:+14703920670">Mensaje al (470) 392-0670</a>
             <a class="call-card-alt" href="tel:+14703920666">(470) 392-0666</a>
             <a class="call-card-alt" href="mailto:alanconcrete97@gmail.com">alanconcrete97@gmail.com</a>
             <p class="call-card-note">Hablamos español</p>
@@ -577,9 +336,7 @@
         </div>
 
         <div class="form-card reveal">
-          <p class="demo-banner" id="demo-banner" role="note">
-            <span><strong>Formulario de demostración.</strong> Este formulario todavía no está conectado con R&amp;A, así que las solicitudes que envíe aquí no llegan.</span>
-          </p>
+          <p class="form-note" id="form-note">Al enviar se abre su correo electrónico con sus datos ya escritos para R&amp;A. Presione enviar ahí para entregarlo.</p>
           <div class="form-status" id="form-status" role="status" aria-live="polite" tabindex="-1"></div>
           <form id="estimate-form" novalidate>
             <input type="hidden" name="language" value="es">
@@ -641,6 +398,203 @@
         </div>
       </div>
     </section>
+    <!-- ============================ WHY R&A ============================= -->
+    <section class="why" id="why" aria-labelledby="why-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="label">04 &mdash; Por qué importa</span>
+          <h2 class="h2-xl" id="why-title">Lo que usted ve es el último paso. <span>Lo que hay debajo importa más.</span></h2>
+          <p class="lede">Un buen concreto depende de la preparación, el tiempo y el acabado. Cinco cosas deciden si una losa dura.</p>
+        </div>
+        <ul class="fundamentals">
+          <li class="reveal">
+            <h3>La base</h3>
+            <p>La mayoría de los problemas empiezan debajo de la superficie: en el suelo, el nivel y el drenaje.</p>
+          </li>
+          <li class="reveal">
+            <h3>Las juntas</h3>
+            <p>El concreto se mueve al fraguar. Las juntas de control deciden dónde se nota ese movimiento.</p>
+          </li>
+          <li class="reveal">
+            <h3>El acabado</h3>
+            <p>Cimbra a escuadra, bordes limpios y un acabado parejo de un extremo al otro.</p>
+          </li>
+          <li class="reveal">
+            <h3>El clima</h3>
+            <p>La lluvia, el calor y el frío afectan el colado, así que el momento importa tanto como la técnica.</p>
+          </li>
+          <li class="reveal">
+            <h3>El fraguado</h3>
+            <p>El concreto nuevo sigue ganando resistencia durante semanas. Cuidarlo al principio protege la superficie.</p>
+          </li>
+        </ul>
+        <p class="why-close reveal">Pregúntenos cómo aplica cada uno a su proyecto: <a href="tel:+14703920670">(470) 392-0670</a>.</p>
+      </div>
+    </section>
+
+    <!-- ============================= PROCESS ============================ -->
+    <section class="process" id="process" aria-labelledby="process-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="label">05 &mdash; Proceso</span>
+          <h2 class="h2-sm" id="process-title">De la primera llamada a la superficie terminada.</h2>
+          <p class="lede">El camino habitual de un proyecto. Los tiempos dependen del proyecto, el terreno y el clima.</p>
+        </div>
+        <ol class="steps">
+          <li class="step reveal">
+            <span class="step-n">Paso 01</span>
+            <h3>Solicitud</h3>
+            <p>Llame, mande un mensaje o envíe los detalles de su proyecto con su ubicación. Las fotos ayudan.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step-n">Paso 02</span>
+            <h3>Visita al terreno</h3>
+            <p>Se revisan el área, el acceso, el nivel, el drenaje y cualquier concreto existente.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step-n">Paso 03</span>
+            <h3>Alcance y estimado</h3>
+            <p>Un alcance con medidas, preparación, acabado y qué incluye el estimado.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step-n">Paso 04</span>
+            <h3>Programación</h3>
+            <p>La fecha del colado se fija según el pronóstico, porque el clima puede cambiarla.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step-n">Paso 05</span>
+            <h3>Cimbra y colado</h3>
+            <p>Base preparada y cimbra colocada; luego el colado, el reglado, el aplanado y el acabado.</p>
+          </li>
+          <li class="step reveal">
+            <span class="step-n">Paso 06</span>
+            <h3>Fraguado y entrega</h3>
+            <p>Juntas cortadas y cimbra retirada. Después, una revisión final juntos y consejos para el fraguado.</p>
+          </li>
+        </ol>
+        <span class="confirm reveal">Proceso propuesto &mdash; confirmar con el dueño</span>
+      </div>
+    </section>
+
+    <!-- =========================== SERVICE AREA ========================= -->
+    <section class="area" id="area" aria-labelledby="area-title">
+      <div class="wrap">
+        <div class="reveal">
+          <div class="section-head">
+            <span class="label">06 &mdash; Área de servicio</span>
+            <h2 class="h2-sm" id="area-title">Con base en Metro Atlanta. Trabajamos en toda el área.</h2>
+            <p class="lede">R&amp;A Concrete atiende a dueños de casas y propiedades en el área metropolitana de Atlanta.</p>
+          </div>
+          <ul class="area-points">
+            <li>¿No sabe si su dirección está dentro del área? Llame o mande un mensaje con su ciudad o código postal y le avisamos.</li>
+            <li>Para proyectos fuera del área metropolitana, pregúntenos.</li>
+          </ul>
+          <a class="btn btn--dark" href="#estimate">
+            Consulte su ubicación
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10h13M11 4.5 16.5 10 11 15.5" stroke="currentColor" stroke-width="2"/></svg>
+          </a>
+        </div>
+
+        <figure class="area-map reveal">
+          <svg viewBox="0 0 520 520" role="img" aria-labelledby="map-title map-desc">
+            <title id="map-title">Diagrama del área metropolitana de Atlanta</title>
+            <desc id="map-desc">Esquema del periférico I-285 y las principales autopistas alrededor de Atlanta. No está a escala; la cobertura exacta está por confirmar.</desc>
+            <defs>
+              <pattern id="map-grid" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M26 0H0V26" fill="none" stroke="#22221f" stroke-opacity=".07"/></pattern>
+            </defs>
+            <rect width="520" height="520" fill="url(#map-grid)"/>
+            <!-- approximate metro region -->
+            <path d="M260 34C352 30 452 88 478 184c26 96-6 214-84 268-78 54-196 60-276 12C38 416 22 318 44 228 66 138 168 38 260 34Z" fill="#a8432a" fill-opacity=".06" stroke="#a8432a" stroke-width="1.5" stroke-dasharray="6 6"/>
+            <!-- interstates -->
+            <g fill="none" stroke="#22221f" stroke-linecap="round">
+              <path d="M70 110 L232 244 L262 270 L300 320 L420 450" stroke-width="3"/>
+              <path d="M468 96 L300 228 L262 270 L220 330 L112 450" stroke-width="3"/>
+              <path d="M40 286 L480 262" stroke-width="3"/>
+              <path d="M280 40 L270 180 L262 226" stroke-width="2" stroke-dasharray="1 0"/>
+            </g>
+            <circle cx="262" cy="264" r="118" fill="none" stroke="#22221f" stroke-width="5"/>
+            <circle cx="262" cy="264" r="118" fill="none" stroke="#f3efe7" stroke-width="1.5" stroke-dasharray="8 10"/>
+            <!-- city marker -->
+            <rect x="253" y="255" width="18" height="18" transform="rotate(45 262 264)" fill="#a8432a"/>
+            <g font-family="Plex Mono, ui-monospace, monospace" font-size="15" font-weight="500" letter-spacing=".04em" fill="#22221f">
+              <text x="284" y="258">ATLANTA</text>
+              <text x="60" y="100">I-75</text>
+              <text x="430" y="86">I-85</text>
+              <text x="58" y="304">I-20</text>
+              <text x="290" y="56">GA-400</text>
+              <text x="240" y="408">I-285</text>
+              <text x="262" y="506" text-anchor="middle" fill="#a8432a">METRO ATLANTA (APROX.)</text>
+            </g>
+          </svg>
+          <figcaption><span class="confirm">Esquema, no está a escala &mdash; límites de cobertura por confirmar</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- =============================== FAQ ============================== -->
+    <section class="faq" id="faq" aria-labelledby="faq-title">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <span class="label">07 &mdash; Preguntas frecuentes</span>
+          <h2 class="h2-sm" id="faq-title">Respuestas claras antes de pedir un precio.</h2>
+          <p class="lede">¿Tiene otra pregunta? Llame, mande un mensaje o escríbanos.</p>
+        </div>
+        <div class="faq-list reveal">
+          <details>
+            <summary>¿Cuánto costará mi proyecto?<span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-body">
+              <p>Depende del tamaño del área, el acceso al terreno, si hay que quitar concreto viejo, cuánta preparación necesita la base, el grosor, el refuerzo y el acabado que elija. Un precio exacto depende de ver el terreno, así que empiece con una llamada o una solicitud de estimado.</p>
+            </div>
+          </details>
+          <details>
+            <summary>¿Quitan el concreto viejo?<span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-body">
+              <p>Muchos reemplazos empiezan con la demolición y el retiro del escombro. Mencione el concreto existente en su solicitud para incluirlo en la evaluación.</p>
+              <span class="confirm">Confirmar con el dueño: demolición y retiro de escombro</span>
+            </div>
+          </details>
+          <details>
+            <summary>¿Cuándo puedo caminar o pasar con el carro sobre el concreto nuevo?<span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-body">
+              <p>Depende de la mezcla, el grosor, la temperatura y la humedad. El concreto sigue ganando resistencia durante semanas después del colado, así que no hay un número único. Pregunte qué aplica a su colado.</p>
+            </div>
+          </details>
+          <details>
+            <summary>¿Se va a agrietar mi concreto?<span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-body">
+              <p>Siendo honestos, el concreto puede agrietarse. Se contrae al fraguar y se mueve con la temperatura y el suelo. Una buena base, la separación correcta de juntas y un buen curado ayudan mucho a controlar dónde aparecen las grietas y a que sean menores.</p>
+            </div>
+          </details>
+          <details>
+            <summary>¿Qué pasa si llueve el día del colado?<span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-body">
+              <p>El clima sí afecta al concreto. Las fechas de colado se planean según el pronóstico y pueden cambiar si las condiciones ponen en riesgo el acabado.</p>
+            </div>
+          </details>
+          <details>
+            <summary>¿Necesito un permiso?<span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-body">
+              <p>Los permisos varían según la ciudad, el condado y el tipo de proyecto. Las rampas de entrada y los trabajos junto a la calle suelen tener sus propias reglas. Pregúntenos qué aplica en su ubicación.</p>
+              <span class="confirm">Confirmar con el dueño quién tramita los permisos</span>
+            </div>
+          </details>
+          <details>
+            <summary>¿Puedo hablar con ustedes en español?<span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-body">
+              <p>Sí. El dueño habla español. Llame o mande un mensaje al <a href="tel:+14703920670">(470) 392-0670</a>, o envíe su solicitud de estimado en español.</p>
+            </div>
+          </details>
+          <details>
+            <summary>¿Tienen licencia y seguro?<span class="pm" aria-hidden="true"></span></summary>
+            <div class="faq-body">
+              <p>Pídanos la documentación de licencia y seguro. Es una pregunta justa para cualquier contratista antes de empezar un trabajo.</p>
+              <span class="confirm">El dueño debe proporcionar los datos verificados de licencia y seguro</span>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer on-dark">
@@ -667,6 +621,7 @@
             <li><a href="#estimate">Solicitud de estimado</a></li>
             <li><a href="tel:+14703920670">(470) 392-0670</a></li>
             <li><a href="tel:+14703920666">(470) 392-0666</a></li>
+            <li><a href="sms:+14703920670">Mensaje al (470) 392-0670</a></li>
             <li><a href="mailto:alanconcrete97@gmail.com">alanconcrete97@gmail.com</a></li>
             <li>Metro Atlanta, Georgia</li>
             <li>Hablamos español</li>
@@ -675,7 +630,7 @@
       </div>
       <div class="footer-bottom">
         <span>&copy; <span data-year>2026</span> R&amp;A Concrete Construction LLC</span>
-        <span class="footer-links"><a href="../?lang=en" hreflang="en" lang="en" data-lang="en">View in English</a><a href="../brand.html" lang="en" hreflang="en">Brand guidelines (EN)</a></span>
+        <span class="footer-links"><a href="../?lang=en" hreflang="en" lang="en" data-lang="en">View in English</a></span>
       </div>
     </div>
   </footer>

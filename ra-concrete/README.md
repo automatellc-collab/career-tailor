@@ -40,7 +40,15 @@ After the first deploy, add the custom domain under **Settings → Domains**, th
 ## Launch handoff
 
 ### 1. Facts the owner must confirm or supply
-Nothing below has been invented. Each item is marked on the page with a dashed **"owner to confirm"** tag (`.confirm`). Delete the tag once the content is approved.
+Nothing below has been invented. Items still open are marked with a dashed **"owner to confirm"** tag (`.confirm`). These tags are **hidden from the public** and appear only in review mode: open the site with `?draft` (e.g. `/?draft` or `/es/?draft`). Delete a tag once its content is approved.
+
+**Questions for the owner** (answers unlock the next round of copy):
+1. Which number does he answer himself: 0670 or 0666? Does 0670 take texts? (The site offers "Text us photos" via `sms:`, so a landline would silently lose leads.) WhatsApp?
+2. Are estimates free? Does he visit every site in person?
+3. Pool renovations: concrete and hardscape only, or also plaster, tile, coping?
+4. Which counties or cities does he cover?
+5. Tear-out and haul-off, and permits: does R&A handle them?
+6. License and insurance: numbers or carriers he's happy to publish?
 
 | Item | Where | Status |
 |---|---|---|
@@ -48,8 +56,8 @@ Nothing below has been invented. Each item is marked on the page with a dashed *
 | Service list | Services, hero, form options, JSON-LD | **Confirmed** from business card: residential & commercial; driveways/slabs/patios; sidewalks; stamped & colored; hardscape/pavers; retaining walls/fire pits; sitting walls; pool renovations |
 | Exact scope of "pool renovations" | Services | Copy says concrete and hardscape around an existing pool. Confirm with owner |
 | Scope tags under each service (e.g. "Outdoor kitchen pads") | Services | Descriptive; owner to confirm |
-| Workmanship priorities / wording | Why R&A | Proposed |
-| Six-step process | Process | Proposed |
+| "Why it matters" section | Why | Rewritten as general concrete facts (base, joints, finish, weather, cure), with no promises. Can become R&A-specific commitments once the owner confirms them |
+| Six-step process | Process | Neutral wording ("a pour date is set…"); owner to confirm it matches how he works |
 | Service area limits (which counties/cities, travel radius) | Service area | Only "metro Atlanta" is verified |
 | Tear-out & haul-off offered? | FAQ | Unconfirmed |
 | Who handles permits? | FAQ | Unconfirmed |
@@ -59,7 +67,11 @@ Nothing below has been invented. Each item is marked on the page with a dashed *
 | Project videos | Work section, footer | **Confirmed link:** https://vqr.vc/jV6PxfV80 (opens in a new tab; not embedded) |
 | Spanish-language service | Hero, FAQ, footer, JSON-LD `availableLanguage`, `/es/` | **Confirmed** (owner speaks Spanish) |
 | Street address / service-area-business setup | JSON-LD, Google Business Profile | Not supplied |
-| Domain | `og:image`, `og:url`, JSON-LD `url`, `hreflang` links | Not supplied. These must be absolute URLs once the domain exists |
+| Domain | see "When the domain is live" below | Not supplied |
+
+**When the domain is live** (search engines ignore relative URLs in these):
+- In `index.html`: make `og:image` absolute, add `og:url`, `<link rel="canonical">`, and hreflang links for `en`, `es` and `x-default` (all absolute), and add `"url"` to the JSON-LD. Mirror the structural parts in `tools/build_es.py` and rebuild.
+- Add `sitemap.xml` listing `/` and `/es/` (with `xhtml:link` hreflang alternates) and uncomment the `Sitemap:` line in `robots.txt`.
 
 ### 2. Missing assets
 - **Project videos → gallery.** The Work section links to the owner's video page. Embedding the videos (or stills from them) in the gallery needs the video files or their direct URLs; the link page could not be read from the build environment.
@@ -68,7 +80,7 @@ Nothing below has been invented. Each item is marked on the page with a dashed *
 - **Social image.** `assets/img/og-image.jpg` is ready. Change `og:image` to an absolute URL once the domain is live, since most platforms ignore relative paths.
 
 ### 3. Integrations needed
-- **Estimate form backend.** Set `FORM_ENDPOINT` at the top of `assets/js/main.js` (Formspree, Basin, Netlify Forms, or your own API accepting a `FormData` POST). Until then the form validates but **explicitly reports that nothing was sent**, shows a "Demo form" banner, and offers a **"Send by email instead"** button that opens the visitor's email app with their details pre-filled to alanconcrete97@gmail.com. Quickest real fix: a free Formspree form pointed at that address. Setting the endpoint removes the banner automatically and turns on real success/error states. Add spam protection (honeypot or Turnstile) with it.
+- **Estimate form backend.** Set `FORM_ENDPOINT` at the top of `assets/js/main.js` (Formspree, Basin, Netlify Forms, or your own API accepting a `FormData` POST). Until then a valid submission **opens the visitor's email app** with the request pre-filled to alanconcrete97@gmail.com. A note above the form says so, and the status message says it isn't delivered until they press send (there's also an "Open email again" button and the phone number). This works, but some visitors, especially on desktop, have no mail app set up. Quickest real fix: a free Formspree form pointed at that address. Setting the endpoint removes the note automatically and turns on real success/error states. Add spam protection (honeypot or Turnstile) with it.
 - **Analytics** (optional): track clicks on "Request an Estimate" and form submissions as conversions.
 - **Google Business Profile**: set it up as a service-area business for metro Atlanta. It matters more for local search than anything on this page.
 - **Privacy note**: once the form sends real data, add a short privacy policy page and link it next to the submit button.
