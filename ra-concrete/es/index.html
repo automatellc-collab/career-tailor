@@ -655,6 +655,44 @@
     <a class="btn btn--primary" href="#estimate" tabindex="-1">Solicite un estimado</a>
   </div>
 
+  <div class="quote-popup" id="quote-popup" hidden>
+    <div class="quote-popup-backdrop" data-popup-close></div>
+    <div class="quote-popup-card" role="dialog" aria-modal="true" aria-labelledby="qp-title" aria-describedby="qp-lede">
+      <button class="quote-popup-close" type="button" data-popup-close aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <h2 id="qp-title">Reciba una cotización gratis</h2>
+      <p id="qp-lede">Cuéntenos un poco sobre su proyecto y continuaremos desde ahí.</p>
+      <form id="quote-popup-form" novalidate>
+        <div class="field">
+          <label for="qp-name">Nombre</label>
+          <input id="qp-name" name="qp-name" type="text" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="qp-phone">Teléfono</label>
+          <input id="qp-phone" name="qp-phone" type="tel" autocomplete="tel" inputmode="tel" required>
+        </div>
+        <div class="field">
+          <label for="qp-type">Tipo de proyecto</label>
+          <select id="qp-type" name="qp-type" required>
+            <option value="">Elija uno</option>
+            <option value="Driveway">Entrada de autos</option>
+            <option value="Patio">Patio</option>
+            <option value="Sidewalk or walkway">Banqueta o camino</option>
+            <option value="Slab">Losa</option>
+            <option value="Stamped or colored concrete">Concreto estampado o de color</option>
+            <option value="Pavers or hardscape">Adoquines o hardscape</option>
+            <option value="Retaining wall, sitting wall or fire pit">Muro de contención, muro para sentarse o fogata</option>
+            <option value="Pool renovation">Renovación de alberca</option>
+            <option value="Something else / not sure">Otro / no estoy seguro</option>
+          </select>
+        </div>
+        <button class="btn btn--primary" type="submit">Continuar al formulario</button>
+      </form>
+      <p class="quote-popup-fine">O llame/envíe un mensaje al <a href="tel:+14703920670">(470) 392-0670</a>.</p>
+    </div>
+  </div>
+
   <script src="../assets/js/main.js?v=6c7129a7" defer></script>
 </body>
 </html>

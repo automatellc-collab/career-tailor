@@ -660,6 +660,44 @@
     <a class="btn btn--primary" href="#estimate" tabindex="-1">Request an Estimate</a>
   </div>
 
+  <div class="quote-popup" id="quote-popup" hidden>
+    <div class="quote-popup-backdrop" data-popup-close></div>
+    <div class="quote-popup-card" role="dialog" aria-modal="true" aria-labelledby="qp-title" aria-describedby="qp-lede">
+      <button class="quote-popup-close" type="button" data-popup-close aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <h2 id="qp-title">Get a free quote</h2>
+      <p id="qp-lede">Tell us a little about your project and we&rsquo;ll pick it up where you left off.</p>
+      <form id="quote-popup-form" novalidate>
+        <div class="field">
+          <label for="qp-name">Name</label>
+          <input id="qp-name" name="qp-name" type="text" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="qp-phone">Phone</label>
+          <input id="qp-phone" name="qp-phone" type="tel" autocomplete="tel" inputmode="tel" required>
+        </div>
+        <div class="field">
+          <label for="qp-type">Project type</label>
+          <select id="qp-type" name="qp-type" required>
+            <option value="">Choose one</option>
+            <option>Driveway</option>
+            <option>Patio</option>
+            <option>Sidewalk or walkway</option>
+            <option>Slab</option>
+            <option>Stamped or colored concrete</option>
+            <option>Pavers or hardscape</option>
+            <option>Retaining wall, sitting wall or fire pit</option>
+            <option>Pool renovation</option>
+            <option>Something else / not sure</option>
+          </select>
+        </div>
+        <button class="btn btn--primary" type="submit">Continue to full form</button>
+      </form>
+      <p class="quote-popup-fine">Or call/text <a href="tel:+14703920670">(470) 392-0670</a>.</p>
+    </div>
+  </div>
+
   <script src="assets/js/main.js?v=6c7129a7" defer></script>
 </body>
 </html>

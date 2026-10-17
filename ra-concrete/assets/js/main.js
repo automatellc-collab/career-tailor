@@ -321,6 +321,94 @@
     target.focus();
   });
 
+  /* ---- Quote popup ----------------------------------------------------
+   * A short lead-in (name, phone, project type) shown once per session.
+   * Submitting it copies those values into the real estimate form above
+   * and scrolls there, rather than duplicating that form's validation and
+   * submit logic for a second, separate form.
+   */
+  (function () {
+    var popup = document.getElementById("quote-popup");
+    var popupForm = document.getElementById("quote-popup-form");
+    if (!popup || !popupForm) return;
+
+    var SEEN_KEY = "ra-quote-popup-seen";
+    var seen = false;
+    try { seen = sessionStorage.getItem(SEEN_KEY) === "1"; } catch (e) {}
+
+    var card = popup.querySelector(".quote-popup-card");
+    var qpName = document.getElementById("qp-name");
+    var qpPhone = document.getElementById("qp-phone");
+    var qpType = document.getElementById("qp-type");
+    var opener = null;
+
+    function markSeen() {
+      seen = true;
+      try { sessionStorage.setItem(SEEN_KEY, "1"); } catch (e) {}
+    }
+
+    function openPopup() {
+      if (seen) return;
+      markSeen();
+      opener = document.activeElement;
+      popup.hidden = false;
+      requestAnimationFrame(function () { popup.classList.add("is-open"); });
+      document.documentElement.classList.add("popup-lock");
+      qpName.focus();
+      document.addEventListener("keydown", onKeydown);
+    }
+
+    function closePopup() {
+      popup.classList.remove("is-open");
+      document.documentElement.classList.remove("popup-lock");
+      document.removeEventListener("keydown", onKeydown);
+      window.setTimeout(function () { popup.hidden = true; }, reduceMotion ? 0 : 220);
+      if (opener && typeof opener.focus === "function") opener.focus();
+    }
+
+    function onKeydown(e) {
+      if (e.key === "Escape") closePopup();
+    }
+
+    popup.querySelectorAll("[data-popup-close]").forEach(function (el) {
+      el.addEventListener("click", closePopup);
+    });
+
+    popupForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (fields.name) fields.name.value = qpName.value.trim();
+      if (fields.phone) fields.phone.value = qpPhone.value.trim();
+      if (fields.type) fields.type.selectedIndex = qpType.selectedIndex;
+      closePopup();
+      form.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+      window.setTimeout(function () {
+        var next = fields.location && !fields.location.value.trim() ? fields.location : fields.description;
+        if (next) next.focus();
+      }, reduceMotion ? 0 : 450);
+    });
+
+    // Don't interrupt someone already filling out the real form.
+    function alreadyEngaged() {
+      return Object.keys(fields).some(function (k) {
+        var el = fields[k];
+        return el && typeof el.value === "string" && el.value.trim();
+      });
+    }
+
+    var triggered = false;
+    function maybeOpen() {
+      if (triggered || seen || alreadyEngaged()) return;
+      triggered = true;
+      openPopup();
+    }
+
+    window.setTimeout(maybeOpen, 8000);
+    window.addEventListener("scroll", function () {
+      var depth = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight;
+      if (depth > 0.4) maybeOpen();
+    }, { passive: true });
+  })();
+
   /* ---- Footer year ---------------------------------------------------- */
   var year = document.querySelector("[data-year]");
   if (year) year.textContent = new Date().getFullYear();
