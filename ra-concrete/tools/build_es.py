@@ -18,7 +18,16 @@ ROOT = Path(__file__).resolve().parent.parent
 # Structural edits: exact fragments that must each match once.
 STRUCTURE = [
     ('<html lang="en">', '<html lang="es">'),
-    ('<link rel="alternate" hreflang="es" href="es/">', '<link rel="alternate" hreflang="en" href="../">'),
+    ('<link rel="canonical" href="https://raconcreteatl.com/">',
+     '<link rel="canonical" href="https://raconcreteatl.com/es/">'),
+    ('<meta property="og:url" content="https://raconcreteatl.com/">',
+     '<meta property="og:url" content="https://raconcreteatl.com/es/">'),
+    ('''  <link rel="alternate" hreflang="es" href="https://raconcreteatl.com/es/">
+  <link rel="alternate" hreflang="en" href="https://raconcreteatl.com/">
+  <link rel="alternate" hreflang="x-default" href="https://raconcreteatl.com/">''',
+     '''  <link rel="alternate" hreflang="en" href="https://raconcreteatl.com/">
+  <link rel="alternate" hreflang="es" href="https://raconcreteatl.com/es/">
+  <link rel="alternate" hreflang="x-default" href="https://raconcreteatl.com/">'''),
     # The English page redirects returning Spanish visitors; the Spanish page never redirects.
     ('''    // Send returning visitors who chose Spanish straight to the Spanish page.
     try {

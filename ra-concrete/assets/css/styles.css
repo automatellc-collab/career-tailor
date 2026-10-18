@@ -1302,3 +1302,16 @@ html.popup-lock { overflow: hidden; }
 @media (max-width: 480px) {
   .quote-popup-card { padding: 28px 20px 24px; }
 }
+
+/* --- Service area: named cities ------------------------------------------ */
+
+.area-cities {
+  list-style: none; margin: 0 0 28px; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 8px 10px;
+}
+.area-cities li {
+  font-family: var(--f-mono); font-size: 13px; letter-spacing: 0.02em;
+  color: var(--charcoal); background: var(--ivory-2);
+  border: 1px solid var(--line-strong); border-radius: var(--radius);
+  padding: 6px 12px;
+}

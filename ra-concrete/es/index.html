@@ -8,12 +8,14 @@
   <meta name="description" content="Concreto residencial y comercial en el área metropolitana de Atlanta: entradas de autos, patios, banquetas, losas, concreto estampado y de color, adoquines, muros de contención y renovación de albercas. Llame al (470) 392-0670 o solicite un estimado.">
   <meta name="theme-color" content="#F3EFE7">
 
-  <!-- Social sharing. Replace og:url / og:image with absolute URLs once the domain is live. -->
+  <link rel="canonical" href="https://raconcreteatl.com/es/">
+
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://raconcreteatl.com/es/">
   <meta property="og:site_name" content="R&amp;A Concrete Construction LLC">
   <meta property="og:title" content="R&amp;A Concrete Construction LLC | Concreto residencial y comercial en Metro Atlanta">
   <meta property="og:description" content="Entradas de autos, patios, concreto estampado, adoquines, muros y renovación de albercas en el área metropolitana de Atlanta, Georgia. Hablamos español.">
-  <meta property="og:image" content="../assets/img/og-image.jpg?v=ffcdcd80">
+  <meta property="og:image" content="https://raconcreteatl.com/assets/img/og-image.jpg?v=ffcdcd80">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Logotipo de R&amp;A Concrete Construction LLC sobre una textura de losa de concreto">
@@ -25,18 +27,48 @@
   <link rel="preload" href="../assets/fonts/archivo-var.woff2?v=0316d5d0" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../assets/css/styles.css?v=a5ce26b9">
 
-  <link rel="alternate" hreflang="en" href="../">
-  <!-- Only verified facts (from the owner and their business card): name, services, metro Atlanta,
-       phones, email, languages. Add url and address once confirmed. -->
+  <link rel="alternate" hreflang="en" href="https://raconcreteatl.com/">
+  <link rel="alternate" hreflang="es" href="https://raconcreteatl.com/es/">
+  <link rel="alternate" hreflang="x-default" href="https://raconcreteatl.com/">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
     "name": "R&A Concrete Construction LLC",
-    "description": "Contratista de concreto residencial y comercial en el área metropolitana de Atlanta, Georgia.",
+    "description": "Contratista de concreto residencial y comercial que atiende a Dallas, GA y el área metropolitana de Atlanta.",
+    "url": "https://raconcreteatl.com/",
     "telephone": "+1-470-392-0670",
     "email": "alanconcrete97@gmail.com",
-    "areaServed": { "@type": "Place", "name": "Metro Atlanta, Georgia" },
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "102 1st Avenue East",
+      "addressLocality": "Dallas",
+      "addressRegion": "GA",
+      "postalCode": "30157",
+      "addressCountry": "US"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 33.9237,
+      "longitude": -84.8405
+    },
+    "areaServed": [
+      { "@type": "City", "name": "Atlanta, GA" },
+      { "@type": "City", "name": "Rockmart, GA" },
+      { "@type": "City", "name": "Dallas, GA" },
+      { "@type": "City", "name": "Rome, GA" },
+      { "@type": "City", "name": "Marietta, GA" },
+      { "@type": "City", "name": "Kennesaw, GA" },
+      { "@type": "City", "name": "Woodstock, GA" },
+      { "@type": "City", "name": "Hiram, GA" },
+      { "@type": "City", "name": "Powder Springs, GA" },
+      { "@type": "City", "name": "Cartersville, GA" },
+      { "@type": "City", "name": "Douglasville, GA" },
+      { "@type": "City", "name": "Villa Rica, GA" },
+      { "@type": "City", "name": "Acworth, GA" },
+      { "@type": "City", "name": "Aragon, GA" }
+    ],
     "contactPoint": [
       {
         "@type": "ContactPoint",
@@ -497,6 +529,11 @@
             <h2 class="h2-sm" id="area-title">Con base en Metro Atlanta. Trabajamos en toda el área.</h2>
             <p class="lede">R&amp;A Concrete atiende a dueños de casas y propiedades en el área metropolitana de Atlanta.</p>
           </div>
+          <ul class="area-cities" aria-label="Ciudades que atendemos">
+            <li>Atlanta</li><li>Marietta</li><li>Kennesaw</li><li>Woodstock</li><li>Acworth</li>
+            <li>Powder Springs</li><li>Douglasville</li><li>Hiram</li><li>Dallas</li><li>Villa Rica</li>
+            <li>Cartersville</li><li>Rockmart</li><li>Aragon</li><li>Rome</li>
+          </ul>
           <ul class="area-points">
             <li>¿No sabe si su dirección está dentro del área? Llame o mande un mensaje con su ciudad o código postal y le avisamos.</li>
             <li>Para proyectos fuera del área metropolitana, pregúntenos.</li>
@@ -658,22 +695,22 @@
   <div class="quote-popup" id="quote-popup" hidden>
     <div class="quote-popup-backdrop" data-popup-close></div>
     <div class="quote-popup-card" role="dialog" aria-modal="true" aria-labelledby="qp-title" aria-describedby="qp-lede">
-      <button class="quote-popup-close" type="button" data-popup-close aria-label="Cerrar">
+      <button class="quote-popup-close" type="button" data-popup-close aria-label="Close">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
-      <h2 id="qp-title">Reciba una cotización gratis</h2>
-      <p id="qp-lede">Cuéntenos un poco sobre su proyecto y continuaremos desde ahí.</p>
+      <h2 id="qp-title">Get a free quote</h2>
+      <p id="qp-lede">Tell us a little about your project and we&rsquo;ll pick it up where you left off.</p>
       <form id="quote-popup-form" novalidate>
         <div class="field">
-          <label for="qp-name">Nombre</label>
+          <label for="qp-name">Name</label>
           <input id="qp-name" name="qp-name" type="text" autocomplete="name" required>
         </div>
         <div class="field">
-          <label for="qp-phone">Teléfono</label>
+          <label for="qp-phone">Phone</label>
           <input id="qp-phone" name="qp-phone" type="tel" autocomplete="tel" inputmode="tel" required>
         </div>
         <div class="field">
-          <label for="qp-type">Tipo de proyecto</label>
+          <label for="qp-type">Project type</label>
           <select id="qp-type" name="qp-type" required>
             <option value="">Elija uno</option>
             <option value="Driveway">Entrada de autos</option>
@@ -687,9 +724,9 @@
             <option value="Something else / not sure">Otro / no estoy seguro</option>
           </select>
         </div>
-        <button class="btn btn--primary" type="submit">Continuar al formulario</button>
+        <button class="btn btn--primary" type="submit">Continue to full form</button>
       </form>
-      <p class="quote-popup-fine">O llame/envíe un mensaje al <a href="tel:+14703920670">(470) 392-0670</a>.</p>
+      <p class="quote-popup-fine">Or call/text <a href="tel:+14703920670">(470) 392-0670</a>.</p>
     </div>
   </div>
 
