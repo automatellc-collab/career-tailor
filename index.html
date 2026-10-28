@@ -117,6 +117,19 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .btn-ghost:hover { box-shadow: inset 0 0 0 1.5px var(--ink); }
 .btn-sm { padding: .7rem 1rem; font-size: .92rem; }
 
+/* ---------- Language toggle ---------- */
+.lang { position: relative; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; border-radius: 999px; box-shadow: inset 0 0 0 1.5px var(--line); }
+.lang::before { content: ""; position: absolute; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); border-radius: 999px; background: var(--pine); transition: transform .4s var(--ease); }
+.lang.es::before { transform: translateX(100%); }
+.lang button {
+  position: relative; z-index: 1; appearance: none; border: 0; background: none; cursor: pointer;
+  font: 500 .75rem/1 var(--f-mono); letter-spacing: .08em; padding: .55rem .7rem; min-width: 2.6rem; border-radius: 999px;
+  color: var(--ink-soft); transition: color .3s;
+}
+.lang button:hover { color: var(--ink); }
+.lang button[aria-pressed="true"] { color: var(--on-pine); }
+@media (max-width: 640px) { #navCall { display: none; } .brand small { display: none; } }
+
 /* ---------- Hero ---------- */
 .hero { padding-block: clamp(2.5rem, 6vw, 5rem) clamp(3rem, 7vw, 6rem); }
 .hero .wrap { display: grid; grid-template-columns: 1.08fr .92fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
@@ -200,7 +213,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .months button:hover { color: var(--ink); }
 .months button[aria-pressed="true"] { background: var(--pine); color: var(--on-pine); }
 .months button[aria-pressed="true"] .bar { background: var(--straw); opacity: 1; }
-.months button.now::before { content: "now"; position: absolute; top: -1.15rem; left: 50%; transform: translateX(-50%); font-size: .6rem; color: var(--straw); }
+.months button.now::before { content: attr(data-now); position: absolute; top: -1.15rem; left: 50%; transform: translateX(-50%); font-size: .6rem; color: var(--straw); }
 .month-card { border-radius: 20px; padding: clamp(1.4rem, 3vw, 2rem); background: var(--ground); display: grid; gap: 1rem; min-height: 15rem; }
 .month-card .mname { font: 800 clamp(1.8rem, 3vw, 2.4rem)/1 var(--f-display); letter-spacing: -.02em; }
 .month-card .note { color: var(--ink-soft); }
@@ -277,7 +290,7 @@ footer p { color: var(--ink-soft); font-size: var(--s-small); }
   background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   border-top: 1px solid var(--line); gap: .6rem;
 }
-.callbar .btn { flex: 1; justify-content: center; }
+.callbar .btn { flex: 1; justify-content: center; white-space: nowrap; padding-inline: .8rem; }
 @media (max-width: 640px) { .callbar { display: flex; } footer { padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px)); } }
 
 /* ---------- Reveal (JS opt-in, only for below-the-fold content) ---------- */
@@ -327,7 +340,11 @@ footer p { color: var(--ink-soft); font-size: var(--s-small); }
       <a class="l" href="#services">Services</a>
       <a class="l" href="#seasons">Seasons</a>
       <a class="l" href="#process">How it works</a>
-      <a class="btn btn-primary btn-sm" href="tel:+14044474488">
+      <div class="lang" id="langToggle" role="group" aria-label="Language / Idioma">
+        <button type="button" id="lang-en" data-lang="en" aria-pressed="true" lang="en">EN</button>
+        <button type="button" id="lang-es" data-lang="es" aria-pressed="false" lang="es">ES</button>
+      </div>
+      <a class="btn btn-primary btn-sm" id="navCall" href="tel:+14044474488">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
         404-447-4488
       </a>
@@ -517,6 +534,111 @@ footer p { color: var(--ink-soft); font-size: var(--s-small); }
   document.documentElement.classList.add('js');
   document.getElementById('yr').textContent = new Date().getFullYear();
 
+  /* ---------- English / Spanish ---------- */
+  const ES_T = {
+    'Complete lawn maintenance': 'Mantenimiento completo de jardines',
+    'Services': 'Servicios', 'Seasons': 'Temporadas', 'How it works': 'Cómo trabajamos',
+    'Hummingbird Outdoors, home': 'Hummingbird Outdoors, inicio',
+    'Lawn care · Mulch · Pine straw': 'Césped · Mulch · Paja de pino',
+    'Clean lines.': 'Bordes limpios.', 'Fresh straw.': 'Paja fresca.',
+    'A yard that looks': 'Un jardín que se ve', 'finished.': 'impecable.',
+    'Hummingbird Outdoors handles the whole yard: mowing, edging, trimming, mulch and pine straw, pressure washing, and the clean-up and small details most crews skip.':
+      'Hummingbird Outdoors se encarga de todo el jardín: corte de césped, bordes, poda, mulch y paja de pino, lavado a presión, y la limpieza y los pequeños detalles que la mayoría de las cuadrillas pasan por alto.',
+    'Get a free estimate': 'Pida un presupuesto gratis', 'Call 404-447-4488': 'Llame al 404-447-4488',
+    'Free estimates': 'Presupuestos gratis', 'Free estimates ·': 'Presupuestos gratis ·',
+    'Call or text': 'Llame o envíe un mensaje', 'One crew, start to finish': 'Un solo equipo, de principio a fin',
+    'Highlights': 'Lo destacado',
+    'Tall fescue': 'Festuca alta', '3–4 in. cut': 'Corte de 3–4 pulg.', '1–2 in. cut': 'Corte de 1–2 pulg.',
+    'Edge': 'Bordes', 'Crisp & square': 'Nítidos y rectos',
+    'Pine straw': 'Paja de pino', 'Edging': 'Bordes', 'Trimming': 'Poda', 'Pressure washing': 'Lavado a presión',
+    'Clean-up': 'Limpieza', 'Small details': 'Pequeños detalles',
+    'What we do': 'Lo que hacemos',
+    'Everything the yard needs, on one call.': 'Todo lo que su jardín necesita, con una sola llamada.',
+    'Book a single service or hand us the whole property. Either way you get the same crew, the same standard, and a yard that looks cared for between visits.':
+      'Reserve un solo servicio o déjenos toda la propiedad. De cualquier forma, tendrá el mismo equipo, el mismo estándar y un jardín que se ve cuidado entre visitas.',
+    'Lawn maintenance': 'Mantenimiento de césped',
+    'Regular mowing on a set schedule, with the height matched to your grass so it stays thick and green through Georgia summers.':
+      'Corte regular con horario fijo, a la altura adecuada para su tipo de césped, para que se mantenga denso y verde durante los veranos de Georgia.',
+    'Weekly · Bi-weekly · Seasonal': 'Semanal · Quincenal · Por temporada',
+    'Fresh mulch spread evenly through beds and around trees, pulled back from trunks and stems so roots stay healthy.':
+      'Mulch fresco esparcido de forma pareja en los canteros y alrededor de los árboles, separado de troncos y tallos para que las raíces se mantengan sanas.',
+    'Laid 2–3 in. deep': 'Capa de 2–3 pulg.',
+    'The Southern classic. Tucked at the bed edges for a clean, rounded finish that holds moisture and keeps weeds down.':
+      'El clásico del Sur. Bien metida en los bordes de los canteros para un acabado limpio y redondeado que conserva la humedad y frena la maleza.',
+    'Spring & fall refresh': 'Renovación en primavera y otoño',
+    'Sharp, straight lines along driveways, sidewalks and beds. The single detail that makes a lawn look professionally kept.':
+      'Líneas nítidas y rectas a lo largo de entradas, aceras y canteros. El detalle que hace que un jardín se vea cuidado por profesionales.',
+    'Hard & bed edges': 'Bordes de concreto y canteros',
+    'Shrubs, hedges and groundcover shaped and kept off walkways, windows and the house.':
+      'Arbustos, setos y cubresuelos con forma y alejados de caminos, ventanas y la casa.',
+    'Shrubs · Hedges · Line trimming': 'Arbustos · Setos · Desbrozadora',
+    'Driveways, walkways, patios and siding rinsed clean of pollen, mildew and red-clay stains.':
+      'Entradas, caminos, patios y revestimientos limpios de polen, moho y manchas de arcilla roja.',
+    'Drives · Walks · Patios · Siding': 'Entradas · Caminos · Patios · Revestimiento',
+    'Leaf removal, storm debris, overgrown beds and one-time property clean-ups before a sale, a move-in, or a party.':
+      'Recolección de hojas, escombros de tormentas, canteros descuidados y limpiezas únicas antes de una venta, una mudanza o una fiesta.',
+    'One-time or seasonal': 'Única o por temporada',
+    'Small details & more': 'Pequeños detalles y más',
+    'Weeding, blowing off hard surfaces, tidying around mailboxes and fences. Ask about anything outdoors that needs doing.':
+      'Deshierbe, soplado de superficies y arreglo alrededor de buzones y cercas. Pregunte por cualquier trabajo al aire libre.',
+    'Just ask': 'Solo pregunte',
+    'The North Georgia yard year': 'El año del jardín en el norte de Georgia',
+    'What your yard needs this month.': 'Lo que su jardín necesita este mes.',
+    'Georgia lawns run on their own calendar, from the yellow pollen of spring to the long mowing season and the leaf drop in fall. Tap a month to see what we focus on.':
+      'Los jardines de Georgia siguen su propio calendario, desde el polen amarillo de la primavera hasta la larga temporada de corte y la caída de hojas en otoño. Toque un mes para ver en qué nos enfocamos.',
+    'Choose a month': 'Elija un mes',
+    'From first call to a finished yard.': 'De la primera llamada a un jardín terminado.',
+    'Reach us at 404-447-4488 or send the estimate form below. Tell us what the yard needs, or just that it needs help.':
+      'Comuníquese al 404-447-4488 o envíe el formulario de abajo. Díganos qué necesita su jardín, o simplemente que necesita ayuda.',
+    'Free estimate': 'Presupuesto gratis',
+    'We look at the property, talk through what you want, and give you a clear price before any work starts.':
+      'Revisamos la propiedad, hablamos de lo que usted quiere y le damos un precio claro antes de empezar.',
+    'We get to work': 'Manos a la obra',
+    'Your visit goes on the schedule. Once a season or every week, the crew shows up and leaves it clean.':
+      'Su visita queda en el calendario. Una vez por temporada o cada semana, el equipo llega y lo deja todo limpio.',
+    'Tell us about your yard.': 'Cuéntenos sobre su jardín.',
+    'Fill this in and it opens a text message to us with your details already written. Prefer to talk? Call any time.':
+      'Llene este formulario y se abrirá un mensaje de texto para nosotros con sus datos ya escritos. ¿Prefiere hablar? Llame cuando quiera.',
+    'Call now': 'Llame ahora', 'Copy number': 'Copiar número', 'Copied': 'Copiado', 'Selected, press copy': 'Seleccionado, presione copiar',
+    'Your name': 'Su nombre', 'Phone': 'Teléfono', 'Street or neighborhood': 'Calle o vecindario',
+    'e.g. off N Marietta Pkwy': 'p. ej. cerca de N Marietta Pkwy',
+    'What do you need?': '¿Qué necesita?', 'Anything else?': '¿Algo más?', '(optional)': '(opcional)',
+    'Corner lot, back beds are overgrown, want it done before Thanksgiving.':
+      'Lote de esquina, los canteros de atrás están descuidados, lo quiero listo antes de Thanksgiving.',
+    'Opens your messaging app with this request filled in. Nothing is sent until you hit send.':
+      'Abre su app de mensajes con esta solicitud ya escrita. No se envía nada hasta que usted toque enviar.',
+    'Text my request': 'Enviar mi solicitud por texto',
+    'This month': 'Este mes', 'now': 'hoy',
+    'Add your name and street or neighborhood so we know where to come.': 'Agregue su nombre y su calle o vecindario para saber a dónde ir.',
+    'Pick at least one service, or choose Clean-up if you are not sure.': 'Elija al menos un servicio, o Limpieza si no está seguro.'
+  };
+  let lang = 'en';
+  const t = (s) => (lang === 'es' && ES_T[s]) || s;
+  const textNodes = [];
+  const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode: (n) => (n.parentElement.closest('script, style') || !n.nodeValue.trim()) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT
+  });
+  while (tw.nextNode()) textNodes.push([tw.currentNode, tw.currentNode.nodeValue]);
+  const attrEls = [...document.querySelectorAll('[placeholder], [aria-label]')].map((el) => [el, el.getAttribute('placeholder'), el.getAttribute('aria-label')]);
+  const metaDesc = document.querySelector('meta[name="description"]'), descEn = metaDesc.content;
+  const langListeners = [];
+  const toggle = document.getElementById('langToggle');
+  function setLang(next, animate) {
+    lang = next;
+    document.documentElement.lang = lang;
+    textNodes.forEach(([n, en]) => { const k = en.trim(); n.nodeValue = lang === 'es' && ES_T[k] ? en.replace(k, ES_T[k]) : en; });
+    attrEls.forEach(([el, ph, al]) => { if (ph) el.setAttribute('placeholder', t(ph)); if (al) el.setAttribute('aria-label', t(al)); });
+    metaDesc.content = lang === 'es'
+      ? 'Hummingbird Outdoors LLC: mantenimiento completo de jardines, mulch, paja de pino, bordes, poda, lavado a presión y limpieza. Presupuestos gratis. Llame al 404-447-4488.'
+      : descEn;
+    toggle.classList.toggle('es', lang === 'es');
+    toggle.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+    langListeners.forEach((fn) => fn());
+    if (animate && !reduce) document.getElementById('main').animate([{ opacity: .35, transform: 'translateY(4px)' }, { opacity: 1, transform: 'none' }], { duration: 420, easing: 'cubic-bezier(.2,.7,.2,1)' });
+    try { localStorage.setItem('ho-lang', lang); } catch (e) {}
+  }
+  toggle.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b && b.dataset.lang !== lang) setLang(b.dataset.lang, true); });
+
   /* Header border on scroll */
   const top = document.getElementById('top');
   const onScroll = () => top.classList.toggle('scrolled', scrollY > 8);
@@ -631,48 +753,86 @@ footer p { color: var(--ink-soft); font-size: var(--s-small); }
     ['Nov', 'November', 'Peak leaf drop across Cobb County.', ['Leaf removal, once or on a schedule', 'Gutter-line and bed clean-out', 'Pressure wash before the holidays'], 7],
     ['Dec', 'December', 'Quiet season, and a good time for a reset.', ['Final leaf clean-up', 'Holiday-ready tidy: edging, blowing, trimming', 'Storm debris removal as needed'], 3]
   ];
+  const MES = [
+    ['Ene', 'Enero', 'Temporada de reposo. El mejor momento para ver la estructura del jardín.', ['Limpieza invernal de hojas y ramas caídas', 'Poda de arbustos y setos mientras las plantas descansan', 'Perfilado de bordes para preparar la primavera']],
+    ['Feb', 'Febrero', 'El último mes tranquilo antes de que todo despierte.', ['Limpieza final de hojas y escombros', 'Recorte de pastos ornamentales y perennes', 'Reserve temprano el mulch y la paja de pino de primavera']],
+    ['Mar', 'Marzo', 'Empieza el reverdecer de primavera, y también el polen.', ['Mulch o paja de pino fresca en todos los canteros', 'Primeros cortes de festuca alta', 'Bordes nítidos en entradas y caminos']],
+    ['Abr', 'Abril', 'Pico de polen. Todo afuera se pone amarillo verdoso.', ['Lavado a presión de entradas, patios y revestimiento cuando baja el polen', 'La bermuda y la zoysia comienzan su temporada', 'Empieza el corte semanal']],
+    ['May', 'Mayo', 'El crecimiento va a toda velocidad.', ['Corte semanal y desbroce', 'Poda de setos y arbustos después de la brotación', 'Deshierbe en los canteros']],
+    ['Jun', 'Junio', 'Calor y humedad. La altura de corte importa más que nunca.', ['Corte semanal a la altura adecuada para su césped', 'Bordes para que las líneas no se pierdan', 'Refuerzo de mulch donde los canteros se han adelgazado']],
+    ['Jul', 'Julio', 'Pleno verano. Manténgalo parejo y bien regado.', ['Corte semanal y soplado de superficies', 'Poda de todo lo que roce la casa', 'Pequeños detalles alrededor de cercas y buzones']],
+    ['Ago', 'Agosto', 'El último tramo caluroso antes del alivio.', ['Corte, poda y bordes cada semana', 'Lavado a presión del moho en caminos sombreados', 'Planifique la paja de pino de otoño']],
+    ['Sep', 'Septiembre', 'Noches más frescas. Los céspedes de festuca empiezan a recuperarse.', ['El corte continúa en los días cálidos', 'Poda de arbustos antes del otoño', 'Reserve la limpieza de otoño']],
+    ['Oct', 'Octubre', 'Empiezan a caer las hojas y el jardín necesita una puesta a punto.', ['Limpieza y soplado de hojas', 'Renovación de paja de pino en otoño para canteros limpios todo el invierno', 'Últimos cortes regulares del césped de temporada cálida']],
+    ['Nov', 'Noviembre', 'Pico de caída de hojas en todo el condado de Cobb.', ['Recolección de hojas, una vez o con horario fijo', 'Limpieza de canteros y a lo largo de las canaletas', 'Lavado a presión antes de las fiestas']],
+    ['Dic', 'Diciembre', 'Temporada tranquila, y buen momento para una puesta a punto.', ['Limpieza final de hojas', 'Arreglo para las fiestas: bordes, soplado y poda', 'Retiro de escombros de tormentas según sea necesario']]
+  ];
   const now = new Date().getMonth();
+  let sel = now;
   const wrapM = document.getElementById('months'), card = document.getElementById('monthCard');
   const show = (i, animate) => {
+    sel = i;
     [...wrapM.children].forEach((b, j) => b.setAttribute('aria-pressed', String(i === j)));
-    const m = M[i];
-    card.innerHTML = '<span class="eyebrow">' + (i === now ? 'This month' : 'Month ' + (i + 1) + ' of 12') + '</span>' +
-      '<div class="mname">' + m[1] + '</div><p class="note">' + m[2] + '</p><ul>' + m[3].map((t) => '<li>' + t + '</li>').join('') + '</ul>';
+    const m = (lang === 'es' ? MES : M)[i];
+    const label = i === now ? t('This month') : (lang === 'es' ? 'Mes ' + (i + 1) + ' de 12' : 'Month ' + (i + 1) + ' of 12');
+    card.innerHTML = '<span class="eyebrow">' + label + '</span>' +
+      '<div class="mname">' + m[1] + '</div><p class="note">' + m[2] + '</p><ul>' + m[3].map((x) => '<li>' + x + '</li>').join('') + '</ul>';
     if (animate && !reduce) { card.classList.remove('swap'); void card.offsetWidth; card.classList.add('swap'); }
   };
   M.forEach((m, i) => {
     const b = document.createElement('button');
-    b.type = 'button'; b.id = 'm-' + i; b.setAttribute('aria-label', m[1]);
+    b.type = 'button'; b.id = 'm-' + i;
     if (i === now) b.classList.add('now');
-    b.innerHTML = m[0] + '<span class="bar" style="height:' + (m[4] * 3) + 'px"></span>';
+    b.innerHTML = '<span class="ab"></span><span class="bar" style="height:' + (m[4] * 3) + 'px"></span>';
     b.addEventListener('click', () => show(i, true));
     wrapM.appendChild(b);
   });
+  const labelMonths = () => [...wrapM.children].forEach((b, i) => {
+    const m = (lang === 'es' ? MES : M)[i];
+    b.firstChild.textContent = m[0]; b.setAttribute('aria-label', m[1]); b.dataset.now = t('now');
+  });
+  labelMonths();
   show(now, false);
+  langListeners.push(() => { labelMonths(); show(sel, false); });
 
   /* Copy number */
   const copyBtn = document.getElementById('copyBtn');
+  const copyText = copyBtn.firstChild;
   copyBtn.addEventListener('click', () => {
-    const done = () => { copyBtn.textContent = 'Copied'; setTimeout(() => (copyBtn.textContent = 'Copy number'), 1800); };
-    const fallback = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById('phoneNum')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); copyBtn.textContent = 'Selected, press copy'; };
+    const done = () => { copyText.nodeValue = t('Copied'); setTimeout(() => (copyText.nodeValue = t('Copy number')), 1800); };
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById('phoneNum')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); copyText.nodeValue = t('Selected, press copy'); };
     if (navigator.clipboard) navigator.clipboard.writeText('404-447-4488').then(done, fallback); else fallback();
   });
 
   /* Estimate form -> prefilled text message */
+  const err = document.getElementById('err');
+  let errKey = '';
+  const setErr = (k) => { errKey = k; err.textContent = k ? t(k) : ''; };
+  langListeners.push(() => setErr(errKey));
   document.getElementById('estForm').addEventListener('submit', (e) => {
     e.preventDefault();
     const v = (id) => document.getElementById(id).value.trim();
-    const services = [...document.querySelectorAll('.chips input:checked')].map((c) => c.value);
-    const err = document.getElementById('err');
-    if (!v('f-name') || !v('f-addr')) { err.textContent = 'Add your name and street or neighborhood so we know where to come.'; return; }
-    if (!services.length) { err.textContent = 'Pick at least one service, or choose Clean-up if you are not sure.'; return; }
-    err.textContent = '';
-    const body = 'Hi Hummingbird Outdoors, I would like a free estimate.\n' +
-      'Name: ' + v('f-name') + (v('f-phone') ? '\nPhone: ' + v('f-phone') : '') +
-      '\nLocation: ' + v('f-addr') + '\nServices: ' + services.join(', ') + (v('f-notes') ? '\nNotes: ' + v('f-notes') : '');
+    const services = [...document.querySelectorAll('.chips input:checked')].map((c) => t(c.value));
+    if (!v('f-name') || !v('f-addr')) { setErr('Add your name and street or neighborhood so we know where to come.'); return; }
+    if (!services.length) { setErr('Pick at least one service, or choose Clean-up if you are not sure.'); return; }
+    setErr('');
+    const L = lang === 'es'
+      ? ['Hola Hummingbird Outdoors, quisiera un presupuesto gratis.', 'Nombre', 'Teléfono', 'Ubicación', 'Servicios', 'Notas']
+      : ['Hi Hummingbird Outdoors, I would like a free estimate.', 'Name', 'Phone', 'Location', 'Services', 'Notes'];
+    const body = L[0] + '\n' +
+      L[1] + ': ' + v('f-name') + (v('f-phone') ? '\n' + L[2] + ': ' + v('f-phone') : '') +
+      '\n' + L[3] + ': ' + v('f-addr') + '\n' + L[4] + ': ' + services.join(', ') + (v('f-notes') ? '\n' + L[5] + ': ' + v('f-notes') : '');
     const sep = /iPhone|iPad|Mac/.test(navigator.userAgent) ? '&' : '?';
     location.href = 'sms:+14044474488' + sep + 'body=' + encodeURIComponent(body);
   });
+
+  /* Starting language: ?lang=es link, then the visitor's saved choice, then their browser language */
+  let start0 = new URLSearchParams(location.search).get('lang');
+  if (start0 !== 'es' && start0 !== 'en') {
+    try { start0 = localStorage.getItem('ho-lang'); } catch (e) { start0 = null; }
+  }
+  if (start0 !== 'es' && start0 !== 'en') start0 = /^es\b/i.test(navigator.language || '') ? 'es' : 'en';
+  if (start0 === 'es') setLang('es', false);
 })();
 </script>
 </body>
