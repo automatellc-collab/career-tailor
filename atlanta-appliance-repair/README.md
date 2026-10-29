@@ -12,7 +12,9 @@ assets/      logo + photos (from the company's current site)
 
 Preview locally: `python3 -m http.server` in this folder, then open http://localhost:8000.
 
-Deploy on Vercel: import the repo and set **Root Directory** to `atlanta-appliance-repair` (framework preset: Other).
+Live on Render: https://mrv-appliance-repair.onrender.com (static site `mrv-appliance-repair`, publish path `atlanta-appliance-repair`, no build step). Every push to `claude/atlanta-appliance-repair-site-e4gah3` redeploys automatically.
+
+Design file: https://www.figma.com/design/CbalGRdDSfAqv7765X3m5X (tokens, components, desktop homepage).
 
 ## Before launch
 - [ ] Replace the 5 **sample reviews** in `config.js` with real Google/Yelp reviews (they show a "Sample" tag until `sample: false`).

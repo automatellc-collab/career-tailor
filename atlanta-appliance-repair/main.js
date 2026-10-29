@@ -279,7 +279,7 @@
     name: S.name, legalName: S.legalName, slogan: S.tagline, telephone: "+1-" + S.phone, url: "https://www." + S.domain + "/",
     address: { "@type": "PostalAddress", addressLocality: "Loganville", addressRegion: "GA", postalCode: "30052", addressCountry: "US" },
     areaServed: names.map((n) => ({ "@type": "City", name: n + ", GA" })),
-    openingHours: "Mo-Fr 07:00-19:00", logo: "https://www." + S.domain + "/assets/logo-512.png", image: "https://www." + S.domain + "/assets/tech-fridge.jpg", sameAs: S.social.map((s) => s.url),
+    openingHours: "Mo-Fr 07:00-19:00", logo: "https://static.wixstatic.com/media/8bd3a7_6e0dcece9cdf460c81851a582f0d6998~mv2.png/v1/fill/w_512,h_512/logo.png", image: "https://static.wixstatic.com/media/8bd3a7_4e7449261ff84f96b01e872d4bd3b5a7~mv2.jpg/v1/fill/w_1200,h_630,q_85/tech-fridge.jpg", sameAs: S.social.map((s) => s.url),
   });
   $("#footer-social").innerHTML = S.social.map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}</a></li>`).join("");
 })();
