@@ -7,7 +7,7 @@ index.html   page structure
 styles.css   design system + animations
 main.js      rendering + interactions
 config.js    ALL business content (edit this file)
-assets/      seal mark
+assets/      logo + photos (from the company's current site)
 ```
 
 Preview locally: `python3 -m http.server` in this folder, then open http://localhost:8000.
@@ -18,4 +18,4 @@ Deploy on Vercel: import the repo and set **Root Directory** to `atlanta-applian
 - [ ] Replace the 5 **sample reviews** in `config.js` with real Google/Yelp reviews (they show a "Sample" tag until `sample: false`).
 - [ ] Add a form backend (`formEndpoint`). Without one, the booking form opens a pre-filled text to 770-757-3097.
 - [ ] Confirm the ZIP prefixes, owner name and email (if public).
-- [ ] Optionally swap `assets/mascot.svg` for the real mascot vector from the wrap vendor.
+- [ ] The logo is the 1563px PNG from their Wix site. For print or very large use, ask the wrap vendor for the vector original.

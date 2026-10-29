@@ -10,7 +10,9 @@
   <meta property="og:title" content="Mr. V Appliance Repair — Reputation Built On Quality" />
   <meta property="og:description" content="Family-owned, EPA-certified appliance repair across Metro Atlanta. Warranty on every repair." />
   <meta property="og:type" content="website" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23D2202F'/%3E%3Cpath d='M17 18l15 30 15-30' fill='none' stroke='white' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <link rel="icon" type="image/png" href="assets/logo-64.png" />
+  <link rel="apple-touch-icon" href="assets/logo-192.png" />
+  <meta property="og:image" content="https://www.atlantaappliancerepairbymrv.com/assets/tech-fridge.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -24,9 +26,7 @@
   <header class="nav" id="nav">
     <div class="container nav__inner">
       <a href="#top" class="brand" aria-label="Home">
-        <span class="brand__mark" aria-hidden="true">
-          <svg viewBox="0 0 64 64"><path d="M17 18l15 30 15-30" /></svg>
-        </span>
+        <img class="brand__logo" src="assets/logo-192.png" alt="" width="52" height="52" />
         <span class="brand__text">
           <strong data-cfg="shortName">Mr. V</strong>
           <small>Appliance Repair · Atlanta</small>
@@ -62,10 +62,10 @@
       <div class="hero__grid" aria-hidden="true"></div>
       <div class="container hero__inner">
         <div class="hero__copy">
-          <p class="eyebrow reveal"><span class="dot"></span> <span data-cfg="tagline"></span>&nbsp;·&nbsp;Metro Atlanta</p>
+          <p class="eyebrow reveal"><span class="dot"></span><span><span data-cfg="tagline"></span> · Metro Atlanta</span></p>
           <h1 class="hero__title">
             <span class="line"><span>Your appliances,</span></span>
-            <span class="line"><span>running like <em>new</em></span></span>
+            <span class="line"><span>running like <em>new</em>,</span></span>
             <span class="line"><span>done right.</span></span>
           </h1>
           <p class="hero__lede reveal" style="--d:.5s">Family-owned and EPA-certified, with technicians retrained every year. We repair refrigerators, washers, dryers, ovens, dishwashers and commercial kitchens, and every repair carries our warranty.</p>
@@ -78,20 +78,15 @@
         </div>
 
         <!-- Hero visual: line-art appliance with live diagnostic card -->
-        <div class="hero__visual reveal" style="--d:.3s" aria-hidden="true">
-          <div class="appliance">
-            <svg viewBox="0 0 320 440" class="appliance__svg">
-              <rect class="draw" x="40" y="20" width="240" height="400" rx="22" />
-              <line class="draw" x1="40" y1="170" x2="280" y2="170" />
-              <rect class="draw" x="250" y="60" width="8" height="80" rx="4" />
-              <rect class="draw" x="250" y="200" width="8" height="120" rx="4" />
-              <rect class="draw d2" x="72" y="56" width="110" height="64" rx="10" />
-              <path class="draw d2" d="M92 88h18l8-14 12 28 8-14h24" />
-              <circle class="draw d3" cx="160" cy="410" r="0" />
-            </svg>
-            <div class="frost" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="hero__visual reveal" style="--d:.3s">
+          <div class="appliance appliance--photo">
+            <picture>
+              <source srcset="assets/tech-fridge.webp" type="image/webp" />
+              <img src="assets/tech-fridge.jpg" alt="Mr. V technician testing a refrigerator with a multimeter" width="1400" height="1049" fetchpriority="high" />
+            </picture>
           </div>
-          <div class="diag card-glass">
+          <img class="hero__mascot" src="assets/logo-512.webp" alt="" width="512" height="512" />
+          <div class="diag card-glass" aria-hidden="true">
             <div class="diag__row"><span class="diag__label">Diagnostic</span><span class="chip chip--ok">Resolved</span></div>
             <p class="diag__title">Refrigerator · Not cooling</p>
             <div class="diag__bar"><span></span></div>
@@ -101,7 +96,7 @@
               <li><i></i>Temp restored to 37°F</li>
             </ul>
           </div>
-          <div class="eta card-glass">
+          <div class="eta card-glass" aria-hidden="true">
             <span class="eta__icon"><svg viewBox="0 0 24 24"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="9"/></svg></span>
             <div><small id="eta-label">Hours</small><strong id="eta-slot">Mon–Fri · 7 AM–7 PM</strong></div>
           </div>
@@ -140,6 +135,9 @@
           <h2 class="reveal">From broken to back in service, <em>without the runaround.</em></h2>
           <p class="reveal muted">A family business, so no call centers. You deal directly with the people who fix your appliance.</p>
           <a href="#book" class="btn btn--dark reveal magnetic">Start your repair</a>
+          <figure class="photo photo--tall reveal">
+            <picture><source srcset="assets/tech-washer.webp" type="image/webp" /><img src="assets/tech-washer.jpg" alt="Mr. V technician servicing a front-load washer" width="933" height="1400" loading="lazy" /></picture>
+          </figure>
         </header>
         <ol class="steps" id="steps">
           <li class="step reveal"><span class="step__n">01</span><div><h3>Book in 60 seconds</h3><p>Call or request online. Tell us the appliance and what it's doing, and we'll confirm your appointment. Book today and save 10%.</p></div></li>
@@ -154,11 +152,11 @@
     <section class="section" id="why">
       <div class="container why">
         <div class="why__card why__card--big reveal">
+          <picture class="why__bg"><source srcset="assets/tech-oven.webp" type="image/webp" /><img src="assets/tech-oven.jpg" alt="" width="1400" height="933" loading="lazy" /></picture>
           <p class="kicker" data-cfg="tagline"></p>
           <h2>Family-owned. <em>Five-star standards.</em></h2>
           <p class="muted">Mr. V is a family-owned company, not a franchise. Our name is on every vehicle and our reputation goes into every repair. That's how more than 87,000 Atlanta-area customers have come to trust us with their kitchens and laundry rooms.</p>
           <div class="signature">— <span data-cfg="ownerName"></span></div>
-          <img class="why__mascot" src="assets/mascot.svg" alt="" aria-hidden="true" />
         </div>
         <div class="why__card reveal" style="--d:.1s">
           <span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
@@ -245,6 +243,9 @@
           <p class="muted reveal">Send us the details and we'll call you back to confirm your appointment. Prefer to talk now?</p>
           <a data-tel href="#" class="bigphone reveal"><span data-cfg="phone"></span></a>
           <dl class="hours reveal" id="hours"></dl>
+          <figure class="photo photo--wide reveal">
+            <picture><source srcset="assets/handshake.webp" type="image/webp" /><img src="assets/handshake.jpg" alt="Customer receiving a Mr. V business card at her front door" width="1050" height="1400" loading="lazy" /></picture>
+          </figure>
         </div>
         <form class="form card reveal" id="book-form" novalidate>
           <fieldset>
@@ -285,6 +286,7 @@
 
     <!-- ─── FINAL CTA ──────────────────────────────── -->
     <section class="cta">
+      <picture class="cta__bg"><source srcset="assets/tech-kitchen.webp" type="image/webp" /><img src="assets/tech-kitchen.jpg" alt="" width="933" height="1400" loading="lazy" /></picture>
       <div class="container cta__inner reveal">
         <h2>Don't let a broken appliance <em>run your week.</em></h2>
         <div class="cta__actions">
@@ -299,7 +301,7 @@
     <div class="container footer__inner">
       <div>
         <a href="#top" class="brand brand--light">
-          <span class="brand__mark" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M17 18l15 30 15-30" /></svg></span>
+          <img class="brand__logo" src="assets/logo-192.png" alt="" width="52" height="52" loading="lazy" />
           <span class="brand__text"><strong data-cfg="shortName"></strong><small>Appliance Repair · Atlanta</small></span>
         </a>
         <p class="footer__blurb"><span data-cfg="tagline"></span>. Locally owned appliance repair serving Metro Atlanta.</p>
