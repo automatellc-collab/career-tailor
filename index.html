@@ -157,7 +157,10 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
 }
 .lawn .tag strong { display: block; font: 700 1.05rem/1.1 var(--f-display); letter-spacing: -.01em; margin-top: 2px; }
-.lawn .bird { position: absolute; width: 70px; top: 18%; left: -90px; pointer-events: none; filter: drop-shadow(0 8px 10px rgba(0,0,0,.25)); }
+.lawn .bird {
+  position: absolute; left: 0; top: 0; width: 76px; height: 61px; overflow: visible; pointer-events: none;
+  transform: translate3d(-140px, 60px, 0); will-change: transform; filter: drop-shadow(0 12px 8px rgba(0,0,0,.2));
+}
 @media (max-width: 860px) {
   .hero .wrap { grid-template-columns: 1fr; }
   .lawn { aspect-ratio: 5 / 4; border-radius: 22px 22px 22px 80px; }
@@ -374,7 +377,21 @@ footer p { color: var(--ink-soft); font-size: var(--s-small); }
 
       <div class="lawn" aria-hidden="true">
         <canvas id="lawn"></canvas>
-        <svg class="bird" id="flybird"><use href="#bird"/></svg>
+        <svg class="bird" id="flybird" viewBox="0 0 80 64">
+          <defs><filter id="hb-blur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.8"/></filter></defs>
+          <path id="hb-fan" d="M37 28 L12 14 A28 28 0 0 1 47 0 Z" fill="var(--straw)" opacity=".3" filter="url(#hb-blur)"/>
+          <path d="M24 35 L4 46 L8 40 L2 37 L22 31 Z" fill="var(--pine)"/>
+          <path d="M20 33 C24 25 37 23 47 26 C51 28 52 31 50 34 C45 41 31 42 20 33 Z" fill="var(--leaf)"/>
+          <path d="M24 35 C33 40 44 39 50 34 C46 42 31 44 24 35 Z" fill="var(--pine)"/>
+          <circle cx="52" cy="27" r="6.2" fill="var(--pine)"/>
+          <path d="M46.5 30 C49 35 55 34 57 30.5 C53 32 50 32 46.5 30 Z" fill="var(--ruby)"/>
+          <path d="M57.5 25.6 L77 22.6 L57.6 28.2 Z" fill="#16201a"/>
+          <circle cx="53.8" cy="25.6" r="1.5" fill="#0f1511"/><circle cx="54.3" cy="25.1" r=".5" fill="#fff"/>
+          <g id="hb-wing">
+            <path d="M37 28 C31 19 27 9 30 2 C36 8 41 18 39 28 Z" fill="var(--straw)"/>
+            <path d="M37.5 27 C33.5 20 31.5 12 32 6" stroke="rgba(0,0,0,.18)" stroke-width=".8" fill="none"/>
+          </g>
+        </svg>
         <div class="tag">
           <span>Tall fescue<strong>3–4 in. cut</strong></span>
           <span>Bermuda<strong>1–2 in. cut</strong></span>
@@ -717,26 +734,63 @@ footer p { color: var(--ink-soft); font-size: var(--s-small); }
     if (start === null) start = ts;
     progress = Math.min(1, (ts - start) / 2600);
     draw();
-    if (progress < 1) requestAnimationFrame(tick); else fly();
+    if (progress < 1) requestAnimationFrame(tick);
   }
-  function fly() {
-    const bird = document.getElementById('flybird');
-    if (!bird.animate) return;
-    bird.animate([
-      { transform: 'translate(0,0) rotate(-4deg)' },
-      { transform: 'translate(' + W * .45 + 'px,' + (-H * .06) + 'px) rotate(3deg)', offset: .45 },
-      { transform: 'translate(' + W * .58 + 'px,' + (H * .02) + 'px) rotate(0deg)', offset: .7 },
-      { transform: 'translate(' + W * .62 + 'px,' + (-H * .01) + 'px) rotate(-2deg)' }
-    ], { duration: 2600, easing: 'cubic-bezier(.3,.7,.3,1)', fill: 'forwards' });
-    const wing = bird.querySelector('use');
-    wing.animate([{ transform: 'scaleY(1)' }, { transform: 'scaleY(.82)' }, { transform: 'scaleY(1)' }],
-      { duration: 90, iterations: Infinity });
+
+  /* Hummingbird: spring physics between hover spots (fast dart, soft stop),
+     a layered hover bob, and wings that buzz independently of the body */
+  const bird = document.getElementById('flybird');
+  const hbWing = document.getElementById('hb-wing'), hbFan = document.getElementById('hb-fan');
+  const BW = 76, BH = 61;
+  const hb = { x: -BW, y: 0, vx: 0, vy: 0, tx: 0, ty: 0, face: 1, want: 1, wing: 0, t: 0, next: 0 };
+  let hbOn = false, hbLast = null, hbInView = true, hbStarted = false;
+  const pose = (x, y, tilt, face) => {
+    bird.style.transform = 'translate3d(' + (x - BW / 2).toFixed(1) + 'px,' + (y - BH / 2).toFixed(1) + 'px,0) rotate(' + tilt.toFixed(2) + 'deg) scaleX(' + face.toFixed(3) + ')';
+  };
+  const restPose = () => { pose(W * .58, H * .26, -8, 1); hbWing.setAttribute('transform', 'rotate(-12 38 28)'); };
+  function hbFrame(ts) {
+    if (!hbOn) return;
+    const dt = hbLast === null ? 1 / 60 : Math.min(.05, (ts - hbLast) / 1000);
+    hbLast = ts; hb.t += dt;
+    if (hb.t >= hb.next) {
+      // next hover spot: the open lawn above the info card
+      hb.tx = W * (.3 + Math.random() * .5); hb.ty = H * (.12 + Math.random() * .3);
+      hb.next = hb.t + 1.5 + Math.random() * 2.3;
+    }
+    const k = 34, c = 10.5; // slightly under-damped: a tiny overshoot reads as braking
+    hb.vx += ((hb.tx - hb.x) * k - hb.vx * c) * dt;
+    hb.vy += ((hb.ty - hb.y) * k - hb.vy * c) * dt;
+    hb.x += hb.vx * dt; hb.y += hb.vy * dt;
+    if (Math.abs(hb.vx) > 45) hb.want = Math.sign(hb.vx);
+    hb.face += (hb.want - hb.face) * Math.min(1, dt * 12); // turns over a few frames instead of snapping
+    const speed = Math.hypot(hb.vx, hb.vy);
+    const bobY = Math.sin(hb.t * 5.1) * 2.4 + Math.sin(hb.t * 11.3) * .7;
+    const bobX = Math.sin(hb.t * 3.2) * 1.3;
+    // nose-up while hovering, pitching into the direction of travel when darting
+    const tilt = Math.max(-26, Math.min(26, hb.vx * .045)) - 8 * hb.face + Math.sin(hb.t * 4.3) * 1.5;
+    pose(hb.x + bobX, hb.y + bobY, tilt, hb.face);
+    // ~35 beats/s sampled at screen rate: the wing shimmers like the real blur
+    hb.wing += dt * Math.PI * 2 * 35;
+    hbWing.setAttribute('transform', 'rotate(' + (-22 + 42 * Math.sin(hb.wing)).toFixed(1) + ' 38 28)');
+    hbFan.setAttribute('opacity', (.22 + Math.min(.2, speed / 1500)).toFixed(2));
+    requestAnimationFrame(hbFrame);
   }
-  new ResizeObserver(size).observe(cv);
+  const hbRun = () => {
+    const should = hbStarted && hbInView && !document.hidden;
+    if (should && !hbOn) { hbOn = true; hbLast = null; requestAnimationFrame(hbFrame); }
+    else if (!should) hbOn = false;
+  };
+  const startBird = () => {
+    hb.x = -BW; hb.y = H * .34; hb.tx = W * .58; hb.ty = H * .24; hb.next = 2.2;
+    hbStarted = true; hbRun();
+  };
+  new IntersectionObserver((e) => { hbInView = e[0].isIntersecting; hbRun(); }).observe(cv);
+  document.addEventListener('visibilitychange', hbRun);
+
+  new ResizeObserver(() => { size(); if (reduce) restPose(); }).observe(cv);
   matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', draw);
   new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-  if (!reduce) requestAnimationFrame(tick);
-  else { const b = document.getElementById('flybird'); b.style.left = '55%'; }
+  if (!reduce) { requestAnimationFrame(tick); setTimeout(startBird, 1500); }
 
   /* Seasons calendar */
   const M = [
