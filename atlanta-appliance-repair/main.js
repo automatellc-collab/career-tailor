@@ -168,6 +168,48 @@
   });
   $$(".field input").forEach((el) => el.addEventListener("input", () => el.parentElement.classList.remove("is-error")));
 
+  // ─── Symptom checker ────────────────────────────────
+  const tabs = $("#chk-tabs"), symBox = $("#chk-symptoms"), result = $("#chk-result");
+  let ci = 0, si = 0;
+  tabs.innerHTML = S.checker.map((a, i) => `<button role="tab" aria-selected="${i === 0}" data-i="${i}">${esc(a.name)}</button>`).join("");
+  const renderResult = () => {
+    const a = S.checker[ci], sy = a.symptoms[si];
+    result.classList.remove("is-swap"); void result.offsetWidth; result.classList.add("is-swap");
+    result.classList.toggle("is-urgent", !!sy.urgent);
+    result.innerHTML = `
+      <p class="mono-label">${sy.urgent ? "Safety first" : "Usual suspects"}</p>
+      <h3>${esc(a.name)} · ${esc(sy.label)}</h3>
+      <ol class="causes">${sy.causes.map((c) => `<li>${esc(c)}</li>`).join("")}</ol>
+      <p class="tip"><b>${sy.urgent ? "Do this now:" : "Quick check:"}</b> ${esc(sy.tip)}</p>
+      ${sy.urgent ? `<a class="btn btn--accent" href="${telHref}">Call ${esc(S.phone)}</a>` : `<a class="btn btn--accent magnetic" href="#book" id="chk-book">Book this repair ${arrow}</a>`}
+      <p class="fine">Common causes only. A technician confirms the real fault on site.</p>`;
+    const b = $("#chk-book");
+    if (b) b.addEventListener("click", () => {
+      const r = $(`#appliance-pills input[value="${CSS.escape(a.service)}"]`); if (r) r.checked = true;
+      const issue = $("#f-issue"); issue.value = `${a.name}: ${sy.label.toLowerCase()}`; issue.dispatchEvent(new Event("input"));
+    });
+  };
+  const renderSymptoms = () => {
+    symBox.innerHTML = S.checker[ci].symptoms.map((sy, i) => `
+      <button role="radio" aria-checked="${i === si}" data-i="${i}" class="${sy.urgent ? "is-urgent" : ""}"><span>${esc(sy.label)}</span><i aria-hidden="true"></i></button>`).join("");
+    $$("button", symBox).forEach((b) => b.addEventListener("click", () => {
+      si = +b.dataset.i; $$("button", symBox).forEach((x) => x.setAttribute("aria-checked", x === b)); renderResult();
+    }));
+    renderResult();
+  };
+  $$("button", tabs).forEach((b) => b.addEventListener("click", () => {
+    ci = +b.dataset.i; si = 0; $$("button", tabs).forEach((x) => x.setAttribute("aria-selected", x === b)); renderSymptoms();
+  }));
+  renderSymptoms();
+
+  // ─── Copy number ────────────────────────────────────
+  $("#copy-phone").addEventListener("click", async (e) => {
+    const b = e.currentTarget;
+    try { await navigator.clipboard.writeText(S.phone); b.textContent = "Copied ✓"; }
+    catch (_) { b.textContent = S.phone; }
+    setTimeout(() => (b.textContent = "Copy number"), 2000);
+  });
+
   // ─── Nav: scroll state, drawer, active link ─────────
   const nav = $("#nav"), burger = $(".nav__burger"), drawer = $("#drawer"), bar = $(".mobilebar");
   const onScroll = () => {

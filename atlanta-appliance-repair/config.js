@@ -92,6 +92,45 @@ window.SITE = {
     { sample: true, name: "Homeowner", area: "Grayson", text: "Dryer wasn't heating. Fixed it and showed me how to keep the vent clear." },
   ],
 
+  // Symptom checker: common, general causes, not a diagnosis. `service` must match a services[].title.
+  checker: [
+    { name: "Refrigerator", service: "Refrigerator", symptoms: [
+      { label: "Not cooling", causes: ["Dirty condenser coils", "Failed evaporator fan motor", "Faulty start relay or compressor"], tip: "Check that the vents inside aren't blocked by food and the thermostat wasn't bumped." },
+      { label: "Leaking water", causes: ["Clogged defrost drain", "Cracked water inlet line", "Worn door gasket"], tip: "Look under the crisper drawers for ice build-up around the drain." },
+      { label: "Loud or clicking", causes: ["Condenser fan obstruction", "Evaporator fan icing", "Compressor relay cycling"], tip: "Note when it happens (constantly, or only on start-up) so the tech can narrow it down." },
+      { label: "Ice maker stopped", causes: ["Frozen fill tube", "Failed water inlet valve", "Ice maker module fault"], tip: "Make sure the shut-off arm is down and the water line valve is fully open." },
+    ] },
+    { name: "Washer", service: "Washer & Dryer", symptoms: [
+      { label: "Won't drain", causes: ["Clogged drain pump filter", "Kinked drain hose", "Failed drain pump"], tip: "Many front-loaders have a pump filter behind a small panel at the bottom front." },
+      { label: "Won't spin", causes: ["Worn drive belt", "Faulty lid or door lock", "Motor coupler failure"], tip: "Try a smaller, balanced load first. Overloading can stop the spin cycle." },
+      { label: "Leaking", causes: ["Torn door boot seal", "Loose hose connection", "Cracked tub or pump"], tip: "Wipe the floor dry and run a short cycle to see where the water first appears." },
+      { label: "Shaking or banging", causes: ["Worn suspension springs", "Failed shock absorbers", "Unlevel feet"], tip: "Check the machine is level and wasn't left with shipping bolts in." },
+    ] },
+    { name: "Dryer", service: "Washer & Dryer", symptoms: [
+      { label: "No heat", causes: ["Blown thermal fuse", "Failed heating element or igniter", "Restricted vent airflow"], tip: "Check the breaker: electric dryers need both legs of a 240V circuit to heat." },
+      { label: "Takes too long", causes: ["Clogged exhaust vent", "Faulty cycling thermostat", "Moisture sensor dirty"], tip: "Clean the lint screen and check the outside vent flap opens when it runs." },
+      { label: "Drum won't turn", causes: ["Broken drive belt", "Worn idler pulley", "Failed motor"], tip: "If you hear the motor hum but the drum stays still, stop using it." },
+      { label: "Squealing", causes: ["Worn drum rollers", "Idler pulley bearing", "Drum glides worn"], tip: "Noise that changes with load size usually points to rollers." },
+    ] },
+    { name: "Dishwasher", service: "Dishwasher", symptoms: [
+      { label: "Not cleaning", causes: ["Clogged spray arms", "Dirty filter", "Weak circulation pump"], tip: "Pull the filter at the bottom of the tub and rinse it under the tap." },
+      { label: "Won't drain", causes: ["Blocked filter or sump", "Clogged air gap or hose", "Failed drain pump"], tip: "If you recently installed a disposal, the knockout plug may still be in place." },
+      { label: "Leaking at the door", causes: ["Worn door gasket", "Unlevel tub", "Wrong detergent foaming"], tip: "Use dishwasher-only detergent; dish soap causes suds that leak out." },
+      { label: "Won't start", causes: ["Door latch switch", "Control board fault", "Blown thermal fuse"], tip: "Make sure child lock isn't on and the door clicks firmly shut." },
+    ] },
+    { name: "Oven & Range", service: "Oven", symptoms: [
+      { label: "Won't heat", causes: ["Weak gas igniter", "Burned-out bake element", "Faulty temperature sensor"], tip: "On a gas oven, a glowing igniter with no flame often means the igniter is weak." },
+      { label: "Uneven baking", causes: ["Failing bake or broil element", "Sensor out of calibration", "Convection fan fault"], tip: "An oven thermometer on the middle rack shows how far off the temperature is." },
+      { label: "Burner won't light", causes: ["Clogged burner ports", "Faulty spark module", "Misaligned burner cap"], tip: "Make sure the burner cap is seated flat and the burner is completely dry." },
+      { label: "Smells like gas", causes: ["Stop. This is an emergency."], tip: "Leave the house, don't flip switches, and call your gas utility from outside. Call us once it's safe.", urgent: true },
+    ] },
+    { name: "Microwave", service: "Microwave", symptoms: [
+      { label: "Runs but won't heat", causes: ["Failed high-voltage diode", "Blown magnetron", "Faulty door switch"], tip: "Don't open the cabinet: microwave capacitors hold a dangerous charge." },
+      { label: "Sparking inside", causes: ["Damaged waveguide cover", "Metal or foil inside", "Peeling interior paint"], tip: "Stop using it until the waveguide cover (small panel inside) is checked." },
+      { label: "Dead, no power", causes: ["Blown main fuse", "Door switch failure", "Control board fault"], tip: "Check the outlet with another device and reset the breaker first." },
+    ] },
+  ],
+
   faqs: [
     { q: "What areas do you serve?", a: "We're based in Loganville and serve more than 30 cities across Metro Atlanta, including Lawrenceville, Duluth, Johns Creek, Alpharetta, Roswell, Marietta, Sandy Springs, Decatur, Buford, Gainesville, Conyers and Covington. If you're nearby and don't see your city, call us." },
     { q: "What are your hours?", a: "Monday through Friday, 7 AM to 7 PM. Saturdays are by appointment only, and we're closed on Sundays." },
