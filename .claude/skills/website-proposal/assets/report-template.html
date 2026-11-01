@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Green Landscaping Website Review</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { size: Letter; margin: 0; }
+  :root {
+    --forest: #0d1611; --moss: #2c4a35; --sage: #8fa892; --cream: #f7f3ec; --paper: #ffffff;
+    --ink: #17201a; --soft: #5a645d; --line: #e3ddd2; --lamp: #e9b96a; --lamp-soft: #fbf1df;
+    --bad: #b5402f; --bad-bg: #fbe9e5; --warn: #9a6a12; --warn-bg: #fdf2dc; --good: #2e6b3e; --good-bg: #e5f1e7;
+    --serif: "Fraunces", Georgia, serif; --sans: "Inter", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 10.5pt/1.55 var(--sans); color: var(--ink); background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { width: 8.5in; height: 11in; position: relative; overflow: hidden; page-break-after: always; padding: 0.75in 0.8in 0.9in; background: var(--paper); }
+  .page:last-child { page-break-after: auto; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -.015em; line-height: 1.1; margin: 0; }
+  h2 { font-size: 26pt; margin-bottom: 6pt; }
+  h3 { font-size: 13.5pt; font-weight: 500; }
+  p { margin: 0 0 9pt; }
+  .eyebrow { font: 600 7.5pt/1 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--moss); margin-bottom: 12pt; display: block; }
+  .lede { font-size: 12pt; color: var(--soft); max-width: 5.6in; margin-bottom: 22pt; }
+  .foot { position: absolute; left: 0.8in; right: 0.8in; bottom: 0.45in; display: flex; justify-content: space-between; font-size: 7.5pt; color: #9aa29c; border-top: 1px solid var(--line); padding-top: 8pt; }
+
+  /* Cover */
+  .cover { padding: 0; background: var(--forest); color: var(--cream); }
+  .cover .img { height: 5.4in; background: url(cover.jpg) center/cover; position: relative; }
+  .cover .img::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(13,22,17,.15), rgba(13,22,17,1)); }
+  .cover .body { padding: 0 0.8in; margin-top: -1.4in; position: relative; }
+  .cover .eyebrow { color: var(--lamp); }
+  .cover h1 { font-size: 44pt; line-height: 1.02; margin-bottom: 18pt; }
+  .cover h1 em { font-style: italic; font-weight: 300; color: #ffd79a; }
+  .cover .sub { font-size: 12.5pt; color: rgba(247,243,236,.75); max-width: 5.2in; }
+  .cover .meta { position: absolute; left: 0.8in; right: 0.8in; bottom: 0.7in; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20pt; border-top: 1px solid rgba(247,243,236,.18); padding-top: 14pt; }
+  .cover .meta b { display: block; font: 600 7pt/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--lamp); margin-bottom: 6pt; }
+  .cover .meta span { font-size: 10.5pt; }
+
+  /* Summary */
+  .big-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 14pt; margin-bottom: 22pt; }
+  .stat { border-radius: 8pt; padding: 18pt 20pt; }
+  .stat.them { background: var(--bad-bg); }
+  .stat.us { background: var(--good-bg); }
+  .stat .who { font: 600 7.5pt/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--soft); }
+  .stat .num { font-family: var(--serif); font-size: 52pt; line-height: 1; margin: 8pt 0 4pt; }
+  .stat.them .num { color: var(--bad); } .stat.us .num { color: var(--good); }
+  .stat .lbl { font-size: 9.5pt; color: var(--soft); }
+  .keys { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .key { display: grid; grid-template-columns: 26pt 1fr; gap: 10pt; padding: 12pt 0; border-bottom: 1px solid var(--line); }
+  .key .n { font-family: var(--serif); font-style: italic; font-size: 15pt; color: var(--sage); line-height: 1.2; }
+  .key h3 { margin-bottom: 3pt; }
+  .key p { margin: 0; color: var(--soft); }
+  .bottomline { margin-top: 18pt; background: var(--forest); color: var(--cream); border-radius: 8pt; padding: 16pt 20pt; font-size: 11pt; }
+  .bottomline b { color: var(--lamp); font-weight: 600; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; font-size: 9.8pt; margin-bottom: 14pt; }
+  th { text-align: left; font: 600 7.5pt/1.2 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--soft); padding: 0 8pt 8pt; border-bottom: 2px solid var(--ink); }
+  td { padding: 10pt 8pt; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td.m { font-weight: 600; width: 34%; }
+  td.m small { display: block; font-weight: 400; color: var(--soft); font-size: 8.5pt; margin-top: 2pt; }
+  td.v { white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .pill { display: inline-block; font: 600 7pt/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; padding: 4pt 7pt; border-radius: 99pt; margin-left: 6pt; vertical-align: 1pt; }
+  .pill.bad { background: var(--bad-bg); color: var(--bad); }
+  .pill.warn { background: var(--warn-bg); color: var(--warn); }
+  .pill.good { background: var(--good-bg); color: var(--good); }
+  .note { font-size: 8.5pt; color: var(--soft); background: var(--cream); border-radius: 6pt; padding: 10pt 12pt; }
+
+  /* Findings */
+  .finding { display: grid; grid-template-columns: 1fr 1.05fr; gap: 18pt; padding: 10pt 0; border-bottom: 1px solid var(--line); }
+  .finding:first-of-type { border-top: 1px solid var(--line); }
+  .finding h3 { margin-bottom: 4pt; }
+  .finding .what { color: var(--soft); font-size: 9.6pt; margin: 0; }
+  .finding .why { font-size: 9.6pt; margin: 0; padding-left: 12pt; border-left: 2px solid var(--lamp); }
+  .finding .why b { display: block; font: 600 7pt/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--warn); margin-bottom: 4pt; }
+
+  /* Side by side */
+  .phones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16pt; margin: 6pt 0 14pt; }
+  .phone figure { margin: 0; }
+  .phone img { width: 100%; height: 2.85in; object-fit: cover; object-position: top; border-radius: 12pt; border: 5pt solid #1d1f1e; display: block; }
+  .phone figcaption { font-size: 8.5pt; color: var(--soft); margin-top: 8pt; }
+  .phone figcaption b { display: block; color: var(--ink); font-size: 9.5pt; }
+
+  /* Feature table */
+  .feat td { padding: 6pt 8pt; }
+  .feat td.c { text-align: center; width: 17%; font-weight: 600; }
+  .yes { color: var(--good); } .no { color: var(--bad); } .part { color: var(--warn); }
+  .es-callout { display: grid; grid-template-columns: auto 1fr; gap: 14pt; align-items: center; background: var(--lamp-soft); border: 1px solid #f0dcb6; border-radius: 8pt; padding: 14pt 16pt; margin-bottom: 16pt; }
+  .es-badge { font: 700 11pt/1 var(--sans); display: inline-flex; border: 1.5px solid var(--forest); border-radius: 99pt; padding: 3pt; }
+  .es-badge span { padding: 5pt 8pt; border-radius: 99pt; }
+  .es-badge span:last-child { background: var(--lamp); }
+  .es-callout p { margin: 0; font-size: 9.8pt; }
+
+  /* Next steps */
+  .steps { counter-reset: s; display: grid; gap: 0; border-top: 1px solid var(--line); margin-bottom: 18pt; }
+  .steps li { list-style: none; counter-increment: s; display: grid; grid-template-columns: 28pt 1fr; padding: 11pt 0; border-bottom: 1px solid var(--line); }
+  .steps li::before { content: counter(s); font-family: var(--serif); font-size: 16pt; color: var(--moss); line-height: 1.1; }
+  .steps li b { display: block; }
+  .steps li span { color: var(--soft); font-size: 9.6pt; }
+  .steps { padding: 0; margin-top: 0; }
+  .links { display: grid; grid-template-columns: 1fr 1fr; gap: 12pt; margin-bottom: 18pt; }
+  .links div { background: var(--forest); color: var(--cream); border-radius: 8pt; padding: 14pt 16pt; }
+  .links b { display: block; font: 600 7pt/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--lamp); margin-bottom: 6pt; }
+  .links a { color: var(--cream); font-size: 10pt; text-decoration: none; word-break: break-all; }
+  .method { font-size: 8pt; color: var(--soft); line-height: 1.5; }
+  .method b { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<!-- 1. Cover -->
+<section class="page cover">
+  <div class="img"></div>
+  <div class="body">
+    <span class="eyebrow">Website review &amp; redesign proposal</span>
+    <h1>Your sign says<br>“Afraid of the dark?”<br><em>Your website should too.</em></h1>
+    <p class="sub">A performance review of timgreenlandscaping.com, plus a redesigned site built to load fast, show up in local searches and sell outdoor lighting, in English and Spanish.</p>
+  </div>
+  <div class="meta">
+    <div><b>Prepared for</b><span>Tim Green<br>Green Landscaping, Marietta, GA</span></div>
+    <div><b>Date</b><span>November 1, 2026</span></div>
+    <div><b>Live demo</b><span>green-landscaping-demo<br>.onrender.com</span></div>
+  </div>
+</section>
+
+<!-- 2. Summary -->
+<section class="page">
+  <span class="eyebrow">Summary</span>
+  <h2>The short version</h2>
+  <p class="lede">Your current website looks professional. The problem is what happens on a phone, which is where most people find a local landscaper.</p>
+
+  <div class="big-compare">
+    <div class="stat them"><div class="who">Your current site</div><div class="num">17.0s</div><div class="lbl">until the main image appears on a phone. Google rates anything over 4 seconds as poor.</div></div>
+    <div class="stat us"><div class="who">The redesign</div><div class="num">3.5s</div><div class="lbl">for the same test. That's about 5× faster, at under a fifth of the page weight.</div></div>
+  </div>
+
+  <div class="keys">
+    <div class="key"><span class="n">1</span><div><h3>It's slow on phones</h3><p>Google's mobile performance score is 33 out of 100. Most of the delay comes from tracking code and a video that loads before anyone presses play.</p></div></div>
+    <div class="key"><span class="n">2</span><div><h3>Outdoor lighting is missing</h3><p>Your yard signs lead with outdoor light installation. Your home page never mentions it, so people who see the sign and look you up find nothing about it.</p></div></div>
+    <div class="key"><span class="n">3</span><div><h3>Google can't read it well</h3><p>The description Google shows in search results is your whole home page run together. Nothing on the page tells Google it's a local landscaping business in Marietta.</p></div></div>
+    <div class="key"><span class="n">4</span><div><h3>It's English only</h3><p>There's no Spanish version. The redesign has an English/Español switch built in.</p></div></div>
+  </div>
+
+  <div class="bottomline"><b>Bottom line:</b> the redesign fixes speed, search, the missing lighting service and Spanish in one project, and keeps everything that works today: your photos, services, phone number and email.</div>
+  <div class="foot"><span>Green Landscaping · Website review</span><span>2</span></div>
+</section>
+
+<!-- 3. Scorecard -->
+<section class="page">
+  <span class="eyebrow">Scorecard</span>
+  <h2>Side-by-side test results</h2>
+  <p class="lede">Both sites were tested the same way, with Google's own Lighthouse tool simulating a typical phone on a mobile connection.</p>
+
+  <table>
+    <thead><tr><th>Measure</th><th>Your current site</th><th>The redesign</th></tr></thead>
+    <tbody>
+      <tr><td class="m">Overall performance<small>Google's 0–100 speed score</small></td><td class="v">33 <span class="pill bad">Poor</span></td><td class="v">89 <span class="pill warn">Needs work</span></td></tr>
+      <tr><td class="m">Main image appears<small>When the page looks loaded</small></td><td class="v">17.0 s <span class="pill bad">Poor</span></td><td class="v">3.5 s <span class="pill warn">Needs work</span></td></tr>
+      <tr><td class="m">First thing on screen<small>How long the visitor stares at a blank page</small></td><td class="v">5.8 s <span class="pill bad">Poor</span></td><td class="v">1.9 s <span class="pill warn">Needs work</span></td></tr>
+      <tr><td class="m">Page frozen while loading<small>Taps and scrolls don't respond</small></td><td class="v">1,360 ms <span class="pill bad">Poor</span></td><td class="v">0 ms <span class="pill good">Good</span></td></tr>
+      <tr><td class="m">Ready to use<small>Fully responsive to taps</small></td><td class="v">17.0 s <span class="pill bad">Poor</span></td><td class="v">3.5 s <span class="pill warn">Needs work</span></td></tr>
+      <tr><td class="m">Page weight<small>Data a phone has to download</small></td><td class="v">3.5 MB</td><td class="v">0.6 MB</td></tr>
+      <tr><td class="m">Accessibility</td><td class="v">97 <span class="pill good">Good</span></td><td class="v">98 <span class="pill good">Good</span></td></tr>
+      <tr><td class="m">Best practices</td><td class="v">79 <span class="pill warn">Needs work</span></td><td class="v">96 <span class="pill good">Good</span></td></tr>
+      <tr><td class="m">Search engine basics</td><td class="v">92 <span class="pill good">Good</span></td><td class="v">66*</td></tr>
+    </tbody>
+  </table>
+  <p class="note">*The demo is deliberately hidden from Google so it can't compete with your real site while it's a preview. That setting lowers this one score and comes off at launch. Ratings use Google's published thresholds. The redesign's remaining "needs work" items are mostly image size: your current photos are low resolution, and new photography (page 6) lets us tune them.</p>
+  <div class="foot"><span>Green Landscaping · Website review</span><span>3</span></div>
+</section>
+
+<!-- 4. Findings -->
+<section class="page">
+  <span class="eyebrow">Findings</span>
+  <h2>What we found on your current site</h2>
+  <p class="lede" style="margin-bottom:14pt">Each issue, and what it means for getting calls.</p>
+
+  <div class="finding"><div><h3>Third-party code slows every visit</h3><p class="what">Google Tag Manager (456 KB) and Facebook tracking (208 KB) freeze the page for about 1.1 seconds. A YouTube video downloads 1.1 MB before anyone presses play.</p></div><p class="why"><b>Why it matters</b>Visitors on phones wait on code they never see. The video can load only when someone taps it, and tracking can be trimmed to what you actually use.</p></div>
+  <div class="finding"><div><h3>Outdoor lighting isn't on the home page</h3><p class="what">Your yard signs lead with “Afraid of the dark? Outdoor light installation.” The home page lists six services, and lighting isn't one of them.</p></div><p class="why"><b>Why it matters</b>Your signs bring people to your website, and the lighting service they came for isn't there. The redesign gives lighting its own section with a day/night comparison.</p></div>
+  <div class="finding"><div><h3>The Google search snippet is jumbled</h3><p class="what">The description Google shows is the full home page text in one run-on line, including a raw YouTube link. Your SEO plugin generated it automatically.</p></div><p class="why"><b>Why it matters</b>That snippet is your first impression in search results. A clear, written description gets more clicks.</p></div>
+  <div class="finding"><div><h3>No local business information for Google</h3><p class="what">The site doesn't use structured “local business” data: business type, phone, city, service area and services.</p></div><p class="why"><b>Why it matters</b>That data helps Google show you for searches like “landscaper near me.” The redesign includes it.</p></div>
+  <div class="finding"><div><h3>Hard to tap on a phone</h3><p class="what">Some buttons and links are too small or too close together. Seven links have vague wording like “read more.” Only one link on the page dials your number.</p></div><p class="why"><b>Why it matters</b>Every missed tap is a lost call. The redesign keeps a Call button on screen as visitors scroll.</p></div>
+  <div class="finding"><div><h3>Repeat visits aren't faster</h3><p class="what">87 files are set up so phones don't keep them between visits.</p></div><p class="why"><b>Why it matters</b>People often look at a contractor's site several times before calling. Each visit should be quicker than the last.</p></div>
+  <div class="foot"><span>Green Landscaping · Website review</span><span>4</span></div>
+</section>
+
+<!-- 5. Side by side + features -->
+<section class="page">
+  <span class="eyebrow">The redesign</span>
+  <h2>What a visitor sees on a phone</h2>
+  <div class="phones">
+    <div class="phone"><figure><img src="theirs.jpg" alt="Current site on a phone"><figcaption><b>Current site</b>timgreenlandscaping.com</figcaption></figure></div>
+    <div class="phone"><figure><img src="ours.jpg" alt="Redesign in English on a phone"><figcaption><b>Redesign, English</b>Tap EN / ES at the top</figcaption></figure></div>
+    <div class="phone"><figure><img src="ours-es.jpg" alt="Redesign in Spanish on a phone"><figcaption><b>Redesign, Español</b>The whole page switches</figcaption></figure></div>
+  </div>
+
+  <div class="es-callout">
+    <div class="es-badge"><span>EN</span><span>ES</span></div>
+    <p><b>Built-in Spanish.</b> One tap switches the whole site to Spanish: headings, services, the quote form and image descriptions. The choice is remembered on the visitor's next visit. Your current site is English only and has no translation option.</p>
+  </div>
+
+  <table class="feat">
+    <thead><tr><th>Feature</th><th style="text-align:center">Current</th><th style="text-align:center">Redesign</th></tr></thead>
+    <tbody>
+      <tr><td>English / Spanish switch</td><td class="c no">No</td><td class="c yes">Yes</td></tr>
+      <tr><td>Outdoor lighting section with day/night comparison</td><td class="c no">No</td><td class="c yes">Yes</td></tr>
+      <tr><td>Call button stays on screen on phones</td><td class="c no">No</td><td class="c yes">Yes</td></tr>
+      <tr><td>Local business data for Google</td><td class="c no">No</td><td class="c yes">Yes</td></tr>
+      <tr><td>Quote form with service selection</td><td class="c part">Separate page</td><td class="c yes">On the home page*</td></tr>
+      <tr><td>Your project photos</td><td class="c yes">Yes</td><td class="c yes">Yes</td></tr>
+    </tbody>
+  </table>
+  <p class="note">*The demo's quote form shows what it would send but isn't connected yet. At launch it delivers to the email address you choose.</p>
+  <div class="foot"><span>Green Landscaping · Website review</span><span>5</span></div>
+</section>
+
+<!-- 6. Next steps -->
+<section class="page">
+  <span class="eyebrow">Next steps</span>
+  <h2>From demo to live site</h2>
+  <p class="lede">The demo is ready to try today. Here's what it takes to make it your real website.</p>
+
+  <div class="links">
+    <div><b>Try the demo</b><a href="https://green-landscaping-demo.onrender.com">green-landscaping-demo.onrender.com</a></div>
+    <div><b>Open it in Spanish</b><a href="https://green-landscaping-demo.onrender.com/?lang=es">green-landscaping-demo.onrender.com/?lang=es</a></div>
+  </div>
+
+  <ol class="steps">
+    <li><div><b>Your go-ahead</b><span>Review the demo and tell us what to change: wording, services, anything that doesn't sound like you.</span></div></li>
+    <li><div><b>Photos</b><span>Your current photos are small, so they look soft on large screens. A half-day shoot, including night shots of finished lighting jobs, replaces them and the concept night image.</span></div></li>
+    <li><div><b>Logo and social links</b><span>Add your tree logo and your Facebook, Instagram, Pinterest, LinkedIn and YouTube links from your current site.</span></div></li>
+    <li><div><b>Quote form</b><span>Choose the email address that should receive quote requests.</span></div></li>
+    <li><div><b>Spanish review</b><span>A native Spanish speaker reads through the translation before launch.</span></div></li>
+    <li><div><b>Launch on your domain</b><span>Point timgreenlandscaping.com to the new site. Your address and email stay the same.</span></div></li>
+  </ol>
+
+  <p class="method"><b>How we tested.</b> Google Lighthouse 12.2.1, mobile simulation (a mid-range phone on a slow 4G connection), run on November 1, 2026 against the home page of each site. Scores can move a few points between runs. The gap between the two sites is far larger than that. This is a lab test, not data from your real visitors. Findings cover the home page only. The redesign's night view is an illustration made from a daytime photo. Your current site's photos are used with the understanding that they're your own work.</p>
+  <div class="foot"><span>Green Landscaping · Website review</span><span>6</span></div>
+</section>
+
+</body>
+</html>
