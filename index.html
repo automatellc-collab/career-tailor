@@ -283,6 +283,11 @@
   .hero-inner { padding-top: 170px; }
   .form-done { background: var(--cream-2); border-radius: 4px; padding: 18px; font-size: 14px; white-space: pre-wrap; margin: 0; }
   .form-done[hidden] { display: none; }
+
+  .lang { display: inline-flex; padding: 3px; border-radius: 999px; border: 1px solid currentColor; background: transparent; color: inherit; cursor: pointer; font: 600 12px/1 var(--sans); letter-spacing: .08em; opacity: .9; }
+  .lang span { padding: 7px 10px; border-radius: 999px; transition: background .3s var(--ease), color .3s var(--ease); }
+  html:not([lang="es"]) .lang [data-l="en"], html[lang="es"] .lang [data-l="es"] { background: var(--lamp); color: var(--forest); }
+  .lang:focus-visible { outline: 2px solid var(--lamp); outline-offset: 3px; }
 </style>
 </head>
 <body>
@@ -299,6 +304,7 @@
       <li><a href="#quote">Contact</a></li>
     </ul>
     <div class="call">
+      <button class="lang" id="lang" type="button" aria-label="Ver en español"><span data-l="en">EN</span><span data-l="es">ES</span></button>
       <a class="tel" href="tel:+17703668443">770-366-8443</a>
       <a class="btn btn-lamp" href="#quote">Free quote</a>
     </div>
@@ -517,10 +523,39 @@
     const f = new FormData(e.target);
     const svcs = f.getAll('svc').join(', ') || 'Not specified';
     const done = document.getElementById('done');
-    done.textContent = `Quote request (demo, not sent)\nName: ${f.get('name')}\nPhone: ${f.get('phone')}\nAddress: ${f.get('address') || '-'}\nInterested in: ${svcs}\n${f.get('msg') || ''}`;
+    const es = document.documentElement.lang === 'es';
+    done.textContent = es
+      ? `Solicitud de cotización (demostración, no enviada)\nNombre: ${f.get('name')}\nTeléfono: ${f.get('phone')}\nDirección: ${f.get('address') || '-'}\nLe interesa: ${svcs}\n${f.get('msg') || ''}`
+      : `Quote request (demo, not sent)\nName: ${f.get('name')}\nPhone: ${f.get('phone')}\nAddress: ${f.get('address') || '-'}\nInterested in: ${svcs}\n${f.get('msg') || ''}`;
     done.hidden = false;
   });
 </script>
 
+<script>
+  // English / Spanish toggle
+  (() => {
+    const ES = {"Redesign concept for demo only. Not the official Green Landscaping website, which is at timgreenlandscaping.com.": "Concepto de rediseño solo para demostración. No es el sitio oficial de Green Landscaping, que está en timgreenlandscaping.com.", "Approach": "Enfoque", "Outdoor Lighting": "Iluminación exterior", "Services": "Servicios", "Contact": "Contacto", "Free quote": "Cotización gratis", "Scroll": "Bajar", "Marietta & North Georgia · 20+ years": "Marietta y el norte de Georgia · más de 20 años", "Landscapes": "Jardines", "built to be": "hechos para", "lived in.": "vivirse.", "We design it, build it, keep it sharp and light it up after dark. One crew from the first sketch to the weekly mow.": "Lo diseñamos, lo construimos, lo mantenemos impecable y lo iluminamos de noche. Un solo equipo, desde el primer boceto hasta el corte semanal.", "Get a free quote": "Pida una cotización gratis", "Call 770-366-8443": "Llame al 770-366-8443", "20+ yrs": "+20 años", "Serving North Georgia": "Al servicio del norte de Georgia", "Design": "Diseño", "Landscape & hardscape": "Jardines y obras en piedra", "Install": "Instalación", "Stone, water & light": "Piedra, agua y luz", "Maintain": "Mantenimiento", "Lawn, beds & mulch": "Césped, jardineras y mantillo", "Our approach": "Nuestro enfoque", "Most yards get designed by one company, built by another": "La mayoría de los jardines los diseña una empresa, los construye otra", "and forgotten by a third.": "y los olvida una tercera.", "We do all three. The crew that plans your stonework is the crew that sets it, and the crew that comes back to keep it looking the way it did on day one.": "Nosotros hacemos las tres cosas. El equipo que planea su trabajo en piedra es el mismo que lo instala, y el mismo que regresa para que siga luciendo como el primer día.", "We walk the property with you and plan around sun, slope, drainage and budget, before a shovel hits dirt.": "Recorremos la propiedad con usted y planeamos según el sol, la pendiente, el drenaje y su presupuesto, antes de mover una sola palada de tierra.", "Landscape design": "Diseño de jardines", "Hardscape design": "Diseño de obras en piedra", "Lighting plans": "Planes de iluminación", "Our own crew builds it: plantings, stonework, water features and low-voltage lighting.": "Nuestro propio equipo lo construye: plantas, trabajo en piedra, fuentes de agua e iluminación de bajo voltaje.", "Patios & stone steps": "Patios y escalones de piedra", "Pondless waterfalls": "Cascadas sin estanque", "Outdoor lighting": "Iluminación exterior", "Recurring care that protects the investment, season after season.": "Cuidado continuo que protege su inversión, temporada tras temporada.", "Lawn maintenance": "Mantenimiento de césped", "Seasonal clean-ups": "Limpiezas de temporada", "Mulch installation": "Instalación de mantillo", "Outdoor light installation": "Instalación de iluminación exterior", "Afraid of": "¿Le teme a", "the dark?": "la oscuridad?", "You spent good money on that landscape. It shouldn't disappear at 6 p.m. Professional low-voltage lighting gives you curb appeal, safer footing and more evenings spent in your own yard.": "Usted invirtió en ese jardín. No debería desaparecer a las 6 de la tarde. La iluminación profesional de bajo voltaje realza la fachada, hace los pasos más seguros y le da más noches para disfrutar su propio jardín.", "Path & step lighting": "Luces para caminos y escalones", "Sure footing from the driveway to the door.": "Pasos seguros desde la entrada hasta la puerta.", "Uplighting": "Iluminación ascendente", "Trees, stone walls and the front of the house, lit like a gallery.": "Árboles, muros de piedra y la fachada de la casa, iluminados como en una galería.", "Patio & water features": "Patios y fuentes de agua", "Waterfalls and outdoor rooms you'll use after sunset.": "Cascadas y espacios exteriores que usará después del atardecer.", "Light up my yard": "Ilumine mi jardín", "Day": "Día", "Night": "Noche", "Drag to compare. Night view is a lighting concept, not a photo.": "Deslice para comparar. La vista nocturna es un concepto de iluminación, no una foto.", "Everything past the front door.": "Todo lo que hay más allá de su puerta.", "Every photo here is our own work. Tap or hover a project to see what goes into it.": "Cada foto aquí es trabajo nuestro. Toque o pase el cursor sobre un proyecto para ver lo que incluye.", "01 · Design": "01 · Diseño", "02 · Water": "02 · Agua", "03 · Stone": "03 · Piedra", "04 · Beds": "04 · Jardineras", "05 · Care": "05 · Cuidado", "Landscape Design": "Diseño de jardines", "Planting plans built around your property, your style and how you actually use the yard.": "Planes de plantación pensados para su propiedad, su estilo y la forma en que realmente usa el jardín.", "Pondless Waterfalls": "Cascadas sin estanque", "The sound of moving water without the upkeep, mosquitoes or safety worries of an open pond.": "El sonido del agua en movimiento sin el mantenimiento, los mosquitos ni los riesgos de un estanque abierto.", "Hardscape": "Obras en piedra", "Patios, steps, walkways and retaining walls set to last decades.": "Patios, escalones, caminos y muros de contención hechos para durar décadas.", "Mulch & Clean-Ups": "Mantillo y limpiezas", "Seasonal clean-ups and fresh mulch that reset the whole property.": "Limpiezas de temporada y mantillo fresco que renuevan toda la propiedad.", "Lawn Maintenance": "Mantenimiento de césped", "Reliable recurring service that keeps the yard sharp all season.": "Servicio continuo y confiable que mantiene el jardín impecable toda la temporada.", "Free quotes": "Cotizaciones gratis", "Let's walk": "Recorramos", "your": "su", "yard.": "jardín.", "Tell us a little about the project. We'll follow up to set a time to see the property and give you a straight quote.": "Cuéntenos un poco sobre el proyecto. Le contactaremos para acordar una visita a la propiedad y darle una cotización clara.", "Name": "Nombre", "Phone": "Teléfono", "Property address": "Dirección de la propiedad", "Interested in": "Le interesa", "Waterfall": "Cascada", "Lighting": "Iluminación", "Maintenance": "Mantenimiento", "Mulch & clean-up": "Mantillo y limpieza", "About the project": "Sobre el proyecto", "Request my quote": "Solicitar mi cotización", "Demo: this form isn't connected yet. Submitting shows the request it would send.": "Demostración: este formulario aún no está conectado. Al enviarlo, verá la solicitud que se enviaría.", "Design. Install.": "Diseño. Instalación.", "Maintain.": "Mantenimiento.", "Call": "Llamar", "@A curved stone-edged garden bed and sweeping lawn installed by Green Landscaping": "Jardinera curva bordeada de piedra y amplio césped instalados por Green Landscaping", "@Flagstone walkway lined with fresh mulch beds and plantings": "Camino de laja con jardineras de mantillo fresco y plantas", "@Natural stone steps and stacked-stone retaining walls": "Escalones de piedra natural y muros de contención de piedra apilada", "@Lush, freshly maintained lawn with shrubs and a pond fountain": "Césped frondoso recién cuidado con arbustos y una fuente en el estanque", "@Stone steps during the day": "Escalones de piedra durante el día", "@Drag to compare the landscape by day and by night": "Deslice para comparar el jardín de día y de noche", "@Landscape design with boulders and ornamental grasses": "Diseño de jardín con rocas y pastos ornamentales", "@Tiered natural stone pondless waterfall": "Cascada sin estanque escalonada de piedra natural", "@Stone staircase and retaining walls": "Escalera de piedra y muros de contención", "@Fresh mulch beds with blooming lilies beside a wood walkway": "Jardineras con mantillo fresco y lirios en flor junto a un camino de madera", "@Backyard lawn bordered by layered shrubs and river rock": "Césped del patio trasero bordeado de arbustos escalonados y piedra de río", "@What would you like done?": "¿Qué le gustaría hacer?"};
+    const texts = [], attrs = [];
+    const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode: n => ['SCRIPT','STYLE'].includes(n.parentNode.nodeName) ? 2 : 1 });
+    let n; while ((n = w.nextNode())) { const k = n.nodeValue.replace(/\s+/g, ' ').trim(); if (ES[k]) { const v = n.nodeValue, lead = v.match(/^\s*/)[0], trail = v.match(/\s*$/)[0]; texts.push([n, v, lead + ES[k] + trail]); } }
+    document.querySelectorAll('[placeholder],[aria-label],img[alt]').forEach(el => ['placeholder','aria-label','alt'].forEach(a => { const v = el.getAttribute(a); if (v && ES['@' + v]) attrs.push([el, a, v, ES['@' + v]]); }));
+    const titles = [document.title, 'Green Landscaping (Demo de concepto)'];
+    const btn = document.getElementById('lang');
+    const set = lang => {
+      const es = lang === 'es';
+      document.documentElement.lang = es ? 'es' : 'en';
+      texts.forEach(([node, en, sp]) => node.nodeValue = es ? sp : en);
+      attrs.forEach(([el, a, en, sp]) => el.setAttribute(a, es ? sp : en));
+      document.title = es ? titles[1] : titles[0];
+      btn.setAttribute('aria-label', es ? 'View in English' : 'Ver en español');
+      btn.setAttribute('aria-pressed', es);
+      try { localStorage.setItem('gl-lang', document.documentElement.lang); } catch (e) {}
+    };
+    btn.addEventListener('click', () => set(document.documentElement.lang === 'es' ? 'en' : 'es'));
+    let start = new URLSearchParams(location.search).get('lang') || (location.hash === '#es' ? 'es' : null);
+    if (!start) { try { start = localStorage.getItem('gl-lang'); } catch (e) {} }
+    if (start === 'es') set('es');
+  })();
+</script>
 </body>
 </html>
