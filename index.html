@@ -137,8 +137,15 @@ section{padding:120px 0}
 .area.feature{background:var(--ink);color:var(--ivory)}
 .area.feature p{color:var(--muted-dark)}
 .area.feature a{color:var(--ivory)}
-.agencies{margin-top:48px;display:flex;flex-wrap:wrap;align-items:center;gap:14px 40px;font-size:13px;color:var(--muted)}
-.agencies b{font-family:var(--serif);font-size:24px;font-weight:600;color:var(--ink);letter-spacing:.08em}
+.agencies{margin-top:56px;display:grid;grid-template-columns:auto repeat(4,1fr);align-items:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.agencies span{padding:22px 40px 22px 0}
+.agencies b{font-family:var(--serif);font-size:24px;font-weight:600;color:var(--ink);letter-spacing:.1em;text-align:center;padding:22px 0;border-left:1px solid var(--line)}
+@media (max-width:720px){
+  .agencies{grid-template-columns:repeat(4,1fr)}
+  .agencies span{grid-column:1/-1;text-align:center;padding:18px 0 14px;border-bottom:1px solid var(--line)}
+  .agencies b{font-size:19px;letter-spacing:.06em;padding:16px 0}
+  .agencies b:nth-of-type(1){border-left:0}
+}
 
 /* About */
 .about .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:96px;align-items:start}
