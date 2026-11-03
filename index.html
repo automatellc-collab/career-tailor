@@ -517,8 +517,8 @@ const ES = {
   rights:"Todos los derechos reservados."
 };
 const MSG = {
-  en:{need:"Please add your name and either a phone number or an email.", ok:"Thank you. We'll be in touch within one business day."},
-  es:{need:"Por favor incluya su nombre y un teléfono o un correo electrónico.", ok:"Gracias. Nos comunicaremos con usted en un día hábil."}
+  en:{need:"Please add your name and either a phone number or an email.", ok:"Online messages aren't connected yet. Please call 678-951-9707 and we'll help you right away."},
+  es:{need:"Por favor incluya su nombre y un teléfono o un correo electrónico.", ok:"Los mensajes en línea aún no están conectados. Llame al 678-951-9707 y le atenderemos de inmediato."}
 };
 const EN = {};
 document.querySelectorAll("[data-i18n]").forEach(el => EN[el.dataset.i18n] ??= el.textContent);
@@ -549,7 +549,7 @@ document.getElementById("intake").addEventListener("submit", e => {
   const ok = f.name.value.trim() && (f.phone.value.trim() || f.email.value.trim());
   out.style.display = "block";
   if (!ok){ e.preventDefault(); out.style.color = "#9a3324"; out.textContent = MSG[lang].need; return; }
-  if (f.getAttribute("action") === "#"){ e.preventDefault(); out.style.color = "#2f6b3a"; out.textContent = MSG[lang].ok; f.reset(); }
+  if (f.getAttribute("action") === "#"){ e.preventDefault(); out.style.color = "#9a3324"; out.textContent = MSG[lang].ok; }
 });
 </script>
 </body>
