@@ -16,7 +16,10 @@
 <script>document.documentElement.classList.add("js")</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap"></noscript>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230f1a2a'/%3E%3Crect x='6' y='6' width='52' height='52' fill='none' stroke='%236cc7bd' stroke-width='2'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' fill='%236cc7bd' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -35,7 +38,7 @@
 :root{
   --ink:#0f1a2a; --ink-2:#1b2a40; --ink-3:#2a3c57;
   --ivory:#f7f3ec; --paper:#fbf9f5; --line:#e4ddd0; --line-dark:rgba(247,243,236,.14);
-  --brass:#1f857d; --brass-2:#6cc7bd; --muted:#5e6676; --muted-dark:#aab3c2;
+  --brass:#1a756e; --brass-2:#6cc7bd; --muted:#5e6676; --muted-dark:#aab3c2;
   --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
   --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
   --wrap:1200px; --r:2px;
@@ -50,13 +53,14 @@ a{color:inherit}
 .skip{position:absolute;left:-999px;top:0;background:var(--ink);color:#fff;padding:10px 16px;z-index:100}
 .skip:focus{left:12px;top:12px}
 .eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--brass)}
+.hero .eyebrow,.process .eyebrow{color:var(--brass-2)}
 h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.08;letter-spacing:-.01em}
 h2{font-size:clamp(34px,4.4vw,52px)}
 h3{font-size:26px}
 .lede{font-size:18px;color:var(--muted);max-width:60ch}
 .btn{display:inline-flex;align-items:center;gap:10px;font:600 14px/1 var(--sans);letter-spacing:.04em;padding:17px 26px;border-radius:var(--r);text-decoration:none;border:1px solid transparent;transition:background .2s,color .2s,border-color .2s;cursor:pointer}
 .btn-brass{background:var(--brass);color:#fff}
-.btn-brass:hover{background:#196d66}
+.btn-brass:hover{background:#145e58}
 .btn-ghost{border-color:rgba(247,243,236,.35);color:var(--ivory)}
 .btn-ghost:hover{border-color:var(--ivory)}
 .btn-ink{background:var(--ink);color:var(--ivory)}
@@ -202,7 +206,7 @@ textarea{min-height:120px;resize:vertical}
 
 footer{background:#0b1420;color:var(--muted-dark);font-size:14px}
 .foot-main{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;padding:72px 0 48px}
-footer h4{font:600 12px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--ivory);margin-bottom:16px}
+footer .fh{font:600 12px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--ivory);margin-bottom:16px}
 footer ul{list-style:none;display:grid;gap:10px}
 footer a{text-decoration:none;color:var(--muted-dark)}
 footer a:hover{color:var(--ivory)}
@@ -357,7 +361,7 @@ main,.nav ul,.topbar{transition:opacity .22s ease}
 
 <header class="nav">
   <div class="wrap">
-    <a class="brand" href="#" aria-label="Mika Law home">
+    <a class="brand" href="#">
       <span class="brand-mark" aria-hidden="true">M</span>
       <span><span class="brand-name">Mika Law</span><span class="brand-sub">Abogada de Inmigración</span></span>
     </a>
@@ -552,8 +556,8 @@ main,.nav ul,.topbar{transition:opacity .22s ease}
         <a class="brand" href="#" style="color:var(--ivory)"><span class="brand-mark" aria-hidden="true">M</span><span class="brand-name">Mika Law</span></a>
         <p style="margin-top:18px;max-width:38ch" data-i18n="ftAbout">Immigration counsel for individuals and families, from Savannah, Georgia to anywhere in the United States.</p>
       </div>
-      <div><h4 data-i18n="ftNav">Explore</h4><ul><li><a href="#practice" data-i18n="nav1">Practice Areas</a></li><li><a href="#about" data-i18n="nav2">About Karla</a></li><li><a href="#faq" data-i18n="nav4">FAQ</a></li><li><a href="/blog" data-i18n="ftBlog">Blog</a></li><li><a href="/privacy-policy" data-i18n="ftPriv">Privacy Policy</a></li></ul></div>
-      <div><h4 data-i18n="ftContact">Contact</h4><ul><li><a href="tel:+16789519707">678-951-9707</a></li><li>7505 Waters Ave, Suite B7<br>Savannah, GA 31406</li><li><a href="#" aria-label="Facebook">Facebook</a> · <a href="#" aria-label="Instagram">Instagram</a></li></ul></div>
+      <div><h2 class="fh" data-i18n="ftNav">Explore</h2><ul><li><a href="#practice" data-i18n="nav1">Practice Areas</a></li><li><a href="#about" data-i18n="nav2">About Karla</a></li><li><a href="#faq" data-i18n="nav4">FAQ</a></li><li><a href="/blog" data-i18n="ftBlog">Blog</a></li><li><a href="/privacy-policy" data-i18n="ftPriv">Privacy Policy</a></li></ul></div>
+      <div><h2 class="fh" data-i18n="ftContact">Contact</h2><ul><li><a href="tel:+16789519707">678-951-9707</a></li><li>7505 Waters Ave, Suite B7<br>Savannah, GA 31406</li><li><a href="#" aria-label="Facebook">Facebook</a> · <a href="#" aria-label="Instagram">Instagram</a></li></ul></div>
     </div>
     <div class="disclaimer">
       <p data-i18n="disc">Attorney Advertising. The information on this website is for general information only and is not legal advice. Contacting Mika Law does not create an attorney-client relationship. Past results do not guarantee a similar outcome.</p>
@@ -659,7 +663,7 @@ document.getElementById("intake").addEventListener("submit", e => {
 (() => {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const groups = [
-    ".hero .wrap > div:first-child > *", ".portrait-card", ".cred", ".sec-head > *", ".pillar", ".area", ".agencies",
+    ".hero .eyebrow", ".hero h1", ".hero-ctas", ".portrait-card", ".cred", ".sec-head > *", ".pillar", ".area", ".agencies",
     ".about .wrap > div:last-child > *", ".step", ".faq h2", "details", ".contact-info > *", "#intake", ".foot-main > div"
   ];
   const els = [];
@@ -696,7 +700,7 @@ document.getElementById("intake").addEventListener("submit", e => {
     els.filter(el => !heroEls.includes(el)).forEach(el => io.observe(el));
     // Hero choreographs on load (a fully clipped headline never "intersects")
     const go = () => requestAnimationFrame(() => heroEls.forEach(show));
-    (document.fonts && document.fonts.ready ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 900))]) : Promise.resolve()).then(go);
+    go();
   }
 
   // Scroll-linked: progress bar, header state, gentle parallax
