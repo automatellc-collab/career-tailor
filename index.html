@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Good Guys Plumbing</title>
+<meta name="description" content="Good Guys Plumbing serves Metro Atlanta homes. Leaks, drains, water heaters, gas lines and more. Established 2019. Open Mon–Fri 9–6, Sat 9–5. Call 770-313-8290.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112..125,600;112..125,800;112..125,900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Plumber",
+  "name": "Good Guys Plumbing",
+  "telephone": "+1-770-313-8290",
+  "url": "https://ggpatl.com",
+  "foundingDate": "2019",
+  "email": "GoodGuysPlumbingATL@gmail.com",
+  "openingHours": ["Mo-Fr 09:00-18:00", "Sa 09:00-17:00"],
+  "areaServed": "Metro Atlanta, GA"
+}
+</script>
+<style>
+/* Layout: full-bleed bands on a 1200px column; hero = copy left, live copper-pipe run right; the triage tool is the centerpiece */
+:root {
+  --paper: #f6f9fb;       /* cool, clean, slightly blue-biased */
+  --surface: #ffffff;
+  --ink: #0e2433;         /* deep water navy */
+  --ink-soft: #4b6170;
+  --line: #d6e1e8;
+  --sky: #1b95c9;         /* the logo's cerulean */
+  --sky-deep: #0b6f98;
+  --sky-wash: #e4f3fb;
+  --copper: #c46a35;      /* pipe material, the one warm accent */
+  --copper-hi: #e59563;
+  --roof: #d23f35;        /* the logo's roof red, used for emergencies only */
+  --amber: #c98a0b;
+  --calm: #2f8f5b;
+  --on-dark: #f4f9fc;
+
+  --f-display: "Archivo", "Arial Black", "Helvetica Neue", system-ui, sans-serif;
+  --f-body: "Atkinson Hyperlegible", "Segoe UI", Verdana, system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  --s-1: clamp(2.4rem, 4.4vw, 3.9rem);
+  --s-2: clamp(1.85rem, 3.5vw, 2.85rem);
+  --s-3: 1.3rem;
+  --gl: max(16px, env(safe-area-inset-left, 0px));
+  --gr: max(16px, env(safe-area-inset-right, 0px));
+  --ease: cubic-bezier(.2,.7,.2,1);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0b1821; --surface: #11222e; --ink: #e8f2f8; --ink-soft: #9fb5c3; --line: #223847;
+    --sky: #5bbbe8; --sky-deep: #8fd0f0; --sky-wash: #12303f; --copper: #dc8350; --copper-hi: #f0a77a;
+    --roof: #f0675d; --amber: #e8b04a; --calm: #5cc28a; --on-dark: #f4f9fc; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0b1821; --surface: #11222e; --ink: #e8f2f8; --ink-soft: #9fb5c3; --line: #223847;
+  --sky: #5bbbe8; --sky-deep: #8fd0f0; --sky-wash: #12303f; --copper: #dc8350; --copper-hi: #f0a77a;
+  --roof: #f0675d; --amber: #e8b04a; --calm: #5cc28a; --on-dark: #f4f9fc; color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 1.0625rem/1.6 var(--f-body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img, svg { max-width: 100%; display: block; }
+a { color: inherit; }
+h1, h2, h3 { font-family: var(--f-display); font-stretch: 118%; margin: 0; line-height: 1; letter-spacing: -.015em; text-wrap: balance; }
+p { margin: 0; }
+:focus-visible { outline: 3px solid var(--copper); outline-offset: 3px; border-radius: 6px; }
+
+.wrap { max-width: 1200px; margin-inline: auto; padding-left: var(--gl); padding-right: var(--gr); }
+.band { padding-block: clamp(4rem, 9vw, 7rem); }
+.tag { font: 500 .74rem/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--sky-deep); display: inline-flex; gap: .55rem; align-items: center; }
+.tag::before { content: ""; width: 10px; height: 10px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: var(--sky); }
+
+/* ---------- Top strip + header ---------- */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--paper); }
+.strip { background: var(--ink); color: var(--paper); font: 500 .74rem/1 var(--f-mono); letter-spacing: .06em; }
+.strip .wrap { display: flex; justify-content: space-between; gap: 1rem; padding-block: .6rem; flex-wrap: wrap; }
+.strip a { text-decoration: none; }
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; background: color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid transparent; transition: border-color .3s; }
+.top.scrolled { border-bottom-color: var(--line); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: .8rem; }
+.mark { display: flex; align-items: center; gap: .7rem; text-decoration: none; }
+.mark svg { width: 42px; height: 42px; flex: none; }
+.mark b { font: 900 1.12rem/1 var(--f-display); font-stretch: 125%; letter-spacing: -.01em; display: block; color: var(--sky-deep); }
+.mark small { display: block; margin-top: 4px; font: 500 .62rem/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+.nav { display: flex; align-items: center; gap: 1.6rem; }
+.nav a.l { text-decoration: none; color: var(--ink-soft); font-weight: 700; font-size: .95rem; }
+.nav a.l:hover { color: var(--ink); }
+@media (max-width: 860px) { .nav a.l { display: none; } }
+
+.btn { display: inline-flex; align-items: center; gap: .55rem; text-decoration: none; cursor: pointer; border: 0; font: 700 1rem/1 var(--f-body); padding: 1rem 1.35rem; border-radius: 14px; position: relative; overflow: hidden; transition: transform .25s var(--ease), box-shadow .25s, background .25s; }
+.btn svg { width: 18px; height: 18px; flex: none; }
+.btn-main { background: var(--sky-deep); color: #fff; box-shadow: 0 12px 26px -14px var(--sky-deep); }
+:root[data-theme="dark"] .btn-main { color: var(--ink); background: var(--sky); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn-main { color: #0b1821; background: var(--sky); } }
+.btn-main:hover { transform: translateY(-2px); }
+.btn-line { background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); }
+.btn-line:hover { box-shadow: inset 0 0 0 1.5px var(--sky); }
+.btn-sm { padding: .7rem 1rem; font-size: .92rem; border-radius: 12px; }
+.ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,.45); transform: scale(0); animation: rip .65s var(--ease) forwards; pointer-events: none; }
+@keyframes rip { to { transform: scale(1); opacity: 0; } }
+
+/* ---------- Language toggle ---------- */
+.lang { position: relative; display: grid; grid-template-columns: 1fr 1fr; padding: 3px; border-radius: 12px; box-shadow: inset 0 0 0 1.5px var(--line); }
+.lang::before { content: ""; position: absolute; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); border-radius: 9px; background: var(--sky-deep); transition: transform .4s var(--ease); }
+.lang.es::before { transform: translateX(100%); }
+.lang button { position: relative; z-index: 1; appearance: none; border: 0; background: none; cursor: pointer; font: 500 .75rem/1 var(--f-mono); letter-spacing: .08em; padding: .55rem .7rem; min-width: 2.6rem; border-radius: 9px; color: var(--ink-soft); transition: color .3s; }
+.lang button:hover { color: var(--ink); }
+.lang button[aria-pressed="true"] { color: var(--surface); }
+@media (max-width: 640px) { .mark small { display: none; } }
+
+/* ---------- Hero ---------- */
+.hero { padding-block: clamp(2.5rem, 6vw, 5rem) clamp(3rem, 6vw, 5rem); }
+.hero .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+.hero-copy { min-width: 0; display: grid; gap: 1.5rem; }
+.hero h1 { font-size: var(--s-1); font-weight: 900; }
+.hero h1 em { font-style: normal; color: var(--sky-deep); position: relative; }
+.hero .lede { font-size: 1.2rem; color: var(--ink-soft); max-width: 33rem; }
+.hero .ctas { display: flex; flex-wrap: wrap; gap: .8rem; }
+.chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+.chips span { font: 500 .76rem/1 var(--f-mono); letter-spacing: .04em; padding: .55rem .75rem; border-radius: 999px; background: var(--sky-wash); color: var(--sky-deep); }
+
+.pipes { position: relative; aspect-ratio: 1 / 1; max-width: 100%; border-radius: 28px; background:
+  radial-gradient(circle at 70% 20%, var(--sky-wash), transparent 60%), var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line), 0 40px 70px -45px rgba(14,36,51,.45); overflow: hidden;
+  display: grid; grid-template-rows: minmax(0, 1fr) auto; }
+.pipes svg { width: 100%; height: 100%; min-height: 0; }
+.pipe { fill: none; stroke: var(--copper); stroke-width: 18; stroke-linecap: round; stroke-linejoin: round; }
+.pipe-hi { fill: none; stroke: var(--copper-hi); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; opacity: .7; transform: translate(-3px, -4px); }
+.flow { fill: none; stroke: var(--sky); stroke-width: 6; stroke-linecap: round; stroke-dasharray: 4 22; opacity: .9; animation: flow 1.3s linear infinite; }
+@keyframes flow { to { stroke-dashoffset: -26; } }
+.fit { fill: var(--copper); }
+.fit-ring { fill: none; stroke: var(--copper-hi); stroke-width: 3; }
+.wheel { transform-box: fill-box; transform-origin: center; animation: turn 9s var(--ease) infinite; }
+@keyframes turn { 0%, 70% { transform: rotate(0); } 85%, 100% { transform: rotate(180deg); } }
+.drop { fill: var(--sky); animation: drip 2.2s cubic-bezier(.55,0,.9,.45) infinite; transform-box: fill-box; transform-origin: center top; }
+@keyframes drip { 0% { transform: translateY(0) scale(.2); opacity: 0; } 20% { transform: translateY(0) scale(1); opacity: 1; } 75% { transform: translateY(140px) scale(1); opacity: 1; } 76%, 100% { transform: translateY(140px) scale(1); opacity: 0; } }
+.ring { fill: none; stroke: var(--sky); stroke-width: 2.5; transform-box: fill-box; transform-origin: center; animation: ring 2.2s ease-out infinite; opacity: 0; }
+.ring.r2 { animation-delay: .18s; }
+@keyframes ring { 0%, 74% { transform: scale(.2); opacity: 0; } 76% { opacity: .9; } 100% { transform: scale(1.6); opacity: 0; } }
+.pipes .card { margin: 0 1rem 1rem; display: flex; gap: .75rem 1.5rem; flex-wrap: wrap; justify-content: space-between; padding: .9rem 1rem; border-radius: 16px; background: color-mix(in srgb, var(--surface) 92%, transparent); box-shadow: inset 0 0 0 1px var(--line); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); font: 500 .72rem/1.35 var(--f-mono); color: var(--ink-soft); }
+.pipes .card strong { display: block; color: var(--ink); font: 800 1rem/1.15 var(--f-display); font-stretch: 112%; margin-top: 2px; }
+@media (max-width: 880px) { .hero .wrap { grid-template-columns: 1fr; } .pipes { aspect-ratio: 5 / 4; } }
+
+/* ---------- Triage ---------- */
+.triage { background: var(--ink); color: var(--on-dark); }
+:root[data-theme="dark"] .triage { background: var(--surface); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .triage { background: var(--surface); } }
+.triage .tag { color: var(--sky); }
+.triage h2 { font-size: var(--s-2); font-weight: 900; margin-block: 1rem .9rem; max-width: 20ch; }
+.triage .intro { color: color-mix(in srgb, var(--on-dark) 75%, transparent); max-width: 40rem; }
+.tri { margin-top: clamp(2rem, 4vw, 3rem); display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(1rem, 3vw, 2rem); align-items: start; }
+.probs { display: grid; gap: .5rem; }
+.probs button {
+  appearance: none; cursor: pointer; text-align: left; border: 0; width: 100%;
+  display: grid; grid-template-columns: 2.4rem 1fr auto; gap: .9rem; align-items: center;
+  padding: .9rem 1rem; border-radius: 16px; font: 700 1.02rem/1.25 var(--f-body);
+  color: var(--on-dark); background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+  transition: background .25s, box-shadow .25s, transform .25s var(--ease);
+}
+.probs button:hover { background: rgba(255,255,255,.09); transform: translateX(3px); }
+.probs button[aria-selected="true"] { background: rgba(91,187,232,.16); box-shadow: inset 0 0 0 1.5px var(--sky); }
+.probs .ic { width: 2.4rem; height: 2.4rem; border-radius: 12px; display: grid; place-items: center; background: rgba(255,255,255,.08); }
+.probs .ic svg { width: 22px; height: 22px; }
+.pill { font: 500 .66rem/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; padding: .45rem .55rem; border-radius: 999px; white-space: nowrap; }
+.pill.now { background: color-mix(in srgb, var(--roof) 22%, transparent); color: #ff9b93; }
+.pill.today { background: color-mix(in srgb, var(--amber) 22%, transparent); color: #f5c76a; }
+.pill.week { background: color-mix(in srgb, var(--calm) 22%, transparent); color: #8fdcae; }
+.answer { background: var(--surface); color: var(--ink); border-radius: 24px; padding: clamp(1.4rem, 3vw, 2.2rem); display: grid; gap: 1.3rem; min-width: 0; }
+:root[data-theme="dark"] .answer { background: var(--paper); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .answer { background: var(--paper); } }
+.answer.swap { animation: swap .45s var(--ease); }
+@keyframes swap { from { opacity: .3; transform: translateY(10px); } }
+.ans-head { display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; justify-content: space-between; }
+.ans-head h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 900; }
+.urg { display: inline-flex; align-items: center; gap: .5rem; font: 500 .74rem/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; padding: .55rem .75rem; border-radius: 999px; }
+.urg::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .3; } }
+.urg.now { color: var(--roof); background: color-mix(in srgb, var(--roof) 12%, transparent); }
+.urg.today { color: var(--amber); background: color-mix(in srgb, var(--amber) 14%, transparent); }
+.urg.week { color: var(--calm); background: color-mix(in srgb, var(--calm) 14%, transparent); }
+.ans-cols { display: grid; grid-template-columns: 1.15fr .85fr; gap: 1.4rem; }
+.ans-cols h4 { margin: 0 0 .7rem; font: 500 .74rem/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: .75rem; counter-reset: s; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 1.8rem 1fr; gap: .7rem; align-items: start; }
+.steps li::before { content: counter(s); display: grid; place-items: center; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--sky-wash); color: var(--sky-deep); font: 800 .85rem/1 var(--f-display); }
+.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; color: var(--ink-soft); }
+.checks li { display: flex; gap: .6rem; }
+.checks li::before { content: ""; flex: none; width: 14px; height: 2px; margin-top: .75em; background: var(--copper); }
+.ans-foot { display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; justify-content: space-between; padding-top: 1.2rem; border-top: 1px dashed var(--line); }
+.ans-foot p { color: var(--ink-soft); font-size: .92rem; max-width: 26rem; }
+@media (max-width: 900px) { .tri { grid-template-columns: 1fr; } .probs { grid-template-columns: repeat(2, minmax(0, 1fr)); } .probs button { grid-template-columns: 2.2rem 1fr; } .probs .pill { display: none; } }
+@media (max-width: 640px) { .ans-cols { grid-template-columns: 1fr; } }
+@media (max-width: 420px) { .probs { grid-template-columns: 1fr; } }
+
+/* ---------- Services ---------- */
+.svc-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 1.5rem; margin-bottom: clamp(2rem, 4vw, 3rem); }
+.svc-head h2 { font-size: var(--s-2); font-weight: 900; margin-top: 1rem; max-width: 16ch; }
+.svc-head p { color: var(--ink-soft); max-width: 28rem; }
+.svc { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+.svc li { background: var(--surface); border-radius: 20px; padding: 1.4rem; display: grid; gap: .7rem; align-content: start; box-shadow: inset 0 0 0 1px var(--line); transition: transform .35s var(--ease), box-shadow .35s; }
+.svc li:hover { transform: translateY(-4px); box-shadow: inset 0 0 0 1.5px var(--sky), 0 22px 40px -28px rgba(14,36,51,.5); }
+.svc .ic { width: 2.8rem; height: 2.8rem; border-radius: 14px; display: grid; place-items: center; background: var(--sky-wash); color: var(--sky-deep); transition: background .3s, color .3s; }
+.svc li:hover .ic { background: var(--copper); color: #fff; }
+.svc .ic svg { width: 24px; height: 24px; }
+.svc h3 { font-size: 1.12rem; font-weight: 800; font-stretch: 112%; letter-spacing: 0; }
+.svc p { color: var(--ink-soft); font-size: .95rem; }
+.svc .spec { font: 500 .7rem/1.4 var(--f-mono); color: var(--copper); letter-spacing: .03em; }
+@media (max-width: 980px) { .svc { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .svc { grid-template-columns: 1fr; } }
+
+/* ---------- Visit ---------- */
+.visit { background: var(--surface); border-block: 1px solid var(--line); }
+.visit h2 { font-size: var(--s-2); font-weight: 900; margin-top: 1rem; max-width: 18ch; }
+.run { list-style: none; margin: clamp(2.5rem, 5vw, 3.5rem) 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; position: relative; }
+.run::before { content: ""; position: absolute; left: 1.4rem; right: 1.4rem; top: 1.4rem; height: 6px; border-radius: 3px; background: linear-gradient(90deg, var(--copper), var(--copper-hi), var(--copper)); }
+.run li { position: relative; display: grid; gap: .6rem; }
+.run .node { width: 2.8rem; height: 2.8rem; border-radius: 50%; background: var(--surface); box-shadow: inset 0 0 0 5px var(--copper); display: grid; place-items: center; font: 900 1rem/1 var(--f-display); color: var(--copper); position: relative; z-index: 1; }
+.run h3 { font-size: 1.15rem; font-weight: 800; font-stretch: 112%; margin-top: .4rem; }
+.run p { color: var(--ink-soft); font-size: .97rem; }
+@media (max-width: 860px) {
+  .run { grid-template-columns: 1fr; gap: 1.6rem; }
+  .run::before { left: 1.4rem; right: auto; top: 1.4rem; bottom: 1.4rem; width: 6px; height: auto; background: linear-gradient(180deg, var(--copper), var(--copper-hi), var(--copper)); }
+  .run li { grid-template-columns: 2.8rem 1fr; column-gap: 1rem; }
+  .run li > :not(.node) { grid-column: 2; }
+  .run h3 { margin-top: .5rem; }
+}
+
+/* ---------- Contact ---------- */
+.facts { margin: 2rem 0 0; display: grid; gap: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+.facts div { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 1rem; }
+.facts dt { font: 500 .72rem/1.6 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+.facts dd { margin: 0; overflow-wrap: anywhere; }
+.facts a { color: var(--sky-deep); }
+.status { display: inline-flex; align-items: center; gap: .5rem; }
+.status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--ink-soft); }
+.status.open::before { background: #4fd18b; box-shadow: 0 0 0 0 rgba(79,209,139,.6); animation: ping 2s infinite; }
+@keyframes ping { 70% { box-shadow: 0 0 0 7px rgba(79,209,139,0); } 100% { box-shadow: 0 0 0 0 rgba(79,209,139,0); } }
+.contact .wrap { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+.contact h2 { font-size: var(--s-2); font-weight: 900; margin-block: 1rem 1.1rem; }
+.contact .side p { color: var(--ink-soft); max-width: 28rem; }
+.bignum { margin-top: 1.8rem; display: grid; gap: .55rem; }
+.bignum span { font: 500 .72rem/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+.bignum > a { font: 900 clamp(2.1rem, 4.6vw, 3.2rem)/1 var(--f-display); font-stretch: 112%; text-decoration: none; color: var(--sky-deep); font-variant-numeric: tabular-nums; user-select: all; }
+.bignum .row { display: flex; flex-wrap: wrap; gap: .6rem; }
+form.box { background: var(--surface); border-radius: 24px; padding: clamp(1.4rem, 3vw, 2.2rem); display: grid; gap: 1.15rem; box-shadow: inset 0 0 0 1px var(--line), 0 30px 60px -40px rgba(14,36,51,.5); min-width: 0; }
+.field { display: grid; gap: .45rem; }
+.field label, legend { font-weight: 700; font-size: .92rem; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 520px) { .two { grid-template-columns: 1fr; } }
+input[type="text"], input[type="tel"], select, textarea { width: 100%; font: 400 1rem/1.4 var(--f-body); color: var(--ink); background: var(--paper); border: 1.5px solid var(--line); border-radius: 12px; padding: .8rem .9rem; transition: border-color .2s, box-shadow .2s; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--sky); box-shadow: 0 0 0 4px color-mix(in srgb, var(--sky) 22%, transparent); }
+textarea { min-height: 6rem; resize: vertical; }
+fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: .55rem; }
+.when { display: flex; flex-wrap: wrap; gap: .45rem; }
+.when input { position: absolute; opacity: 0; pointer-events: none; }
+.when label { cursor: pointer; padding: .65rem .9rem; border-radius: 12px; font-weight: 700; font-size: .9rem; box-shadow: inset 0 0 0 1.5px var(--line); transition: background .2s, box-shadow .2s, color .2s; }
+.when input:checked + label { background: var(--sky-deep); color: #fff; box-shadow: none; }
+.when input:focus-visible + label { outline: 3px solid var(--copper); outline-offset: 2px; }
+.err { color: var(--roof); font-size: .88rem; min-height: 1.2em; }
+.form-foot { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; }
+.form-foot small { color: var(--ink-soft); font-size: .82rem; max-width: 22rem; }
+@media (max-width: 880px) { .contact .wrap { grid-template-columns: 1fr; } }
+
+footer { padding-block: 2.5rem calc(2.5rem + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1.5rem; align-items: center; }
+footer p { color: var(--ink-soft); font-size: .88rem; }
+
+.callbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 55; display: none; gap: .6rem; padding: .7rem var(--gr) calc(.7rem + env(safe-area-inset-bottom, 0px)) var(--gl); background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid var(--line); }
+.callbar .btn { flex: 1; justify-content: center; white-space: nowrap; padding-inline: .8rem; }
+@media (max-width: 640px) { .callbar { display: flex; } footer { padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px)); } #navCall { display: none; } .strip .hide-sm { display: none; } }
+
+/* Reveal (only for content that starts below the fold) */
+.js .rv { transition: opacity .8s var(--ease), transform .8s var(--ease); }
+.js .rv.pre { opacity: 0; transform: translateY(22px); }
+.hero-copy > * { animation: rise .9s var(--ease) both; }
+.hero-copy > :nth-child(2) { animation-delay: .08s; }
+.hero-copy > :nth-child(3) { animation-delay: .16s; }
+.hero-copy > :nth-child(4) { animation-delay: .24s; }
+.hero-copy > :nth-child(5) { animation-delay: .32s; }
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } }
+.draw { stroke-dasharray: 1400; animation: draw 1.6s .2s var(--ease) both; }
+@keyframes draw { from { stroke-dashoffset: 1400; } to { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+  .js .rv.pre { opacity: 1; transform: none; }
+  .drop, .ring { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="strip">
+  <div class="wrap">
+    <span class="status" id="status">Mon–Fri 9am–6pm · Sat 9am–5pm</span>
+    <span class="hide-sm">Call <a href="tel:+17703138290">770.313.8290</a></span>
+  </div>
+</div>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="mark" href="#main" aria-label="Good Guys Plumbing, home">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M8 22 24 9l16 13" fill="none" stroke="var(--roof)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="14" y="21" width="20" height="14" rx="2" fill="var(--sky)"/>
+        <rect x="21" y="25" width="6" height="10" rx="1" fill="var(--surface)"/>
+        <path d="M6 36c6 0 10 4 18 4s14-3 18-6" fill="none" stroke="var(--copper)" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <span><b>Good Guys Plumbing</b><small>Atlanta · Since 2019</small></span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a class="l" href="#help">What's wrong?</a>
+      <a class="l" href="#services">Services</a>
+      <a class="l" href="#visit">How a visit works</a>
+      <div class="lang" id="langToggle" role="group" aria-label="Language / Idioma">
+        <button type="button" id="lang-en" data-lang="en" aria-pressed="true" lang="en">EN</button>
+        <button type="button" id="lang-es" data-lang="es" aria-pressed="false" lang="es">ES</button>
+      </div>
+      <a class="btn btn-main btn-sm" id="navCall" href="tel:+17703138290">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
+        770.313.8290
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="tag">Plumbing for Metro Atlanta homes</span>
+        <h1>Leaks, clogs and cold showers, fixed by the <em>good guys.</em></h1>
+        <p class="lede">Good Guys Plumbing has been fixing Atlanta-area plumbing since 2019. Tell us what's wrong, get a clear price before any work starts, and get it fixed right the first time.</p>
+        <div class="ctas">
+          <a class="btn btn-main" href="tel:+17703138290">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
+            Call 770.313.8290
+          </a>
+          <a class="btn btn-line" href="#help">What's wrong? Start here</a>
+        </div>
+        <div class="chips" aria-label="Highlights">
+          <span>Est. 2019</span><span>Mon–Fri 9–6 · Sat 9–5</span><span>Atlanta, GA</span>
+        </div>
+      </div>
+
+      <div class="pipes" aria-hidden="true">
+        <svg viewBox="0 60 400 310">
+          <!-- copper run: in from the left, up through the valve, across, and down to the spout -->
+          <path class="pipe draw" d="M-20 300 H90 Q110 300 110 280 V150 Q110 120 140 120 H270 Q300 120 300 150 V185"/>
+          <path class="pipe-hi draw" d="M-20 300 H90 Q110 300 110 280 V150 Q110 120 140 120 H270 Q300 120 300 150 V185"/>
+          <path class="flow" d="M-20 300 H90 Q110 300 110 280 V150 Q110 120 140 120 H270 Q300 120 300 150 V185"/>
+          <rect class="fit" x="96" y="226" width="28" height="14" rx="3"/>
+          <rect class="fit" x="196" y="106" width="14" height="28" rx="3"/>
+          <!-- shutoff valve -->
+          <g transform="translate(110 200)">
+            <rect x="-17" y="-14" width="34" height="28" rx="5" fill="var(--copper)"/>
+            <rect x="-4" y="-34" width="8" height="22" fill="var(--copper)"/>
+            <g class="wheel">
+              <circle cx="0" cy="-40" r="20" fill="var(--roof)"/>
+              <circle cx="0" cy="-40" r="12" fill="none" stroke="var(--surface)" stroke-width="3"/>
+              <path d="M-20 -40 H20 M0 -60 V-20" stroke="var(--surface)" stroke-width="3"/>
+              <circle cx="0" cy="-40" r="4" fill="var(--surface)"/>
+            </g>
+          </g>
+          <!-- spout -->
+          <rect x="286" y="180" width="28" height="18" rx="4" fill="var(--copper)"/>
+          <circle class="fit-ring" cx="300" cy="150" r="13"/>
+          <circle class="fit-ring" cx="110" cy="280" r="13"/>
+          <!-- drip + ripple -->
+          <path class="drop" d="M300 198 C300 198 293 208 293 212 A7 7 0 0 0 307 212 C307 208 300 198 300 198 Z"/>
+          <ellipse class="ring" cx="300" cy="352" rx="22" ry="6"/>
+          <ellipse class="ring r2" cx="300" cy="352" rx="22" ry="6"/>
+        </svg>
+        <div class="card">
+          <span>Supply lines<strong>PEX · Copper · CPVC</strong></span>
+          <span>Water heaters<strong>Tank &amp; tankless</strong></span>
+          <span>Drains<strong>Sink to sewer</strong></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band triage" id="help">
+    <div class="wrap">
+      <div class="rv">
+        <span class="tag">What's going on?</span>
+        <h2>Tell us the symptom. We'll tell you what to do right now.</h2>
+        <p class="intro">Pick what you're seeing. You'll get the steps that limit the damage before we arrive, and how fast it really needs a plumber.</p>
+      </div>
+      <div class="tri rv">
+        <div class="probs" role="tablist" aria-label="Plumbing problems" id="probs"></div>
+        <div class="answer" id="answer" role="tabpanel" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="services">
+    <div class="wrap">
+      <div class="svc-head rv">
+        <div>
+          <span class="tag">Services</span>
+          <h2>Everything from the street to the faucet.</h2>
+        </div>
+        <p>Repairs, replacements and new installs for Metro Atlanta homes. If water or gas runs through it, call us.</p>
+      </div>
+      <ul class="svc">
+        <li class="rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M2 9h8v6H2M14 9h8v6h-8M10 12h4"/><path d="M12 16c0 1.5-1 2.5-1 3.5a1 1 0 0 0 2 0c0-1-1-2-1-3.5z"/></svg></span><h3>Leaks &amp; pipe repair</h3><p>Finding the leak, fixing the pipe, and checking what the water touched.</p><p class="spec">Slab · Wall · Crawlspace</p></li>
+        <li class="rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4v4M12 16v4M4 12h4M16 12h4"/></svg></span><h3>Drain cleaning</h3><p>Slow sinks, backed-up tubs and stubborn clogs, cleared all the way through.</p><p class="spec">Kitchen · Bath · Main line</p></li>
+        <li class="rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="3"/><path d="M10 15c0-1.5 2-2 2-4 0 2 2 2.5 2 4a2 2 0 0 1-4 0z"/></svg></span><h3>Water heaters</h3><p>Repairs, replacements and tankless upgrades when the hot water quits.</p><p class="spec">Gas · Electric · Tankless</p></li>
+        <li class="rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 10h14a0 0 0 0 1 0 0 7 7 0 0 1-14 0z"/><path d="M8 17l-1 4h10l-1-4M7 10V5h5v5"/></svg></span><h3>Toilets &amp; fixtures</h3><p>Running toilets, dripping faucets, new vanities and fixture swaps.</p><p class="spec">Toilets · Faucets · Showers</p></li>
+        <li class="rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 3c2 3 5 5 5 9a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5.5 1.5 1.5 2 2 2 0-2-.5-4 1-6.5z"/></svg></span><h3>Gas lines</h3><p>Gas leak repair and new lines for ranges, dryers, heaters and grills.</p><p class="spec">Leak repair · New runs</p></li>
+        <li class="rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 6h6v4h6v4h6"/><path d="M3 18h18"/></svg></span><h3>Sewer &amp; main lines</h3><p>When every drain backs up at once, the problem is usually out in the yard.</p><p class="spec">Main line · Cleanouts</p></li>
+        <li class="rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 20V8a4 4 0 0 1 4-4h12"/><path d="M9 20v-8a3 3 0 0 1 3-3h8"/></svg></span><h3>Repiping</h3><p>Replacing old galvanized or failing lines before the next leak finds you.</p><p class="spec">PEX · Copper</p></li>
+        <li class="rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13" r="7"/><path d="M12 10v3l2 2M9 3h6"/></svg></span><h3>Disposals &amp; more</h3><p>Garbage disposals, ice maker lines, hose bibs and the small jobs too.</p><p class="spec">Just ask</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band visit" id="visit">
+    <div class="wrap">
+      <div class="rv">
+        <span class="tag">How a visit works</span>
+        <h2>No surprises, start to finish.</h2>
+      </div>
+      <ol class="run">
+        <li class="rv"><span class="node">1</span><h3>Call or text</h3><p>Tell us what's happening. A photo helps. We'll give you a time to expect us.</p></li>
+        <li class="rv"><span class="node">2</span><h3>We find the cause</h3><p>A plumber looks at the problem and explains what's wrong in plain English.</p></li>
+        <li class="rv"><span class="node">3</span><h3>You approve the price</h3><p>You hear the price before any work starts. Nothing happens until you say go.</p></li>
+        <li class="rv"><span class="node">4</span><h3>Fixed and cleaned up</h3><p>We fix it, test it, and clean up the work area before we leave.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band contact" id="contact">
+    <div class="wrap">
+      <div class="side rv">
+        <span class="tag">Get a plumber</span>
+        <h2>Tell us what's going on.</h2>
+        <p>Fill this in and it opens a text message to us with the details already written. For a burst pipe, call instead. For a gas smell, get outside and call 911 first.</p>
+        <div class="bignum">
+          <span>Call or text</span>
+          <a href="tel:+17703138290" id="phoneNum">770.313.8290</a>
+          <div class="row">
+            <a class="btn btn-line btn-sm" href="tel:+17703138290">Call now</a>
+            <button class="btn btn-line btn-sm" type="button" id="copyBtn">Copy number</button>
+          </div>
+        </div>
+        <dl class="facts">
+          <div><dt>Email</dt><dd><a href="mailto:GoodGuysPlumbingATL@gmail.com">GoodGuysPlumbingATL@gmail.com</a></dd></div>
+          <div><dt>Hours</dt><dd>Monday–Friday · 9am–6pm<br>Saturday · 9am–5pm<br>Sunday · Closed</dd></div>
+          <div><dt>Mail</dt><dd>P.O. Box 17906<br>Atlanta, GA 30316</dd></div>
+        </dl>
+      </div>
+
+      <form class="box rv" id="reqForm" novalidate>
+        <div class="two">
+          <div class="field"><label for="f-name">Your name</label><input type="text" id="f-name" autocomplete="name" placeholder="Sam Rivera"></div>
+          <div class="field"><label for="f-phone">Phone</label><input type="tel" id="f-phone" autocomplete="tel" placeholder="(770) 555-0123"></div>
+        </div>
+        <div class="two">
+          <div class="field"><label for="f-area">City or neighborhood</label><input type="text" id="f-area" autocomplete="address-level2" placeholder="e.g. Marietta"></div>
+          <div class="field"><label for="f-prob">The problem</label><select id="f-prob"></select></div>
+        </div>
+        <fieldset>
+          <legend>How soon?</legend>
+          <div class="when">
+            <input type="radio" name="when" id="w-now" value="As soon as possible"><label for="w-now">As soon as possible</label>
+            <input type="radio" name="when" id="w-week" value="This week" checked><label for="w-week">This week</label>
+            <input type="radio" name="when" id="w-flex" value="I'm flexible"><label for="w-flex">I'm flexible</label>
+          </div>
+        </fieldset>
+        <div class="field"><label for="f-notes">Details <span style="font-weight:400;color:var(--ink-soft)">(optional)</span></label><textarea id="f-notes" placeholder="Water stain on the ceiling under the upstairs bathroom. Started yesterday."></textarea></div>
+        <p class="err" id="err" role="alert"></p>
+        <div class="form-foot">
+          <small>Opens your messaging app with this request filled in. Nothing is sent until you hit send.</small>
+          <button class="btn btn-main" type="submit">Text my request
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="mark" href="#main">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 22 24 9l16 13" fill="none" stroke="var(--roof)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><rect x="14" y="21" width="20" height="14" rx="2" fill="var(--sky)"/><rect x="21" y="25" width="6" height="10" rx="1" fill="var(--surface)"/><path d="M6 36c6 0 10 4 18 4s14-3 18-6" fill="none" stroke="var(--copper)" stroke-width="4" stroke-linecap="round"/></svg>
+      <span><b>Good Guys Plumbing</b><small>Established 2019</small></span>
+    </a>
+    <p><a href="tel:+17703138290">770.313.8290</a> · <a href="mailto:GoodGuysPlumbingATL@gmail.com">GoodGuysPlumbingATL@gmail.com</a><br>P.O. Box 17906, Atlanta, GA 30316 · © <span id="yr">2026</span> Good Guys Plumbing</p>
+  </div>
+</footer>
+
+<div class="callbar">
+  <a class="btn btn-main" href="tel:+17703138290">Call now</a>
+  <a class="btn btn-line" href="#help">What's wrong?</a>
+</div>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.documentElement.classList.add('js');
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  const top = document.getElementById('top');
+  const onScroll = () => top.classList.toggle('scrolled', scrollY > 40);
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  /* Reveal only what starts below the fold */
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.remove('pre'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.rv').forEach((el, i) => {
+      if (el.getBoundingClientRect().top > innerHeight) {
+        el.classList.add('pre');
+        if (el.closest('.svc, .run')) el.style.transitionDelay = (i % 4) * 70 + 'ms';
+        io.observe(el);
+      }
+    });
+  }
+
+  /* Water ripple on buttons */
+  document.addEventListener('pointerdown', (e) => {
+    const b = e.target.closest('.btn'); if (!b || reduce) return;
+    const r = b.getBoundingClientRect(), s = Math.max(r.width, r.height) * 2;
+    const d = document.createElement('span'); d.className = 'ripple';
+    d.style.cssText = 'width:' + s + 'px;height:' + s + 'px;left:' + (e.clientX - r.left - s / 2) + 'px;top:' + (e.clientY - r.top - s / 2) + 'px';
+    b.appendChild(d); setTimeout(() => d.remove(), 700);
+  });
+
+  /* ---------- English / Spanish ---------- */
+  const ES_T = {
+    'Call': 'Llame al', 'Atlanta · Since 2019': 'Atlanta · Desde 2019', 'Good Guys Plumbing, home': 'Good Guys Plumbing, inicio',
+    "What's wrong?": '¿Qué pasa?', 'Services': 'Servicios', 'How a visit works': 'Cómo funciona una visita',
+    'Plumbing for Metro Atlanta homes': 'Plomería para hogares del área de Atlanta',
+    'Leaks, clogs and cold showers, fixed by the': 'Fugas, tapones y duchas frías, resueltos por los', 'good guys.': 'Good Guys.',
+    "Good Guys Plumbing has been fixing Atlanta-area plumbing since 2019. Tell us what's wrong, get a clear price before any work starts, and get it fixed right the first time.":
+      'Good Guys Plumbing repara la plomería del área de Atlanta desde 2019. Díganos qué pasa, reciba un precio claro antes de empezar cualquier trabajo y quede bien resuelto desde la primera vez.',
+    'Call 770.313.8290': 'Llame al 770.313.8290', "What's wrong? Start here": '¿Qué pasa? Empiece aquí',
+    'Est. 2019': 'Desde 2019', 'Mon–Fri 9–6 · Sat 9–5': 'Lun–Vie 9–6 · Sáb 9–5', 'Highlights': 'Lo destacado',
+    'Supply lines': 'Tuberías de agua', 'PEX · Copper · CPVC': 'PEX · Cobre · CPVC', 'Water heaters': 'Calentadores de agua',
+    'Tank & tankless': 'Con y sin tanque', 'Drains': 'Desagües', 'Sink to sewer': 'Del lavabo a la alcantarilla',
+    "What's going on?": '¿Qué está pasando?',
+    "Tell us the symptom. We'll tell you what to do right now.": 'Díganos el síntoma. Le diremos qué hacer ahora mismo.',
+    "Pick what you're seeing. You'll get the steps that limit the damage before we arrive, and how fast it really needs a plumber.":
+      'Elija lo que está viendo. Verá los pasos para limitar el daño antes de que lleguemos, y qué tan pronto necesita de verdad un plomero.',
+    'Plumbing problems': 'Problemas de plomería',
+    'Everything from the street to the faucet.': 'Todo, desde la calle hasta la llave del agua.',
+    'Repairs, replacements and new installs for Metro Atlanta homes. If water or gas runs through it, call us.':
+      'Reparaciones, reemplazos e instalaciones nuevas para hogares del área de Atlanta. Si por ahí pasa agua o gas, llámenos.',
+    'Leaks & pipe repair': 'Fugas y reparación de tuberías',
+    'Finding the leak, fixing the pipe, and checking what the water touched.': 'Encontramos la fuga, reparamos la tubería y revisamos todo lo que tocó el agua.',
+    'Slab · Wall · Crawlspace': 'Losa · Pared · Bajo el piso',
+    'Drain cleaning': 'Limpieza de desagües',
+    'Slow sinks, backed-up tubs and stubborn clogs, cleared all the way through.': 'Lavabos lentos, tinas tapadas y tapones difíciles, destapados por completo.',
+    'Kitchen · Bath · Main line': 'Cocina · Baño · Línea principal',
+    'Repairs, replacements and tankless upgrades when the hot water quits.': 'Reparaciones, reemplazos y cambios a calentadores sin tanque cuando se acaba el agua caliente.',
+    'Gas · Electric · Tankless': 'Gas · Eléctrico · Sin tanque',
+    'Toilets & fixtures': 'Inodoros y accesorios',
+    'Running toilets, dripping faucets, new vanities and fixture swaps.': 'Inodoros que no paran, llaves que gotean, muebles de baño nuevos y cambio de accesorios.',
+    'Toilets · Faucets · Showers': 'Inodoros · Llaves · Duchas',
+    'Gas lines': 'Líneas de gas',
+    'Gas leak repair and new lines for ranges, dryers, heaters and grills.': 'Reparación de fugas de gas y líneas nuevas para estufas, secadoras, calentadores y parrillas.',
+    'Leak repair · New runs': 'Fugas · Líneas nuevas',
+    'Sewer & main lines': 'Alcantarillado y línea principal',
+    'When every drain backs up at once, the problem is usually out in the yard.': 'Cuando todos los desagües se tapan a la vez, el problema suele estar afuera, en el patio.',
+    'Main line · Cleanouts': 'Línea principal · Registros',
+    'Repiping': 'Cambio de tuberías',
+    'Replacing old galvanized or failing lines before the next leak finds you.': 'Cambiamos tuberías galvanizadas viejas o deterioradas antes de la próxima fuga.',
+    'PEX · Copper': 'PEX · Cobre',
+    'Disposals & more': 'Trituradores y más',
+    'Garbage disposals, ice maker lines, hose bibs and the small jobs too.': 'Trituradores de basura, líneas de la máquina de hielo, llaves de manguera y también los trabajos pequeños.',
+    'Just ask': 'Solo pregunte',
+    'No surprises, start to finish.': 'Sin sorpresas, de principio a fin.',
+    'Call or text': 'Llame o envíe un mensaje',
+    "Tell us what's happening. A photo helps. We'll give you a time to expect us.": 'Cuéntenos qué pasa. Una foto ayuda. Le diremos a qué hora esperarnos.',
+    'We find the cause': 'Encontramos la causa',
+    "A plumber looks at the problem and explains what's wrong in plain English.": 'Un plomero revisa el problema y le explica qué pasa en palabras sencillas.',
+    'You approve the price': 'Usted aprueba el precio',
+    'You hear the price before any work starts. Nothing happens until you say go.': 'Le damos el precio antes de empezar. No hacemos nada hasta que usted diga que sí.',
+    'Fixed and cleaned up': 'Reparado y limpio',
+    'We fix it, test it, and clean up the work area before we leave.': 'Lo reparamos, lo probamos y limpiamos el área de trabajo antes de irnos.',
+    'Get a plumber': 'Pida un plomero', "Tell us what's going on.": 'Cuéntenos qué está pasando.',
+    'Fill this in and it opens a text message to us with the details already written. For a burst pipe, call instead. For a gas smell, get outside and call 911 first.':
+      'Llene esto y se abrirá un mensaje de texto para nosotros con los datos ya escritos. Si se reventó una tubería, mejor llame. Si huele a gas, salga y llame primero al 911.',
+    'Call now': 'Llame ahora', 'Copy number': 'Copiar número', 'Copied': 'Copiado', 'Selected, press copy': 'Seleccionado, presione copiar',
+    'Email': 'Correo', 'Hours': 'Horario', 'Mail': 'Correo postal',
+    'Monday–Friday · 9am–6pm': 'Lunes a viernes · 9am–6pm', 'Saturday · 9am–5pm': 'Sábado · 9am–5pm', 'Sunday · Closed': 'Domingo · Cerrado',
+    'Your name': 'Su nombre', 'Phone': 'Teléfono', 'City or neighborhood': 'Ciudad o vecindario', 'The problem': 'El problema',
+    'e.g. Marietta': 'p. ej. Marietta', 'How soon?': '¿Para cuándo?', 'As soon as possible': 'Lo antes posible', 'This week': 'Esta semana',
+    "I'm flexible": 'Cuando se pueda', 'Details': 'Detalles', '(optional)': '(opcional)',
+    'Water stain on the ceiling under the upstairs bathroom. Started yesterday.': 'Mancha de agua en el techo debajo del baño de arriba. Empezó ayer.',
+    'Opens your messaging app with this request filled in. Nothing is sent until you hit send.': 'Abre su app de mensajes con esta solicitud ya escrita. No se envía nada hasta que usted toque enviar.',
+    'Text my request': 'Enviar mi solicitud por texto', 'Established 2019': 'Desde 2019', 'Something else': 'Otra cosa',
+    'Add your name and city or neighborhood so we know where to come.': 'Agregue su nombre y su ciudad o vecindario para saber a dónde ir.'
+  };
+  let lang = 'en';
+  const t = (x) => (lang === 'es' && ES_T[x]) || x;
+  const textNodes = [];
+  const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode: (n) => (n.parentElement.closest('script, style') || !n.nodeValue.trim()) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT
+  });
+  while (tw.nextNode()) textNodes.push([tw.currentNode, tw.currentNode.nodeValue]);
+  const attrEls = [...document.querySelectorAll('[placeholder], [aria-label]')].map((el) => [el, el.getAttribute('placeholder'), el.getAttribute('aria-label')]);
+  const metaDesc = document.querySelector('meta[name="description"]'), descEn = metaDesc.content;
+  const langListeners = [];
+  const toggle = document.getElementById('langToggle');
+  function setLang(next, animate) {
+    lang = next;
+    document.documentElement.lang = lang;
+    textNodes.forEach(([n, en]) => { const k = en.trim(); n.nodeValue = lang === 'es' && ES_T[k] ? en.replace(k, ES_T[k]) : en; });
+    attrEls.forEach(([el, ph, al]) => { if (ph) el.setAttribute('placeholder', t(ph)); if (al) el.setAttribute('aria-label', t(al)); });
+    metaDesc.content = lang === 'es'
+      ? 'Good Guys Plumbing atiende hogares del área de Atlanta: fugas, desagües, calentadores de agua, líneas de gas y más. Desde 2019. Lun–Vie 9–6, Sáb 9–5. Llame al 770-313-8290.'
+      : descEn;
+    toggle.classList.toggle('es', lang === 'es');
+    toggle.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+    langListeners.forEach((fn) => fn());
+    if (animate && !reduce) document.getElementById('main').animate([{ opacity: .35, transform: 'translateY(4px)' }, { opacity: 1, transform: 'none' }], { duration: 420, easing: 'cubic-bezier(.2,.7,.2,1)' });
+    try { localStorage.setItem('gg-lang', lang); } catch (e) {}
+  }
+  toggle.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b && b.dataset.lang !== lang) setLang(b.dataset.lang, true); });
+
+  /* Open now? Computed in Atlanta time */
+  const HOURS = { 1: [9, 18], 2: [9, 18], 3: [9, 18], 4: [9, 18], 5: [9, 18], 6: [9, 17] };
+  const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const DIAS = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+  const fmt = (h) => (h > 12 ? h - 12 + 'pm' : h + 'am');
+  function openState() {
+    const parts = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date()).map((x) => [x.type, x.value]));
+    const day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(parts.weekday);
+    const t = +parts.hour + +parts.minute / 60, h = HOURS[day];
+    if (h && t >= h[0] && t < h[1]) return { open: true, at: h[1] };
+    for (let i = 0; i < 7; i++) {
+      const d = (day + i) % 7, hh = HOURS[d];
+      if (!hh || (i === 0 && t >= hh[0])) continue;
+      return { open: false, inDays: i, day: d, at: hh[0] };
+    }
+  }
+  const st = openState(), statusEl = document.getElementById('status');
+  const opensWhen = () => lang === 'es'
+    ? 'abre ' + (st.inDays === 0 ? 'hoy' : st.inDays === 1 ? 'mañana' : 'el ' + DIAS[st.day]) + ' a las ' + fmt(st.at)
+    : 'opens ' + (st.inDays === 0 ? 'today' : st.inDays === 1 ? 'tomorrow' : DAYS[st.day]) + ' at ' + fmt(st.at);
+  const renderStatus = () => {
+    statusEl.textContent = st.open
+      ? (lang === 'es' ? 'Abierto ahora · hasta las ' : 'Open now · until ') + fmt(st.at)
+      : (lang === 'es' ? 'Cerrado ahora · ' : 'Closed now · ') + opensWhen();
+    statusEl.classList.toggle('open', st.open);
+  };
+  renderStatus();
+  langListeners.push(renderStatus);
+
+  /* Triage */
+  const I = {
+    leak: '<path d="M12 3c3 4 6 7 6 11a6 6 0 0 1-12 0c0-4 3-7 6-11z"/>',
+    heat: '<rect x="6" y="3" width="12" height="18" rx="3"/><path d="M10 15c0-1.5 2-2 2-4 0 2 2 2.5 2 4a2 2 0 0 1-4 0z"/>',
+    clog: '<circle cx="12" cy="12" r="8"/><path d="M8 12h8M12 8v8"/>',
+    toilet: '<path d="M5 10h14a7 7 0 0 1-14 0z"/><path d="M8 17l-1 4h10l-1-4M7 10V5h5v5"/>',
+    gas: '<path d="M12 3c2 3 5 5 5 9a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5.5 1.5 1.5 2 2 2 0-2-.5-4 1-6.5z"/>',
+    press: '<path d="M4 14a8 8 0 0 1 16 0"/><path d="M12 14l4-4"/><circle cx="12" cy="14" r="1.5"/>'
+  };
+  const P = [
+    { id: 'leak', name: 'Leak or burst pipe', urg: 'now', label: 'Act now',
+      steps: ['Shut off the main water valve. It is usually where the line enters the house (basement, crawlspace or garage) or in the meter box near the street.', 'If water is near outlets or appliances, switch off that circuit at the breaker panel.', 'Open a faucet on the lowest floor to drain the lines and take pressure off the leak.', 'Move valuables out of the way and take photos for your insurance.'],
+      check: ['Exactly where the leak starts', 'Pipe type and condition nearby', 'Hidden water in walls, floors and ceilings'] },
+    { id: 'heat', name: 'No hot water', urg: 'today', label: 'Today',
+      steps: ['Electric heater: check the breaker for the water heater and reset it once.', 'Gas heater: check whether the pilot is lit. Relight only by following the label on the tank.', 'If you smell gas, do not relight anything. Leave and see "I smell gas".', 'If the tank is leaking from the bottom, turn off the cold water valve on top and the power or gas to the heater.'],
+      check: ['Pilot, igniter or heating elements', 'Thermostat and safety controls', 'Sediment build-up and tank age'] },
+    { id: 'clog', name: 'Clogged or backed-up drain', urg: 'week', label: 'This week',
+      steps: ['Stop running water into that drain.', 'Try a plunger: a flat cup for sinks and tubs, a flanged one for toilets.', 'Skip chemical drain cleaners. They can damage pipes and burn whoever opens the line next.', 'If several drains back up at once, stop using water everywhere and call. That is usually the main line, and it is urgent.'],
+      check: ['Where the blockage is', 'Whether it is one drain or the main line', 'Signs of roots or a broken pipe'] },
+    { id: 'toilet', name: 'Running toilet', urg: 'week', label: 'This week',
+      steps: ['Lift the tank lid and check whether the flapper at the bottom is sealing.', 'Jiggle the handle and make sure the chain is not caught under the flapper.', 'If it will not stop, turn the supply valve behind the toilet clockwise to shut it off.', 'A running toilet wastes a lot of water every day, so do not leave it for long.'],
+      check: ['Flapper and flush valve', 'Fill valve and water level', 'Leaks at the base or supply line'] },
+    { id: 'gas', name: 'I smell gas', urg: 'now', label: 'Emergency',
+      steps: ['Do not flip light switches, unplug anything, or use a lighter or your phone inside.', 'Get everyone out of the house and leave the door open behind you.', 'From outside, call 911 or your gas company\'s emergency line.', 'Once it is safe, call us to find and repair the leak in your gas line.'],
+      check: ['Where the leak is, tested along the line', 'Fittings, valves and appliance connections', 'The repaired line is pressure-tested before use'] },
+    { id: 'press', name: 'Low water pressure', urg: 'week', label: 'This week',
+      steps: ['Check whether it is every faucet or just one.', 'If it is just one, unscrew the aerator on the tip of the faucet and rinse out the grit.', 'If it is the whole house, make sure the main shutoff valve is fully open.', 'Ask a neighbor. If theirs is low too, the problem may be on the water supplier\'s side.'],
+      check: ['Pressure at the main', 'The pressure-reducing valve', 'Hidden leaks and old galvanized pipe'] }
+  ];
+  const PES = [
+    { name: 'Fuga o tubería reventada', label: 'Actúe ya',
+      steps: ['Cierre la llave de paso principal del agua. Suele estar donde la tubería entra a la casa (sótano, espacio bajo el piso o garaje) o en la caja del medidor cerca de la calle.', 'Si hay agua cerca de enchufes o aparatos, apague ese circuito en el panel de breakers.', 'Abra una llave en el piso más bajo para vaciar las tuberías y quitarle presión a la fuga.', 'Aparte sus cosas de valor y tome fotos para su seguro.'],
+      check: ['Dónde empieza exactamente la fuga', 'Tipo y estado de la tubería cercana', 'Agua oculta en paredes, pisos y techos'] },
+    { name: 'Sin agua caliente', label: 'Hoy',
+      steps: ['Calentador eléctrico: revise el breaker del calentador y reinícielo una vez.', 'Calentador de gas: revise si el piloto está encendido. Vuelva a encenderlo solo siguiendo la etiqueta del tanque.', 'Si huele a gas, no encienda nada. Salga y vea "Huele a gas".', 'Si el tanque gotea por abajo, cierre la llave de agua fría de arriba y apague la electricidad o el gas del calentador.'],
+      check: ['Piloto, encendedor o resistencias', 'Termostato y controles de seguridad', 'Sedimento acumulado y edad del tanque'] },
+    { name: 'Desagüe tapado o que se regresa', label: 'Esta semana',
+      steps: ['Deje de echar agua a ese desagüe.', 'Use un destapador: de copa plana para lavabos y tinas, con reborde para inodoros.', 'No use destapadores químicos. Pueden dañar las tuberías y quemar a quien abra la línea después.', 'Si varios desagües se tapan a la vez, deje de usar agua en toda la casa y llame. Suele ser la línea principal, y es urgente.'],
+      check: ['Dónde está el tapón', 'Si es un solo desagüe o la línea principal', 'Señales de raíces o de una tubería rota'] },
+    { name: 'Inodoro que no para', label: 'Esta semana',
+      steps: ['Levante la tapa del tanque y revise si el sello de goma del fondo (flapper) cierra bien.', 'Mueva la manija y asegúrese de que la cadena no quede atrapada debajo del sello.', 'Si no para, gire la llave de paso detrás del inodoro en el sentido del reloj para cerrarla.', 'Un inodoro que no para desperdicia mucha agua cada día, así que no lo deje así por mucho tiempo.'],
+      check: ['Sello y válvula de descarga', 'Válvula de llenado y nivel del agua', 'Fugas en la base o en la manguera de suministro'] },
+    { name: 'Huele a gas', label: 'Emergencia',
+      steps: ['No prenda ni apague luces, no desenchufe nada y no use encendedores ni su teléfono adentro.', 'Saque a todos de la casa y deje la puerta abierta al salir.', 'Desde afuera, llame al 911 o a la línea de emergencias de su compañía de gas.', 'Cuando sea seguro, llámenos para encontrar y reparar la fuga en su línea de gas.'],
+      check: ['Dónde está la fuga, probando a lo largo de la línea', 'Conexiones, válvulas y conexiones de aparatos', 'La línea reparada se prueba a presión antes de usarla'] },
+    { name: 'Poca presión de agua', label: 'Esta semana',
+      steps: ['Fíjese si es en todas las llaves o solo en una.', 'Si es solo una, desenrosque el aireador de la punta de la llave y enjuague la arenilla.', 'Si es en toda la casa, asegúrese de que la llave de paso principal esté totalmente abierta.', 'Pregúntele a un vecino. Si a ellos también les baja, el problema puede ser del proveedor de agua.'],
+      check: ['Presión en la entrada principal', 'La válvula reductora de presión', 'Fugas ocultas y tubería galvanizada vieja'] }
+  ];
+  const L = (i) => (lang === 'es' ? PES[i] : P[i]);
+  let selP = 0;
+  const probs = document.getElementById('probs'), ans = document.getElementById('answer');
+  const svg = (d) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>';
+  const select = document.getElementById('f-prob');
+  const show = (i, animate) => {
+    const p = P[i], q = L(i); selP = i;
+    [...probs.children].forEach((b, j) => { b.setAttribute('aria-selected', String(i === j)); b.tabIndex = i === j ? 0 : -1; });
+    ans.innerHTML =
+      '<div class="ans-head"><h3>' + q.name + '</h3><span class="urg ' + p.urg + '">' + q.label + '</span></div>' +
+      '<div class="ans-cols"><div><h4>' + (lang === 'es' ? 'Haga esto ahora' : 'Do this now') + '</h4><ol class="steps">' + q.steps.map((s) => '<li>' + s + '</li>').join('') + '</ol></div>' +
+      '<div><h4>' + (lang === 'es' ? 'Lo que revisaremos' : 'What we\'ll check') + '</h4><ul class="checks">' + q.check.map((s) => '<li>' + s + '</li>').join('') + '</ul></div></div>' +
+      '<div class="ans-foot"><p>' + (p.urg === 'now'
+        ? (st.open
+            ? (lang === 'es' ? 'Estamos abiertos. Cuando esté a salvo, llame. No espere una respuesta por texto.' : 'We\'re open now. Once you are safe, call. Don\'t wait for a text back.')
+            : (lang === 'es' ? 'Ahora estamos cerrados (' + opensWhen() + '). Primero haga los pasos de arriba y luego llame y deje un mensaje.' : 'We\'re closed right now (' + opensWhen() + '). Do the steps above first, then call and leave a message.'))
+        : (lang === 'es' ? 'Envíenos los detalles y una foto, y le daremos un horario.' : 'Send us the details and a photo, and we\'ll get you on the schedule.')) + '</p>' +
+      (p.urg === 'now'
+        ? '<a class="btn btn-main" href="tel:+17703138290">' + t('Call 770.313.8290') + '</a>'
+        : '<a class="btn btn-main" href="#contact" data-prob="' + i + '">' + (lang === 'es' ? 'Pida un plomero' : 'Book a plumber') + '</a>') + '</div>';
+    if (animate && !reduce) { ans.classList.remove('swap'); void ans.offsetWidth; ans.classList.add('swap'); }
+  };
+  P.forEach((p, i) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.id = 'p-' + p.id; b.setAttribute('role', 'tab'); b.setAttribute('aria-controls', 'answer');
+    b.innerHTML = '<span class="ic">' + svg(I[p.id]) + '</span><span class="pn"></span><span class="pill ' + p.urg + '"></span>';
+    b.addEventListener('click', () => show(i, true));
+    b.addEventListener('keydown', (e) => {
+      const k = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+      if (!k) return; e.preventDefault();
+      const n = (i + k + P.length) % P.length; show(n, true); probs.children[n].focus();
+    });
+    probs.appendChild(b);
+    select.appendChild(document.createElement('option'));
+  });
+  select.appendChild(document.createElement('option'));
+  const labelProbs = () => {
+    [...probs.children].forEach((b, i) => { b.querySelector('.pn').textContent = L(i).name; b.querySelector('.pill').textContent = L(i).label; });
+    [...select.options].forEach((o, i) => { o.textContent = i < P.length ? L(i).name : t('Something else'); });
+  };
+  labelProbs();
+  show(0, false);
+  langListeners.push(() => { labelProbs(); show(selP, false); });
+  ans.addEventListener('click', (e) => {
+    const a = e.target.closest('[data-prob]'); if (!a) return;
+    select.selectedIndex = +a.dataset.prob;
+  });
+
+  /* Copy number */
+  const copyBtn = document.getElementById('copyBtn'), copyText = copyBtn.firstChild;
+  copyBtn.addEventListener('click', () => {
+    const done = () => { copyText.nodeValue = t('Copied'); setTimeout(() => (copyText.nodeValue = t('Copy number')), 1800); };
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById('phoneNum')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); copyText.nodeValue = t('Selected, press copy'); };
+    if (navigator.clipboard) navigator.clipboard.writeText('770-313-8290').then(done, fallback); else fallback();
+  });
+
+  /* Request form -> prefilled text message */
+  const err = document.getElementById('err');
+  let errKey = '';
+  const setErr = (k) => { errKey = k; err.textContent = k ? t(k) : ''; };
+  langListeners.push(() => setErr(errKey));
+  document.getElementById('reqForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const v = (id) => document.getElementById(id).value.trim();
+    if (!v('f-name') || !v('f-area')) { setErr('Add your name and city or neighborhood so we know where to come.'); return; }
+    setErr('');
+    const when = t(document.querySelector('input[name="when"]:checked').value);
+    const prob = select.options[select.selectedIndex].textContent;
+    const W = lang === 'es'
+      ? ['Hola Good Guys Plumbing, necesito un plomero.', 'Nombre', 'Teléfono', 'Zona', 'Problema', 'Para cuándo', 'Detalles']
+      : ['Hi Good Guys Plumbing, I need a plumber.', 'Name', 'Phone', 'Area', 'Problem', 'How soon', 'Details'];
+    const body = W[0] + '\n' + W[1] + ': ' + v('f-name') + (v('f-phone') ? '\n' + W[2] + ': ' + v('f-phone') : '') +
+      '\n' + W[3] + ': ' + v('f-area') + '\n' + W[4] + ': ' + prob + '\n' + W[5] + ': ' + when + (v('f-notes') ? '\n' + W[6] + ': ' + v('f-notes') : '');
+    const sep = /iPhone|iPad|Mac/.test(navigator.userAgent) ? '&' : '?';
+    location.href = 'sms:+17703138290' + sep + 'body=' + encodeURIComponent(body);
+  });
+
+  /* Starting language: ?lang=es link, then the visitor's saved choice, then their browser language */
+  let start0 = new URLSearchParams(location.search).get('lang');
+  if (start0 !== 'es' && start0 !== 'en') { try { start0 = localStorage.getItem('gg-lang'); } catch (e) { start0 = null; } }
+  if (start0 !== 'es' && start0 !== 'en') start0 = /^es\b/i.test(navigator.language || '') ? 'es' : 'en';
+  if (start0 === 'es') setLang('es', false);
+})();
+</script>
+</body>
+</html>
