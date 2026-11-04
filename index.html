@@ -1,0 +1,3082 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="A 3D cookbook you flip by hand. Ingredients rise out of the page and each recipe cooks itself, step by step.">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}</style>
+</head>
+<body>
+<title>Off the Page</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Gloock&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+<style>
+/* Layout: one full-bleed WebGL kitchen table; the book is the interface. A slim dock below, and a recipe studio drawer on the right. */
+:root{
+  color-scheme: dark;
+  --table:#120d0a;        /* walnut table at night */
+  --paper:#efece3;        /* page stock */
+  --ink:#1d2740;          /* blue-black printing ink */
+  --saffron:#e3a21a;      /* the one accent: highlight, current step */
+  --cloth:#23463a;        /* bottle-green book cloth */
+  --panel:rgba(18,14,11,.86);
+  --panel-solid:#17110d;
+  --field:#231a14;
+  --rule:rgba(239,236,227,.16);
+  --muted:rgba(239,236,227,.64);
+  --danger:#e0755a;
+  --f-display:"Gloock", "Georgia", serif;
+  --f-body:"Literata", "Georgia", serif;
+  --f-mono:"DM Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+html,body{height:100%}
+body{margin:0;background:var(--table);color:var(--paper);overflow:hidden;font-family:var(--f-body);-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+#gl{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none}
+.vignette{position:fixed;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 38%,transparent 52%,rgba(0,0,0,.58))}
+.top{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;
+  padding-top:calc(env(safe-area-inset-top,0px) + 14px);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));pointer-events:none}
+.brand{display:flex;flex-direction:column;gap:2px;min-width:0}
+.brand b{font-family:var(--f-display);font-weight:400;font-size:24px;letter-spacing:.01em;line-height:1}
+.brand span{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.top-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.btn,.arrow,.chip,.pill,.dot,.tab,.x,.zb{font:inherit;cursor:pointer;border:0;pointer-events:auto}
+.pill{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--paper);background:var(--panel);border:1px solid var(--rule);border-radius:999px;padding:8px 14px}
+.pill.accent{background:var(--saffron);color:var(--ink);border-color:var(--saffron)}
+.hint{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 64px);font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;color:var(--muted);background:var(--panel);border:1px solid var(--rule);padding:8px 14px;border-radius:999px;transition:opacity .6s;white-space:nowrap;pointer-events:none;max-width:calc(100% - 32px);overflow:hidden;text-overflow:ellipsis}
+.hint.gone{opacity:0}
+.zoomer{position:fixed;right:max(16px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:2px;background:var(--panel);border:1px solid var(--rule);border-radius:14px;padding:4px}
+.zb{width:40px;height:38px;border-radius:10px;background:transparent;color:var(--paper);font-family:var(--f-mono);font-size:18px}
+.zb.lab{height:26px;font-size:10.5px;letter-spacing:.02em;color:var(--muted)}
+.zb:disabled{opacity:.3;cursor:default}
+.zb:hover:not(:disabled){background:rgba(239,236,227,.08)}
+.dock{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 14px);width:min(780px,calc(100% - 32px));
+  background:var(--panel);border:1px solid var(--rule);border-radius:18px;padding:10px;display:flex;flex-direction:column;gap:10px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.nav-row{display:flex;align-items:center;gap:8px}
+.arrow{flex:none;width:40px;height:40px;border-radius:12px;background:transparent;color:var(--paper);font-family:var(--f-mono);font-size:18px;border:1px solid var(--rule)}
+.arrow:disabled{opacity:.3;cursor:default}
+.chips{flex:1;min-width:0;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;padding:10px 12px;border-radius:10px;background:transparent;color:var(--muted)}
+.chip[aria-current="true"]{background:var(--paper);color:var(--ink)}
+.chip:hover:not([aria-current="true"]){color:var(--paper)}
+.chip .mine{color:var(--saffron);margin-left:4px}
+.cook{display:flex;flex-direction:column;gap:8px;padding:4px 4px 10px;border-bottom:1px solid var(--rule)}
+.cap{display:flex;gap:10px;align-items:baseline;min-width:0}
+.cap-n{flex:none;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--saffron)}
+.cap-t{min-width:0;font-size:15px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cook-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dots{display:flex;gap:6px;margin-right:auto}
+.dot{width:28px;height:28px;border-radius:50%;border:1px solid var(--rule);background:transparent;color:var(--muted);font-family:var(--f-mono);font-size:12px;padding:0}
+.dot.done{background:rgba(239,236,227,.14);color:var(--paper)}
+.dot.cur{background:var(--saffron);color:var(--ink);border-color:var(--saffron)}
+.btn{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:10px 14px;border-radius:10px;background:transparent;color:var(--paper);border:1px solid var(--rule)}
+.btn.primary{background:var(--saffron);color:var(--ink);border-color:var(--saffron)}
+.btn.small{padding:7px 10px;font-size:11px}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.ghost{border-color:transparent;color:var(--muted)}
+.btn.warn{color:var(--danger);border-color:rgba(224,117,90,.4)}
+:is(.btn,.arrow,.chip,.pill,.dot,.tab,.x,.zb,input,select,textarea):focus-visible,#gl:focus-visible{outline:2px solid var(--saffron);outline-offset:2px}
+#tip{position:fixed;pointer-events:none;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:14px;padding:8px 12px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.35);transform:translate(-50%,-130%);opacity:0;transition:opacity .15s;white-space:nowrap}
+#tip b{font-family:var(--f-mono);font-weight:500;font-size:12px;margin-right:6px}
+#tip.on{opacity:1}
+#veil{position:fixed;inset:0;display:grid;place-items:center;background:var(--table);transition:opacity .8s;font-family:var(--f-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+#veil.gone{opacity:0;pointer-events:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ---- recipe studio ---- */
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(460px,100%);background:var(--panel-solid);border-left:1px solid var(--rule);display:flex;flex-direction:column;z-index:20;box-shadow:-24px 0 60px rgba(0,0,0,.45)}
+.dr-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:calc(env(safe-area-inset-top,0px) + 16px);padding-bottom:8px;padding-left:20px;padding-right:max(16px,env(safe-area-inset-right,0px))}
+.dr-head b{font-family:var(--f-display);font-weight:400;font-size:26px}
+.x{width:36px;height:36px;border-radius:10px;background:transparent;color:var(--paper);border:1px solid var(--rule);font-size:18px}
+.tabs{display:flex;gap:4px;padding:0 20px 12px;border-bottom:1px solid var(--rule)}
+.tab{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;padding:9px 12px;border-radius:10px;background:transparent;color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--paper);color:var(--ink)}
+.dr-body{flex:1;overflow-y:auto;padding:18px 20px calc(env(safe-area-inset-bottom,0px) + 28px);padding-right:max(20px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
+.sec{display:flex;flex-direction:column;gap:10px}
+.sec h3{margin:0;font-family:var(--f-mono);font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.sec p{margin:0;font-size:14px;line-height:1.5;color:var(--muted)}
+.magic{background:linear-gradient(180deg,rgba(227,162,26,.12),rgba(227,162,26,.04));border:1px solid rgba(227,162,26,.35);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.magic h3{color:var(--saffron)}
+label.f{display:flex;flex-direction:column;gap:5px;min-width:0;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+input,select,textarea{font:inherit;font-family:var(--f-body);font-size:15px;color:var(--paper);background:var(--field);border:1px solid var(--rule);border-radius:9px;padding:8px 10px;min-width:0;width:100%;box-sizing:border-box;text-transform:none;letter-spacing:0}
+textarea{resize:vertical;line-height:1.45}
+input[type=color]{padding:2px;height:36px;width:44px;flex:none}
+select{appearance:auto}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.card{border:1px solid var(--rule);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;background:rgba(255,255,255,.015)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;min-width:0}
+.row > *{min-width:0}
+.ing{display:grid;grid-template-columns:1.2fr .7fr 1.3fr auto;gap:8px;align-items:end}
+.ing .note{grid-column:1 / 4}
+.act{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.act select{width:auto;flex:1 1 130px}
+.step-n{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--saffron)}
+.foot{display:flex;flex-wrap:wrap;gap:8px}
+.status{font-family:var(--f-mono);font-size:12px;letter-spacing:.04em;color:var(--muted);min-height:1.2em}
+.status.err{color:var(--danger)}
+.list{display:flex;flex-direction:column;gap:8px}
+.li{display:flex;align-items:center;gap:10px;border:1px solid var(--rule);border-radius:12px;padding:10px 12px;flex-wrap:wrap}
+.li .t{flex:1 1 160px;min-width:0}
+.li .t b{display:block;font-weight:400;font-size:16px}
+.li .t span{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tag{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:6px;background:rgba(239,236,227,.1);color:var(--muted)}
+.tag.price{background:rgba(227,162,26,.18);color:var(--saffron)}
+.empty{border:1px dashed var(--rule);border-radius:12px;padding:18px;color:var(--muted);font-size:14px;line-height:1.5}
+@media (max-width:560px){
+  .brand b{font-size:20px}
+  .brand span{display:none}
+  .btn{padding:9px 10px;font-size:11px}
+  .dot{width:26px;height:26px}
+  .hint{top:calc(env(safe-area-inset-top,0px) + 58px)}
+  .ing{grid-template-columns:1fr 1fr auto}
+  .ing .nm{grid-column:1 / 3}
+  .ing .note{grid-column:1 / 3}
+}
+</style>
+
+<canvas id="gl" tabindex="0" aria-label="Animated cookbook. Use the left and right arrow keys to turn pages."></canvas>
+<div class="vignette"></div>
+<header class="top">
+  <div class="brand"><b>Off the Page</b><span>A cookbook that cooks back</span></div>
+  <div class="top-actions">
+    <button class="pill accent" id="studioBtn">Add a recipe</button>
+    <button class="pill" id="sound" aria-pressed="true">Sound on</button>
+  </div>
+</header>
+<div class="hint" id="hint">Drag a page to turn it · scroll or double-click to zoom</div>
+<div class="zoomer" role="group" aria-label="Zoom">
+  <button class="zb" id="zIn" aria-label="Zoom in">+</button>
+  <button class="zb lab" id="zLabel" aria-label="Fit the whole book">100%</button>
+  <button class="zb" id="zOut" aria-label="Zoom out" disabled>−</button>
+</div>
+<nav class="dock" id="dock" aria-label="Book controls">
+  <div class="cook" id="cook" hidden>
+    <div class="cap"><span class="cap-n" id="capN">Step 1 of 5</span><span class="cap-t" id="capT"></span></div>
+    <div class="cook-row">
+      <div class="dots" id="dots" role="group" aria-label="Steps"></div>
+      <button class="btn primary" id="stepBtn">Next step</button>
+      <button class="btn" id="allBtn">Cook it all</button>
+      <button class="btn ghost" id="resetBtn">Start over</button>
+    </div>
+  </div>
+  <div class="nav-row">
+    <button class="arrow" id="prev" aria-label="Previous page">←</button>
+    <div class="chips" id="chips"></div>
+    <button class="arrow" id="next" aria-label="Next page">→</button>
+  </div>
+</nav>
+
+<aside class="drawer" id="drawer" hidden aria-label="Recipe studio">
+  <div class="dr-head"><b>Recipe studio</b><button class="x" id="drClose" aria-label="Close the studio">×</button></div>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-tab="write" aria-selected="true">Write</button>
+    <button class="tab" role="tab" data-tab="mine" aria-selected="false">In this book</button>
+    <button class="tab" role="tab" data-tab="shelf" aria-selected="false">Shelf</button>
+  </div>
+  <div class="dr-body" data-panel="write">
+    <div class="magic" id="magic" hidden>
+      <h3>Start from your own words</h3>
+      <p>Paste a recipe the way you would tell it, from a card, a text message or memory. Claude picks the ingredients, the pan and the moves, then you can adjust anything below.</p>
+      <textarea id="paste" rows="6" placeholder="Nani's dal: rinse a cup of red lentils, simmer with turmeric until soft. Fry cumin seeds, garlic and a green chili in ghee, pour it over…"></textarea>
+      <div class="row"><button class="btn primary" id="animateBtn">Animate it</button><span class="status" id="magicStatus"></span></div>
+    </div>
+    <div class="sec">
+      <h3>The page</h3>
+      <label class="f">Title<input id="fTitle" maxlength="40" placeholder="Nani's dal"></label>
+      <div class="grid3">
+        <label class="f">Course<input id="fCourse" maxlength="16" placeholder="Supper"></label>
+        <label class="f">Serves<input id="fServes" maxlength="16" placeholder="Serves 4"></label>
+        <label class="f">Time<input id="fTime" maxlength="12" placeholder="40 min"></label>
+      </div>
+      <label class="f">The story behind it<textarea id="fDeck" rows="3" maxlength="170" placeholder="Who taught you, when it gets made, what makes it yours."></textarea></label>
+      <div class="grid2">
+        <label class="f">Cooked in<select id="fVessel"></select></label>
+        <label class="f">Serving note<input id="fFinish" maxlength="60" placeholder="With rice and lime pickle."></label>
+      </div>
+    </div>
+    <div class="sec">
+      <h3>Ingredients <span id="ingCount"></span></h3>
+      <p>Up to six rise out of the page. Pick the closest model; anything else can live in the step text.</p>
+      <div class="list" id="ings"></div>
+      <div class="row"><button class="btn small" id="addIng">Add ingredient</button></div>
+    </div>
+    <div class="sec">
+      <h3>Method <span id="stepCount"></span></h3>
+      <p>Each step plays its moves in order. Ingredient moves use up the ingredient.</p>
+      <div class="list" id="steps"></div>
+      <div class="row"><button class="btn small" id="addStep">Add step</button></div>
+    </div>
+    <div class="sec">
+      <div class="foot">
+        <button class="btn primary" id="saveBtn">Save &amp; open in book</button>
+        <button class="btn" id="newBtn">New blank page</button>
+      </div>
+      <div class="status" id="saveStatus"></div>
+    </div>
+    <div class="sec">
+      <h3>Recipe file</h3>
+      <p>A page is a small text file. Copy it to send to someone; paste one here to add it to your book.</p>
+      <div class="foot">
+        <button class="btn small" id="copyBtn">Copy recipe file</button>
+        <button class="btn small" id="importToggle">Paste a recipe file</button>
+      </div>
+      <div class="sec" id="importBox" hidden>
+        <textarea id="importText" rows="5" placeholder='{"title": "…", "items": [ … ], "steps": [ … ]}'></textarea>
+        <div class="row"><button class="btn small" id="importBtn">Load into the editor</button></div>
+      </div>
+      <textarea id="copyFallback" rows="4" hidden readonly></textarea>
+    </div>
+    <div class="sec" id="publishSec" hidden>
+      <h3>Publish to the shelf</h3>
+      <p>Everyone who opens this book can see the shelf and add your page to their copy. Price is a label only for now; there is no checkout.</p>
+      <div class="row"><label class="f" style="flex:0 1 140px">Price label<input id="fPrice" maxlength="10" placeholder="Free"></label><button class="btn" id="publishBtn" style="align-self:flex-end">Publish this page</button></div>
+      <div class="status" id="pubStatus"></div>
+    </div>
+  </div>
+  <div class="dr-body" data-panel="mine" hidden>
+    <div class="sec"><h3>Your pages</h3><div class="list" id="mineList"></div><div class="status" id="storeNote"></div></div>
+    <div class="sec"><h3>Came with the book</h3><p>Copy one to see how its moves are put together.</p><div class="list" id="builtList"></div></div>
+  </div>
+  <div class="dr-body" data-panel="shelf" hidden>
+    <div class="sec"><h3>On the shelf</h3><p>Pages the book's owner has published. Adding one puts your own copy in your book.</p><div class="list" id="shelfList"></div></div>
+  </div>
+</aside>
+<div id="tip"></div>
+<div id="veil">Setting the table…</div>
+<div class="sr" aria-live="polite" id="live"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script>
+(() => {
+"use strict";
+const $ = s => document.querySelector(s);
+const PI = Math.PI, TAU = PI * 2;
+const lerp = (a, b, t) => a + (b - a) * t;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const rnd = (a, b) => a + Math.random() * (b - a);
+const v3 = (x, y, z) => new THREE.Vector3(x, y, z);
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const SPEED = REDUCED ? 0.6 : 1;
+
+/* ---------------- renderer, scene, camera ---------------- */
+const canvas = $('#gl');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.12;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+const scene = new THREE.Scene();
+const BG = new THREE.Color('#120d0a').convertSRGBToLinear();
+scene.background = BG;
+scene.fog = new THREE.Fog(BG, 6, 13);
+const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 30);
+const camTarget = v3(0, 0.06, 0.02);
+let camDist = 3.6;
+const ELEV = 0.98; // radians above the table
+
+scene.add(new THREE.HemisphereLight(0xfff0db, 0x2a1b10, 0.4));
+const key = new THREE.DirectionalLight(0xffefd6, 1.55);
+key.position.set(-1.5, 3.4, 1.6);
+key.castShadow = true;
+key.shadow.mapSize.set(innerWidth > 900 ? 4096 : 2048, innerWidth > 900 ? 4096 : 2048);
+Object.assign(key.shadow.camera, { left: -1.7, right: 1.7, top: 1.5, bottom: -1.5, near: 0.5, far: 9 });
+key.shadow.bias = -0.0004;
+key.shadow.radius = 3;
+scene.add(key);
+const rim = new THREE.DirectionalLight(0x9db2ff, 0.32);
+rim.position.set(2.2, 1.4, -1.8);
+scene.add(rim);
+const warm = new THREE.PointLight(0xffb15c, 0.35, 6);
+warm.position.set(1.4, 1.2, 1.2);
+scene.add(warm);
+/* a small lit room, baked into reflections: a warm window, a lamp, a dark floor */
+{
+  const env = new THREE.Scene(), pm = new THREE.PMREMGenerator(renderer);
+  env.add(new THREE.Mesh(new THREE.BoxGeometry(12, 7, 12), new THREE.MeshBasicMaterial({ color: new THREE.Color(0.09, 0.065, 0.05), side: THREE.BackSide })));
+  const panel = (rgb, w, h, pos, rot) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(...rgb), side: THREE.DoubleSide })); m.position.set(...pos); m.rotation.set(...rot); env.add(m); };
+  panel([7, 6.2, 5], 4, 2.4, [-3, 3.2, 2.5], [-0.9, -0.5, 0]);
+  panel([1.1, 1.3, 1.8], 5, 2, [4.5, 2, -2], [0, -1.2, 0]);
+  panel([3.5, 2.6, 1.6], 1.2, 1.2, [1.5, 3.4, 1.5], [Math.PI / 2, 0, 0]);
+  panel([0.16, 0.09, 0.05], 12, 12, [0, -0.5, 0], [-Math.PI / 2, 0, 0]);
+  scene.environment = pm.fromScene(env, 0.035).texture;
+  pm.dispose();
+}
+
+/* ---------------- materials & small helpers ---------------- */
+const MATS = {};
+function col(hex) { return new THREE.Color(hex).convertSRGBToLinear(); }
+/* cloudy value noise: bump for skins, peel, crumb and paper */
+function noiseTex(repeat = 1, fine = 0.5) {
+  const S = 256, c = makeCanvas(S, S), x = c.getContext('2d');
+  x.fillStyle = '#808080'; x.fillRect(0, 0, S, S);
+  [[4, 0.5], [16, 0.4], [64, 0.35]].forEach(([n, a]) => {
+    const sm = makeCanvas(n, n), sx = sm.getContext('2d'), id = sx.createImageData(n, n);
+    for (let i = 0; i < id.data.length; i += 4) { const v = Math.random() * 255; id.data[i] = id.data[i + 1] = id.data[i + 2] = v; id.data[i + 3] = 255; }
+    sx.putImageData(id, 0, 0); x.globalAlpha = a; x.imageSmoothingEnabled = true; x.drawImage(sm, 0, 0, S, S);
+  });
+  x.globalAlpha = 1;
+  const id = x.getImageData(0, 0, S, S);
+  for (let i = 0; i < id.data.length; i += 4) { const g = (Math.random() - 0.5) * 90 * fine; id.data[i] += g; id.data[i + 1] += g; id.data[i + 2] += g; }
+  x.putImageData(id, 0, 0);
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(repeat, repeat); return t;
+}
+let _bump = null, _paper = null;
+const BUMP = () => _bump || (_bump = noiseTex(2, 0.12));
+const PAPER_BUMP = () => _paper || (_paper = noiseTex(3, 1));
+function makeMat(c, r, m, extra) {
+  const o = Object.assign({ color: col(c), roughness: r, metalness: m }, extra || {});
+  const bump = o.bump; delete o.bump;
+  const mm = ('clearcoat' in o) ? new THREE.MeshPhysicalMaterial(o) : new THREE.MeshStandardMaterial(o);
+  if (bump) { mm.bumpMap = BUMP(); mm.bumpScale = bump; }
+  return mm;
+}
+function mat(c, r = 0.55, m = 0, extra) {
+  const k = c + '|' + r + '|' + m + '|' + (extra ? JSON.stringify(extra) : '');
+  if (!MATS[k]) { MATS[k] = makeMat(c, r, m, extra); MATS[k].userData.cached = true; }
+  return MATS[k];
+}
+function own(c, r = 0.55, m = 0, extra) { return makeMat(c, r, m, extra); }
+function M(geo, material, cast = true) {
+  const m = new THREE.Mesh(geo, material);
+  m.castShadow = cast; m.receiveShadow = true;
+  return m;
+}
+function lathe(pts, segs = 32) { return new THREE.LatheGeometry(pts.map(p => new THREE.Vector2(p[0], p[1])), segs); }
+function lobes(geo, n, amp) {
+  const p = geo.attributes.position;
+  for (let i = 0; i < p.count; i++) {
+    const x = p.getX(i), z = p.getZ(i);
+    const a = Math.atan2(z, x);
+    const k = 1 + amp * (Math.abs(Math.cos(a * n / 2)) - 0.5);
+    p.setX(i, x * k); p.setZ(i, z * k);
+  }
+  geo.computeVertexNormals();
+  return geo;
+}
+const DS = THREE.DoubleSide;
+
+/* ---------------- canvas textures ---------------- */
+function makeCanvas(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
+function woodTexture() {
+  const c = makeCanvas(1024, 1024), x = c.getContext('2d');
+  x.fillStyle = '#3b2617'; x.fillRect(0, 0, 1024, 1024);
+  for (let i = 0; i < 1400; i++) {
+    const y = Math.random() * 1024, a = Math.random() * 0.09;
+    x.strokeStyle = Math.random() < 0.5 ? `rgba(20,10,4,${a + 0.04})` : `rgba(120,80,45,${a})`;
+    x.lineWidth = rnd(0.6, 2.6);
+    x.beginPath();
+    const f = rnd(0.002, 0.006), amp = rnd(2, 9), ph = rnd(0, 6);
+    for (let px = 0; px <= 1024; px += 16) { const yy = y + Math.sin(px * f + ph) * amp; px ? x.lineTo(px, yy) : x.moveTo(px, yy); }
+    x.stroke();
+  }
+  for (let i = 0; i < 4; i++) { // plank seams
+    x.fillStyle = 'rgba(8,4,2,.55)'; x.fillRect(0, i * 256, 1024, 3);
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.encoding = THREE.sRGBEncoding; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(3, 3);
+  t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  return t;
+}
+function edgeTexture() {
+  const c = makeCanvas(64, 256), x = c.getContext('2d');
+  x.fillStyle = '#e6e1d4'; x.fillRect(0, 0, 64, 256);
+  for (let i = 0; i < 256; i += 2) { x.fillStyle = `rgba(90,70,50,${Math.random() * 0.18})`; x.fillRect(0, i, 64, 1); }
+  const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; return t;
+}
+function softDot(inner = 'rgba(255,255,255,1)') {
+  const c = makeCanvas(64, 64), x = c.getContext('2d');
+  const g = x.createRadialGradient(32, 32, 0, 32, 32, 32);
+  g.addColorStop(0, inner); g.addColorStop(1, 'rgba(255,255,255,0)');
+  x.fillStyle = g; x.fillRect(0, 0, 64, 64);
+  return new THREE.CanvasTexture(c);
+}
+function starTex() {
+  const c = makeCanvas(128, 128), x = c.getContext('2d');
+  const g = x.createRadialGradient(64, 64, 0, 64, 64, 64);
+  g.addColorStop(0, 'rgba(255,240,200,1)'); g.addColorStop(0.25, 'rgba(255,210,120,.35)'); g.addColorStop(1, 'rgba(255,200,100,0)');
+  x.fillStyle = g; x.fillRect(0, 0, 128, 128);
+  x.fillStyle = 'rgba(255,245,220,.9)';
+  x.beginPath(); x.moveTo(64, 2); x.lineTo(68, 60); x.lineTo(126, 64); x.lineTo(68, 68); x.lineTo(64, 126); x.lineTo(60, 68); x.lineTo(2, 64); x.lineTo(60, 60); x.closePath(); x.fill();
+  return new THREE.CanvasTexture(c);
+}
+
+/* ---------------- table & book shell ---------------- */
+const PW = 1024, PH = 1434;     // page canvas px
+const W = 1, H = 1.4;           // page size in world units
+const PAGE_Y = 0.075;
+const woodT = woodTexture();
+const table = M(new THREE.PlaneGeometry(14, 14), new THREE.MeshStandardMaterial({ map: woodT, bumpMap: woodT, bumpScale: 0.002, roughness: 0.62, envMapIntensity: 0.5 }), false);
+table.rotation.x = -PI / 2; scene.add(table);
+
+const cover = M(new THREE.BoxGeometry(2.13, 0.032, 1.5), mat('#23463a', 0.92), true);
+cover.position.y = 0.016; scene.add(cover);
+const spineBand = M(new THREE.BoxGeometry(0.06, 0.034, 1.5), mat('#1a362c', 0.9), false);
+spineBand.position.y = 0.017; scene.add(spineBand);
+
+/* ---------------- typography on pages ---------------- */
+const INK = '#1d2740', INK_SOFT = 'rgba(29,39,64,.8)', INK_FAINT = 'rgba(29,39,64,.34)', SAFF = '#e3a21a', PAPER = '#f1eee6';
+const F = {
+  disp: s => `400 ${s}px Gloock, Georgia, serif`,
+  body: s => `400 ${s}px Literata, Georgia, serif`,
+  bodyB: s => `600 ${s}px Literata, Georgia, serif`,
+  ital: s => `italic 400 ${s}px Literata, Georgia, serif`,
+  mono: s => `500 ${s}px "DM Mono", Menlo, monospace`,
+};
+let noisePat = null;
+function paperNoise(ctx) {
+  if (!noisePat) {
+    const c = makeCanvas(256, 256), x = c.getContext('2d');
+    const d = x.createImageData(256, 256);
+    for (let i = 0; i < d.data.length; i += 4) {
+      const v = Math.random();
+      d.data[i] = 90; d.data[i + 1] = 75; d.data[i + 2] = 55; d.data[i + 3] = v < 0.5 ? v * 18 : (v > 0.995 ? 70 : 0);
+    }
+    x.putImageData(d, 0, 0);
+    noisePat = c;
+  }
+  ctx.fillStyle = ctx.createPattern(noisePat, 'repeat');
+  ctx.fillRect(0, 0, PW, PH);
+}
+function spacing(ctx, px) { try { ctx.letterSpacing = px + 'px'; } catch (e) {} }
+function paper(ctx, side) {
+  ctx.fillStyle = PAPER; ctx.fillRect(0, 0, PW, PH);
+  paperNoise(ctx);
+  const gx = side === 'L' ? PW : 0;
+  const g = ctx.createLinearGradient(gx, 0, side === 'L' ? PW - 170 : 170, 0);
+  g.addColorStop(0, 'rgba(70,50,30,.30)'); g.addColorStop(0.22, 'rgba(70,50,30,.08)'); g.addColorStop(1, 'rgba(70,50,30,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, PW, PH);
+  const ox = side === 'L' ? 0 : PW;
+  const g2 = ctx.createLinearGradient(ox, 0, side === 'L' ? 40 : PW - 40, 0);
+  g2.addColorStop(0, 'rgba(70,50,30,.10)'); g2.addColorStop(1, 'rgba(70,50,30,0)');
+  ctx.fillStyle = g2; ctx.fillRect(0, 0, PW, PH);
+}
+function wrap(ctx, text, x, y, maxW, lh, draw = true) {
+  const words = text.split(' '); let line = '';
+  for (const w of words) {
+    const t = line ? line + ' ' + w : w;
+    if (ctx.measureText(t).width > maxW && line) { if (draw) ctx.fillText(line, x, y); line = w; y += lh; }
+    else line = t;
+  }
+  if (line) { if (draw) ctx.fillText(line, x, y); y += lh; }
+  return y;
+}
+function fitFont(ctx, text, fontFn, size, maxW, min) {
+  let s = size; ctx.font = fontFn(s);
+  while (ctx.measureText(text).width > maxW && s > min) { s -= 2; ctx.font = fontFn(s); }
+  return s;
+}
+function folio(ctx, side, n) {
+  ctx.font = F.mono(22); ctx.fillStyle = INK_SOFT; spacing(ctx, 2);
+  ctx.textAlign = side === 'L' ? 'left' : 'right';
+  ctx.fillText(String(n), side === 'L' ? 96 : PW - 96, PH - 70);
+  ctx.textAlign = 'left'; spacing(ctx, 0);
+}
+function kicker(ctx, text, x, y, align = 'left', color = INK_SOFT) {
+  ctx.font = F.mono(22); ctx.fillStyle = color; spacing(ctx, 4); ctx.textAlign = align;
+  ctx.fillText(text.toUpperCase(), x, y); ctx.textAlign = 'left'; spacing(ctx, 0);
+}
+
+function drawEndpaper(ctx) {
+  ctx.fillStyle = '#23463a'; ctx.fillRect(0, 0, PW, PH);
+  ctx.strokeStyle = 'rgba(205,225,200,.16)'; ctx.lineWidth = 3;
+  for (let r = 0; r < 14; r++) for (let c = 0; c < 9; c++) {
+    const x = c * 120 + (r % 2 ? 60 : 0) + 30, y = r * 110 + 40, k = (r * 7 + c * 3) % 4;
+    ctx.beginPath();
+    if (k === 0) { ctx.arc(x, y, 22, 0, TAU); ctx.moveTo(x, y - 22); ctx.quadraticCurveTo(x + 12, y - 38, x + 22, y - 32); }
+    else if (k === 1) { ctx.ellipse(x, y, 16, 22, 0, 0, TAU); }
+    else if (k === 2) { ctx.moveTo(x - 18, y + 18); ctx.lineTo(x + 18, y - 18); ctx.moveTo(x + 10, y - 26); ctx.lineTo(x + 26, y - 10); }
+    else { ctx.ellipse(x, y, 26, 12, 0.5, 0, TAU); }
+    ctx.stroke();
+  }
+}
+
+function drawTitle(ctx) {
+  paper(ctx, 'R');
+  const cx = PW / 2;
+  kicker(ctx, `Volume one · ${BOOK_RECIPES.length} recipes`, cx, 210, 'center');
+  ctx.fillStyle = INK; ctx.textAlign = 'center';
+  ctx.font = F.disp(156); ctx.fillText('Off the', cx, 380);
+  ctx.font = F.disp(196); ctx.fillText('Page', cx, 560);
+  ctx.font = F.ital(32); ctx.fillStyle = INK_SOFT;
+  wrap(ctx, 'A cookbook whose ingredients climb out to meet you, then cook themselves while you watch.', cx, 640, 700, 44);
+  ctx.strokeStyle = INK_FAINT; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(cx - 140, 760); ctx.lineTo(cx - 20, 760); ctx.moveTo(cx + 20, 760); ctx.lineTo(cx + 140, 760); ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx, 760, 6, 0, TAU); ctx.fillStyle = SAFF; ctx.fill();
+  // teaser stage
+  ctx.setLineDash([6, 10]); ctx.strokeStyle = INK_FAINT;
+  ctx.beginPath(); ctx.ellipse(cx, 905, 330, 95, 0, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
+  // contents
+  ctx.textAlign = 'left';
+  kicker(ctx, 'Contents', 150, 1080);
+  let rows = BOOK_RECIPES.map(R => [R.title, R.course, R.no * 2]);
+  if (rows.length > 7) rows = rows.slice(0, 6).concat([[`and ${rows.length - 6} more`, '', '']]);
+  rows.push(['Kitchen notes', '', BOOK_RECIPES.length * 2 + 2]);
+  const rh = Math.min(58, 290 / rows.length), fs = Math.round(Math.min(32, rh * 0.62));
+  rows.forEach((r, i) => {
+    const y = 1130 + i * rh;
+    ctx.font = F.body(fs); ctx.fillStyle = INK; ctx.fillText(r[0], 150, y);
+    const w = ctx.measureText(r[0]).width;
+    ctx.font = F.mono(22); ctx.fillStyle = INK_SOFT; ctx.textAlign = 'right'; ctx.fillText(String(r[2]), PW - 150, y);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = INK_FAINT; for (let x = 150 + w + 18; x < PW - 190; x += 14) ctx.fillRect(x, y - 6, 3, 3);
+  });
+}
+
+function drawColophon(ctx) {
+  paper(ctx, 'L');
+  kicker(ctx, 'Afterword', 110, 170);
+  ctx.fillStyle = INK; ctx.font = F.disp(92); ctx.fillText('Kitchen notes', 106, 280);
+  ctx.font = F.body(31); ctx.fillStyle = INK;
+  let y = 380;
+  const paras = [
+    'Nothing in this book is a photograph. Every tomato, egg and skillet is built from geometry in your browser, lit by one warm lamp, and casts a real shadow on the paper.',
+    'Turn a page by dragging it from anywhere on its surface, or use the arrow keys. Release past halfway and it falls the rest of the way.',
+    'On a recipe, press Start cooking to play one step at a time, or Cook it all. To add a page of your own, press Add a recipe, choose the ingredients and moves, and save it into your copy of the book.',
+  ];
+  for (const p of paras) { y = wrap(ctx, p, 110, y, 800, 46) + 28; }
+  kicker(ctx, 'Set in', 110, y + 30);
+  ctx.font = F.ital(30); ctx.fillStyle = INK_SOFT;
+  wrap(ctx, 'Gloock for titles, Literata for reading, DM Mono for measures and minutes.', 110, y + 80, 800, 42);
+  ctx.textAlign = 'center'; ctx.font = F.disp(64); ctx.fillStyle = INK; ctx.fillText('Fin.', PW / 2, PH - 220);
+  ctx.textAlign = 'left';
+  folio(ctx, 'L', BOOK_RECIPES.length * 2 + 2);
+}
+
+const STAGE_C = { cx: 512, cy: 700, rx: 410, ry: 190 };
+function drawRecipeLeft(ctx, st, R) {
+  paper(ctx, 'L');
+  kicker(ctx, `No. ${R.no} · ${R.course} · ${R.serves} · ${R.time}`, 96, 150);
+  ctx.fillStyle = INK;
+  fitFont(ctx, R.title, F.disp, 96, 840, 60);
+  ctx.fillText(R.title, 92, 262);
+  let ds = 30; ctx.font = F.ital(ds);
+  while (ds > 22 && wrap(ctx, R.deck, 96, 330, 830, ds * 1.4, false) > 330 + 3 * ds * 1.4) { ds -= 2; ctx.font = F.ital(ds); }
+  ctx.fillStyle = INK_SOFT; wrap(ctx, R.deck, 96, 330, 830, ds * 1.4);
+  // mise en place stage
+  ctx.setLineDash([6, 10]); ctx.strokeStyle = INK_FAINT; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.ellipse(STAGE_C.cx, STAGE_C.cy, STAGE_C.rx, STAGE_C.ry, 0, 0, TAU); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = PAPER; ctx.fillRect(STAGE_C.cx - 120, STAGE_C.cy + STAGE_C.ry - 16, 240, 32);
+  kicker(ctx, 'Mise en place', STAGE_C.cx, STAGE_C.cy + STAGE_C.ry + 8, 'center');
+  // list
+  kicker(ctx, "You'll need", 96, 990);
+  R.items.forEach((it, i) => {
+    const y = 1056 + i * 52;
+    const used = st.used && st.used.has(i);
+    if (st.hl === i) {
+      ctx.fillStyle = 'rgba(227,162,26,.30)';
+      ctx.beginPath(); ctx.roundRect ? ctx.roundRect(78, y - 36, 868, 50, 10) : ctx.rect(78, y - 36, 868, 50); ctx.fill();
+    }
+    ctx.globalAlpha = used ? 0.42 : 1;
+    ctx.font = F.mono(24); ctx.fillStyle = INK_SOFT; ctx.textAlign = 'right'; ctx.fillText(it.q, 250, y);
+    ctx.textAlign = 'left'; ctx.font = F.body(30); ctx.fillStyle = INK; ctx.fillText(it.name, 278, y);
+    const w = ctx.measureText(it.name).width;
+    const nt = it.note ? ', ' + it.note : ''; ctx.font = F.ital(26); ctx.fillStyle = INK_SOFT; ctx.fillText(nt, 278 + w, y);
+    if (used) { ctx.strokeStyle = INK_SOFT; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(272, y - 9); ctx.lineTo(290 + w + ctx.measureText(nt).width, y - 9); ctx.stroke(); }
+    ctx.globalAlpha = 1;
+  });
+  folio(ctx, 'L', R.no * 2);
+}
+const STOVE_C = { cx: 512, cy: 380 };
+function drawRecipeRight(ctx, st, R) {
+  paper(ctx, 'R');
+  kicker(ctx, 'Method', 96, 130);
+  kicker(ctx, R.time, PW - 96, 130, 'right');
+  // the stove: a printed burner the pan rises out of
+  const { cx, cy } = STOVE_C;
+  ctx.strokeStyle = INK_FAINT; ctx.lineWidth = 3;
+  [250, 205, 120].forEach((r, i) => { ctx.setLineDash(i === 0 ? [4, 12] : []); ctx.beginPath(); ctx.arc(cx, cy, r, 0, TAU); ctx.stroke(); });
+  ctx.setLineDash([]);
+  for (let i = 0; i < 4; i++) {
+    const a = i * PI / 2 + PI / 4;
+    ctx.beginPath(); ctx.moveTo(cx + Math.cos(a) * 130, cy + Math.sin(a) * 130); ctx.lineTo(cx + Math.cos(a) * 240, cy + Math.sin(a) * 240); ctx.stroke();
+  }
+  ctx.fillStyle = PAPER; ctx.fillRect(cx - 90, cy + 236, 180, 30);
+  kicker(ctx, 'The stove', cx, cy + 258, 'center');
+  // steps
+  let fsz = 30;
+  for (; fsz > 20; fsz -= 2) { ctx.font = F.bodyB(fsz); let yy = 740; R.steps.forEach(s => { yy = wrap(ctx, s.text, 180, yy, 750, fsz * 1.4, false) + fsz; }); if (yy < 1320) break; }
+  let y = 740;
+  R.steps.forEach((s, i) => {
+    const done = i < st.done, cur = i === st.cur;
+    const nx = 128, ny = y - 10;
+    ctx.beginPath(); ctx.arc(nx, ny, 26, 0, TAU);
+    if (cur) { ctx.fillStyle = SAFF; ctx.fill(); }
+    else if (done) { ctx.fillStyle = 'rgba(29,39,64,.10)'; ctx.fill(); }
+    else { ctx.strokeStyle = INK_SOFT; ctx.lineWidth = 2; ctx.stroke(); }
+    ctx.textAlign = 'center'; ctx.font = F.mono(24); ctx.fillStyle = INK;
+    if (done) {
+      ctx.strokeStyle = INK; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(nx - 11, ny); ctx.lineTo(nx - 3, ny + 9); ctx.lineTo(nx + 12, ny - 9); ctx.stroke();
+    } else ctx.fillText(String(i + 1), nx, ny + 8);
+    ctx.textAlign = 'left';
+    ctx.font = cur ? F.bodyB(fsz) : F.body(fsz);
+    ctx.fillStyle = done ? INK_SOFT : INK;
+    y = wrap(ctx, s.text, 180, y, 750, fsz * 1.4) + fsz;
+  });
+  ctx.font = F.ital(26); ctx.fillStyle = INK_SOFT;
+  if (st.done >= R.steps.length) ctx.fillText(R.finish, 180, Math.min(y + 10, PH - 130));
+  folio(ctx, 'R', R.no * 2 + 1);
+}
+
+
+/* ---------------- pages & the book (rebuilt whenever the recipe list changes) ---------------- */
+const CW = 880, CH = Math.round(PH * CW / PW);
+function makePage(drawFn, side) {
+  const c = makeCanvas(CW, CH);
+  const ctx = c.getContext('2d');
+  const tex = new THREE.CanvasTexture(c);
+  tex.encoding = THREE.sRGBEncoding;
+  tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  const pg = { c, ctx, tex, side, res: 1, st: { hl: -1, cur: -1, done: 0, used: new Set() } };
+  pg.setRes = r => { if (pg.res === r) return; pg.res = r; c.width = Math.round(CW * r); c.height = Math.round(CH * r); tex.dispose(); pg.draw(); };
+  pg.draw = () => { ctx.save(); ctx.setTransform(c.width / PW, 0, 0, c.height / PH, 0, 0); drawFn(ctx, pg.st); ctx.restore(); tex.needsUpdate = true; };
+  pg.dispose = () => tex.dispose();
+  return pg;
+}
+const pEnd = makePage(drawEndpaper, 'L');
+const pEnd2 = makePage(drawEndpaper, 'R');
+const pTitle = makePage(drawTitle, 'R');
+const pColo = makePage(drawColophon, 'L');
+
+const edgeMat = new THREE.MeshStandardMaterial({ map: edgeTexture(), roughness: 0.9 });
+const blockH = PAGE_Y - 0.032;
+function block(x, page) {
+  const top = new THREE.MeshStandardMaterial({ map: page.tex, roughness: 0.9, bumpMap: PAPER_BUMP(), bumpScale: 0.0008 });
+  const b = M(new THREE.BoxGeometry(W, blockH, H), [edgeMat, edgeMat, top, edgeMat, edgeMat, edgeMat], false);
+  b.position.set(x, 0.032 + blockH / 2, 0); scene.add(b); return b;
+}
+block(-W / 2, pEnd); block(W / 2, pEnd2);
+
+let SPREADS = [], sheets = [], N = 0, BOOK_RECIPES = [], recipePages = [];
+const SEG = 30, EPS = 0.0012;
+const topY = () => PAGE_Y + N * EPS;
+function sheetGeo() {
+  const g = new THREE.BufferGeometry();
+  const pos = new Float32Array((SEG + 1) * 2 * 3), uv = new Float32Array((SEG + 1) * 2 * 2), idx = [];
+  for (let i = 0; i <= SEG; i++) for (let j = 0; j < 2; j++) { const k = i * 2 + j; uv[k * 2] = i / SEG; uv[k * 2 + 1] = j === 0 ? 1 : 0; }
+  for (let i = 0; i < SEG; i++) { const a = i * 2, b = a + 1, c = a + 2, d = a + 3; idx.push(a, b, c, c, b, d); }
+  g.setIndex(idx);
+  g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  g.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+  return g;
+}
+function shortName(R) {
+  if (R.short) return R.short;
+  const w = R.title.split(/\s+/);
+  return (w[0].length < 5 && w[1] ? w[0] + ' ' + w[1] : w[0]).slice(0, 14);
+}
+function buildBook(recipes, atSpread) {
+  sheets.forEach(s => { scene.remove(s.front, s.back); s.geo.dispose(); s.front.material.dispose(); s.back.material.dispose(); });
+  recipePages.forEach(p => { p.L.dispose(); p.R.dispose(); });
+  BOOK_RECIPES = recipes;
+  recipes.forEach((R, i) => { R.no = i + 1; });
+  recipePages = recipes.map(R => ({ L: makePage((c, s) => drawRecipeLeft(c, s, R), 'L'), R: makePage((c, s) => drawRecipeRight(c, s, R), 'R') }));
+  SPREADS = [{ name: 'Title', L: pEnd, R: pTitle }]
+    .concat(recipes.map((R, i) => ({ name: shortName(R), L: recipePages[i].L, R: recipePages[i].R, recipe: R })))
+    .concat([{ name: 'Notes', L: pColo, R: pEnd2 }]);
+  const fronts = [pTitle].concat(recipePages.map(p => p.R));
+  const backs = recipePages.map(p => p.L).concat([pColo]);
+  N = fronts.length;
+  sheets = [];
+  for (let i = 0; i < N; i++) {
+    const geo = sheetGeo();
+    const fm = new THREE.MeshStandardMaterial({ map: fronts[i].tex, roughness: 0.9, side: THREE.FrontSide, bumpMap: PAPER_BUMP(), bumpScale: 0.0008 });
+    fm.shadowSide = THREE.DoubleSide;
+    const bt = backs[i].tex; bt.wrapS = THREE.RepeatWrapping; bt.repeat.x = -1; bt.offset.x = 1;
+    const bm = new THREE.MeshStandardMaterial({ map: bt, roughness: 0.9, side: THREE.BackSide, bumpMap: PAPER_BUMP(), bumpScale: 0.0008 });
+    const front = M(geo, fm, true), back = M(geo, bm, false);
+    scene.add(front, back);
+    const t = i < atSpread ? 1 : 0;
+    sheets.push({ i, geo, front, back, t, dir: 1, anim: false, dirty: true, yR: PAGE_Y + (N - i) * EPS, yL: PAGE_Y + (i + 1) * EPS });
+  }
+  [pTitle, pColo].forEach(p => p.draw());
+  recipePages.forEach(p => { p.L.draw(); p.R.draw(); });
+  sheets.forEach(shapeSheet);
+}
+function shapeSheet(s) {
+  const t = s.t, th = t * PI;
+  const bend = Math.sin(t * PI) * 0.95 * s.dir;
+  const y0 = lerp(s.yR, s.yL, t);
+  const p = s.geo.attributes.position.array, du = W / SEG;
+  let x = 0, y = 0;
+  for (let i = 0; i <= SEG; i++) {
+    const k = i * 6;
+    p[k] = x; p[k + 1] = y0 + y; p[k + 2] = -H / 2;
+    p[k + 3] = x; p[k + 4] = y0 + y; p[k + 5] = H / 2;
+    const sn = i / SEG;
+    const a = clamp(th - bend * sn * sn * 1.4, 0, PI);
+    x += Math.cos(a) * du; y += Math.sin(a) * du;
+  }
+  s.geo.attributes.position.needsUpdate = true;
+  s.geo.computeVertexNormals();
+  s.geo.computeBoundingSphere();
+}
+
+/* ---------------- tweens with cancellation ---------------- */
+class Cancel extends Error {}
+window.addEventListener('unhandledrejection', e => { if (e.reason instanceof Cancel) e.preventDefault(); });
+let RUN = { cancelled: false };
+const UI = { cancelled: false };
+const TW = [];
+const E = {
+  lin: p => p,
+  io: p => p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2,
+  out: p => 1 - Math.pow(1 - p, 3),
+  in: p => p * p * p,
+  back: p => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); },
+  sine: p => -(Math.cos(PI * p) - 1) / 2,
+};
+function tween(dur, fn, ease = E.io, tok = RUN) {
+  return new Promise((res, rej) => {
+    if (tok.cancelled) { rej(new Cancel()); return; }
+    TW.push({ t0: performance.now(), dur: Math.max(1, dur * SPEED), fn, ease, res, rej, tok });
+  });
+}
+const wait = ms => tween(ms, () => {}, E.lin);
+function runTweens(now) {
+  for (let i = TW.length - 1; i >= 0; i--) {
+    const w = TW[i];
+    if (w.tok.cancelled) { TW.splice(i, 1); w.rej(new Cancel()); continue; }
+    const p = Math.min(1, (now - w.t0) / w.dur);
+    try { w.fn(w.ease(p), p); } catch (e) { console.error(e); }
+    if (p >= 1) { TW.splice(i, 1); w.res(); }
+  }
+}
+function cancelRun() { RUN.cancelled = true; RUN = { cancelled: false }; }
+
+/* ---------------- sound ---------------- */
+const SFX = (() => {
+  let ac = null, out, nb, on = true, siz = null;
+  function init() {
+    if (ac) return;
+    try {
+      ac = new (window.AudioContext || window.webkitAudioContext)();
+      out = ac.createGain(); out.gain.value = 0.55; out.connect(ac.destination);
+      nb = ac.createBuffer(1, ac.sampleRate * 2, ac.sampleRate);
+      const d = nb.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    } catch (e) { ac = null; }
+  }
+  function nz(dur, o = {}) {
+    if (!ac || !on) return;
+    const { type = 'bandpass', f = 1200, f2 = null, q = 1, g = 0.3, a = 0.01 } = o;
+    const t = ac.currentTime, s = ac.createBufferSource(); s.buffer = nb;
+    const fl = ac.createBiquadFilter(); fl.type = type; fl.frequency.setValueAtTime(f, t);
+    if (f2) fl.frequency.exponentialRampToValueAtTime(f2, t + dur); fl.Q.value = q;
+    const gn = ac.createGain(); gn.gain.setValueAtTime(0.0001, t); gn.gain.linearRampToValueAtTime(g, t + a); gn.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    s.connect(fl); fl.connect(gn); gn.connect(out); s.start(t, Math.random()); s.stop(t + dur + 0.05);
+  }
+  function tone(f1, f2, dur, g = 0.12, type = 'sine') {
+    if (!ac || !on) return;
+    const t = ac.currentTime, o = ac.createOscillator(), gn = ac.createGain();
+    o.type = type; o.frequency.setValueAtTime(f1, t); o.frequency.exponentialRampToValueAtTime(f2, t + dur);
+    gn.gain.setValueAtTime(0.0001, t); gn.gain.linearRampToValueAtTime(g, t + 0.01); gn.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(gn); gn.connect(out); o.start(t); o.stop(t + dur + 0.05);
+  }
+  const api = {
+    init,
+    get on() { return on; },
+    set on(v) { on = v; if (!v) api.sizzle(false); },
+    flip() { nz(0.5, { f: 450, f2: 2600, q: 0.6, g: 0.2, a: 0.08 }); },
+    chop() { nz(0.05, { type: 'highpass', f: 2600, g: 0.3, a: 0.002 }); tone(190, 90, 0.07, 0.1, 'triangle'); },
+    crack() { nz(0.035, { type: 'highpass', f: 3400, g: 0.35, a: 0.001 }); setTimeout(() => nz(0.03, { type: 'highpass', f: 4200, g: 0.25, a: 0.001 }), 55); },
+    pop() { tone(380, 760, 0.1, 0.05); },
+    pour(d) { nz(d, { f: 700, q: 0.4, g: 0.06, a: 0.15 }); },
+    splat() { nz(0.18, { type: 'lowpass', f: 600, g: 0.25, a: 0.005 }); },
+    ding() { tone(1318, 1310, 0.7, 0.05); setTimeout(() => tone(1760, 1750, 0.9, 0.04), 110); },
+    sizzle(v) {
+      if (v) {
+        if (!ac || !on || siz) return;
+        const t = ac.currentTime, s = ac.createBufferSource(); s.buffer = nb; s.loop = true;
+        const fl = ac.createBiquadFilter(); fl.type = 'highpass'; fl.frequency.value = 2400;
+        const gn = ac.createGain(); gn.gain.setValueAtTime(0.0001, t); gn.gain.linearRampToValueAtTime(0.045, t + 0.6);
+        s.connect(fl); fl.connect(gn); gn.connect(out); s.start(); siz = { s, gn };
+      } else if (siz && ac) {
+        const t = ac.currentTime; siz.gn.gain.cancelScheduledValues(t); siz.gn.gain.setValueAtTime(siz.gn.gain.value, t);
+        siz.gn.gain.linearRampToValueAtTime(0.0001, t + 0.5); const s = siz.s; setTimeout(() => { try { s.stop(); } catch (e) {} }, 600); siz = null;
+      }
+    },
+  };
+  return api;
+})();
+
+/* ---------------- object builders ---------------- */
+function eggGeo(r = 0.027, h = 0.04) {
+  const pts = [];
+  for (let i = 0; i <= 16; i++) { const t = i / 16 * PI; pts.push([Math.max(0.0001, Math.sin(t) * r * (1 + 0.12 * Math.cos(t))), -Math.cos(t) * h]); }
+  pts[0][0] = 0; pts[16][0] = 0;
+  return lathe(pts, 28);
+}
+const B = {
+  tomato(s) {
+    if (typeof s !== 'number') s = 1;
+    const g = new THREE.Group();
+    const body = M(new THREE.SphereGeometry(0.056 * s, 32, 24), mat('#d63a26', 0.34, 0, { clearcoat: 0.8, clearcoatRoughness: 0.16, bump: 0.00168 })); body.scale.y = 0.84; g.add(body);
+    lobes(body.geometry, 6, 0.05);
+    const lm = mat('#3d7a2c', 0.6);
+    for (let i = 0; i < 5; i++) {
+      const piv = new THREE.Group(); piv.rotation.y = i / 5 * TAU;
+      const l = M(new THREE.ConeGeometry(0.008 * s, 0.042 * s, 4), lm, false);
+      l.rotation.z = -PI / 2 - 0.3; l.position.set(0.02 * s, 0.045 * s, 0); piv.add(l); g.add(piv);
+    }
+    const st = M(new THREE.CylinderGeometry(0.003 * s, 0.005 * s, 0.022 * s, 6), lm, false); st.position.y = 0.056 * s; g.add(st);
+    return g;
+  },
+  tomatoes() { const g = new THREE.Group(); const a = B.tomato(1), b = B.tomato(0.88); a.position.x = -0.05; b.position.set(0.055, -0.006, 0.02); b.rotation.y = 1; g.add(a, b); return g; },
+  onion() {
+    const g = new THREE.Group();
+    const body = M(lathe([[0, -0.058], [0.03, -0.055], [0.056, -0.03], [0.064, 0], [0.057, 0.03], [0.034, 0.058], [0.012, 0.08], [0.004, 0.096], [0, 0.098]]), mat('#c4843f', 0.55, 0, { clearcoat: 0.4, clearcoatRoughness: 0.35, bump: 0.0049 }));
+    lobes(body.geometry, 10, 0.03); g.add(body);
+    const root = M(new THREE.CylinderGeometry(0.012, 0.016, 0.008, 10), mat('#d8c497', 0.9), false); root.position.y = -0.06; g.add(root);
+    return g;
+  },
+  garlic() {
+    const g = new THREE.Group();
+    const body = M(lobes(lathe([[0, -0.034], [0.02, -0.033], [0.037, -0.021], [0.041, -0.004], [0.035, 0.014], [0.02, 0.03], [0.008, 0.045], [0.004, 0.058], [0, 0.06]]), 8, 0.14), mat('#efe6d4', 0.62, 0, { bump: 0.0049 }));
+    g.add(body); return g;
+  },
+  pepper() {
+    const g = new THREE.Group();
+    const body = M(lobes(lathe([[0, -0.06], [0.03, -0.064], [0.054, -0.045], [0.064, -0.01], [0.062, 0.03], [0.05, 0.054], [0.02, 0.06], [0.008, 0.052], [0, 0.05]]), 4, 0.2), mat('#c3261a', 0.25, 0, { clearcoat: 1, clearcoatRoughness: 0.1, bump: 0.00112 }));
+    g.add(body);
+    const st = M(new THREE.CylinderGeometry(0.006, 0.01, 0.035, 8), mat('#3f6e2a', 0.5), false); st.position.set(0.004, 0.068, 0); st.rotation.z = -0.35; g.add(st);
+    return g;
+  },
+  egg() { return M(eggGeo(), mat('#ecd3ae', 0.55, 0, { bump: 0.0006 })); },
+  eggs3() { const g = new THREE.Group(); [-0.055, 0, 0.055].forEach((x, i) => { const e = B.egg(); e.position.set(x, 0, i === 1 ? -0.015 : 0.01); e.rotation.z = (i - 1) * 0.18; g.add(e); }); return g; },
+  eggs2() { const g = new THREE.Group(); [-0.03, 0.03].forEach((x, i) => { const e = B.egg(); e.position.set(x, 0, i ? 0.01 : -0.01); e.rotation.z = (i ? 1 : -1) * 0.15; g.add(e); }); return g; },
+  jar(d) {
+    const g = new THREE.Group();
+    const glass = M(new THREE.CylinderGeometry(0.032, 0.032, 0.09, 24, 1, true), mat('#dfe9e6', 0.08, 0, { transparent: true, opacity: 0.35, side: DS }));
+    const fill = M(new THREE.CylinderGeometry(0.029, 0.029, 0.068, 24), mat((d && (d.jar || d.color)) || '#8a5a2b', 0.9));
+    fill.position.y = -0.01;
+    const cap = M(new THREE.CylinderGeometry(0.034, 0.034, 0.022, 24), mat('#3a2a20', 0.5)); cap.position.y = 0.056;
+    const label = M(new THREE.CylinderGeometry(0.0326, 0.0326, 0.036, 24, 1, true), mat('#efe8d8', 0.9, 0, { side: DS })); label.position.y = -0.004;
+    g.add(glass, fill, cap, label); g.userData.mouth = v3(0, 0.07, 0); return g;
+  },
+  spaghetti() {
+    const g = new THREE.Group(), inner = new THREE.Group();
+    const m = mat('#e7c470', 0.45);
+    const geo = new THREE.CylinderGeometry(0.0032, 0.0032, 0.27, 5);
+    for (let i = 0; i < 38; i++) {
+      const a = Math.random() * TAU, r = Math.sqrt(Math.random()) * 0.019;
+      const s = M(geo, m, true); s.position.set(Math.cos(a) * r, rnd(-0.008, 0.008), Math.sin(a) * r);
+      s.rotation.set(rnd(-0.03, 0.03), 0, rnd(-0.03, 0.03)); inner.add(s);
+    }
+    const band = M(new THREE.TorusGeometry(0.022, 0.004, 8, 24), mat('#b4321f', 0.6)); band.rotation.x = PI / 2; inner.add(band);
+    inner.rotation.z = 1.22; g.add(inner); g.userData.inner = inner; return g;
+  },
+  chili() {
+    const g = new THREE.Group();
+    const curve = new THREE.CatmullRomCurve3([v3(-0.065, 0.005, 0), v3(-0.025, 0.014, 0), v3(0.025, 0.006, 0), v3(0.062, -0.018, 0.005)]);
+    const tube = new THREE.TubeGeometry(curve, 32, 0.012, 10, false);
+    const p = tube.attributes.position;
+    // taper the tip
+    for (let i = 0; i < p.count; i++) {
+      const seg = Math.floor(i / 11) / 32; const k = 1 - Math.pow(seg, 3) * 0.85;
+      const pt = curve.getPoint(seg); p.setXYZ(i, pt.x + (p.getX(i) - pt.x) * k, pt.y + (p.getY(i) - pt.y) * k, pt.z + (p.getZ(i) - pt.z) * k);
+    }
+    tube.computeVertexNormals();
+    g.add(M(tube, mat('#a8221a', 0.3, 0, { clearcoat: 1, clearcoatRoughness: 0.14, bump: 0.0014 })));
+    const st = M(new THREE.CylinderGeometry(0.009, 0.013, 0.014, 10), mat('#4c6a2a', 0.6), false); st.rotation.z = PI / 2; st.position.set(-0.07, 0.005, 0); g.add(st);
+    return g;
+  },
+  oil() {
+    const g = new THREE.Group(), s = 0.82;
+    const glass = M(lathe([[0, 0], [0.035, 0], [0.038, 0.006], [0.038, 0.11], [0.03, 0.14], [0.013, 0.16], [0.012, 0.2], [0, 0.2]].map(p => [p[0] * s, p[1] * s])), mat('#9a9a2e', 0.1, 0, { transparent: true, opacity: 0.82 }));
+    const cork = M(new THREE.CylinderGeometry(0.011 * s, 0.01 * s, 0.026 * s, 12), mat('#b08a5a', 0.8)); cork.position.y = 0.21 * s;
+    const label = M(new THREE.CylinderGeometry(0.0386 * s, 0.0386 * s, 0.045 * s, 24, 1, true), mat('#efe8d8', 0.9, 0, { side: DS })); label.position.y = 0.06 * s;
+    g.add(glass, cork, label); g.children.forEach(c => c.position.y -= 0.1 * s);
+    g.userData.mouth = v3(0, 0.11 * s, 0); return g;
+  },
+  lemon() {
+    const g = new THREE.Group(), m = mat('#f0c928', 0.45, 0, { clearcoat: 0.55, clearcoatRoughness: 0.3, bump: 0.0084 });
+    const body = M(new THREE.SphereGeometry(0.045, 32, 24), m); body.scale.set(1.32, 1, 1); g.add(body);
+    [-1, 1].forEach(d => { const t = M(new THREE.SphereGeometry(0.012, 12, 8), m); t.scale.set(1.4, 0.8, 0.8); t.position.x = d * 0.06; g.add(t); });
+    g.rotation.y = 0.5; return g;
+  },
+  parsley() {
+    const g = new THREE.Group(), sm = mat('#5e9a3e', 0.6), lm = mat('#2f7d35', 0.55);
+    for (let i = 0; i < 3; i++) {
+      const sp = new THREE.Group(); sp.rotation.set(rnd(-0.3, 0.3), i * 2.1, (i - 1) * 0.4);
+      const st = M(new THREE.CylinderGeometry(0.0025, 0.003, 0.09, 6), sm, false); st.position.y = -0.01; sp.add(st);
+      for (let k = 0; k < 4; k++) {
+        const l = M(new THREE.IcosahedronGeometry(0.017, 0), lm); l.scale.set(1, 0.45, 1.2);
+        l.position.set(rnd(-0.015, 0.015), 0.035 + rnd(0, 0.015), rnd(-0.015, 0.015)); l.rotation.set(rnd(0, 1), rnd(0, 3), rnd(0, 1)); sp.add(l);
+      }
+      g.add(sp);
+    }
+    return g;
+  },
+  flour() {
+    const g = new THREE.Group();
+    const bag = M(new THREE.BoxGeometry(0.085, 0.115, 0.06), mat('#efe9dc', 0.95)); g.add(bag);
+    const fold = M(new THREE.BoxGeometry(0.087, 0.018, 0.03), mat('#e5ddcc', 0.95)); fold.position.y = 0.064; g.add(fold);
+    const band = M(new THREE.BoxGeometry(0.087, 0.032, 0.062), mat('#b5452c', 0.8)); band.position.y = -0.005; g.add(band);
+    g.userData.mouth = v3(0, 0.07, 0); return g;
+  },
+  milk() {
+    const g = new THREE.Group();
+    const body = M(lathe([[0, 0], [0.033, 0], [0.035, 0.005], [0.035, 0.09], [0.026, 0.118], [0.016, 0.132], [0.016, 0.148], [0, 0.148]]), mat('#f7f5ef', 0.25));
+    const cap = M(new THREE.CylinderGeometry(0.018, 0.018, 0.016, 16), mat('#2f5f98', 0.4)); cap.position.y = 0.156;
+    const label = M(new THREE.CylinderGeometry(0.0356, 0.0356, 0.03, 24, 1, true), mat('#2f5f98', 0.5, 0, { side: DS })); label.position.y = 0.05;
+    g.add(body, cap, label); g.children.forEach(c => c.position.y -= 0.08);
+    g.userData.mouth = v3(0, 0.075, 0); return g;
+  },
+  butter() {
+    const g = new THREE.Group();
+    g.add(M(new THREE.BoxGeometry(0.1, 0.038, 0.052), mat('#f3d97f', 0.45)));
+    const wrap = M(new THREE.BoxGeometry(0.055, 0.041, 0.055), mat('#f4f1ea', 0.9)); wrap.position.x = 0.025; g.add(wrap);
+    return g;
+  },
+  berries() {
+    const g = new THREE.Group(), m = mat('#2b3a78', 0.38);
+    const pos = [[0, 0, 0], [0.032, 0, 0.008], [-0.03, 0, 0.012], [0.012, 0, -0.03], [-0.016, 0, -0.024], [0.004, 0.028, -0.004], [-0.04, 0, -0.014]];
+    pos.forEach(p => { const b = M(new THREE.SphereGeometry(0.016, 16, 12), m); b.position.set(...p); b.scale.y = 0.92; g.add(b); });
+    return g;
+  },
+  // tools
+  knife() {
+    const g = new THREE.Group();
+    const blade = M(new THREE.BoxGeometry(0.004, 0.045, 0.19), mat('#d3d8dc', 0.18, 0.9)); g.add(blade);
+    const handle = M(new THREE.BoxGeometry(0.014, 0.026, 0.09), mat('#3b2a1e', 0.6)); handle.position.set(0, 0.006, 0.14); g.add(handle);
+    return g;
+  },
+  whisk() {
+    const g = new THREE.Group(), steel = mat('#d3d8dc', 0.2, 0.9);
+    const h = M(new THREE.CylinderGeometry(0.008, 0.009, 0.12, 12), mat('#3b2a1e', 0.6)); h.position.y = 0.15; g.add(h);
+    for (let i = 0; i < 4; i++) { const t = M(new THREE.TorusGeometry(0.03, 0.0016, 6, 28), steel); t.scale.set(1, 1.7, 1); t.rotation.y = i * PI / 4; t.position.y = 0.045; g.add(t); }
+    return g;
+  },
+  spatula() {
+    const g = new THREE.Group();
+    const blade = M(new THREE.BoxGeometry(0.07, 0.003, 0.075), mat('#d3d8dc', 0.2, 0.9)); g.add(blade);
+    const h = M(new THREE.CylinderGeometry(0.006, 0.007, 0.15, 10), mat('#3b2a1e', 0.6)); h.rotation.x = PI / 2 - 0.25; h.position.set(0, 0.02, 0.11); g.add(h);
+    return g;
+  },
+  lid(r) {
+    const g = new THREE.Group();
+    g.add(M(lathe([[r, 0], [r * 0.96, 0.018], [r * 0.75, 0.05], [r * 0.35, 0.068], [0, 0.072]], 40), mat('#cfe0e4', 0.05, 0.1, { transparent: true, opacity: 0.3, side: DS }), false));
+    const rimT = M(new THREE.TorusGeometry(r, 0.005, 8, 48), mat('#b9bec4', 0.3, 0.85)); rimT.rotation.x = PI / 2; g.add(rimT);
+    const knob = M(new THREE.SphereGeometry(0.016, 16, 12), mat('#2b2b2e', 0.5)); knob.position.y = 0.078; g.add(knob);
+    return g;
+  },
+};
+
+/* ---------------- vessels ---------------- */
+function makeVessel(type) {
+  const g = new THREE.Group(), content = new THREE.Group(); g.add(content);
+  const v = { type, group: g, content, r: 0.15, floor: 0.01, rim: 0.06, level: 0.01, pieces: [], whites: [], taper: 1 };
+  if (type === 'skillet') {
+    const iron = mat('#2a2a2d', 0.42, 0.6, { side: DS, bump: 0.00168 });
+    g.add(M(lathe([[0, 0], [0.17, 0], [0.195, 0.012], [0.205, 0.06], [0.199, 0.063], [0.188, 0.02], [0.165, 0.009], [0, 0.009]], 48), iron));
+    const h = M(new THREE.BoxGeometry(0.17, 0.02, 0.034), mat('#2a2a2d', 0.5, 0.55)); h.position.set(0.28, 0.05, 0); h.rotation.z = 0.14; g.add(h);
+    Object.assign(v, { r: 0.165, floor: 0.009, rim: 0.062, level: 0.009 });
+  } else if (type === 'pot') {
+    const steel = mat('#b9bec4', 0.28, 0.85, { side: DS });
+    g.add(M(lathe([[0, 0], [0.155, 0], [0.16, 0.005], [0.16, 0.15], [0.168, 0.156], [0.168, 0.162], [0.154, 0.156], [0.152, 0.012], [0, 0.012]], 48), steel));
+    [-1, 1].forEach(d => { const t = M(new THREE.TorusGeometry(0.024, 0.006, 8, 16, PI), mat('#b9bec4', 0.28, 0.85)); t.position.set(d * 0.168, 0.13, 0); t.rotation.set(PI / 2, 0, d > 0 ? -PI / 2 : PI / 2); g.add(t); });
+    Object.assign(v, { r: 0.15, floor: 0.012, rim: 0.16, level: 0.012 });
+  } else if (type === 'bowl') {
+    const glaze = mat('#2f6670', 0.3, 0.05, { side: DS, clearcoat: 1, clearcoatRoughness: 0.06 });
+    g.add(M(lathe([[0, 0], [0.06, 0], [0.075, 0.006], [0.12, 0.04], [0.155, 0.09], [0.166, 0.115], [0.158, 0.118], [0.145, 0.093], [0.11, 0.047], [0.065, 0.014], [0, 0.014]], 48), glaze));
+    Object.assign(v, { r: 0.15, floor: 0.014, rim: 0.115, level: 0.014, taper: 0.45, rBot: 0.07, rTop: 0.158 });
+  } else if (type === 'griddle') {
+    g.add(M(new THREE.CylinderGeometry(0.22, 0.215, 0.018, 48).translate(0, 0.009, 0), mat('#2a2a2d', 0.55, 0.5)));
+    const h = M(new THREE.BoxGeometry(0.15, 0.016, 0.03), mat('#3b2a1e', 0.6)); h.position.set(0.29, 0.01, 0); g.add(h);
+    Object.assign(v, { r: 0.2, floor: 0.018, rim: 0.018, level: 0.018 });
+  } else if (type === 'blender') {
+    g.add(M(new THREE.CylinderGeometry(0.1, 0.118, 0.07, 32).translate(0, 0.035, 0), mat('#2b2b2e', 0.45, 0.3)));
+    const dial = M(new THREE.CylinderGeometry(0.016, 0.016, 0.01, 16), mat('#d3d8dc', 0.2, 0.9)); dial.rotation.x = PI / 2; dial.position.set(0, 0.035, 0.112); g.add(dial);
+    g.add(M(lathe([[0, 0.07], [0.078, 0.07], [0.1, 0.3], [0.104, 0.31], [0.097, 0.31], [0.075, 0.082], [0, 0.082]], 40), mat('#dbe8ec', 0.05, 0, { transparent: true, opacity: 0.2, side: DS, depthWrite: false }), false));
+    Object.assign(v, { r: 0.08, floor: 0.082, rim: 0.3, level: 0.082, taper: 0.78, rBot: 0.076, rTop: 0.096 });
+  } else if (type === 'glass') {
+    g.add(M(lathe([[0, 0], [0.04, 0], [0.042, 0.012], [0.056, 0.17], [0.052, 0.17], [0.039, 0.014], [0, 0.014]], 40), mat('#e3eef0', 0.04, 0, { transparent: true, opacity: 0.25, side: DS, depthWrite: false }), false));
+    Object.assign(v, { r: 0.05, floor: 0.014, rim: 0.168, level: 0.014, taper: 0.75, rBot: 0.039, rTop: 0.052 });
+  } else if (type === 'plate') {
+    g.add(M(lathe([[0, 0], [0.1, 0], [0.11, 0.006], [0.165, 0.018], [0.175, 0.024], [0.168, 0.026], [0.105, 0.012], [0, 0.011]], 48), mat('#f4f1ea', 0.25, 0, { side: DS, clearcoat: 1, clearcoatRoughness: 0.08 })));
+    Object.assign(v, { r: 0.1, floor: 0.011, rim: 0.026, level: 0.011 });
+  }
+  // the fill: sauce, water, batter
+  const fm = own('#ffffff', 0.3, 0, { transparent: true, opacity: 0, clearcoat: 0.8, clearcoatRoughness: 0.1 });
+  const geo = new THREE.CylinderGeometry(1, v.taper, 1, 48).translate(0, 0.5, 0);
+  const fill = M(geo, fm, false); fill.position.y = v.floor; fill.scale.set(v.r * 0.98, 0.0001, v.r * 0.98); fill.visible = false;
+  content.add(fill); v.fill = fill;
+  v.fillR = lvl => { if (!v.rTop) return v.r * 0.98; const k = clamp((lvl - v.floor) / (v.rim - v.floor), 0, 1); return lerp(v.rBot, v.rTop, k); };
+  v.landR = () => v.rTop ? v.fillR(v.level) * 0.8 : v.r * 0.82;
+  v.setFill = (level, color, opacity = 1, dur = 900) => {
+    fill.visible = true;
+    const h0 = fill.scale.y, c0 = fm.color.clone(), c1 = col(color), o0 = fm.opacity, l0 = v.level;
+    fm.transparent = true;
+    return tween(dur, p => {
+      const lv = lerp(l0, level, p); v.level = lv;
+      fill.scale.y = Math.max(0.0001, lerp(h0, level - v.floor, p));
+      const r = v.fillR(lv); fill.scale.x = fill.scale.z = r;
+      fm.color.copy(c0).lerp(c1, p); fm.opacity = lerp(o0, opacity, p);
+      fm.depthWrite = fm.opacity > 0.9;
+    });
+  };
+  v.topWorld = (dy = 0) => { const p = v.group.position.clone(); p.y += (v.rim * v.group.scale.y) + dy; return p; };
+  return v;
+}
+
+/* ---------------- more ingredients: the model library ---------------- */
+function recolor(g, test, m) { g.traverse(o => { if (o.isMesh && test(o)) o.material = m; }); return g; }
+['tomatoes', 'eggs2', 'eggs3', 'berries'].forEach(k => { const f = B[k]; B[k] = (...a) => { const g = f(...a); g.userData.multi = true; return g; }; });
+{
+  const chili0 = B.chili;
+  B.chili = d => { const g = chili0(); if (d && d.color) g.children[0].material = mat(d.color, 0.3); return g; };
+}
+Object.assign(B, {
+  redOnion() { const g = B.onion(); g.children[0].material = mat('#7c2c4c', 0.42); return g; },
+  lime() { const g = B.lemon(); recolor(g, () => true, mat('#6ea534', 0.4)); g.scale.setScalar(0.82); return g; },
+  cilantro() { return recolor(B.parsley(), o => o.geometry.type === 'IcosahedronGeometry', mat('#4f9e3e', 0.55)); },
+  thyme() {
+    const g = B.parsley(); g.scale.set(0.8, 1.1, 0.8);
+    g.traverse(o => { if (!o.isMesh) return; if (o.geometry.type === 'IcosahedronGeometry') { o.material = mat('#5b7a4c', 0.7); o.scale.multiplyScalar(0.55); } else o.material = mat('#6b5a3a', 0.7); });
+    return g;
+  },
+  salt() {
+    const g = new THREE.Group();
+    g.add(M(new THREE.CylinderGeometry(0.022, 0.024, 0.07, 20), mat('#e9eef0', 0.15, 0, { transparent: true, opacity: 0.55 })));
+    const fill = M(new THREE.CylinderGeometry(0.019, 0.021, 0.045, 20), mat('#ffffff', 0.9)); fill.position.y = -0.01; g.add(fill);
+    const cap = M(new THREE.SphereGeometry(0.023, 20, 10, 0, TAU, 0, PI / 2), mat('#c9cfd3', 0.25, 0.9)); cap.position.y = 0.035; g.add(cap);
+    g.userData.mouth = v3(0, 0.06, 0); return g;
+  },
+  yogurt(d) { return B.tub({ color: (d && d.color) || '#f4f1ea', label: '#2f6670' }); },
+  tub(d) {
+    const g = new THREE.Group(), c = (d && d.color) || '#f2efe6';
+    g.add(M(new THREE.CylinderGeometry(0.045, 0.038, 0.06, 28), mat(c, 0.6)));
+    const band = M(new THREE.CylinderGeometry(0.0435, 0.0405, 0.026, 28, 1, true), mat((d && d.label) || '#b5452c', 0.6, 0, { side: DS })); g.add(band);
+    const lid = M(new THREE.CylinderGeometry(0.047, 0.047, 0.006, 28), mat('#d9dcdf', 0.3, 0.7)); lid.position.y = 0.033; g.add(lid);
+    g.userData.mouth = v3(0, 0.035, 0); return g;
+  },
+  honey() {
+    const g = new THREE.Group();
+    g.add(M(lathe([[0, -0.04], [0.03, -0.04], [0.037, -0.03], [0.038, 0.02], [0.03, 0.035], [0.02, 0.04], [0, 0.04]]), mat('#d38b12', 0.1, 0, { transparent: true, opacity: 0.88, clearcoat: 1, clearcoatRoughness: 0.05 })));
+    const lid = M(new THREE.CylinderGeometry(0.022, 0.022, 0.016, 20), mat('#c9a245', 0.3, 0.8)); lid.position.y = 0.047; g.add(lid);
+    g.userData.mouth = v3(0, 0.05, 0); return g;
+  },
+  bottle(d) {
+    const g = B.oil(); const c = (d && d.color) || '#7a5a2a';
+    g.children[0].material = mat(c, 0.12, 0, { transparent: true, opacity: 0.85 });
+    return g;
+  },
+  strawberries() {
+    const g = new THREE.Group(); g.userData.multi = true;
+    const red = mat('#d32f36', 0.3, 0, { clearcoat: 0.9, clearcoatRoughness: 0.15, bump: 0.0042 }), green = mat('#3f7a2c', 0.6);
+    [[-0.045, 0, 0], [0.04, 0, 0.01], [0, 0, -0.04], [0.005, 0.0, 0.045]].forEach((p, i) => {
+      const b = new THREE.Group();
+      const body = M(lathe([[0, -0.034], [0.012, -0.028], [0.022, -0.012], [0.026, 0.006], [0.022, 0.018], [0.012, 0.024], [0, 0.025]]), red); b.add(body);
+      for (let k = 0; k < 5; k++) { const l = M(new THREE.ConeGeometry(0.006, 0.022, 3), green, false); const piv = new THREE.Group(); piv.rotation.y = k / 5 * TAU; l.rotation.z = -PI / 2 - 0.2; l.position.set(0.01, 0.025, 0); piv.add(l); b.add(piv); }
+      b.position.set(...p); b.rotation.set(rnd(-0.3, 0.3), rnd(0, 6), rnd(-0.3, 0.3)); g.add(b);
+    });
+    return g;
+  },
+  banana() {
+    const g = new THREE.Group();
+    const curve = new THREE.CatmullRomCurve3([v3(-0.085, 0.03, 0), v3(-0.04, -0.005, 0), v3(0.02, -0.012, 0), v3(0.075, 0.015, 0)]);
+    const tube = new THREE.TubeGeometry(curve, 36, 0.017, 10, false);
+    const p = tube.attributes.position;
+    for (let i = 0; i < p.count; i++) {
+      const seg = Math.floor(i / 11) / 36; const k = 0.35 + 0.65 * Math.sin(PI * seg);
+      const pt = curve.getPoint(seg); p.setXYZ(i, pt.x + (p.getX(i) - pt.x) * k, pt.y + (p.getY(i) - pt.y) * k, pt.z + (p.getZ(i) - pt.z) * k);
+    }
+    tube.computeVertexNormals();
+    g.add(M(tube, mat('#f1d24a', 0.45, 0, { clearcoat: 0.3, clearcoatRoughness: 0.4 })));
+    const tip = M(new THREE.CylinderGeometry(0.004, 0.006, 0.02, 8), mat('#5a4a2a', 0.7), false); tip.position.set(-0.092, 0.036, 0); tip.rotation.z = 0.9; g.add(tip);
+    return g;
+  },
+  avocado() {
+    const g = new THREE.Group(); g.userData.multi = true;
+    [[-0.042, 0, 0, 0.3], [0.045, 0, 0.01, -0.25]].forEach(p => {
+      const a = M(lathe([[0, -0.045], [0.026, -0.042], [0.037, -0.025], [0.036, 0.0], [0.026, 0.024], [0.016, 0.04], [0, 0.044]]), mat('#2f4a1c', 0.8, 0, { bump: 0.0112 }));
+      a.position.set(p[0], p[1], p[2]); a.rotation.z = p[3]; g.add(a);
+    });
+    return g;
+  },
+  mushrooms() {
+    const g = new THREE.Group(); g.userData.multi = true;
+    [[-0.045, 0, 0, 1], [0.04, 0, 0.012, 0.85], [0, 0, -0.04, 0.9]].forEach(p => {
+      const m = new THREE.Group();
+      const cap = M(new THREE.SphereGeometry(0.03, 24, 12, 0, TAU, 0, PI / 2), mat('#a9845c', 0.7, 0, { bump: 0.0056 })); cap.scale.y = 0.75; cap.position.y = 0.008; m.add(cap);
+      const under = M(new THREE.CircleGeometry(0.03, 24), mat('#e9dcc4', 0.9, 0, { side: DS }), false); under.rotation.x = PI / 2; under.position.y = 0.008; m.add(under);
+      const stem = M(new THREE.CylinderGeometry(0.011, 0.013, 0.03, 12), mat('#efe6d2', 0.8)); stem.position.y = -0.008; m.add(stem);
+      m.position.set(p[0], p[1], p[2]); m.scale.setScalar(p[3]); m.rotation.z = rnd(-0.3, 0.3); g.add(m);
+    });
+    return g;
+  },
+  bread() {
+    const g = new THREE.Group(), inner = new THREE.Group();
+    const s = new THREE.Shape();
+    s.moveTo(-0.06, -0.05); s.lineTo(0.06, -0.05); s.lineTo(0.06, 0.02);
+    s.bezierCurveTo(0.075, 0.035, 0.07, 0.07, 0.03, 0.07); s.lineTo(-0.03, 0.07);
+    s.bezierCurveTo(-0.07, 0.07, -0.075, 0.035, -0.06, 0.02); s.closePath();
+    const geo = new THREE.ExtrudeGeometry(s, { depth: 0.016, bevelEnabled: true, bevelThickness: 0.003, bevelSize: 0.003, bevelSegments: 2, curveSegments: 10 });
+    geo.translate(0, -0.01, -0.008); geo.rotateX(-PI / 2);
+    inner.add(M(geo, [mat('#ecd39c', 0.95, 0, { bump: 0.0168 }), mat('#b9783a', 0.75)]));
+    inner.rotation.x = 1.05; g.add(inner); g.userData.inner = inner; g.userData.flat = true;
+    return g;
+  },
+  carrot() {
+    const g = new THREE.Group();
+    const body = M(new THREE.ConeGeometry(0.02, 0.17, 16), mat('#e57a24', 0.55)); body.rotation.z = PI / 2 + 0.25; g.add(body);
+    for (let k = 0; k < 4; k++) { const f = M(new THREE.CylinderGeometry(0.002, 0.003, 0.06, 5), mat('#4c8a2e', 0.6), false); f.position.set(-0.1, 0.03, (k - 1.5) * 0.008); f.rotation.z = 0.7 + k * 0.12; g.add(f); }
+    return g;
+  },
+  potato() {
+    const geo = new THREE.SphereGeometry(0.045, 24, 16), p = geo.attributes.position;
+    for (let i = 0; i < p.count; i++) { const k = 1 + 0.08 * Math.sin(p.getX(i) * 90) * Math.cos(p.getZ(i) * 70); p.setXYZ(i, p.getX(i) * 1.35 * k, p.getY(i) * 0.9 * k, p.getZ(i) * k); }
+    geo.computeVertexNormals();
+    const g = new THREE.Group(); g.add(M(geo, mat('#b98a52', 0.85, 0, { bump: 0.0084 }))); return g;
+  },
+  cheese() {
+    const g = new THREE.Group();
+    const w = M(new THREE.CylinderGeometry(0.075, 0.075, 0.045, 24, 1, false, 0, PI / 3.2), [mat('#e9b93a', 0.6), mat('#f2c94c', 0.55), mat('#f2c94c', 0.55)]);
+    w.position.set(-0.03, 0, -0.03); g.add(w); return g;
+  },
+  round(d) {
+    const g = new THREE.Group(), c = (d && d.color) || '#c0603a';
+    const s = M(new THREE.SphereGeometry(0.048, 28, 20), mat(c, 0.45)); s.scale.y = 0.88; g.add(s); return g;
+  },
+  bunch(d) { return recolor(B.parsley(), o => o.geometry.type === 'IcosahedronGeometry', mat((d && d.color) || '#2f7d35', 0.55)); },
+  masher() {
+    const g = new THREE.Group(), steel = mat('#d3d8dc', 0.2, 0.9);
+    const h = M(new THREE.CylinderGeometry(0.007, 0.007, 0.16, 10), mat('#3b2a1e', 0.6)); h.position.y = 0.1; g.add(h);
+    const r = M(new THREE.TorusGeometry(0.035, 0.003, 6, 24), steel); r.rotation.x = PI / 2; g.add(r);
+    for (let k = -1; k <= 1; k++) { const b = M(new THREE.BoxGeometry(0.068, 0.004, 0.004), steel); b.position.z = k * 0.018; g.add(b); }
+    const a = M(new THREE.CylinderGeometry(0.0025, 0.0025, 0.03, 6), steel); a.position.y = 0.015; g.add(a);
+    return g;
+  },
+  spoon() {
+    const g = new THREE.Group(), wood = mat('#b98a52', 0.7);
+    const bowl = M(new THREE.SphereGeometry(0.022, 16, 10), wood); bowl.scale.set(1, 0.35, 1.4); g.add(bowl);
+    const h = M(new THREE.CylinderGeometry(0.005, 0.006, 0.2, 8), wood); h.position.set(0, 0.1, 0.02); h.rotation.x = -0.2; g.add(h);
+    return g;
+  },
+  straw() {
+    const g = new THREE.Group();
+    const s = M(new THREE.CylinderGeometry(0.006, 0.006, 0.22, 10), mat('#f2efe6', 0.5)); g.add(s);
+    for (let k = 0; k < 5; k++) { const r = M(new THREE.CylinderGeometry(0.0062, 0.0062, 0.018, 10), mat('#c8462b', 0.5), false); r.position.y = -0.08 + k * 0.04; g.add(r); }
+    return g;
+  },
+});
+B.egg1 = () => B.egg();
+
+/* ingredient library: what the studio offers, and how each one chops, pours or melts */
+const LIB = {
+  onion: { label: 'Onion', chop: ['#efe1bf', '#e6d2a4'] },
+  redOnion: { label: 'Red onion', chop: ['#a34a73', '#efe0ea'] },
+  garlic: { label: 'Garlic', chop: ['#f5ecd6'], slice: true },
+  pepper: { label: 'Bell pepper', chop: ['#c9301f'] },
+  tomatoes: { label: 'Tomatoes (two)', chop: ['#c22b1b', '#e2523a'], crush: '#a8301c' },
+  tomato: { label: 'Tomato', chop: ['#c22b1b', '#e2523a'], crush: '#a8301c' },
+  chili: { label: 'Chili', chop: ['#b3221a', '#d23a22'], small: true, colorable: true },
+  carrot: { label: 'Carrot', chop: ['#e57a24'], slice: true },
+  potato: { label: 'Potato', chop: ['#e9d9a6'] },
+  mushrooms: { label: 'Mushrooms', chop: ['#d9c7a8', '#bfa784'], slice: true },
+  avocado: { label: 'Avocados', chop: ['#b9cf6a', '#9fbf4f'] },
+  egg1: { label: 'Egg' },
+  eggs2: { label: 'Eggs (two)' },
+  eggs3: { label: 'Eggs (three)' },
+  butter: { label: 'Butter', chop: ['#f3d97f'], melt: '#f3d36b' },
+  cheese: { label: 'Cheese', chop: ['#f2c94c'] },
+  milk: { label: 'Milk', pour: '#fbfaf5' },
+  yogurt: { label: 'Yogurt', pour: '#f7f5ee' },
+  flour: { label: 'Flour', pour: '#f6f1e6' },
+  spaghetti: { label: 'Pasta' },
+  bread: { label: 'Bread' },
+  oil: { label: 'Olive oil', pour: '#d9b43a', fillColor: '#d6a52a', fillOpacity: 0.8 },
+  honey: { label: 'Honey', pour: '#d38b12' },
+  jar: { label: 'Spice jar', pour: '#8a5a2b', nofill: true, colorable: true },
+  salt: { label: 'Salt', pour: '#ffffff', nofill: true },
+  lemon: { label: 'Lemon', chop: ['#f3d23a'], juice: '#fbf0a0' },
+  lime: { label: 'Lime', chop: ['#9bc53d'], juice: '#e6f2b0' },
+  berries: { label: 'Blueberries', chop: ['#2b3a78', '#5a3a78'] },
+  strawberries: { label: 'Strawberries', chop: ['#d8323a', '#f07a7a'] },
+  banana: { label: 'Banana', chop: ['#f3e6b0'], slice: true },
+  parsley: { label: 'Parsley', chop: ['#2f7d35', '#3f9440'] },
+  cilantro: { label: 'Cilantro', chop: ['#3f8f35', '#5aa84a'] },
+  thyme: { label: 'Thyme', chop: ['#55704a', '#6b8a5a'], small: true },
+  round: { label: 'Anything round', colorable: true, color: '#c0603a' },
+  bottle: { label: 'Any bottle', colorable: true, color: '#7a5a2a', pour: '#7a5a2a' },
+  tub: { label: 'Any tub', colorable: true, color: '#f2efe6', pour: '#f2efe6' },
+  bunch: { label: 'Any leafy bunch', colorable: true, color: '#2f7d35' },
+};
+const VESSELS = { skillet: 'Frying pan', pot: 'Pot', bowl: 'Mixing bowl', blender: 'Blender' };
+
+/* ---------------- real 3D models for the hero ingredients ----------------
+   Loaded only when a recipe that uses them opens. Until a model arrives (or if it
+   fails), the code-built version stands in, so a page never waits on the network. */
+/* the artifact host serves text, not .glb, so each model ships as base64 text and is decoded here */
+const MODEL_FILES = Object.fromEntries(['tomato', 'avocado', 'onion', 'garlic', 'egg', 'pepper', 'mushroom', 'bread'].map(k => [k, `models/${k}.glb`]));
+function parseGLB(buf) {
+  return new Promise((res, rej) => {
+    /* decode textures through <img> (blob: images are allowed) rather than fetch() */
+    const cib = window.createImageBitmap;
+    try { window.createImageBitmap = undefined; gltfLoader.parse(buf, '', res, rej); }
+    catch (e) { rej(e); }
+    finally { window.createImageBitmap = cib; }
+  });
+}
+/* model orientation fixes, worked out by looking at each one (radians) */
+const MODEL_FIX = { bread: { z: -PI / 2 } };
+/* worked out from front/top/side renders of each generated model */
+const EQUIP_FIX = {
+  skillet: { y: -PI / 2 },          /* handle was along -z; the book wants it along +x */
+  griddle: { y: -PI / 2 },
+  pot: { y: PI / 2 },               /* side handles onto the x axis */
+  plate: { z: PI / 2 },             /* came out standing on its edge */
+  knife: { y: PI },                 /* handle toward +z, edge stays down */
+  spatula: { y: -PI / 2, z: PI / 2 }, /* lay it flat, blade toward -z */
+  spoon: { x: PI / 2 },             /* stand it up, bowl at the bottom */
+};
+/* builder -> model. Builders that only call another builder (tomatoes -> tomato, eggs3 -> egg) need no entry. */
+const MODEL_FOR = { tomato: 'tomato', avocado: 'avocado', onion: 'onion', garlic: 'garlic', egg: 'egg', pepper: 'pepper', mushrooms: 'mushroom', bread: 'bread' };
+/* which recipe-library entries end up using which model */
+const LIB_MODEL = { tomato: 'tomato', tomatoes: 'tomato', avocado: 'avocado', onion: 'onion', garlic: 'garlic', egg1: 'egg', eggs2: 'egg', eggs3: 'egg', pepper: 'pepper', mushrooms: 'mushroom', bread: 'bread' };
+const MODELS = {};
+const gltfLoader = THREE.GLTFLoader ? new THREE.GLTFLoader() : null;
+
+function avgColor(root) {
+  let img = null;
+  root.traverse(o => { if (!img && o.isMesh && o.material && o.material.map && o.material.map.image) img = o.material.map.image; });
+  if (!img) return null;
+  try {
+    const c = makeCanvas(24, 24), x = c.getContext('2d');
+    x.drawImage(img, 0, 0, 24, 24);
+    const d = x.getImageData(0, 0, 24, 24).data;
+    let r = 0, g = 0, b = 0, n = 0;
+    for (let i = 0; i < d.length; i += 4) { const s = d[i] + d[i + 1] + d[i + 2]; if (s < 60 || s > 735) continue; r += d[i]; g += d[i + 1]; b += d[i + 2]; n++; }
+    if (!n) return null;
+    return '#' + [r, g, b].map(v => Math.round(v / n).toString(16).padStart(2, '0')).join('');
+  } catch (e) { return null; }
+}
+function loadModel(key) {
+  if (!MODEL_FILES[key]) return Promise.resolve();
+  if (MODELS[key]) return MODELS[key].promise;
+  const m = MODELS[key] = { state: 'loading' };
+  m.promise = new Promise(res => {
+    if (!gltfLoader) { m.state = 'failed'; res(); return; }
+    const url = MODEL_FILES[key];
+    fetch(url).then(r => { if (!r.ok) throw new Error(r.status); return url.endsWith('.txt') ? r.text() : r.arrayBuffer(); })
+      .then(t => {
+        if (typeof t !== 'string') return parseGLB(t);
+        const bin = atob(t.trim()), u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return parseGLB(u.buffer);
+      })
+      .then(gltf => {
+      const root = gltf.scene;
+      root.traverse(o => {
+        if (!o.isMesh) return;
+        o.castShadow = true; o.receiveShadow = true;
+        o.geometry.userData.keep = true;
+        (Array.isArray(o.material) ? o.material : [o.material]).forEach(mt => { mt.userData.cached = true; });
+      });
+      const fix = MODEL_FIX[key];
+      const turn = new THREE.Group(); turn.add(root);
+      if (fix) turn.rotation.set(fix.x || 0, fix.y || 0, fix.z || 0);
+      turn.updateMatrixWorld(true);
+      const box = new THREE.Box3().setFromObject(turn), size = box.getSize(v3(0, 0, 0)), c = box.getCenter(v3(0, 0, 0));
+      const holder = new THREE.Group(); holder.add(turn);
+      turn.position.set(-c.x, -c.y, -c.z);
+      const proto = new THREE.Group(); holder.scale.setScalar(1 / Math.max(size.x, size.y, size.z)); proto.add(holder);
+      m.proto = proto; m.skin = avgColor(root); m.state = 'ready';
+      res();
+    }).catch(() => { m.state = 'failed'; res(); });
+  });
+  return m.promise;
+}
+const modelReady = k => MODELS[k] && MODELS[k].state === 'ready';
+function fitted(key, box) {
+  const o = MODELS[key].proto.clone(true);
+  const size = box.getSize(v3(0, 0, 0)), c = box.getCenter(v3(0, 0, 0));
+  o.scale.setScalar(Math.max(size.x, size.y, size.z) * 1.05);
+  o.position.copy(c);
+  return o;
+}
+function localBox(obj, frame) {
+  frame.updateMatrixWorld(true);
+  const inv = new THREE.Matrix4().copy(frame.matrixWorld).invert();
+  const box = new THREE.Box3();
+  obj.traverse(o => { if (o.isMesh) { o.geometry.computeBoundingBox(); const b = o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld).applyMatrix4(inv); box.union(b); } });
+  return box;
+}
+{
+  const onion0 = B.onion, lemon0 = B.lemon;
+  B.redOnion = () => { const g = onion0(); g.children[0].material = mat('#7c2c4c', 0.42); return g; };
+  B.lime = () => { const g = lemon0(); recolor(g, () => true, mat('#6ea534', 0.4)); g.scale.setScalar(0.82); return g; };
+}
+Object.entries(MODEL_FOR).forEach(([bk, mk]) => {
+  const orig = B[bk]; if (!orig) return;
+  B[bk] = (...a) => {
+    const g = orig(...a);
+    if (!modelReady(mk)) return g;
+    if (g.userData.multi) {
+      [...g.children].forEach(ch => {
+        const rep = fitted(mk, localBox(ch, g));
+        rep.rotation.y = rnd(0, TAU);
+        g.remove(ch); g.add(rep);
+      });
+      return g;
+    }
+    const frame = g.userData.inner || g;
+    const r0 = frame === g ? null : frame.rotation.x;
+    if (r0 !== null) { frame.rotation.x = 0; }
+    const rep = fitted(mk, localBox(frame, frame));
+    [...frame.children].forEach(ch => frame.remove(ch));
+    frame.add(rep);
+    if (r0 !== null) frame.rotation.x = r0;
+    if (g.isMesh) { const w = new THREE.Group(); w.add(rep); return w; }
+    return g;
+  };
+});
+function modelKeysFor(k) {
+  const s = SPREADS[k]; if (!s) return [];
+  const bs = s.recipe ? s.recipe.items.map(i => i.b) : (k === 0 ? ['tomato', 'egg1'] : []);
+  const keys = bs.map(b => LIB_MODEL[b]).filter(Boolean);
+  if (s.recipe && typeof equipFor === 'function') keys.push(...equipFor(s.recipe));
+  return [...new Set(keys)];
+}
+function loadModelsFor(k, ms = 4000) {
+  const keys = modelKeysFor(k);
+  if (!keys.length || keys.every(modelReady)) return Promise.resolve();
+  return Promise.race([Promise.all(keys.map(loadModel)), new Promise(r => setTimeout(r, ms))]);
+}
+function preloadAround(k) { setTimeout(() => [k + 1, k - 1].forEach(j => modelKeysFor(j).forEach(loadModel)), 600); }
+
+/* ---------------- real pans, bowls and tools ----------------
+   A vessel model replaces the drawn body, then rays measure its real floor, rim and inner wall
+   so sauces, eggs and pancakes sit inside it rather than on a guessed surface. */
+['skillet', 'pot', 'bowl', 'griddle', 'plate', 'knife', 'spatula', 'spoon'].forEach(k => { MODEL_FILES[k] = `models/${k}.glb`; });
+Object.assign(MODEL_FIX, EQUIP_FIX);
+/* body diameter of the drawn vessel, and whether a handle sticks out along +x */
+const VESSEL_SPEC = {
+  skillet: { diam: 0.41, handle: true, deep: true },
+  pot: { diam: 0.33, handle: false, deep: true },
+  bowl: { diam: 0.33, handle: false, deep: true },
+  griddle: { diam: 0.44, handle: true, deep: false },
+  plate: { diam: 0.35, handle: false, deep: false },
+};
+function meshesOf(o) { const a = []; o.traverse(c => { if (c.isMesh) a.push(c); }); return a; }
+function castY(meshes, x, z) { const rc = new THREE.Raycaster(v3(x, 5, z), v3(0, -1, 0)); const h = rc.intersectObjects(meshes, false); return h.length ? h[0].point.y : null; }
+function castR(meshes, y) {
+  let best = Infinity;
+  [0, PI / 2, PI, PI * 1.5].forEach(a => {
+    const rc = new THREE.Raycaster(v3(0, y, 0), v3(Math.cos(a), 0, Math.sin(a)));
+    const h = rc.intersectObjects(meshes, false); if (h.length) best = Math.min(best, h[0].distance);
+  });
+  return isFinite(best) ? best : null;
+}
+function fitVessel(v) {
+  const spec = VESSEL_SPEC[v.type];
+  if (!spec || !modelReady(v.type)) return;
+  const m = MODELS[v.type].proto.clone(true);
+  const wrap = new THREE.Group(); wrap.add(m); wrap.updateMatrixWorld(true);
+  let box = new THREE.Box3().setFromObject(wrap);
+  const s = spec.diam / (box.max.z - box.min.z);
+  m.scale.multiplyScalar(s); wrap.updateMatrixWorld(true);
+  box = new THREE.Box3().setFromObject(wrap);
+  const dz = box.max.z - box.min.z;
+  const cx = spec.handle ? box.min.x + dz / 2 : (box.min.x + box.max.x) / 2;
+  m.position.x -= cx; m.position.z -= (box.min.z + box.max.z) / 2; m.position.y -= box.min.y;
+  wrap.updateMatrixWorld(true);
+  box = new THREE.Box3().setFromObject(wrap);
+  const ms = meshesOf(wrap);
+  ms.forEach(o => { o.castShadow = true; o.receiveShadow = true; });
+  const floor = castY(ms, 0, 0);
+  if (floor === null) return;   /* no floor found: keep the drawn vessel */
+  const rim = spec.handle ? (castY(ms, 0, dz / 2 - 0.004) ?? box.max.y) : box.max.y;
+  [...v.group.children].forEach(c => { if (c !== v.content) v.group.remove(c); });
+  v.group.add(wrap);
+  v.floor = floor + 0.001; v.level = v.floor;
+  if (spec.deep) {
+    v.rim = Math.max(rim, v.floor + 0.02);
+    const rB = castR(ms, v.floor + 0.004) ?? dz * 0.3, rT = castR(ms, v.rim - 0.006) ?? dz * 0.45, rM = castR(ms, (v.floor + v.rim) / 2) ?? rT;
+    v.rBot = rB * 0.96; v.rTop = rT * 0.97; v.r = rM;
+    v.fill.geometry.dispose();
+    v.fill.geometry = new THREE.CylinderGeometry(1, clamp(v.rBot / v.rTop, 0.3, 1), 1, 48).translate(0, 0.5, 0);
+  } else {
+    v.rim = v.type === 'plate' ? Math.max(box.max.y, v.floor + 0.008) : v.floor;
+    v.r = dz / 2 * (v.type === 'plate' ? 0.58 : 0.86);
+    v.rBot = v.rTop = undefined;
+  }
+  v.fill.position.y = v.floor;
+  v.fill.scale.set(v.fillR(v.level), 0.0001, v.fillR(v.level));
+}
+{ const mv0 = makeVessel; makeVessel = type => { const v = mv0(type); try { fitVessel(v); } catch (e) { console.warn(e); } return v; }; }
+
+/* tools: keep the drawn tool's size and grip point, swap the look */
+const TOOL_SPEC = {
+  knife: { len: 0.28, axis: 'z', min: v3(null, -0.0225, -0.095) },
+  spatula: { len: 0.24, axis: 'z', min: v3(null, -0.003, -0.04) },
+  spoon: { len: 0.22, axis: 'y', min: v3(null, -0.012, null) },
+};
+Object.keys(TOOL_SPEC).forEach(k => {
+  const orig = B[k];
+  B[k] = (...a) => {
+    if (!modelReady(k)) return orig(...a);
+    const spec = TOOL_SPEC[k];
+    const m = MODELS[k].proto.clone(true), g = new THREE.Group(); g.add(m); g.updateMatrixWorld(true);
+    let box = new THREE.Box3().setFromObject(g);
+    const L = spec.axis === 'z' ? box.max.z - box.min.z : box.max.y - box.min.y;
+    m.scale.multiplyScalar(spec.len / L); g.updateMatrixWorld(true);
+    box = new THREE.Box3().setFromObject(g);
+    m.position.x -= (box.min.x + box.max.x) / 2;
+    m.position.y += spec.min.y !== null ? spec.min.y - box.min.y : -(box.min.y + box.max.y) / 2;
+    m.position.z += spec.min.z !== null ? spec.min.z - box.min.z : -(box.min.z + box.max.z) / 2;
+    meshesOf(g).forEach(o => { o.castShadow = true; });
+    return g;
+  };
+});
+/* which equipment a spread will need, so it loads with the ingredients */
+function equipFor(R) {
+  const need = new Set([R.vessel]);
+  R.steps.forEach(st => st.do.forEach(([verb, a]) => {
+    if (verb === 'swap' && a && a.to) need.add(a.to);
+    if (verb === 'stack' || verb === 'serve') need.add('plate');
+    if (verb === 'chop') need.add('knife');
+    if (verb === 'flipCakes') need.add('spatula');
+    if (verb === 'stir') need.add('spoon');
+  }));
+  return [...need].filter(k => MODEL_FILES[k]);
+}
+
+/* ---------------- effects: particles, steam, bubbles, ripples, glints ---------------- */
+const GS = new THREE.SphereGeometry(1, 8, 6), GB = new THREE.BoxGeometry(1, 1, 1), GSL = new THREE.CylinderGeometry(1, 1, 0.25, 12);
+[GS, GB, GSL].forEach(g => g.userData.keep = true);
+const PARTS = [];
+function particle(o) {
+  if (!ST) return;
+  const geo = o.shape === 'b' ? GB : o.shape === 'slice' ? GSL : GS;
+  const m = M(geo, own(o.color, o.rough ?? 0.5, 0, { transparent: true, opacity: o.opacity ?? 1 }), (o.size || 0.01) > 0.009);
+  m.scale.setScalar(o.size || 0.01);
+  if (o.flat) m.scale.y *= o.flat;
+  m.position.copy(o.pos);
+  m.rotation.set(rnd(0, 3), rnd(0, 3), rnd(0, 3));
+  ST.group.add(m);
+  PARTS.push({ m, v: o.vel.clone(), age: 0, life: o.life || 3, land: o.land, stay: !!o.stay, grav: o.grav ?? -2.4, spin: v3(rnd(-6, 6), rnd(-6, 6), rnd(-6, 6)), fade: 0, opacity: o.opacity ?? 1, onLand: o.onLand });
+}
+function killMesh(m) { if (m.parent) m.parent.remove(m); if (m.material && !m.material.userData.cached) m.material.dispose(); }
+function updateParticles(dt) {
+  for (let i = PARTS.length - 1; i >= 0; i--) {
+    const p = PARTS[i]; p.age += dt;
+    if (p.fade > 0) {
+      p.fade -= dt; p.m.material.opacity = Math.max(0, p.fade / 0.4) * p.opacity;
+      if (p.fade <= 0) { killMesh(p.m); PARTS.splice(i, 1); }
+      continue;
+    }
+    p.v.y += p.grav * dt;
+    p.m.position.addScaledVector(p.v, dt);
+    p.m.rotation.x += p.spin.x * dt; p.m.rotation.y += p.spin.y * dt; p.m.rotation.z += p.spin.z * dt;
+    if (p.land && p.land.group.parent) {
+      const V = p.land;
+      const loc = V.content.worldToLocal(p.m.position.clone());
+      if (loc.y <= V.level + p.m.scale.y * 0.4 && p.v.y < 0) {
+        const rr = Math.hypot(loc.x, loc.z), mr = V.landR();
+        if (rr > mr) { loc.x *= mr / rr * rnd(0.6, 1); loc.z *= mr / rr * rnd(0.6, 1); }
+        loc.y = V.level + p.m.scale.y * 0.35 + rnd(0, 0.004);
+        if (p.stay) {
+          V.content.add(p.m); p.m.position.copy(loc); p.m.rotation.x *= 0.2; p.m.rotation.z *= 0.2;
+          V.pieces.push(p.m); PARTS.splice(i, 1); if (p.onLand) p.onLand(p.m);
+        } else { p.v.set(0, 0, 0); p.grav = 0; p.fade = 0.4; }
+        continue;
+      }
+    }
+    if (p.age > p.life || p.m.position.y < PAGE_Y - 0.05) { killMesh(p.m); PARTS.splice(i, 1); }
+  }
+}
+const steamTex = softDot('rgba(255,255,255,.9)');
+const STEAM = { list: [], src: null, rate: 0, acc: 0 };
+function steam(V, rate) { STEAM.src = V; STEAM.rate = rate; }
+function updateSteam(dt) {
+  if (STEAM.src && STEAM.rate > 0 && STEAM.src.group.parent && ST) {
+    STEAM.acc += dt * STEAM.rate * 14;
+    while (STEAM.acc > 1) {
+      STEAM.acc -= 1;
+      const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: steamTex, transparent: true, opacity: 0, depthWrite: false }));
+      const V = STEAM.src, a = rnd(0, TAU), r = Math.sqrt(Math.random()) * V.r * 0.8 * V.group.scale.x;
+      sp.position.copy(V.topWorld(0.0)).add(v3(Math.cos(a) * r, 0, Math.sin(a) * r));
+      sp.scale.setScalar(0.06);
+      ST.group.add(sp);
+      STEAM.list.push({ sp, age: 0, life: rnd(1.8, 2.8), dx: rnd(-0.04, 0.04) });
+    }
+  }
+  for (let i = STEAM.list.length - 1; i >= 0; i--) {
+    const s = STEAM.list[i]; s.age += dt; const k = s.age / s.life;
+    s.sp.position.y += dt * 0.2; s.sp.position.x += s.dx * dt;
+    s.sp.scale.setScalar(0.06 + k * 0.26);
+    s.sp.material.opacity = Math.sin(PI * Math.min(1, k)) * 0.22;
+    if (k >= 1) { s.sp.parent && s.sp.parent.remove(s.sp); s.sp.material.dispose(); STEAM.list.splice(i, 1); }
+  }
+}
+const BUBS = { em: [], list: [] };
+function bubbles(parent, o) { const e = Object.assign({ parent, acc: 0, rate: 4, r: 0.1, y: () => 0, color: '#ffffff', size: 0.008 }, o); BUBS.em.push(e); return e; }
+function stopBubbles(e) { const i = BUBS.em.indexOf(e); if (i >= 0) BUBS.em.splice(i, 1); }
+function updateBubbles(dt) {
+  for (const e of BUBS.em) {
+    if (!e.parent.parent) continue;
+    e.acc += dt * e.rate;
+    while (e.acc > 1) {
+      e.acc -= 1;
+      const a = rnd(0, TAU), r = Math.sqrt(Math.random()) * e.r;
+      const m = M(GS, own(e.color, 0.15, 0, { transparent: true, opacity: 0.9 }), false);
+      m.position.set(Math.cos(a) * r + (e.cx || 0), e.y(), Math.sin(a) * r + (e.cz || 0));
+      m.scale.setScalar(0.0001); e.parent.add(m);
+      BUBS.list.push({ m, age: 0, life: rnd(0.5, 0.9), s: e.size * rnd(0.6, 1.3) });
+    }
+  }
+  for (let i = BUBS.list.length - 1; i >= 0; i--) {
+    const b = BUBS.list[i]; b.age += dt; const k = b.age / b.life;
+    if (k < 0.85) b.m.scale.set(b.s * k / 0.85, b.s * k / 0.85 * 0.6, b.s * k / 0.85);
+    else { b.m.scale.multiplyScalar(1.08); b.m.material.opacity = (1 - k) / 0.15 * 0.9; }
+    if (k >= 1) { killMesh(b.m); BUBS.list.splice(i, 1); }
+  }
+}
+const ringGeo = new THREE.RingGeometry(0.86, 1, 64); ringGeo.rotateX(-PI / 2); ringGeo.userData.keep = true;
+function ripple(x, z, color = '#1d2740') {
+  if (!ST) return;
+  const m = new THREE.Mesh(ringGeo, new THREE.MeshBasicMaterial({ color: col(color), transparent: true, opacity: 0.45, depthWrite: false }));
+  m.position.set(x, PAGE_Y + N * EPS + 0.004, z); ST.group.add(m);
+  tween(900, p => { m.scale.setScalar(0.02 + p * 0.13); m.material.opacity = 0.45 * (1 - p); }, E.out).then(() => killMesh(m), () => killMesh(m));
+}
+const starT = starTex();
+function glint(pos) {
+  if (!ST) return;
+  SFX.ding();
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: starT, transparent: true, depthWrite: false, opacity: 0 }));
+  sp.position.copy(pos); ST.group.add(sp);
+  tween(1100, p => { sp.scale.setScalar(0.05 + Math.sin(PI * p) * 0.22); sp.material.rotation = p * 1.4; sp.material.opacity = Math.sin(PI * p); }, E.out).then(() => killMesh(sp), () => killMesh(sp));
+  for (let i = 0; i < 18; i++) { const a = i / 18 * TAU; particle({ pos: pos.clone(), vel: v3(Math.cos(a) * 0.45, rnd(0.2, 0.6), Math.sin(a) * 0.45), color: '#f2c14e', size: 0.005, life: 0.9, grav: -1.2 }); }
+}
+
+/* ---------------- stage: what is standing on the current spread ---------------- */
+let ST = null;
+const VPOS = () => v3(-0 + STOVE_C.cx / PW, PAGE_Y + N * EPS, -H / 2 + STOVE_C.cy / PH * H);
+const ASIDE = () => v3(0.83, PAGE_Y + N * EPS, -0.5);
+function slotFor(i, n, onRight) {
+  const twoRows = n > 3;
+  const row0 = twoRows ? Math.ceil(n / 2) : n;
+  const row = i < row0 ? 0 : 1, j = row === 0 ? i : i - row0, m = row === 0 ? row0 : n - row0;
+  const cy = onRight ? 900 : (twoRows ? [625, 790][row] : 700);
+  const cx = 512 + (j - (m - 1) / 2) * (onRight ? 230 : 250);
+  return v3((onRight ? 0 : -1) + cx / PW, 0, -H / 2 + cy / PH * H);
+}
+function buildStage(k) {
+  const st = { group: new THREE.Group(), items: [], k, V: null, vessels: [], emerged: false, R: SPREADS[k].recipe };
+  scene.add(st.group);
+  ST = st;
+  const defs = st.R ? st.R.items : (k === 0 ? [{ key: 'a', b: 'tomato' }, { key: 'b', b: 'egg' }, { key: 'c', b: 'lemon' }] : []);
+  defs.forEach((d, i) => {
+    const obj = B[d.b](d);
+    const box = new THREE.Box3().setFromObject(obj);
+    const home = slotFor(i, defs.length, !st.R);
+    home.y = PAGE_Y + 0.04 - box.min.y;
+    obj.position.copy(home); obj.position.y = PAGE_Y - 0.3 + box.min.y;
+    obj.userData.item = i;
+    st.group.add(obj);
+    st.items.push({ obj, home, def: d, i, phase: Math.random() * 6, busy: true, hover: 0, baseRotY: obj.rotation.y });
+  });
+  return st;
+}
+async function emerge(st) {
+  const jobs = st.items.map((it, n) => (async () => {
+    await wait(120 + n * 110);
+    ripple(it.home.x, it.home.z);
+    SFX.pop();
+    const y0 = it.obj.position.y;
+    await tween(720, p => { it.obj.position.y = lerp(y0, it.home.y, p); it.obj.rotation.y = it.baseRotY + (1 - p) * 1.4; }, E.back);
+    it.busy = false;
+  })());
+  if (st.R) jobs.push((async () => {
+    await wait(260);
+    const V = await addVessel(st.R.vessel, VPOS());
+    st.V = V;
+  })());
+  await Promise.all(jobs);
+  st.emerged = true;
+}
+async function sinkStage(st, dur = 340) {
+  st.items.forEach(it => it.busy = true);
+  const ys = st.group.position.y;
+  await tween(dur, p => { st.group.position.y = ys - p * 0.4; }, E.in, UI);
+  disposeStage(st);
+}
+function disposeStage(st) {
+  scene.remove(st.group);
+  st.group.traverse(o => {
+    if (o.geometry && !o.geometry.userData.keep) o.geometry.dispose();
+    if (o.material && !Array.isArray(o.material) && !o.material.userData.cached) o.material.dispose();
+  });
+}
+function clearEffects() {
+  PARTS.length = 0; STEAM.list.length = 0; STEAM.src = null; STEAM.rate = 0; BUBS.em.length = 0; BUBS.list.length = 0;
+  SFX.sizzle(false);
+}
+
+/* ---------------- choreography helpers ---------------- */
+function item(key) { return ST ? ST.items.find(i => i.def.key === key) : null; }
+function claim(key) {
+  const it = item(key); if (!it || it.claimed) return null; it.busy = true; it.claimed = true;
+  const pg = SPREADS[ST.k].L; pg.st.used.add(it.i); if (pg.st.hl === it.i) pg.st.hl = -1; pg.draw();
+  return it;
+}
+function detach(obj) { ST.group.attach(obj); return obj; }
+async function hop(o, to, dur = 620, h = 0.16, spin = 0) {
+  const from = o.position.clone(), r0 = o.rotation.y;
+  await tween(dur, p => { o.position.lerpVectors(from, to, p); o.position.y += Math.sin(PI * p) * h; o.rotation.y = r0 + spin * p; });
+}
+function tool(name, ...a) { const t = B[name](...a); ST.group.add(t); return t; }
+async function addVessel(type, pos, scale = 1) {
+  const v = makeVessel(type);
+  v.group.position.copy(pos); v.group.position.y = PAGE_Y - 0.35; v.group.scale.setScalar(scale);
+  ST.group.add(v.group); ST.vessels.push(v);
+  ripple(pos.x, pos.z); SFX.pop();
+  await tween(760, p => { v.group.position.y = lerp(PAGE_Y - 0.35, pos.y, p); }, E.back);
+  return v;
+}
+async function moveVessel(v, pos, scale, dur = 720) {
+  const from = v.group.position.clone(), s0 = v.group.scale.x;
+  await tween(dur, p => { v.group.position.lerpVectors(from, pos, p); v.group.position.y += Math.sin(PI * p) * 0.08; v.group.scale.setScalar(lerp(s0, scale, p)); });
+}
+async function sinkVessel(v) {
+  const y0 = v.group.position.y;
+  await tween(500, p => { v.group.position.y = y0 - p * 0.4; }, E.in);
+  ST.group.remove(v.group);
+}
+async function chop(key, color, n, o = {}) {
+  const it = claim(key); if (!it) return; const ob = it.obj, V = ST.V;
+  const at = V.topWorld(0.22);
+  await hop(ob, at, 600, 0.14, 0.6);
+  const kn = tool('knife'); kn.position.set(at.x, at.y + 0.17, at.z); kn.rotation.y = 0.25; kn.scale.setScalar(0.001);
+  await tween(160, p => kn.scale.setScalar(Math.max(0.001, p)), E.out);
+  const s0 = ob.scale.x, strikes = 4;
+  for (let k = 0; k < strikes; k++) {
+    kn.position.x = at.x - 0.035 + k * 0.023;
+    await tween(110, p => { kn.position.y = at.y + 0.17 - p * 0.21; }, E.in);
+    SFX.chop();
+    const m = Math.ceil(n / strikes);
+    for (let j = 0; j < m; j++) particle({ pos: ob.position.clone().add(v3(rnd(-0.025, 0.025), rnd(-0.02, 0.02), rnd(-0.025, 0.025))), vel: v3(rnd(-0.28, 0.28), rnd(0.05, 0.45), rnd(-0.28, 0.28)), color: Array.isArray(color) ? color[j % color.length] : color, size: o.size || 0.014, shape: o.shape || 'b', flat: o.shape === 'slice' ? 1 : 0, land: V, stay: true });
+    ob.scale.setScalar(s0 * (1 - (k + 1) / strikes * 0.8));
+    await tween(140, p => { kn.position.y = at.y - 0.04 + p * 0.21; }, E.out);
+  }
+  await tween(180, p => { ob.scale.setScalar(Math.max(0.0001, s0 * 0.2 * (1 - p))); kn.scale.setScalar(Math.max(0.001, 1 - p)); });
+  ob.visible = false; killMesh(kn);
+}
+async function pour(key, color, n, o = {}) {
+  const it = claim(key); if (!it) return; const ob = it.obj, V = o.V || ST.V;
+  const at = V.topWorld(0.2).add(v3(-0.1, 0, 0));
+  await hop(ob, at, 600, 0.12);
+  await tween(380, p => { ob.rotation.z = -1.95 * p; });
+  SFX.pour(1.2);
+  const fillJob = o.fill ? V.setFill(o.fill.level, o.fill.color, o.fill.opacity ?? 1, 1300) : null;
+  let spawned = 0;
+  await tween(o.dur || 1300, p => {
+    const target = Math.floor(p * n);
+    while (spawned < target) {
+      spawned++;
+      const mouth = ob.localToWorld((ob.userData.mouth || v3(0, 0.06, 0)).clone());
+      particle({ pos: mouth, vel: v3(rnd(0.15, 0.32), rnd(-0.1, 0.05), rnd(-0.05, 0.05)), color, size: o.size || 0.008, opacity: o.opacity ?? 1, land: V, stay: !!o.stay, life: 2 });
+    }
+  }, E.lin);
+  if (fillJob) await fillJob;
+  await tween(360, p => { ob.rotation.z = -1.95 * (1 - p); ob.scale.setScalar(Math.max(0.0001, 1 - p)); });
+  ob.visible = false;
+}
+async function crack(egg, spot, fried) {
+  const V = ST.V;
+  const world = V.group.localToWorld(spot.clone().setY(V.level));
+  const at = world.clone(); at.y += 0.2;
+  await hop(egg, at, 520, 0.12);
+  await tween(180, p => { egg.rotation.z = Math.sin(p * PI * 4) * 0.25; }, E.lin);
+  SFX.crack(); egg.visible = false;
+  [-1, 1].forEach(d => {
+    const sh = M(new THREE.SphereGeometry(0.027, 16, 8, 0, TAU, 0, PI / 2), mat('#ecd3ae', 0.55, 0, { side: DS }));
+    sh.position.copy(at); sh.rotation.z = d > 0 ? -0.3 : PI + 0.3; ST.group.add(sh);
+    const p0 = at.clone();
+    tween(600, p => { sh.position.set(p0.x + d * p * 0.09, p0.y + Math.sin(PI * p) * 0.05 - p * 0.04, p0.z); sh.rotation.z += d * -0.08; sh.scale.setScalar(Math.max(0.0001, 1 - p)); }, E.out).then(() => killMesh(sh), () => killMesh(sh));
+  });
+  const yolk = M(new THREE.SphereGeometry(0.019, 20, 14), own('#f2a514', 0.2, 0, { clearcoat: 1, clearcoatRoughness: 0.04 }));
+  yolk.scale.y = 0.75;
+  if (fried) {
+    const white = M(new THREE.CylinderGeometry(1, 1, 1, 28), own('#f7f3e8', 0.35, 0, { transparent: true, opacity: 0.5 }), false);
+    white.scale.set(0.001, 0.006, 0.001); white.position.copy(spot).setY(V.level + 0.003); V.content.add(white);
+    yolk.position.copy(spot).setY(V.level + 0.2); V.content.add(yolk);
+    V.whites.push(white); V.pieces.push(white, yolk);
+    await tween(420, p => { yolk.position.y = lerp(V.level + 0.2, V.level + 0.013, p); }, E.in);
+    SFX.splat();
+    await tween(520, p => { const s = lerp(0.001, 0.052, p); white.scale.set(s * 1.1, 0.006, s); }, E.back);
+  } else {
+    yolk.position.copy(at); ST.group.add(yolk);
+    PARTS.push({ m: yolk, v: v3(0, 0, 0), age: 0, life: 3, land: V, stay: false, grav: -2.4, spin: v3(0, 0, 0), fade: 0, opacity: 1 });
+    yolk.material.transparent = true;
+    await wait(500);
+  }
+}
+async function tintPieces(V, color, amt, dur = 900) {
+  const c1 = col(color);
+  const mats = V.pieces.filter(m => m.material && !m.material.userData.cached).map(m => ({ m: m.material, c0: m.material.color.clone() }));
+  await tween(dur, p => mats.forEach(o => o.m.color.copy(o.c0).lerp(c1, amt * p)));
+}
+function sputter(V, dur) {
+  let acc = 0;
+  return tween(dur, (p, raw) => {
+    acc += 0.5;
+    while (acc > 1) { acc -= 1; const a = rnd(0, TAU), r = rnd(0, V.r * 0.7); const base = V.group.localToWorld(v3(Math.cos(a) * r, V.level, Math.sin(a) * r)); particle({ pos: base, vel: v3(rnd(-0.15, 0.15), rnd(0.4, 0.8), rnd(-0.15, 0.15)), color: '#f0c45a', size: 0.004, life: 0.7, opacity: 0.85 }); }
+  }, E.lin);
+}
+async function toss(V, times = 2) {
+  for (let k = 0; k < times; k++) {
+    const bases = V.pieces.map(m => ({ m, y: m.position.y, r: rnd(0.6, 1.4), ry: m.rotation.y }));
+    SFX.splat();
+    await tween(520, p => {
+      const s = Math.sin(PI * p);
+      V.group.rotation.x = Math.sin(TAU * p) * 0.1; V.group.position.y = VPOS().y + s * 0.03;
+      bases.forEach(b => { b.m.position.y = b.y + s * 0.11 * b.r; b.m.rotation.y = b.ry + p * b.r * 2; });
+    }, E.sine);
+  }
+}
+
+/* ---------------- the move library: every recipe is data that calls these ---------------- */
+const lvl = (V, f) => V.floor + clamp(+f || 0, 0, 1) * Math.max(0.001, V.rim - V.floor);
+const curF = V => V.fill.visible && V.fill.material.opacity > 0.05 ? (V.level - V.floor) / Math.max(0.001, V.rim - V.floor) : 0;
+const fillHex = V => '#' + V.fill.material.color.clone().convertLinearToSRGB().getHexString();
+const metaOf = it => LIB[it.def.b] || {};
+const SKIN_IN_PIECES = ['tomato', 'pepper', 'mushroom'];
+const chopColors = it => {
+  if (it.def.color) return [it.def.color];
+  const base = metaOf(it).chop || ['#dcd3c0'], mk = LIB_MODEL[it.def.b];
+  return mk && SKIN_IN_PIECES.includes(mk) && modelReady(mk) && MODELS[mk].skin ? base.concat([MODELS[mk].skin]) : base;
+};
+function partsOf(it) {
+  const o = it.obj;
+  if (!o.userData.multi) return [o];
+  const kids = [...o.children];
+  kids.forEach(detach); o.visible = false;
+  return kids;
+}
+const CENTER = () => v3(0.42, topY(), -0.26);
+async function shrinkAway(o, ms = 260) { const s = o.scale.clone(); await tween(ms, p => o.scale.copy(s).multiplyScalar(Math.max(0.0001, 1 - p))); o.visible = false; }
+
+const ACT = {
+  async chop(a) {
+    const it = item(a.item); if (!it || it.claimed) return;
+    const m = metaOf(it), slice = m.slice && a.shape !== 'b';
+    await chop(a.item, a.colors || chopColors(it), a.n || 14, { shape: a.shape || (slice ? 'slice' : 'b'), size: a.size || (m.small ? 0.008 : slice ? 0.012 : 0.014) });
+  },
+  async pour(a) {
+    const it = item(a.item); if (!it || it.claimed) return;
+    const m = metaOf(it), V = ST.V;
+    const color = a.color || it.def.color || m.pour || '#f2efe6';
+    let fill = null;
+    if (Array.isArray(a.fill)) fill = { level: lvl(V, a.fill[0]), color: a.fill[1] || color, opacity: a.fill[2] ?? 1 };
+    else if (!m.nofill && !a.nofill && !['griddle', 'plate'].includes(V.type)) {
+      const had = curF(V) > 0;
+      const f = Math.min(0.85, curF(V) + (a.amount || 0.15));
+      const base = new THREE.Color(had ? fillHex(V) : (m.fillColor || color));
+      base.lerp(new THREE.Color(m.fillColor || color), had ? 0.35 : 0);
+      fill = { level: lvl(V, f), color: '#' + base.getHexString(), opacity: had ? 1 : (m.fillOpacity ?? 1) };
+    }
+    await pour(a.item, color, a.n || (m.nofill ? 30 : 40), { size: a.size || 0.007, fill, stay: a.stay });
+  },
+  async crush(a) {
+    const it = claim(a.item); if (!it) return;
+    const V = ST.V, m = metaOf(it), parts = partsOf(it), cols = chopColors(it);
+    for (let i = 0; i < parts.length; i++) {
+      const t = parts[i], at = V.topWorld(0.2).add(v3(parts.length > 1 ? (i ? 0.05 : -0.05) : 0, 0, 0));
+      await hop(t, at, 520, 0.12, 1);
+      const s0 = t.scale.clone();
+      await tween(240, p => { t.scale.set(s0.x * (1 + p * 0.6), s0.y * Math.max(0.05, 1 - p * 0.9), s0.z * (1 + p * 0.6)); t.position.y = at.y - p * 0.12; }, E.in);
+      SFX.splat();
+      for (let j = 0; j < 22; j++) particle({ pos: t.position.clone(), vel: v3(rnd(-0.5, 0.5), rnd(0.1, 0.6), rnd(-0.5, 0.5)), color: cols[j % cols.length], size: rnd(0.006, 0.012), land: V, stay: j % 2 === 0 });
+      t.visible = false;
+      if (i === 0) V.setFill(lvl(V, a.f ?? 0.4), a.color || m.crush || cols[0], 1, 1200);
+    }
+    await wait(500);
+  },
+  async crack(a) {
+    const it = claim(a.item); if (!it) return;
+    const V = ST.V, eggs = partsOf(it);
+    const fried = a.fried ?? ['skillet', 'griddle'].includes(V.type);
+    const R = { bowl: 0.03, blender: 0.015, pot: 0.06 }[V.type] ?? 0.075;
+    for (let i = 0; i < eggs.length; i++) {
+      const ang = i / eggs.length * TAU - PI / 2;
+      const spot = eggs.length === 1 ? v3(0, 0, 0) : v3(Math.cos(ang) * R, 0, Math.sin(ang) * R);
+      await crack(eggs[i], spot, fried);
+    }
+  },
+  async drop(a) {
+    const it = claim(a.item); if (!it) return;
+    const V = ST.V, parts = partsOf(it);
+    await Promise.all(parts.map((b, i) => (async () => {
+      await wait(i * 110);
+      const ang = rnd(0, TAU), r = rnd(0, V.landR() * 0.8);
+      const target = V.group.localToWorld(v3(Math.cos(ang) * r, V.level + 0.006, Math.sin(ang) * r));
+      await hop(b, target, 560, 0.16, rnd(-2, 2));
+      V.content.attach(b); V.pieces.push(b); SFX.pop();
+    })()));
+    await wait(250);
+  },
+  async melt(a) {
+    const it = claim(a.item); if (!it) return;
+    const V = ST.V, bt = it.obj, color = a.color || metaOf(it).melt || it.def.color || '#f3d36b';
+    const at = V.topWorld(0.16);
+    await hop(bt, at, 600, 0.12);
+    const s0 = bt.scale.clone();
+    await tween(1100, p => {
+      bt.scale.set(s0.x * (1 - p * 0.3), s0.y * Math.max(0.02, 1 - p), s0.z * (1 - p * 0.3)); bt.rotation.y += 0.03;
+      if (Math.random() < 0.5) particle({ pos: bt.position.clone().add(v3(rnd(-0.03, 0.03), -0.02, rnd(-0.02, 0.02))), vel: v3(0, -0.05, 0), color, size: 0.006, land: V, life: 2 });
+    }, E.lin);
+    bt.visible = false;
+    if (curF(V) > 0) await V.setFill(V.level + 0.004, a.fillColor || fillHex(V), 1, 600);
+    else await V.setFill(lvl(V, 0.06), color, 0.5, 600);
+  },
+  async squeeze(a) {
+    const it = claim(a.item); if (!it) return;
+    const V = ST.V, ob = it.obj, juice = a.color || metaOf(it).juice || '#fbf0a0';
+    await hop(ob, V.topWorld(0.2), 600, 0.12);
+    const s0 = ob.scale.clone();
+    await tween(320, p => ob.scale.set(s0.x * (1 - p * 0.25), s0.y * (1 + p * 0.15), s0.z * (1 + p * 0.15)));
+    SFX.splat();
+    for (let j = 0; j < 16; j++) particle({ pos: ob.position.clone(), vel: v3(rnd(-0.2, 0.2), rnd(-0.3, 0), rnd(-0.2, 0.2)), color: juice, size: 0.005, opacity: 0.8, land: V, life: 2 });
+    await shrinkAway(ob, 280);
+  },
+  async zest(a) {
+    const it = claim(a.item); if (!it) return;
+    const V = ST.V, lem = it.obj, cols = chopColors(it);
+    await hop(lem, V.topWorld(0.2), 600, 0.12);
+    await tween(1200, () => {
+      lem.rotation.x += 0.12;
+      if (Math.random() < 0.7) particle({ pos: lem.position.clone().add(v3(rnd(-0.04, 0.04), -0.03, rnd(-0.02, 0.02))), vel: v3(rnd(-0.1, 0.1), -0.1, rnd(-0.1, 0.1)), color: cols[0], size: 0.004, land: V, stay: true });
+    }, E.lin);
+    const s0 = lem.scale.clone();
+    await tween(300, p => lem.scale.set(s0.x * (1 - p * 0.25), s0.y * (1 + p * 0.15), s0.z * (1 + p * 0.15)));
+    for (let j = 0; j < 12; j++) particle({ pos: lem.position.clone(), vel: v3(rnd(-0.2, 0.2), rnd(-0.3, 0), rnd(-0.2, 0.2)), color: metaOf(it).juice || '#fbf0a0', size: 0.005, opacity: 0.8, land: V, life: 2 });
+    await shrinkAway(lem, 280);
+  },
+  async scoop(a) {
+    const it = claim(a.item); if (!it) return;
+    const V = ST.V, parts = partsOf(it), cols = chopColors(it);
+    for (const p of parts) {
+      const at = V.topWorld(0.2);
+      await hop(p, at, 520, 0.12, 1);
+      SFX.chop(); p.visible = false;
+      const halves = [-1, 1].map(d => {
+        const h = new THREE.Group();
+        const shell = M(new THREE.SphereGeometry(0.036, 20, 10, 0, TAU, 0, PI / 2), mat('#2f4a1c', 0.8, 0, { side: DS, bump: 0.0112 })); shell.rotation.x = PI; h.add(shell);
+        const face = M(new THREE.CircleGeometry(0.034, 24), mat('#cfdc8a', 0.7, 0, { side: DS }), false); face.rotation.x = -PI / 2; h.add(face);
+        if (d > 0) { const pit = M(new THREE.SphereGeometry(0.014, 14, 10), mat('#6b4426', 0.5)); pit.position.y = 0.002; h.add(pit); }
+        h.position.copy(at); ST.group.add(h); return { h, d };
+      });
+      await tween(380, q => halves.forEach(({ h, d }) => { h.position.x = at.x + d * q * 0.06; h.rotation.z = -d * q * 0.9; }), E.out);
+      for (let j = 0; j < 12; j++) particle({ pos: at.clone().add(v3(rnd(-0.05, 0.05), -0.01, rnd(-0.02, 0.02))), vel: v3(rnd(-0.15, 0.15), rnd(0, 0.2), rnd(-0.15, 0.15)), color: cols[j % cols.length], size: 0.016, land: V, stay: true });
+      await Promise.all(halves.map(({ h }) => shrinkAway(h, 360)));
+      halves.forEach(({ h }) => killMesh(h));
+    }
+  },
+  async dunk(a) {
+    const it = claim(a.item); if (!it) return;
+    const V = ST.V, sp = it.obj, inner = sp.userData.inner;
+    const at = V.topWorld(0.17);
+    await hop(sp, at, 620, 0.12);
+    if (inner && !sp.userData.flat) {
+      await tween(420, p => { inner.rotation.z = lerp(1.22, 0, p); });
+      const strands = inner.children.filter(c => c.geometry && c.geometry.type === 'CylinderGeometry' && c.geometry.parameters.height > 0.2);
+      const dirs = strands.map(s => Math.atan2(s.position.z, s.position.x));
+      await tween(1500, p => {
+        sp.position.y = lerp(at.y, V.topWorld(-0.02).y, p);
+        strands.forEach((s, i) => { s.rotation.z = -Math.cos(dirs[i]) * p * 0.5; s.rotation.x = Math.sin(dirs[i]) * p * 0.5; });
+      });
+    } else {
+      await tween(1100, p => { sp.position.y = lerp(at.y, V.topWorld(-0.05).y, p); sp.rotation.y += 0.02; });
+    }
+    await shrinkAway(sp, 400);
+  },
+  async mash(a) {
+    const V = ST.V, ms = a.ms || 1800, tl = tool('masher');
+    const top = V.topWorld(0.22), c = V.group.position;
+    tl.position.copy(top);
+    const fillJob = V.setFill(lvl(V, a.f ?? 0.4), a.color || '#a9c25a', 1, ms);
+    const pcs = V.pieces.filter(p => p !== V.fill);
+    for (let k = 0; k < 6; k++) {
+      const ox = rnd(-0.04, 0.04), oz = rnd(-0.04, 0.04);
+      const low = c.y + (V.level + 0.01) * V.group.scale.y;
+      await tween(ms / 14, p => { tl.position.set(c.x + ox, lerp(top.y, low, p), c.z + oz); }, E.in);
+      SFX.splat(); pcs.forEach(pc => { pc.scale.y *= 0.82; });
+      await tween(ms / 14, p => { tl.position.y = lerp(low, top.y - 0.05, p); }, E.out);
+    }
+    await fillJob;
+    pcs.forEach(pc => { pc.position.y = V.level + 0.003; });
+    await shrinkAway(tl, 240); killMesh(tl);
+  },
+  async whisk(a) {
+    const V = ST.V, wh = tool('whisk'), top = V.topWorld(0.25), ms = a.ms || 1700;
+    wh.position.copy(top);
+    await tween(420, p => { wh.position.y = lerp(top.y, V.group.position.y + V.level - 0.005, p); }, E.out);
+    SFX.pour(ms / 1000);
+    const c = V.group.position.clone();
+    await Promise.all([
+      tween(ms, p => { const ang = p * TAU * 5; wh.position.x = c.x + Math.cos(ang) * 0.04; wh.position.z = c.z + Math.sin(ang) * 0.04; wh.rotation.y = ang * 1.5; wh.rotation.z = Math.cos(ang) * 0.15; }, E.lin),
+      a.color ? V.setFill(lvl(V, a.f ?? curF(V)), a.color, 1, ms) : wait(ms),
+    ]);
+    await tween(380, p => { wh.position.y = lerp(V.group.position.y + V.level, top.y + 0.1, p); wh.scale.setScalar(Math.max(0.001, 1 - p)); }, E.in);
+    killMesh(wh);
+  },
+  async stir(a) {
+    const V = ST.V, sp = tool('spoon'), ms = a.ms || 1400, top = V.topWorld(0.2), c = V.group.position.clone();
+    sp.position.copy(top);
+    await tween(360, p => { sp.position.y = lerp(top.y, c.y + (V.level + 0.01) * V.group.scale.y, p); }, E.out);
+    const r0 = V.content.rotation.y;
+    await tween(ms, p => { const ang = p * TAU * 3; sp.position.x = c.x + Math.cos(ang) * 0.06; sp.position.z = c.z + Math.sin(ang) * 0.06; sp.rotation.y = -ang; V.content.rotation.y = r0 + p * TAU * 0.75; }, E.sine);
+    await shrinkAway(sp, 260); killMesh(sp);
+  },
+  async blend(a) {
+    const V = ST.V, ms = a.ms || 2000;
+    const pcs = V.pieces.filter(p => p !== V.fill);
+    const base = pcs.map(p => ({ p, r: Math.hypot(p.position.x, p.position.z), a: Math.atan2(p.position.z, p.position.x), y: p.position.y, s: p.scale.clone() }));
+    const x0 = V.group.position.x;
+    SFX.pour(ms / 1000); SFX.sizzle(true);
+    await Promise.all([
+      V.setFill(lvl(V, a.f ?? 0.6), a.color || '#ef8b9b', 1, ms),
+      tween(ms, p => {
+        base.forEach(b => { const ang = b.a + p * p * 40; const rr = b.r * (1 - p * 0.6); b.p.position.set(Math.cos(ang) * rr, b.y + Math.sin(p * PI * 6 + b.a) * 0.04 * (1 - p), Math.sin(ang) * rr); b.p.scale.copy(b.s).multiplyScalar(Math.max(0.001, 1 - p)); });
+        V.group.position.x = x0 + Math.sin(p * 400) * 0.0025 * Math.sin(PI * p);
+      }, E.lin),
+    ]);
+    SFX.sizzle(false);
+    V.group.position.x = x0;
+    pcs.forEach(p => { p.visible = false; });
+    V.pieces = V.pieces.filter(p => !pcs.includes(p));
+  },
+  async sear(a) {
+    const V = ST.V, ms = a.ms || 1100;
+    SFX.sizzle(true);
+    if (a.oil && curF(V) === 0) V.setFill(lvl(V, 0.05), '#e2b13a', 0.42, 600);
+    await Promise.all([sputter(V, ms), (a.amt ?? 0.35) > 0 ? tintPieces(V, a.tint || '#b97a3a', a.amt ?? 0.35, ms) : wait(ms)]);
+  },
+  async simmer(a) {
+    const V = ST.V;
+    bubbles(V.content, { r: V.landR(), y: () => V.level + 0.001, color: a.color || '#e8d9c0', rate: a.rate || 5, size: a.size || 0.011 });
+    steam(V, 0.5);
+    await wait(a.ms || 900);
+  },
+  async boil(a) {
+    const V = ST.V;
+    await V.setFill(lvl(V, a.f ?? 0.75), a.color || '#87b9cf', 0.55, 1100);
+    bubbles(V.content, { r: V.landR(), y: () => V.level, color: '#e8f3f7', rate: 9, size: 0.008 });
+    steam(V, 0.7);
+    await wait(300);
+  },
+  async steam(a) { steam(ST.V, a.rate ?? 0.4); },
+  async toss(a) { await toss(ST.V, a.times || 2); },
+  async cover(a) {
+    const V = ST.V;
+    BUBS.em.length = 0;
+    const lid = tool('lid', V.r * V.group.scale.x + 0.045);
+    const top = V.topWorld(0.25); lid.position.copy(top);
+    const rest = V.topWorld(-0.004).y;
+    await tween(520, p => { lid.position.y = lerp(top.y, rest, p); }, E.out);
+    SFX.splat(); steam(V, 1.1);
+    await Promise.all([wait(a.ms || 1700)].concat(V.whites.map(w => tween(a.ms || 1700, p => { w.material.opacity = lerp(0.5, 1, p); w.material.depthWrite = p > 0.9; }))));
+    await tween(520, p => { lid.position.y = lerp(rest, top.y + 0.1, p); lid.scale.setScalar(Math.max(0.001, 1 - p)); }, E.in);
+    killMesh(lid);
+    steam(V, 0.35);
+  },
+  async garnish(a) {
+    const V = ST.V, n = a.n || 22, spread = 0.06;
+    for (let j = 0; j < n; j++) particle({ pos: V.topWorld(0.18).add(v3(rnd(-spread, spread), 0, rnd(-spread, spread))), vel: v3(rnd(-0.2, 0.2), 0, rnd(-0.2, 0.2)), color: a.color || '#2f7d35', size: a.size || 0.006, flat: a.size ? 0.9 : 0.4, land: V, stay: true });
+    await wait(700);
+  },
+  async swap(a) {
+    const old = ST.V;
+    await moveVessel(old, ASIDE(), 0.62);
+    ST.prev = old;
+    if (!a.keep) { ST.prev = null; sinkVessel(old); }
+    ST.V = await addVessel(a.to || 'skillet', CENTER());
+  },
+  async nest(a) {
+    const V = ST.V, pot = ST.prev;
+    if (!pot) return;
+    const nest = M(new THREE.TorusKnotGeometry(0.06, 0.009, 180, 8, 3, 8), own(a.color || '#e7c36d', 0.42));
+    nest.scale.set(0.001, 0.001, 0.001);
+    const p0 = pot.topWorld(-0.03); nest.position.copy(p0); ST.group.add(nest);
+    await tween(500, p => { nest.scale.set(p * 0.62, p * 0.3, p * 0.62); nest.position.y = p0.y + p * 0.12; nest.rotation.y = p * 2; }, E.out);
+    await hop(nest, V.topWorld(0.05), 700, 0.16, 2);
+    V.content.attach(nest); nest.position.set(0, V.level + 0.012, 0);
+    await tween(300, p => nest.scale.set(lerp(0.62, 1, p), lerp(0.3, 0.42, p), lerp(0.62, 1, p)), E.back);
+    V.pieces.push(nest);
+    for (let j = 0; j < 14; j++) particle({ pos: pot.topWorld(0.02), vel: v3(rnd(-0.55, -0.35), rnd(0.5, 0.8), rnd(0.15, 0.3)), color: '#bcd8e3', size: 0.006, opacity: 0.7, land: V, life: 2 });
+    steam(V, 0.45);
+    await toss(V, 1);
+    await sinkVessel(pot); ST.prev = null;
+  },
+  async ladle(a) {
+    const G = ST.V, bowl = ST.prev; if (!bowl) return;
+    ST.cakes = [];
+    SFX.sizzle(true); steam(G, 0.2);
+    const all = [v3(-0.095, 0, -0.055), v3(0.095, 0, -0.05), v3(0, 0, 0.09)];
+    const spots = all.slice(0, clamp(a.count || 3, 1, 3));
+    const home = bowl.group.position.clone();
+    for (const s of spots) {
+      const w = G.group.localToWorld(s.clone().setY(G.level));
+      const at = w.clone().add(v3(-0.1, 0.14, 0));
+      const from = bowl.group.position.clone();
+      await tween(500, p => { bowl.group.position.lerpVectors(from, at, p); bowl.group.position.y += Math.sin(PI * p) * 0.06; });
+      await tween(260, p => { bowl.group.rotation.z = -1.0 * p; });
+      const cake = M(new THREE.CylinderGeometry(0.055, 0.055, 0.012, 36), [own('#e0bb74', 0.6), own('#eedaa8', 0.6), own('#c4823a', 0.6)]);
+      cake.position.copy(s).setY(G.level + 0.006); cake.scale.set(0.001, 1, 0.001); G.content.add(cake); ST.cakes.push(cake);
+      for (let d = 0; d < 3; d++) { const bb = M(new THREE.SphereGeometry(0.009, 10, 8), mat(a.dots || '#2b3a78', 0.38)); bb.position.set(rnd(-0.03, 0.03), 0.006, rnd(-0.03, 0.03)); bb.scale.y = 0.6; cake.add(bb); }
+      let spawned = 0;
+      await tween(800, p => {
+        const s2 = Math.max(0.001, E.out(p)); cake.scale.set(s2, 1, s2);
+        while (spawned < p * 14) { spawned++; const lip = bowl.group.localToWorld(v3(0.16, 0.115, 0)); particle({ pos: lip, vel: v3(0.05, -0.2, 0), color: a.color || '#ead196', size: 0.01, land: G, life: 1.5 }); }
+      }, E.lin);
+      await tween(240, p => { bowl.group.rotation.z = -1.0 * (1 - p); });
+    }
+    const from = bowl.group.position.clone();
+    await tween(520, p => { bowl.group.position.lerpVectors(from, home, p); bowl.group.position.y += Math.sin(PI * p) * 0.06; });
+  },
+  async flipCakes() {
+    if (!ST.cakes) return;
+    const ems = ST.cakes.map(c => bubbles(c, { r: 0.035, y: () => 0.0065, color: '#f6ead0', rate: 6, size: 0.005 }));
+    await wait(1300);
+    ems.forEach(stopBubbles);
+    const spat = tool('spatula');
+    spat.scale.setScalar(0.001);
+    for (const c of ST.cakes) {
+      const w = c.getWorldPosition(v3(0, 0, 0));
+      spat.position.set(w.x, w.y - 0.002, w.z + 0.09); spat.scale.setScalar(1);
+      await tween(220, p => { spat.position.z = lerp(w.z + 0.09, w.z, p); }, E.out);
+      const y0 = c.position.y, r0 = c.rotation.x;
+      await tween(560, p => {
+        const s = Math.sin(PI * p);
+        c.position.y = y0 + s * 0.12; c.rotation.x = r0 + PI * E.io(p);
+        spat.position.y = w.y + Math.min(1, p * 2.2) * 0.05 * (1 - p); spat.rotation.x = -s * 0.5;
+      }, E.lin);
+      SFX.splat();
+      await tween(160, p => { spat.position.z = lerp(w.z, w.z + 0.09, p); });
+    }
+    killMesh(spat);
+    await wait(300);
+  },
+  async stack() {
+    const G = ST.V; if (!ST.cakes) return;
+    if (ST.prev) { await sinkVessel(ST.prev); ST.prev = null; }
+    SFX.sizzle(false); steam(G, 0);
+    await moveVessel(G, ASIDE(), 0.62);
+    const P = await addVessel('plate', CENTER(), 0.72);
+    ST.V = P;
+    for (let i = 0; i < ST.cakes.length; i++) {
+      const c = ST.cakes[i]; ST.group.attach(c);
+      const tgt = P.group.localToWorld(v3(0, P.floor + 0.007 + i * 0.0125, 0));
+      const r0 = c.rotation.x, from = c.position.clone(), s0 = c.scale.clone(), s1 = s0.clone().multiplyScalar(1 / 0.62 * 0.72);
+      await tween(560, p => { c.position.lerpVectors(from, tgt, p); c.position.y += Math.sin(PI * p) * 0.12; c.rotation.x = r0 + TAU * p; c.rotation.y = p * 0.8; c.scale.lerpVectors(s0, s1, p); });
+      P.content.attach(c); SFX.splat();
+    }
+    P.level = P.floor + ST.cakes.length * 0.0125 + 0.002;
+    P.landR = () => 0.04;
+    await sinkVessel(G);
+  },
+  async pat(a) {
+    const P = ST.V;
+    const pat = M(new THREE.BoxGeometry(0.03, 0.012, 0.03), mat(a.color || '#f3d97f', 0.4));
+    const top = P.group.localToWorld(v3(0, P.level + 0.006, 0)); pat.position.copy(top).add(v3(0, 0.2, 0)); ST.group.add(pat);
+    await tween(420, p => { pat.position.y = lerp(top.y + 0.2, top.y, p); pat.rotation.y = p * 2; }, E.in);
+    SFX.pop();
+  },
+  async drizzle(a) {
+    const P = ST.V, n = a.n || 40, top = P.topWorld(0);
+    let spawned = 0;
+    await tween(1200, p => { while (spawned < p * n) { spawned++; particle({ pos: top.clone().add(v3(rnd(-0.02, 0.02), 0.16, rnd(-0.02, 0.02))), vel: v3(rnd(-0.05, 0.05), -0.1, rnd(-0.05, 0.05)), color: a.color || '#a65d14', size: 0.006, flat: 0.5, opacity: 0.9, land: P, stay: true, rough: 0.15 }); } }, E.lin);
+  },
+  async serve(a) {
+    const V = ST.V;
+    await moveVessel(V, ASIDE(), 0.62);
+    const P = await addVessel('plate', CENTER(), 0.9);
+    ST.V = P;
+    let topLevel = P.floor;
+    const it = a.item ? claim(a.item) : null;
+    if (it) {
+      const base = it.obj, inner = base.userData.inner;
+      const tgt = P.group.localToWorld(v3(0, P.floor + 0.012, 0));
+      const r0 = inner ? inner.rotation.x : 0;
+      await hop(base, tgt, 650, 0.16);
+      if (inner) await tween(260, p => { inner.rotation.x = lerp(r0, 0, p); });
+      base.rotation.y = 0;
+      P.content.attach(base);
+      topLevel = P.floor + 0.024;
+    }
+    P.level = topLevel; P.landR = () => 0.055;
+    const pcs = V.pieces.filter(p => p !== V.fill && p.visible).slice(0, 28);
+    const k = 1 / V.group.scale.x;
+    await Promise.all(pcs.map((pc, i) => (async () => {
+      await wait(i * 40);
+      ST.group.attach(pc);
+      const ang = rnd(0, TAU), r = rnd(0, 0.05);
+      const tgt = P.group.localToWorld(v3(Math.cos(ang) * r, topLevel + 0.008 + rnd(0, 0.01), Math.sin(ang) * r));
+      const s0 = pc.scale.clone(), s1 = s0.clone().multiplyScalar(k * 0.9);
+      const from = pc.position.clone();
+      await tween(520, p => { pc.position.lerpVectors(from, tgt, p); pc.position.y += Math.sin(PI * p) * 0.14; pc.scale.lerpVectors(s0, s1, p); });
+      P.content.attach(pc); P.pieces.push(pc);
+    })()));
+    V.pieces = V.pieces.filter(p => !pcs.includes(p));
+    SFX.sizzle(false); BUBS.em.length = 0;
+    if (STEAM.src === V) steam(P, 0.3);
+    await sinkVessel(V);
+  },
+  async serveGlass(a) {
+    const V = ST.V, color = a.color || (curF(V) > 0 ? fillHex(V) : '#ef8b9b');
+    await moveVessel(V, ASIDE(), 0.62);
+    const Gl = await addVessel('glass', v3(0.36, topY(), -0.24), 1.1);
+    const home = V.group.position.clone(), at = Gl.topWorld(0.14).add(v3(-0.1, 0, 0));
+    await tween(520, p => { V.group.position.lerpVectors(home, at, p); V.group.position.y += Math.sin(PI * p) * 0.06; });
+    await tween(300, p => { V.group.rotation.z = -1.2 * p; });
+    SFX.pour(1.4);
+    let spawned = 0;
+    await Promise.all([
+      Gl.setFill(lvl(Gl, 0.88), color, 1, 1400),
+      curF(V) > 0 ? V.setFill(V.floor + 0.001, fillHex(V), 1, 1400) : wait(1),
+      tween(1400, p => { while (spawned < p * 30) { spawned++; const lip = V.group.localToWorld(v3(0.1, 0.3, 0)); particle({ pos: lip, vel: v3(0.08, -0.25, 0), color, size: 0.01, land: Gl, life: 1.5 }); } }, E.lin),
+    ]);
+    await tween(300, p => { V.group.rotation.z = -1.2 * (1 - p); });
+    const from = V.group.position.clone();
+    await tween(500, p => { V.group.position.lerpVectors(from, home, p); V.group.position.y += Math.sin(PI * p) * 0.06; });
+    sinkVessel(V);
+    ST.V = Gl;
+    const st = tool('straw'); const sTop = Gl.topWorld(0.05); st.position.copy(sTop).add(v3(0.015, 0.25, 0)); st.rotation.z = -0.25;
+    await tween(420, p => { st.position.y = lerp(sTop.y + 0.25, sTop.y, p); }, E.back);
+    SFX.pop();
+  },
+  async finish() {
+    ST.items.filter(it => !it.claimed && it.obj.visible).forEach(it => {
+      it.busy = true; it.claimed = true; ripple(it.home.x, it.home.z);
+      const y0 = it.obj.position.y; tween(450, p => { it.obj.position.y = y0 - p * 0.35; }, E.in).catch(() => {});
+    });
+    SFX.sizzle(false);
+    if (STEAM.rate > 0.3) steam(ST.V, 0.3);
+    await wait(400);
+    glint(ST.V.topWorld(0.1));
+    await wait(500);
+  },
+  async wait(a) { await wait(clamp(a.ms || 600, 0, 4000)); },
+};
+
+/* what the studio offers: a verb, whether it needs an ingredient, whether it takes a colour */
+const EDIT_VERBS = [
+  ['chop', 'Chop it in', 'item'], ['pour', 'Pour it in', 'item'], ['drop', 'Drop in whole', 'item'], ['crush', 'Crush it in', 'item'],
+  ['crack', 'Crack in (eggs)', 'item'], ['melt', 'Melt it in', 'item'], ['squeeze', 'Squeeze over', 'item'], ['zest', 'Zest and squeeze', 'item'],
+  ['scoop', 'Halve and scoop', 'item'], ['dunk', 'Lower into the pot', 'item'],
+  ['sear', 'Sizzle and brown'], ['boil', 'Boil water'], ['simmer', 'Simmer', 'color'], ['whisk', 'Whisk', 'color'], ['mash', 'Mash', 'color'],
+  ['stir', 'Stir'], ['blend', 'Blend smooth', 'color'], ['toss', 'Toss the pan'], ['cover', 'Cover with a lid'], ['garnish', 'Scatter on top', 'color'],
+  ['serve', 'Plate it up', 'item?'], ['serveGlass', 'Pour into a glass', 'color'], ['finish', 'Finished'],
+];
+const VERB = Object.fromEntries(EDIT_VERBS.map(v => [v[0], { label: v[1], needs: v[2] || '' }]));
+const VERB_COLOR = { simmer: '#c43b25', whisk: '#ead196', mash: '#a9c25a', blend: '#ef8b9b', garnish: '#2f7d35', serveGlass: '#ef8b9b' };
+
+/* ---------------- recipes that ship with the book ---------------- */
+const BUILTIN_RAW = [
+  {
+    id: 'b-shakshuka', title: 'Shakshuka', course: 'Breakfast', serves: 'Serves 2', time: '25 min', vessel: 'skillet',
+    deck: 'Eggs poached in a spiced pepper and tomato sauce. One pan, a wooden spoon, and bread to mop the bottom of the skillet.',
+    finish: 'Serve straight from the pan.',
+    items: [
+      { key: 'onion', b: 'onion', q: '1', name: 'yellow onion', note: 'diced small' },
+      { key: 'pepper', b: 'pepper', q: '1', name: 'red bell pepper', note: 'seeded' },
+      { key: 'garlic', b: 'garlic', q: '3 cloves', name: 'garlic', note: 'thinly sliced' },
+      { key: 'tomatoes', b: 'tomatoes', q: '4', name: 'ripe tomatoes', note: 'or a 400 g tin' },
+      { key: 'cumin', b: 'jar', color: '#8a5a2b', q: '1 tsp', name: 'ground cumin', note: 'and a pinch of paprika' },
+      { key: 'eggs', b: 'eggs3', q: '3', name: 'eggs', note: 'at room temperature' },
+    ],
+    steps: [
+      { text: 'Dice the onion and the red pepper.', do: [['chop', { item: 'onion', n: 18 }], ['chop', { item: 'pepper' }]] },
+      { text: 'Soften them in olive oil for 6 minutes, then add the garlic and cumin.', do: [['sear', { oil: true, tint: '#c98a3a' }], ['chop', { item: 'garlic', n: 10 }], ['pour', { item: 'cumin', n: 46, size: 0.006 }], ['steam', { rate: 0.25 }]] },
+      { text: 'Crush in the tomatoes and simmer for 10 minutes, until thick.', do: [['crush', { item: 'tomatoes', f: 0.4, color: '#a8301c' }], ['simmer', { color: '#c43b25', size: 0.012, ms: 1100 }]] },
+      { text: 'Make three wells in the sauce and crack an egg into each.', do: [['crack', { item: 'eggs', fried: true }]] },
+      { text: 'Cover and cook until the whites set, about 5 minutes.', do: [['cover', {}], ['garnish', { color: '#2f7d35', n: 22 }], ['finish', {}]] },
+    ],
+  },
+  {
+    id: 'b-guacamole', title: 'Guacamole', course: 'Snack', serves: 'Serves 4', time: '10 min', vessel: 'bowl',
+    deck: 'Ripe avocado mashed by hand so it keeps some texture. Make it just before you eat it, and taste it twice.',
+    finish: 'With salted tortilla chips.',
+    items: [
+      { key: 'avocado', b: 'avocado', q: '3', name: 'ripe avocados', note: 'they should give a little' },
+      { key: 'onion', b: 'redOnion', q: '½', name: 'red onion', note: 'very finely diced' },
+      { key: 'chili', b: 'chili', color: '#4f8a2a', q: '1', name: 'jalapeño', note: 'seeded' },
+      { key: 'cilantro', b: 'cilantro', q: 'Bunch', name: 'cilantro', note: 'leaves and soft stems' },
+      { key: 'lime', b: 'lime', q: '1', name: 'lime', note: 'juiced' },
+      { key: 'salt', b: 'salt', q: 'Pinch', name: 'flaky salt', note: 'to taste' },
+    ],
+    steps: [
+      { text: 'Halve the avocados, twist out the stones and scoop the flesh into the bowl.', do: [['scoop', { item: 'avocado' }]] },
+      { text: 'Mash with a fork, leaving it a little chunky.', do: [['mash', { color: '#a9c25a', f: 0.45 }]] },
+      { text: 'Fold in the onion, jalapeño and cilantro.', do: [['chop', { item: 'onion' }], ['chop', { item: 'chili', n: 10 }], ['chop', { item: 'cilantro', size: 0.009 }], ['stir', {}]] },
+      { text: 'Season with lime juice and salt, then taste and adjust.', do: [['squeeze', { item: 'lime' }], ['pour', { item: 'salt', n: 24, size: 0.005 }], ['stir', { ms: 900 }], ['finish', {}]] },
+    ],
+  },
+  {
+    id: 'b-spaghetti', title: 'Spaghetti aglio e olio', short: 'Spaghetti', course: 'Supper', serves: 'Serves 2', time: '15 min', vessel: 'pot',
+    deck: 'Garlic warmed slowly in good oil, a crumble of chili, and pasta water to bring it together. Lemon keeps it bright.',
+    finish: 'Eat it at once, while it is glossy.',
+    items: [
+      { key: 'spaghetti', b: 'spaghetti', q: '200 g', name: 'spaghetti', note: 'a good bronze-cut one' },
+      { key: 'garlic', b: 'garlic', q: '4 cloves', name: 'garlic', note: 'sliced paper thin' },
+      { key: 'chili', b: 'chili', q: '1', name: 'dried red chili', note: 'crumbled' },
+      { key: 'oil', b: 'oil', q: '5 tbsp', name: 'olive oil', note: 'extra virgin' },
+      { key: 'lemon', b: 'lemon', q: '1', name: 'lemon', note: 'zest and juice' },
+      { key: 'parsley', b: 'parsley', q: 'Handful', name: 'flat-leaf parsley', note: 'chopped' },
+    ],
+    steps: [
+      { text: 'Bring a pot of salted water to the boil and add the spaghetti.', do: [['boil', { f: 0.75 }], ['dunk', { item: 'spaghetti' }]] },
+      { text: 'Warm the oil in a wide pan, then add the sliced garlic and chili.', do: [['swap', { to: 'skillet', keep: true }], ['pour', { item: 'oil', n: 34, fill: [0.1, '#d6a52a', 0.85] }], ['chop', { item: 'garlic' }], ['chop', { item: 'chili', n: 10 }], ['sear', { ms: 900, tint: '#d9a24a', amt: 0.3 }]] },
+      { text: 'Toss in the drained pasta with a splash of its cooking water.', do: [['nest', { color: '#e7c36d' }], ['toss', { times: 2 }]] },
+      { text: 'Finish with lemon zest, a squeeze of juice and the parsley.', do: [['zest', { item: 'lemon' }], ['chop', { item: 'parsley', size: 0.009, n: 16 }], ['toss', { times: 1 }], ['finish', {}]] },
+    ],
+  },
+  {
+    id: 'b-mushrooms', title: 'Garlic mushrooms on toast', short: 'Mushrooms', course: 'Lunch', serves: 'Serves 2', time: '15 min', vessel: 'skillet',
+    deck: 'A hot pan, more butter than seems right, and patience while the mushrooms brown. Lemon at the end cuts through it.',
+    finish: 'Black pepper, and eat it standing up.',
+    items: [
+      { key: 'butter', b: 'butter', q: '30 g', name: 'butter', note: 'salted is fine' },
+      { key: 'mush', b: 'mushrooms', q: '250 g', name: 'chestnut mushrooms', note: 'thickly sliced' },
+      { key: 'garlic', b: 'garlic', q: '2 cloves', name: 'garlic', note: 'finely sliced' },
+      { key: 'thyme', b: 'thyme', q: '4 sprigs', name: 'thyme', note: 'leaves picked' },
+      { key: 'bread', b: 'bread', q: '2 slices', name: 'sourdough', note: 'toasted' },
+      { key: 'lemon', b: 'lemon', q: '½', name: 'lemon', note: 'for squeezing' },
+    ],
+    steps: [
+      { text: 'Melt the butter in a hot pan until it foams.', do: [['melt', { item: 'butter' }], ['sear', { ms: 700, amt: 0 }]] },
+      { text: 'Add the mushrooms in one layer and leave them to brown.', do: [['chop', { item: 'mush', n: 18, size: 0.016 }], ['sear', { ms: 1400, tint: '#8a5a32', amt: 0.45 }]] },
+      { text: 'Stir in the garlic and thyme for the last minute.', do: [['chop', { item: 'garlic', n: 10 }], ['chop', { item: 'thyme', n: 12 }], ['toss', { times: 1 }]] },
+      { text: 'Pile onto the hot toast and squeeze over the lemon.', do: [['serve', { item: 'bread' }], ['squeeze', { item: 'lemon' }], ['finish', {}]] },
+    ],
+  },
+  {
+    id: 'b-pancakes', title: 'Blueberry pancakes', short: 'Pancakes', course: 'Weekend', serves: 'Makes 8', time: '20 min', vessel: 'bowl',
+    deck: 'Thick buttermilk pancakes, barely mixed so they stay tender. The berries go in last, so they burst on the griddle.',
+    finish: 'Maple syrup at the table.',
+    items: [
+      { key: 'flour', b: 'flour', q: '200 g', name: 'plain flour', note: 'with 2 tsp baking powder' },
+      { key: 'eggs', b: 'eggs2', q: '2', name: 'eggs', note: 'lightly beaten' },
+      { key: 'milk', b: 'milk', q: '250 ml', name: 'buttermilk', note: 'or milk with lemon' },
+      { key: 'butter', b: 'butter', q: '30 g', name: 'butter', note: 'melted' },
+      { key: 'berries', b: 'berries', q: '150 g', name: 'blueberries', note: 'fresh or frozen' },
+    ],
+    steps: [
+      { text: 'Whisk the flour, eggs and buttermilk until just combined.', do: [['pour', { item: 'flour', n: 70, fill: [0.2, '#f2ead8', 1] }], ['crack', { item: 'eggs', fried: false }], ['pour', { item: 'milk', fill: [0.5, '#efe2c0', 1] }], ['whisk', { color: '#ead196', f: 0.53 }]] },
+      { text: 'Fold in the melted butter and the blueberries.', do: [['melt', { item: 'butter', fillColor: '#e9cc8a' }], ['drop', { item: 'berries' }]] },
+      { text: 'Ladle rounds of batter onto a hot, buttered griddle.', do: [['swap', { to: 'griddle', keep: true }], ['ladle', { count: 3, color: '#ead196' }]] },
+      { text: 'Flip once bubbles pop on top, about 2 minutes a side.', do: [['flipCakes', {}]] },
+      { text: 'Stack them up, top with butter and a drizzle of syrup.', do: [['stack', {}], ['pat', {}], ['drizzle', { color: '#a65d14', n: 40 }], ['garnish', { color: '#2b3a78', n: 5, size: 0.013 }], ['finish', {}]] },
+    ],
+  },
+  {
+    id: 'b-smoothie', title: 'Strawberry smoothie', short: 'Smoothie', course: 'Drinks', serves: '2 glasses', time: '5 min', vessel: 'blender',
+    deck: 'Frozen banana makes it thick without ice. Use the ripest strawberries you can find, and drink it cold.',
+    finish: 'Drink it straight away.',
+    items: [
+      { key: 'banana', b: 'banana', q: '1', name: 'ripe banana', note: 'frozen if you can' },
+      { key: 'straw', b: 'strawberries', q: '200 g', name: 'strawberries', note: 'hulled' },
+      { key: 'yog', b: 'yogurt', q: '150 g', name: 'Greek yogurt', note: 'full fat' },
+      { key: 'honey', b: 'honey', q: '1 tbsp', name: 'honey', note: 'or maple syrup' },
+      { key: 'milk', b: 'milk', q: '200 ml', name: 'cold milk', note: 'any kind' },
+    ],
+    steps: [
+      { text: 'Slice the banana straight into the blender.', do: [['chop', { item: 'banana', n: 10, size: 0.016 }]] },
+      { text: 'Add the strawberries, yogurt and honey.', do: [['drop', { item: 'straw' }], ['pour', { item: 'yog', fill: [0.3, '#f5f1e8', 1] }], ['pour', { item: 'honey', n: 24 }]] },
+      { text: 'Top up with the milk and blend until completely smooth.', do: [['pour', { item: 'milk', fill: [0.55, '#f6efe6', 1] }], ['blend', { color: '#ef8b9b', f: 0.62 }]] },
+      { text: 'Pour into a cold glass and drink straight away.', do: [['serveGlass', { color: '#ef8b9b' }], ['finish', {}]] },
+    ],
+  },
+];
+
+/* every recipe, ours or a stranger's, passes through here: it is untrusted data */
+const HEX = /^#[0-9a-f]{6}$/i;
+function cleanArgs(o) {
+  const out = {};
+  if (!o || typeof o !== 'object' || Array.isArray(o)) return out;
+  for (const [k, v] of Object.entries(o).slice(0, 12)) {
+    if (!/^[a-zA-Z]{1,16}$/.test(k)) continue;
+    if (typeof v === 'string') out[k] = v.slice(0, 24);
+    else if (typeof v === 'number' && isFinite(v)) out[k] = clamp(v, -10, 5000);
+    else if (typeof v === 'boolean') out[k] = v;
+    else if (Array.isArray(v) && k === 'fill') out.fill = [clamp(+v[0] || 0, 0, 1), HEX.test(v[1]) ? v[1] : '#dddddd', clamp(v[2] ?? 1, 0, 1)];
+    else if (Array.isArray(v) && k === 'colors') out.colors = v.filter(c => HEX.test(c)).slice(0, 4);
+  }
+  for (const k of ['color', 'tint', 'dots', 'fillColor']) if (out[k] !== undefined && !HEX.test(out[k])) delete out[k];
+  return out;
+}
+const s_ = (v, n) => String(v ?? '').replace(/[\u0000-\u001f]/g, ' ').trim().slice(0, n);
+function newId() { return 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+function normRecipe(r) {
+  if (!r || typeof r !== 'object') throw new Error('That is not a recipe file.');
+  const out = {
+    v: 1, id: s_(r.id, 40).replace(/[^\w-]/g, '') || newId(),
+    title: s_(r.title, 40) || 'Untitled recipe', short: s_(r.short, 14), course: s_(r.course, 16) || 'Recipe',
+    serves: s_(r.serves, 16), time: s_(r.time, 12), deck: s_(r.deck, 170), finish: s_(r.finish, 60) || 'Serve and enjoy.',
+    vessel: VESSELS[r.vessel] ? r.vessel : 'skillet', author: s_(r.author, 40), createdAt: +r.createdAt || Date.now(),
+  };
+  const seen = new Set();
+  out.items = (Array.isArray(r.items) ? r.items : []).slice(0, 6).map((it, i) => {
+    let key = s_(it && it.key, 20).replace(/[^\w-]/g, '') || 'i' + i;
+    while (seen.has(key)) key += i; seen.add(key);
+    const b = LIB[it && it.b] ? it.b : (it && it.b === 'egg' ? 'egg1' : 'round');
+    const o = { key, b, q: s_(it.q, 10), name: s_(it.name, 28) || LIB[b].label.toLowerCase(), note: s_(it.note, 32) };
+    if (HEX.test(it.color || '')) o.color = it.color;
+    return o;
+  });
+  out.steps = (Array.isArray(r.steps) ? r.steps : []).slice(0, 6).map(st => ({
+    text: s_(st && st.text, 110) || 'Keep cooking.',
+    do: (Array.isArray(st && st.do) ? st.do : []).slice(0, 8)
+      .filter(a => Array.isArray(a) && typeof a[0] === 'string' && Object.prototype.hasOwnProperty.call(ACT, a[0]))
+      .map(a => [a[0], cleanArgs(a[1])]),
+  }));
+  if (!out.steps.length) out.steps = [{ text: 'Cook it the way you always have.', do: [['finish', {}]] }];
+  return out;
+}
+const BUILTINS = BUILTIN_RAW.map(r => Object.assign(normRecipe(r), { builtIn: true }));
+async function runStep(step) {
+  for (const [verb, args] of step.do) {
+    if (!ST) return;
+    await ACT[verb](args || {});
+  }
+}
+
+/* ---------------- spread state machine ---------------- */
+let spread = 0, flipping = false, cooking = false, stepIdx = 0, dragging = null, pendingBook = null;
+const chipsEl = $('#chips');
+function buildChips() {
+  chipsEl.innerHTML = '';
+  SPREADS.forEach((s, i) => {
+    const b = document.createElement('button'); b.className = 'chip'; b.id = 'chip' + i;
+    b.textContent = s.name;
+    if (s.recipe && !s.recipe.builtIn) { const m = document.createElement('span'); m.className = 'mine'; m.textContent = '•'; m.setAttribute('aria-label', 'your page'); b.appendChild(m); }
+    b.addEventListener('click', () => goTo(i));
+    chipsEl.appendChild(b);
+  });
+}
+function syncUI() {
+  SPREADS.forEach((s, i) => { const c = $('#chip' + i); if (c) c.setAttribute('aria-current', i === spread ? 'true' : 'false'); });
+  const cur = $('#chip' + spread); if (cur && cur.scrollIntoView) cur.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  $('#prev').disabled = spread === 0; $('#next').disabled = spread === SPREADS.length - 1;
+  const R = SPREADS[spread] && SPREADS[spread].recipe, cook = $('#cook');
+  cook.hidden = !R;
+  if (R) {
+    const dots = $('#dots'); dots.innerHTML = '';
+    R.steps.forEach((s, i) => {
+      const d = document.createElement('button'); d.className = 'dot' + (i < stepIdx ? ' done' : '') + (cooking && i === stepIdx ? ' cur' : '');
+      d.textContent = i + 1; d.setAttribute('aria-label', `Cook up to step ${i + 1}: ${s.text}`);
+      d.addEventListener('click', () => cookTo(i)); dots.appendChild(d);
+    });
+    const finished = stepIdx >= R.steps.length;
+    const showIdx = Math.min(stepIdx, R.steps.length - 1);
+    $('#capN').textContent = finished ? 'Plated' : `Step ${showIdx + 1} of ${R.steps.length}`;
+    $('#capT').textContent = finished ? R.finish : R.steps[showIdx].text;
+    const ready = !!(ST && ST.emerged);
+    $('#stepBtn').disabled = cooking || finished || !ready;
+    $('#allBtn').disabled = cooking || finished || !ready;
+    $('#resetBtn').disabled = stepIdx === 0 && !cooking;
+    $('#stepBtn').textContent = stepIdx === 0 ? 'Start cooking' : 'Next step';
+  }
+  requestAnimationFrame(layout);
+}
+function setPageSteps() {
+  const R = SPREADS[spread].recipe; if (!R) return;
+  const pg = SPREADS[spread].R; pg.st.done = stepIdx; pg.st.cur = cooking ? stepIdx : -1; pg.draw();
+}
+function resetPages(k) {
+  const s = SPREADS[k]; if (!s || !s.recipe) return;
+  s.L.st.used = new Set(); s.L.st.hl = -1; s.L.draw();
+  s.R.st.done = 0; s.R.st.cur = -1; s.R.draw();
+}
+let enterTok = 0;
+async function enter(k) {
+  const tok = ++enterTok;
+  stepIdx = 0; cooking = false; resetPages(k); syncRes();
+  syncUI();
+  await loadModelsFor(k);
+  if (tok !== enterTok || ST) return;
+  preloadAround(k);
+  const st = buildStage(k);
+  syncUI();
+  try { await emerge(st); } catch (e) { if (!(e instanceof Cancel)) console.error(e); }
+  if (ST === st) syncUI();
+  flushBook();
+}
+function leave(fast) {
+  enterTok++;   /* any enter() still waiting on models is now stale */
+  cancelRun(); cooking = false;
+  const st = ST; ST = null; clearEffects(); setHover(-1);
+  if (st) return sinkStage(st, fast ? 200 : 340);
+  return Promise.resolve();
+}
+async function flipSheet(i, target, dur = 950) {
+  const s = sheets[i];
+  s.anim = true; s.dir = target > s.t ? 1 : -1;
+  SFX.flip();
+  const t0 = s.t;
+  await tween(dur * Math.max(0.3, Math.abs(target - t0)), p => { s.t = lerp(t0, target, p); s.dirty = true; }, E.sine, UI);
+  s.t = target; s.dirty = true; s.anim = false;
+}
+async function goTo(k, auto) {
+  k = clamp(k, 0, SPREADS.length - 1);
+  if (flipping || dragging || k === spread) return;
+  flipping = true; if (!auto) hideHint();
+  await leave();
+  const steps = Math.abs(k - spread), dur = steps > 2 ? 420 : steps > 1 ? 620 : 950;
+  if (k > spread) for (let i = spread; i < k; i++) await flipSheet(i, 1, dur);
+  else for (let i = spread - 1; i >= k; i--) await flipSheet(i, 0, dur);
+  spread = k; flipping = false;
+  $('#live').textContent = `Page: ${SPREADS[k].name}`;
+  enter(k);
+}
+async function cookTo(j) {
+  const R = SPREADS[spread].recipe;
+  if (!R || cooking || flipping || !ST || !ST.emerged) return;
+  if (j < stepIdx) { await restart(); if (!ST) return; await waitEmerged(); }
+  cooking = true; const myRun = RUN;
+  try {
+    while (stepIdx <= j && stepIdx < R.steps.length) {
+      setPageSteps(); syncUI();
+      $('#live').textContent = `Step ${stepIdx + 1}: ${R.steps[stepIdx].text}`;
+      await runStep(R.steps[stepIdx]);
+      if (myRun.cancelled) return;
+      stepIdx++;
+    }
+  } catch (e) { if (!(e instanceof Cancel)) console.error(e); if (myRun.cancelled) return; }
+  cooking = false; setPageSteps(); syncUI(); flushBook();
+}
+function waitEmerged() { return new Promise(r => { const c = () => (ST && ST.emerged) ? r() : requestAnimationFrame(c); c(); }); }
+async function restart() { if (flipping) return; await leave(true); enter(spread); }
+$('#prev').addEventListener('click', () => goTo(spread - 1));
+$('#next').addEventListener('click', () => goTo(spread + 1));
+$('#stepBtn').addEventListener('click', () => cookTo(stepIdx));
+$('#allBtn').addEventListener('click', () => cookTo(99));
+$('#resetBtn').addEventListener('click', () => restart());
+$('#sound').addEventListener('click', e => { SFX.init(); SFX.on = !SFX.on; e.currentTarget.textContent = SFX.on ? 'Sound on' : 'Sound off'; e.currentTarget.setAttribute('aria-pressed', SFX.on); });
+addEventListener('keydown', e => {
+  SFX.init();
+  if (e.target.closest && e.target.closest('input,textarea,select,.drawer')) return;
+  if (e.target.closest && e.target.closest('button') && (e.key === ' ' || e.key === 'Enter')) return;
+  if (e.key === 'ArrowRight') goTo(spread + 1);
+  else if (e.key === 'ArrowLeft') goTo(spread - 1);
+  else if (e.key.toLowerCase() === 'n') cookTo(stepIdx);
+});
+let hintGone = false;
+function hideHint() { if (!hintGone) { hintGone = true; $('#hint').classList.add('gone'); } }
+if (matchMedia('(pointer: coarse)').matches) $('#hint').textContent = 'Swipe to turn · pinch or double-tap to zoom';
+
+/* the book's recipe list changed: rebuild it once nothing is moving */
+function currentRecipes() { return BUILTINS.concat(STORE.mine); }
+function bookChanged(focusId) { pendingBook = { focusId: focusId || pendingBook?.focusId || null }; flushBook(); }
+async function flushBook() {
+  if (!pendingBook || flipping || dragging || cooking) return;
+  const { focusId } = pendingBook; pendingBook = null;
+  const curId = SPREADS[spread] && SPREADS[spread].recipe ? SPREADS[spread].recipe.id : null;
+  const wasNotes = spread === SPREADS.length - 1 && SPREADS.length > 1;
+  const recipes = currentRecipes();
+  let at = curId ? recipes.findIndex(r => r.id === curId) + 1 : (wasNotes ? recipes.length + 1 : spread);
+  if (curId && at === 0) at = Math.min(spread, recipes.length);
+  flipping = true;
+  await leave(true);
+  buildBook(recipes, at);
+  spread = clamp(at, 0, SPREADS.length - 1);
+  buildChips();
+  flipping = false;
+  const target = focusId ? recipes.findIndex(r => r.id === focusId) + 1 : -1;
+  if (target > 0 && target !== spread) { enter(spread); setTimeout(() => goTo(target), 300); }
+  else enter(spread);
+  renderLists();
+}
+
+/* ---------------- where pages are kept: your account (db), or this browser ---------------- */
+const STORE = { mine: [], shelf: [], mode: 'local', col: null, db: null, canPublish: false, sample: null };
+const LS_KEY = 'offthepage.recipes.v1';
+function loadLocal() {
+  try { const raw = JSON.parse(localStorage.getItem(LS_KEY) || '[]'); STORE.mine = raw.map(r => { try { return normRecipe(r); } catch (e) { return null; } }).filter(Boolean); } catch (e) { STORE.mine = []; }
+}
+function saveLocal() { try { localStorage.setItem(LS_KEY, JSON.stringify(STORE.mine)); return true; } catch (e) { return false; } }
+function sortMine() { STORE.mine.sort((a, b) => a.createdAt - b.createdAt); }
+async function putRecipe(r) {
+  const i = STORE.mine.findIndex(x => x.id === r.id);
+  if (i >= 0) STORE.mine[i] = r; else STORE.mine.push(r);
+  sortMine();
+  if (STORE.col) {
+    try { await STORE.col.doc(r.id).set({ json: JSON.stringify(r), createdAt: r.createdAt, updatedAt: Date.now() }); return 'Saved to your account.'; }
+    catch (e) { STORE.col = null; STORE.mode = 'local'; }
+  }
+  return saveLocal() ? 'Saved in this browser only.' : 'Added for this visit only. This browser is not keeping data.';
+}
+async function removeRecipe(id) {
+  STORE.mine = STORE.mine.filter(x => x.id !== id);
+  if (STORE.col) { try { await STORE.col.doc(id).delete(); } catch (e) {} } else saveLocal();
+  bookChanged();
+}
+async function initStore() {
+  loadLocal();
+  const cl = window.claude;
+  if (!cl || typeof cl.use !== 'function') { renderLists(); return; }
+  const [db, user, sample] = await Promise.all([cl.use('db').catch(() => null), cl.use('user').catch(() => null), cl.use('sample').catch(() => null)]);
+  STORE.sample = sample; $('#magic').hidden = !sample;
+  if (user) { try { STORE.canPublish = !!(await user.canEdit()); } catch (e) {} }
+  $('#publishSec').hidden = !(db && STORE.canPublish);
+  if (!db) { renderLists(); return; }
+  STORE.db = db;
+  db.collection('shelf').onSnapshot(snap => {
+    STORE.shelf = snap.docs.map(d => { try { const x = d.data(); return Object.assign(normRecipe(JSON.parse(x.json)), { price: s_(x.price, 10), shelfId: d.id }); } catch (e) { return null; } }).filter(Boolean);
+    renderLists();
+  }, () => {});
+  let uid = null;
+  try { uid = user ? await user.id() : null; } catch (e) {}
+  if (!uid) { renderLists(); return; }
+  const col = db.collection('data/users/' + uid);
+  const timer = setTimeout(() => { renderLists(); }, 10000);
+  let first = true;
+  col.onSnapshot(async snap => {
+    clearTimeout(timer);
+    STORE.col = col; STORE.mode = 'db';
+    const fromDb = snap.docs.map(d => { try { return normRecipe(JSON.parse(d.data().json)); } catch (e) { return null; } }).filter(Boolean);
+    if (first) {
+      first = false;
+      const local = STORE.mine.filter(r => !fromDb.some(x => x.id === r.id));
+      for (const r of local) { try { await col.doc(r.id).set({ json: JSON.stringify(r), createdAt: r.createdAt, updatedAt: Date.now() }); fromDb.push(r); } catch (e) {} }
+    }
+    const before = JSON.stringify(STORE.mine.map(r => r.id + r.title + r.steps.length));
+    STORE.mine = fromDb; sortMine();
+    if (JSON.stringify(STORE.mine.map(r => r.id + r.title + r.steps.length)) !== before) bookChanged();
+    renderLists();
+  }, () => { clearTimeout(timer); renderLists(); });
+}
+
+/* ---------------- the recipe studio ---------------- */
+const drawer = $('#drawer');
+let draft = null, editingId = null, ikey = 0;
+function blankDraft() {
+  ikey = 2;
+  return { title: '', course: '', serves: '', time: '', deck: '', finish: '', vessel: 'skillet',
+    items: [{ key: 'i0', b: 'onion', q: '1', name: 'onion', note: 'diced' }, { key: 'i1', b: 'garlic', q: '2 cloves', name: 'garlic', note: 'sliced' }],
+    steps: [{ text: 'Soften the onion and garlic in a little oil.', do: [['chop', { item: 'i0' }], ['chop', { item: 'i1' }], ['sear', {}]] }] };
+}
+function loadDraft(r, keepId) {
+  draft = JSON.parse(JSON.stringify(r));
+  delete draft.builtIn; delete draft.no; delete draft.price; delete draft.shelfId;
+  editingId = keepId ? r.id : null;
+  ikey = draft.items.length + 1;
+  renderForm();
+}
+function openStudio(tab = 'write') {
+  drawer.hidden = false; setTab(tab);
+  if (!draft) loadDraft(blankDraft(), false);
+  $('#drClose').focus();
+}
+function closeStudio() { drawer.hidden = true; $('#studioBtn').focus(); }
+function setTab(t) {
+  drawer.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === t ? 'true' : 'false'));
+  drawer.querySelectorAll('[data-panel]').forEach(p => { p.hidden = p.dataset.panel !== t; });
+  if (t !== 'write') renderLists();
+}
+$('#studioBtn').addEventListener('click', () => drawer.hidden ? openStudio() : closeStudio());
+$('#drClose').addEventListener('click', closeStudio);
+drawer.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
+addEventListener('keydown', e => { if (e.key === 'Escape' && !drawer.hidden) closeStudio(); });
+
+function el(tag, props = {}, kids = []) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(props)) {
+    if (k === 'text') n.textContent = v; else if (k === 'on') Object.entries(v).forEach(([ev, f]) => n.addEventListener(ev, f));
+    else if (k in n) n[k] = v; else n.setAttribute(k, v);
+  }
+  kids.forEach(c => c && n.appendChild(c));
+  return n;
+}
+const vSel = $('#fVessel');
+Object.entries(VESSELS).forEach(([k, v]) => vSel.appendChild(el('option', { value: k, text: v })));
+const BASIC = { fTitle: 'title', fCourse: 'course', fServes: 'serves', fTime: 'time', fDeck: 'deck', fFinish: 'finish', fVessel: 'vessel' };
+Object.entries(BASIC).forEach(([id, k]) => $('#' + id).addEventListener('input', e => { draft[k] = e.target.value; }));
+function renderForm() {
+  Object.entries(BASIC).forEach(([id, k]) => { $('#' + id).value = draft[k] || (k === 'vessel' ? 'skillet' : ''); });
+  renderIngs(); renderSteps();
+  $('#saveBtn').textContent = editingId ? 'Save changes & open' : 'Save & open in book';
+}
+function libOptions(sel) {
+  return Object.entries(LIB).map(([k, m]) => el('option', { value: k, text: m.label, selected: k === sel }));
+}
+function renderIngs() {
+  const box = $('#ings'); box.innerHTML = '';
+  draft.items.forEach((it, i) => {
+    const m = LIB[it.b] || {};
+    const model = el('select', { id: 'ingB' + i, 'aria-label': 'Model', on: { change: e => { it.b = e.target.value; if (!it.name || it.name === (LIB[it.prevB] || {}).label?.toLowerCase()) it.name = LIB[it.b].label.toLowerCase(); it.prevB = it.b; renderIngs(); renderSteps(); } } }, libOptions(it.b));
+    const row = el('div', { className: 'card' }, [
+      el('div', { className: 'ing' }, [
+        el('label', { className: 'f', text: 'Looks like' }, [model]),
+        el('label', { className: 'f', text: 'Amount' }, [el('input', { id: 'ingQ' + i, value: it.q || '', maxLength: 10, on: { input: e => { it.q = e.target.value; } } })]),
+        el('label', { className: 'f nm', text: 'Name' }, [el('input', { id: 'ingN' + i, value: it.name || '', maxLength: 28, on: { input: e => { it.name = e.target.value; renderSteps(); } } })]),
+        el('button', { className: 'x', type: 'button', text: '×', 'aria-label': `Remove ${it.name || 'ingredient'}`, on: { click: () => { draft.items.splice(i, 1); renderIngs(); renderSteps(); } } }),
+        el('label', { className: 'f note', text: 'Note' }, [el('input', { id: 'ingNo' + i, value: it.note || '', maxLength: 32, placeholder: 'diced, at room temperature…', on: { input: e => { it.note = e.target.value; } } })]),
+        m.colorable ? el('label', { className: 'f', text: 'Colour' }, [el('input', { id: 'ingC' + i, type: 'color', value: it.color || m.color || '#c0603a', on: { input: e => { it.color = e.target.value; } } })]) : null,
+      ]),
+    ]);
+    box.appendChild(row);
+  });
+  $('#ingCount').textContent = `(${draft.items.length} of 6)`;
+  $('#addIng').disabled = draft.items.length >= 6;
+}
+function renderSteps() {
+  const box = $('#steps'); box.innerHTML = '';
+  draft.steps.forEach((st, si) => {
+    const acts = el('div', { className: 'list' });
+    st.do.forEach((a, ai) => {
+      const [verb, args] = a;
+      const v = VERB[verb];
+      const vs = el('select', { id: `actV${si}_${ai}`, 'aria-label': 'Move', on: { change: e => { a[0] = e.target.value; const nv = VERB[a[0]]; a[1] = {}; if (nv.needs === 'item' && draft.items[0]) a[1].item = draft.items[0].key; if (nv.needs === 'color') a[1].color = VERB_COLOR[a[0]]; renderSteps(); } } },
+        (v ? [] : [el('option', { value: verb, text: verb + ' (advanced)', selected: true })]).concat(EDIT_VERBS.map(([k, label]) => el('option', { value: k, text: label, selected: k === verb }))));
+      const parts = [vs];
+      if (v && (v.needs === 'item' || v.needs === 'item?')) {
+        const opts = (v.needs === 'item?' ? [el('option', { value: '', text: 'nothing underneath', selected: !args.item })] : [])
+          .concat(draft.items.map(it => el('option', { value: it.key, text: it.name || LIB[it.b].label, selected: it.key === args.item })));
+        parts.push(el('select', { id: `actI${si}_${ai}`, 'aria-label': 'Ingredient', on: { change: e => { if (e.target.value) args.item = e.target.value; else delete args.item; } } }, opts));
+        if (v.needs === 'item' && !args.item && draft.items[0]) args.item = draft.items[0].key;
+      }
+      if (v && v.needs === 'color') parts.push(el('input', { id: `actC${si}_${ai}`, type: 'color', 'aria-label': 'Colour', value: args.color || VERB_COLOR[verb] || '#cccccc', on: { input: e => { args.color = e.target.value; } } }));
+      parts.push(el('button', { className: 'x', type: 'button', text: '×', 'aria-label': 'Remove move', on: { click: () => { st.do.splice(ai, 1); renderSteps(); } } }));
+      acts.appendChild(el('div', { className: 'act' }, parts));
+    });
+    box.appendChild(el('div', { className: 'card' }, [
+      el('div', { className: 'row' }, [el('span', { className: 'step-n', text: `Step ${si + 1}` }), el('span', { style: 'flex:1' }),
+        el('button', { className: 'btn small ghost', type: 'button', text: 'Remove step', on: { click: () => { draft.steps.splice(si, 1); renderSteps(); } } })]),
+      el('textarea', { id: 'stepT' + si, rows: 2, maxLength: 110, value: st.text, 'aria-label': `Step ${si + 1} text`, placeholder: 'What happens, in the words you would say it.', on: { input: e => { st.text = e.target.value; } } }),
+      acts,
+      el('div', { className: 'row' }, [el('button', { className: 'btn small', type: 'button', text: 'Add a move', disabled: st.do.length >= 8, on: { click: () => { st.do.push(['stir', {}]); renderSteps(); } } })]),
+    ]));
+  });
+  $('#stepCount').textContent = `(${draft.steps.length} of 6)`;
+  $('#addStep').disabled = draft.steps.length >= 6;
+}
+$('#addIng').addEventListener('click', () => { let k; do { k = 'i' + (ikey++); } while (draft.items.some(it => it.key === k)); draft.items.push({ key: k, b: 'round', q: '', name: '', note: '' }); renderIngs(); renderSteps(); });
+$('#addStep').addEventListener('click', () => { draft.steps.push({ text: '', do: [['stir', {}]] }); renderSteps(); });
+$('#newBtn').addEventListener('click', () => { loadDraft(blankDraft(), false); status('#saveStatus', 'Blank page ready.'); });
+function status(sel, msg, err) { const s = $(sel); s.textContent = msg; s.classList.toggle('err', !!err); }
+function draftRecipe() {
+  const r = normRecipe(Object.assign({}, draft, { id: editingId || newId(), createdAt: (STORE.mine.find(x => x.id === editingId) || {}).createdAt || Date.now() }));
+  return r;
+}
+$('#saveBtn').addEventListener('click', async () => {
+  if (!draft.title.trim()) { status('#saveStatus', 'Give the page a title first.', true); $('#fTitle').focus(); return; }
+  if (!draft.items.length) { status('#saveStatus', 'Add at least one ingredient so something rises off the page.', true); return; }
+  const r = draftRecipe();
+  editingId = r.id;
+  status('#saveStatus', 'Saving…');
+  const msg = await putRecipe(r);
+  status('#saveStatus', msg);
+  renderForm();
+  closeStudio();
+  bookChanged(r.id);
+});
+async function copyText(txt) {
+  try { await navigator.clipboard.writeText(txt); return true; }
+  catch (e) { const f = $('#copyFallback'); f.hidden = false; f.value = txt; f.focus(); f.select(); return false; }
+}
+$('#copyBtn').addEventListener('click', async () => {
+  const r = draftRecipe(); delete r.createdAt;
+  const ok = await copyText(JSON.stringify(r));
+  status('#saveStatus', ok ? 'Recipe file copied.' : 'Select the text below and copy it.');
+});
+$('#importToggle').addEventListener('click', () => { $('#importBox').hidden = !$('#importBox').hidden; });
+$('#importBtn').addEventListener('click', () => {
+  try {
+    const r = normRecipe(JSON.parse($('#importText').value));
+    r.id = newId(); loadDraft(r, false);
+    status('#saveStatus', `Loaded “${r.title}”. Check it over, then save.`);
+    $('#importBox').hidden = true; $('#importText').value = '';
+  } catch (e) { status('#saveStatus', 'That did not read as a recipe file. Paste the whole thing, from the first { to the last }.', true); }
+});
+$('#publishBtn').addEventListener('click', async () => {
+  if (!STORE.db) return;
+  if (!draft.title.trim()) { status('#pubStatus', 'Give the page a title first.', true); return; }
+  const r = draftRecipe(); delete r.createdAt;
+  try {
+    await STORE.db.collection('shelf').doc(r.id).set({ json: JSON.stringify(r), price: s_($('#fPrice').value, 10) || 'Free', updatedAt: Date.now() });
+    status('#pubStatus', `“${r.title}” is on the shelf.`);
+  } catch (e) { status('#pubStatus', 'Only the book’s owner and editors can publish to the shelf.', true); }
+});
+
+/* Claude reads a recipe written in plain words and returns a page */
+function animatePrompt(text) {
+  const models = Object.entries(LIB).map(([k, m]) => `${k} (${m.label}${m.colorable ? ', give "color"' : ''})`).join('; ');
+  const verbs = EDIT_VERBS.map(([k, label, needs]) => `${k}: ${label}${needs === 'item' ? ' — args {"item": key}' : needs === 'item?' ? ' — args {"item": key of bread or similar, optional}' : needs === 'color' ? ' — args {"color": "#rrggbb"}' : ' — args {}'}`).join('\n');
+  return `You turn a home cook's recipe into one page of an animated 3D cookbook. Reply with JSON only, no commentary.
+
+Shape:
+{"title": string <= 40 chars, "course": <= 16, "serves": e.g. "Serves 4", "time": e.g. "40 min",
+ "deck": 1-2 sentences <= 170 chars in the cook's own voice (who it is from, when it is made),
+ "finish": serving note <= 60 chars,
+ "vessel": one of ${Object.keys(VESSELS).join(', ')} (where it mostly cooks),
+ "items": up to 6 of the most visual ingredients: [{"key": short id, "b": model key, "q": amount <= 10 chars, "name": <= 28 chars, "note": <= 32 chars, "color": "#rrggbb" only for colourable models}],
+ "steps": 3 to 6 steps: [{"text": imperative, <= 110 chars, "do": [[verb, args], ...] 1 to 4 moves}]}
+
+Models (choose the closest look for each ingredient): ${models}
+
+Moves:
+${verbs}
+
+Rules: every item is used by exactly one ingredient move. Item moves reference item keys. Use "boil" before "dunk". Use "crack" only for egg models. The last step ends with ["finish", {}]. Keep the cook's words and quantities; do not invent ingredients that are not in the recipe.
+
+Recipe:
+"""
+${text.slice(0, 4000)}
+"""`;
+}
+$('#animateBtn').addEventListener('click', async () => {
+  const text = $('#paste').value.trim();
+  if (text.length < 20) { status('#magicStatus', 'Paste a little more of the recipe first.', true); return; }
+  if (!STORE.sample) return;
+  const btn = $('#animateBtn'); btn.disabled = true;
+  status('#magicStatus', 'Reading your recipe…');
+  try {
+    const out = await STORE.sample.json(animatePrompt(text), { modelTier: 'default' });
+    const r = normRecipe(out); r.id = newId();
+    loadDraft(r, false);
+    status('#magicStatus', `Done. “${r.title}” is laid out below. Adjust anything, then save.`);
+    $('#fTitle').scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', block: 'start' });
+  } catch (e) {
+    const c = e && e.code;
+    status('#magicStatus', c === 'not_granted' ? 'Claude is not switched on for this page. You can still fill the page in by hand.' : c === 'rate_limited' ? 'Claude is busy. Try again in a minute.' : 'That did not come back as a recipe. Try trimming the text to just the recipe.', true);
+  } finally { btn.disabled = false; }
+});
+
+/* lists: your pages, the ones that came with the book, and the shelf */
+function renderLists() {
+  const mine = $('#mineList'); if (!mine) return;
+  mine.innerHTML = '';
+  if (!STORE.mine.length) mine.appendChild(el('div', { className: 'empty', text: 'No pages of your own yet. Write one, paste a recipe file, or add one from the shelf.' }));
+  STORE.mine.forEach(r => {
+    let confirm = false;
+    const rm = el('button', { className: 'btn small warn', type: 'button', text: 'Remove', on: { click: () => { if (!confirm) { confirm = true; rm.textContent = 'Confirm remove'; return; } removeRecipe(r.id); } } });
+    mine.appendChild(el('div', { className: 'li' }, [
+      el('div', { className: 't' }, [el('b', { text: r.title }), el('span', { text: `${r.course} · ${r.items.length} ingredients · ${r.steps.length} steps` })]),
+      el('button', { className: 'btn small', type: 'button', text: 'Open', on: { click: () => { closeStudio(); goTo(BOOK_RECIPES.findIndex(x => x.id === r.id) + 1); } } }),
+      el('button', { className: 'btn small', type: 'button', text: 'Edit', on: { click: () => { loadDraft(r, true); setTab('write'); } } }),
+      rm,
+    ]));
+  });
+  $('#storeNote').textContent = STORE.mode === 'db' ? 'Your pages are saved to your account and only you can see them.' : 'Your pages are kept in this browser on this device. Copy a page’s recipe file to keep a backup or send it to someone.';
+  const built = $('#builtList'); built.innerHTML = '';
+  BUILTINS.forEach(r => built.appendChild(el('div', { className: 'li' }, [
+    el('div', { className: 't' }, [el('b', { text: r.title }), el('span', { text: `${r.course} · ${r.steps.length} steps` })]),
+    el('button', { className: 'btn small', type: 'button', text: 'Open', on: { click: () => { closeStudio(); goTo(BOOK_RECIPES.findIndex(x => x.id === r.id) + 1); } } }),
+    el('button', { className: 'btn small', type: 'button', text: 'Copy & edit', on: { click: () => { const c = JSON.parse(JSON.stringify(r)); c.title = (r.title + ' (my version)').slice(0, 40); c.short = ''; loadDraft(c, false); setTab('write'); } } }),
+  ])));
+  const shelf = $('#shelfList'); shelf.innerHTML = '';
+  if (!STORE.db) shelf.appendChild(el('div', { className: 'empty', text: 'The shelf of published pages is coming soon. For now, swap pages as recipe files.' }));
+  else if (!STORE.shelf.length) shelf.appendChild(el('div', { className: 'empty', text: STORE.canPublish ? 'Nothing on the shelf yet. Write a page, then use Publish to the shelf at the bottom of the Write tab.' : 'Nothing on the shelf yet. When the book’s owner publishes pages, they appear here.' }));
+  STORE.shelf.forEach(r => {
+    const have = STORE.mine.some(x => x.title === r.title && x.steps.length === r.steps.length);
+    const kids = [
+      el('div', { className: 't' }, [el('b', { text: r.title }), el('span', { text: `${r.course} · ${r.steps.length} steps` })]),
+      el('span', { className: 'tag price', text: r.price || 'Free' }),
+      el('button', { className: 'btn small' + (have ? '' : ' primary'), type: 'button', text: have ? 'In your book' : 'Add to my book', disabled: have, on: { click: async () => { const c = Object.assign(normRecipe(r), { id: newId(), createdAt: Date.now() }); await putRecipe(c); closeStudio(); bookChanged(c.id); } } }),
+    ];
+    if (STORE.canPublish) kids.push(el('button', { className: 'btn small ghost', type: 'button', text: 'Unpublish', on: { click: async () => { try { await STORE.db.collection('shelf').doc(r.shelfId).delete(); } catch (e) {} } } }));
+    shelf.appendChild(el('div', { className: 'li' }, kids));
+  });
+}
+
+/* ---------------- pointer: drag to flip, hover to find ---------------- */
+const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), plane = new THREE.Plane(v3(0, 1, 0), -PAGE_Y);
+const mouse = { x: 0, y: 0, nx: 0, ny: 0 };
+function pagePoint(cx, cy) {
+  const r = canvas.getBoundingClientRect();
+  ndc.set(((cx - r.left) / r.width) * 2 - 1, -((cy - r.top) / r.height) * 2 + 1);
+  ray.setFromCamera(ndc, camera);
+  const p = new THREE.Vector3(); return ray.ray.intersectPlane(plane, p) ? p : null;
+}
+function hitItem() {
+  if (!ST || !ST.emerged) return null;
+  const objs = ST.items.filter(i => !i.busy && i.obj.visible).map(i => i.obj);
+  const hit = ray.intersectObjects(objs, true)[0];
+  if (!hit) return null;
+  let o = hit.object; while (o && o.userData.item === undefined) o = o.parent;
+  return o ? ST.items[o.userData.item] : null;
+}
+let hoverIdx = -1;
+const tip = $('#tip');
+function setHover(i, cx, cy) {
+  if (i !== hoverIdx) {
+    hoverIdx = i;
+    const s = SPREADS[spread];
+    if (s.recipe) { s.L.st.hl = i; s.L.draw(); }
+    canvas.style.cursor = i >= 0 ? 'pointer' : '';
+    if (i >= 0 && s.recipe) { const d = s.recipe.items[i]; tip.textContent = ''; const b = document.createElement('b'); b.textContent = d.q; tip.append(b, d.name); }
+    tip.classList.toggle('on', i >= 0 && !!s.recipe);
+  }
+  if (i >= 0) { tip.style.left = cx + 'px'; tip.style.top = cy + 'px'; }
+}
+let down = null, peek = 0;
+canvas.addEventListener('pointerdown', e => {
+  SFX.init();
+  PTRS.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (PTRS.size >= 2) { if (!dragging) { down = null; pan = null; startPinch(); } return; }
+  if (flipping || dragging) return;
+  const p = pagePoint(e.clientX, e.clientY);
+  if (!p || Math.abs(p.z) > H / 2 + 0.05 || Math.abs(p.x) > W + 0.05) return;
+  down = { x: e.clientX, y: e.clientY, p, item: hitItem() };
+  canvas.setPointerCapture(e.pointerId);
+});
+canvas.addEventListener('pointermove', e => {
+  mouse.nx = e.clientX / innerWidth * 2 - 1; mouse.ny = e.clientY / innerHeight * 2 - 1;
+  if (PTRS.has(e.pointerId)) PTRS.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (pinch) { movePinch(); return; }
+  if (pan) { movePan(e); return; }
+  const p = pagePoint(e.clientX, e.clientY);
+  if (dragging) {
+    if (!p) return;
+    const s = sheets[dragging.i];
+    if (dragging.fwd) {
+      const a0 = Math.acos(clamp(dragging.x0, -1, 1)), a = Math.acos(clamp(p.x, -1, 1));
+      s.t = clamp((a - a0) / (PI - a0), 0, 1);
+    } else {
+      const a0 = Math.acos(clamp(-dragging.x0, -1, 1)), a = Math.acos(clamp(-p.x, -1, 1));
+      s.t = 1 - clamp((a - a0) / (PI - a0), 0, 1);
+    }
+    s.dirty = true; dragging.lastT = s.t;
+    return;
+  }
+  if (down && !down.item && zoomGoal < 0.9) {
+    if (Math.hypot(e.clientX - down.x, e.clientY - down.y) > 6) { pan = { x: e.clientX, y: e.clientY, t: targetGoal.clone() }; canvas.style.cursor = 'grabbing'; }
+    return;
+  }
+  if (down && !down.item) {
+    const dx = e.clientX - down.x;
+    const fwd = down.p.x > 0 && dx < -8 && spread < SPREADS.length - 1;
+    const back = down.p.x < 0 && dx > 8 && spread > 0;
+    if (fwd || back) {
+      hideHint();
+      const i = fwd ? spread : spread - 1;
+      dragging = { i, fwd, x0: clamp(down.p.x, -0.98, 0.98), lastT: sheets[i].t };
+      sheets[i].anim = true; sheets[i].dir = fwd ? 1 : -1;
+      SFX.flip(); leave(true);
+      return;
+    }
+  }
+  if (!down) {
+    const it = p ? hitItem() : null;
+    setHover(it ? it.i : -1, e.clientX, e.clientY);
+    peek = 0;
+    if (p && !it && !flipping && Math.abs(p.z) < H / 2) {
+      if (p.x > 0.72 && p.x < 1.02 && spread < SPREADS.length - 1) peek = 1;
+      else if (p.x < -0.72 && p.x > -1.02 && spread > 0) peek = -1;
+    }
+    if (!it) canvas.style.cursor = peek ? 'grab' : '';
+  }
+});
+async function endDrag() {
+  const d = dragging; if (!d) return;
+  const s = sheets[d.i];
+  const commit = d.fwd ? s.t > 0.35 : s.t < 0.65;
+  const target = d.fwd ? (commit ? 1 : 0) : (commit ? 0 : 1);
+  flipping = true; dragging = null;
+  const t0 = s.t;
+  await tween(700 * Math.max(0.25, Math.abs(target - t0)), p => { s.t = lerp(t0, target, p); s.dirty = true; }, E.out, UI);
+  s.t = target; s.anim = false; s.dirty = true;
+  if (commit) spread += d.fwd ? 1 : -1;
+  flipping = false;
+  $('#live').textContent = `Page: ${SPREADS[spread].name}`;
+  enter(spread);
+}
+function pointerUp(e) {
+  PTRS.delete(e.pointerId);
+  if (pinch) { if (PTRS.size < 2) pinch = null; down = null; return; }
+  if (pan) { pan = null; down = null; canvas.style.cursor = ''; return; }
+  if (dragging) { endDrag(); down = null; return; }
+  if (down && Math.hypot(e.clientX - down.x, e.clientY - down.y) < 6) {
+    if (down.item) {
+      const it = down.item;
+      if (!it.busy) { it.busy = true; const y0 = it.obj.position.y, r0 = it.obj.rotation.y; SFX.pop(); tween(700, p => { it.obj.position.y = y0 + Math.sin(PI * p) * 0.08; it.obj.rotation.y = r0 + p * TAU; }, E.io).then(() => { it.busy = false; }, () => {}); }
+    } else {
+      const now = performance.now(), px = down.p.x;
+      if (now - lastTap.t < 320 && Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 30) { clearTimeout(tapTimer); lastTap.t = 0; toggleZoomAt(down.p); }
+      else { lastTap = { t: now, x: e.clientX, y: e.clientY }; if (Math.abs(px) > 0.8 && zoomGoal > 0.9) tapTimer = setTimeout(() => goTo(spread + (px > 0 ? 1 : -1)), 300); }
+    }
+  }
+  down = null;
+}
+canvas.addEventListener('pointerup', pointerUp);
+canvas.addEventListener('pointercancel', pointerUp);
+canvas.addEventListener('pointerleave', () => { if (!down) { setHover(-1); peek = 0; } });
+
+/* ---------------- layout & loop ---------------- */
+let dockH = 0;
+function layout() {
+  const w = innerWidth, h = innerHeight;
+  renderer.setSize(w, h, false);
+  dockH = $('#dock').getBoundingClientRect().height + 24;
+  const topH = 56;
+  const vh = h + dockH - topH;            // virtual frame, so the book centres in the free area
+  camera.aspect = w / vh;
+  camera.setViewOffset(w, vh, 0, dockH - topH, w, h);
+  const tv = Math.tan(camera.fov * PI / 360);
+  const dW = 1.12 / (tv * camera.aspect), dH = 0.92 / tv;
+  camDist = Math.max(dW, dH * 1.02) + 0.45;
+  camera.updateProjectionMatrix();
+}
+addEventListener('resize', layout);
+const camPos = new THREE.Vector3();
+
+function updateSheets(dt) {
+  sheets.forEach((s, i) => {
+    if (!s.anim) {
+      let target = i < spread ? 1 : 0, dir = s.dir;
+      if (!flipping && !dragging) {
+        if (peek === 1 && i === spread) { target = 0.035; dir = 1; }
+        if (peek === -1 && i === spread - 1) { target = 0.965; dir = -1; }
+      }
+      if (Math.abs(target - s.t) > 0.0005) { s.dir = dir; s.t += (target - s.t) * Math.min(1, dt * 9); s.dirty = true; }
+      else if (s.t !== target) { s.t = target; s.dirty = true; }
+    }
+    if (s.dirty) { shapeSheet(s); s.dirty = false; }
+  });
+}
+function updateIdle(dt, T) {
+  if (!ST) return;
+  ST.items.forEach(it => {
+    if (it.busy) return;
+    const h = it.i === hoverIdx ? 1 : 0;
+    it.hover += (h - it.hover) * Math.min(1, dt * 8);
+    it.obj.position.y = it.home.y + (REDUCED ? 0 : Math.sin(T * 1.7 + it.phase) * 0.008) + it.hover * 0.035;
+    it.obj.rotation.y += dt * (0.25 + it.hover * 2.2) * (REDUCED ? 0 : 1);
+  });
+}
+let last = performance.now(), T = 0;
+function frame(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now; T += dt;
+  runTweens(now);
+  updateParticles(dt); updateSteam(dt); updateBubbles(dt);
+  updateIdle(dt, T); updateSheets(dt); updateCamera(dt);
+  renderer.render(scene, camera);
+  requestAnimationFrame(frame);
+}
+
+/* ---------------- zoom & pan ---------------- */
+let zoom = 1, zoomGoal = 1, hiPages = [];
+const HOME_T = camTarget.clone(), targetGoal = camTarget.clone();
+const ZMIN = 0.3;
+function clampTarget() {
+  const k = clamp((1 - zoomGoal) / (1 - ZMIN), 0, 1);
+  targetGoal.x = clamp(targetGoal.x, -0.85 * k, 0.85 * k);
+  targetGoal.z = clamp(targetGoal.z, HOME_T.z - 0.55 * k, HOME_T.z + 0.55 * k);
+  targetGoal.y = HOME_T.y;
+}
+function setZoom(z, focus) {
+  const nz = clamp(z, ZMIN, 1);
+  if (focus && nz < zoomGoal) {
+    const f = nz / zoomGoal;
+    targetGoal.x = focus.x + (targetGoal.x - focus.x) * f;
+    targetGoal.z = focus.z + (targetGoal.z - focus.z) * f;
+  } else if (nz > zoomGoal) {
+    const f = (1 - nz) / Math.max(0.0001, 1 - zoomGoal);
+    targetGoal.x = HOME_T.x + (targetGoal.x - HOME_T.x) * f;
+    targetGoal.z = HOME_T.z + (targetGoal.z - HOME_T.z) * f;
+  }
+  zoomGoal = nz; clampTarget(); syncZoom();
+}
+function toggleZoomAt(p) {
+  hideHint();
+  if (zoomGoal > 0.75) {
+    zoomGoal = 0.48;
+    targetGoal.set(p.x > 0 ? 0.5 : -0.5, HOME_T.y, clamp(p.z, -0.3, 0.3));
+    clampTarget(); syncZoom();
+  } else setZoom(1);
+}
+function syncZoom() {
+  $('#zLabel').textContent = Math.round(100 / zoomGoal) + '%';
+  $('#zOut').disabled = zoomGoal >= 0.999;
+  $('#zIn').disabled = zoomGoal <= ZMIN + 0.001;
+  syncRes();
+}
+/* the two pages you are looking at get sharper text when you lean in */
+function syncRes() {
+  const want = zoomGoal < 0.72 ? 2 : 1;
+  const s = SPREADS[spread];
+  const now = want > 1 && s ? [s.L, s.R] : [];
+  hiPages.forEach(p => { if (!now.includes(p)) p.setRes(1); });
+  now.forEach(p => p.setRes(want));
+  hiPages = now;
+}
+const PTRS = new Map();
+let pinch = null, pan = null, lastTap = { t: 0, x: 0, y: 0 }, tapTimer = 0;
+function ptrList() { return [...PTRS.values()]; }
+function startPinch() { const [a, b] = ptrList(); pinch = { d: Math.hypot(a.x - b.x, a.y - b.y) || 1, z: zoomGoal }; }
+function movePinch() {
+  const [a, b] = ptrList(); if (!b) return;
+  const d = Math.hypot(a.x - b.x, a.y - b.y);
+  const mid = pagePoint((a.x + b.x) / 2, (a.y + b.y) / 2);
+  setZoom(pinch.z * pinch.d / Math.max(1, d), mid);
+}
+function movePan(e) {
+  const d = camDist * zoom;
+  const wpp = 2 * Math.tan(camera.fov * PI / 360) * d / innerHeight;
+  targetGoal.x = pan.t.x - (e.clientX - pan.x) * wpp;
+  targetGoal.z = pan.t.z - (e.clientY - pan.y) * wpp / Math.sin(ELEV);
+  clampTarget();
+}
+canvas.addEventListener('wheel', e => {
+  e.preventDefault();
+  const p = pagePoint(e.clientX, e.clientY);
+  const dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+  setZoom(zoomGoal * Math.exp(clamp(dy, -120, 120) * 0.0018), p);
+  hideHint();
+}, { passive: false });
+$('#zIn').addEventListener('click', () => setZoom(zoomGoal * 0.72));
+$('#zOut').addEventListener('click', () => setZoom(zoomGoal / 0.72));
+$('#zLabel').addEventListener('click', () => setZoom(1));
+addEventListener('keydown', e => {
+  if (e.target.closest && e.target.closest('input,textarea,select,.drawer')) return;
+  if (e.key === '+' || e.key === '=') setZoom(zoomGoal * 0.8);
+  else if (e.key === '-' || e.key === '_') setZoom(zoomGoal / 0.8);
+  else if (e.key === '0') setZoom(1);
+});
+function updateCamera(dt) {
+  const k = Math.min(1, dt * 7);
+  zoom += (zoomGoal - zoom) * k;
+  camTarget.lerp(targetGoal, k);
+  const d = camDist * zoom, sway = REDUCED ? 0 : zoom;
+  const ax = mouse.nx * 0.05 * sway, ay = mouse.ny * 0.03 * sway;
+  camPos.set(Math.sin(ax) * d * Math.cos(ELEV), Math.sin(ELEV - ay) * d, Math.cos(ax) * Math.cos(ELEV - ay) * d).add(camTarget);
+  camera.position.lerp(camPos, Math.min(1, dt * 6));
+  camera.lookAt(camTarget);
+}
+
+/* ---------------- boot ---------------- */
+async function boot() {
+  try {
+    await Promise.race([
+      Promise.all(['400 40px Gloock', '400 30px Literata', 'italic 400 30px Literata', '600 30px Literata', '500 22px "DM Mono"'].map(f => document.fonts.load(f))),
+      new Promise(r => setTimeout(r, 2500)),
+    ]);
+  } catch (e) {}
+  [pEnd, pEnd2].forEach(p => p.draw());
+  loadLocal();
+  buildBook(currentRecipes(), 0);
+  buildChips();
+  layout(); syncUI();
+  camera.position.set(0, Math.sin(ELEV) * camDist, Math.cos(ELEV) * camDist).add(camTarget);
+  requestAnimationFrame(frame);
+  setTimeout(() => $('#veil').classList.add('gone'), 150);
+  enter(0);
+  renderLists();
+  initStore().catch(e => console.error(e));
+  // open to the first recipe unless the reader takes over
+  setTimeout(() => { if (spread === 0 && !dragging && !flipping && !hintGone && drawer.hidden) goTo(1, true); }, 2200);
+}
+boot();
+})();
+</script>
+
+</body>
+</html>
