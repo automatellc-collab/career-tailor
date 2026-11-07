@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Krish Entertainment</title>
+<meta name="description" content="Krish Entertainment: South Asian wedding DJ, MC, lighting and production. Mehndi, sangeet, baraat, ceremony and reception, mixed live. Florida-based, booking worldwide since 2008. +1 (352) 299-0743.">
+<meta property="og:title" content="Krish Entertainment | South Asian Wedding DJ & MC">
+<meta property="og:description" content="From the first dhol beat of the baraat to the last song of the reception. Mixed live, since 2008.">
+<meta property="og:image" content="assets/krish-mc.jpg">
+<meta name="theme-color" content="#0f0a09">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;1,6..96,400;1,6..96,500&family=Marcellus&family=Hanken+Grotesk:wght@300;400;500;600&display=swap">
+<link rel="preload" as="image" href="assets/krish-mc.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EntertainmentBusiness",
+  "name": "Krish Entertainment, Inc.",
+  "description": "South Asian wedding DJ, MC, lighting, atmospheric effects, live performers and event production.",
+  "telephone": "+1-352-299-0743",
+  "email": "info@krishentertainment.com",
+  "url": "https://www.krishentertainment.com",
+  "image": "assets/krish-mc.jpg",
+  "areaServed": ["Florida", "Georgia", "South Carolina", "North Carolina", "Worldwide"],
+  "sameAs": [
+    "https://www.instagram.com/krishentertainment/",
+    "https://www.youtube.com/@krishentertainmentinc.",
+    "https://soundcloud.com/krishentertainment",
+    "https://www.facebook.com/officialkrish"
+  ]
+}
+</script>
+<style>
+/* Layout: a night-time wedding hall. Full-bleed lacquer bands on a 1240px column; the hero is Krish's own
+   reception photo framed by a gold arch; the "wedding weekend" planner is the centerpiece. Deliberately one dark look. */
+:root {
+  --lacquer: #0f0a09;      /* near-black with a red-brown undertone, like lacquered wood */
+  --lacquer-2: #18100e;
+  --lacquer-3: #22171400;
+  --ivory: #f4e9d5;        /* the logo's cream */
+  --ivory-soft: #b9a78d;
+  --line: rgba(227, 195, 138, .16);
+  --gold: #e3c38a;         /* the crest gold */
+  --gold-deep: #a9803f;
+  --sindoor: #d7261e;      /* the logo's red, used sparingly */
+  --sindoor-deep: #6e110d;
+
+  --f-display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --f-caps: "Marcellus", "Trajan Pro", Georgia, serif;
+  --f-body: "Hanken Grotesk", "Helvetica Neue", Arial, system-ui, sans-serif;
+
+  --s-1: clamp(2.7rem, 6.2vw, 5.6rem);
+  --s-2: clamp(2.1rem, 4.2vw, 3.6rem);
+  --s-3: clamp(1.4rem, 2.2vw, 1.8rem);
+  --gl: max(20px, env(safe-area-inset-left, 0px));
+  --gr: max(20px, env(safe-area-inset-right, 0px));
+  --ease: cubic-bezier(.22,.7,.2,1);
+  --ease-out: cubic-bezier(.16,1,.3,1);
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; background: var(--lacquer); }
+body { margin: 0; background: var(--lacquer); color: var(--ivory); font: 300 1.0625rem/1.7 var(--f-body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img, svg, canvas { max-width: 100%; display: block; }
+a { color: inherit; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 400; margin: 0; line-height: 1.02; letter-spacing: -.01em; text-wrap: balance; }
+p { margin: 0; }
+::selection { background: var(--gold); color: var(--lacquer); }
+:focus-visible { outline: 1.5px solid var(--gold); outline-offset: 4px; }
+
+.wrap { max-width: 1240px; margin-inline: auto; padding-left: var(--gl); padding-right: var(--gr); }
+.band { padding-block: clamp(5rem, 11vw, 9rem); position: relative; }
+.caps { font: 400 .78rem/1 var(--f-caps); letter-spacing: .32em; text-transform: uppercase; color: var(--gold); }
+.rule { display: flex; align-items: center; gap: 1rem; }
+.rule::before, .rule::after { content: ""; height: 1px; flex: 1; background: linear-gradient(90deg, transparent, var(--line), transparent); }
+.diamond { width: 7px; height: 7px; background: var(--gold); transform: rotate(45deg); flex: none; }
+em.gold, .gold { color: var(--gold); font-style: italic; }
+
+/* ---------- Header ---------- */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 70; background: var(--lacquer); }
+.top { position: fixed; left: 0; right: 0; top: env(safe-area-inset-top, 0px); z-index: 60; transition: background .5s, border-color .5s, backdrop-filter .5s; border-bottom: 1px solid transparent; }
+.top.solid { background: rgba(15,10,9,.82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom-color: var(--line); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.1rem; }
+.word { text-decoration: none; display: grid; justify-items: center; gap: .3rem; line-height: 1; }
+.word b { font: 400 1.5rem/1 var(--f-caps); letter-spacing: .28em; margin-right: -.28em; color: var(--gold); }
+.word small { font: 400 .52rem/1 var(--f-caps); letter-spacing: .42em; margin-right: -.42em; color: var(--ivory-soft); }
+.nav { display: flex; align-items: center; gap: 2rem; }
+.nav a.l { text-decoration: none; font: 400 .74rem/1 var(--f-caps); letter-spacing: .22em; text-transform: uppercase; color: var(--ivory-soft); transition: color .3s; position: relative; }
+.nav a.l::after { content: ""; position: absolute; left: 50%; right: 50%; bottom: -8px; height: 1px; background: var(--gold); transition: left .4s var(--ease), right .4s var(--ease); }
+.nav a.l:hover { color: var(--ivory); }
+.nav a.l:hover::after { left: 0; right: 0; }
+@media (max-width: 960px) { .nav a.l { display: none; } }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .7rem; cursor: pointer; text-decoration: none; border: 0; background: none; font: 400 .78rem/1 var(--f-caps); letter-spacing: .24em; text-transform: uppercase; padding: 1.15rem 1.8rem; position: relative; isolation: isolate; transition: color .4s var(--ease); white-space: nowrap; }
+.btn-gold { color: var(--lacquer); background: linear-gradient(135deg, #f2dcab, var(--gold) 45%, #c99c57); }
+.btn-gold::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.55) 50%, transparent 70%); background-size: 250% 100%; background-position: 120% 0; transition: background-position .9s var(--ease); }
+.btn-gold:hover::after { background-position: -40% 0; }
+.btn-line { color: var(--ivory); box-shadow: inset 0 0 0 1px rgba(227,195,138,.45); }
+.btn-line::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--gold); transform: scaleX(0); transform-origin: right; transition: transform .5s var(--ease); }
+.btn-line:hover { color: var(--lacquer); }
+.btn-line:hover::before { transform: scaleX(1); transform-origin: left; }
+.btn-sm { padding: .9rem 1.2rem; font-size: .7rem; }
+
+/* ---------- Hero ---------- */
+.hero { position: relative; min-height: min(100svh, 980px); display: grid; align-items: end; overflow: hidden; padding-top: 7rem; }
+.hero .photo { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.hero .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 58% 30%; transform: scale(1.06); animation: settle 2.8s var(--ease-out) both; filter: saturate(.85) contrast(1.05); }
+@keyframes settle { from { transform: scale(1.16); filter: saturate(.4) brightness(.4); } }
+.hero .photo::after { content: ""; position: absolute; inset: 0; background:
+  linear-gradient(90deg, rgba(15,10,9,.96) 0%, rgba(15,10,9,.82) 34%, rgba(15,10,9,.15) 62%, rgba(15,10,9,.35) 100%),
+  linear-gradient(0deg, var(--lacquer) 0%, rgba(15,10,9,0) 40%); }
+#sparks { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.arch { position: absolute; z-index: 2; right: 8%; top: 9%; height: 84%; aspect-ratio: 400 / 600; pointer-events: none; }
+.arch path { fill: none; stroke: var(--gold); stroke-width: 1.2; vector-effect: non-scaling-stroke; stroke-dasharray: 2600; stroke-dashoffset: 2600; animation: drawArch 3.2s .5s var(--ease-out) forwards; }
+.arch path.inner { stroke-opacity: .45; animation-delay: .9s; }
+@keyframes drawArch { to { stroke-dashoffset: 0; } }
+.hero .wrap { position: relative; z-index: 3; padding-bottom: clamp(3rem, 7vw, 6rem); width: 100%; }
+.hero-copy { max-width: 40rem; display: grid; gap: 1.8rem; }
+.hero h1 { font-size: var(--s-1); font-weight: 400; }
+.hero h1 .line { display: block; overflow: hidden; padding-bottom: .08em; }
+.hero h1 .line > span { display: block; animation: lift 1.4s var(--ease-out) both; }
+.hero h1 .line:nth-child(2) > span { animation-delay: .12s; }
+.hero h1 .line:nth-child(3) > span { animation-delay: .24s; }
+@keyframes lift { from { transform: translateY(105%); } }
+.hero .lede { font-size: 1.15rem; color: var(--ivory-soft); max-width: 31rem; animation: fade 1.4s .6s both; }
+.hero .ctas { display: flex; flex-wrap: wrap; gap: 1rem; animation: fade 1.4s .8s both; }
+.hero .eyebrow { animation: fade 1.2s .2s both; }
+@keyframes fade { from { opacity: 0; transform: translateY(12px); } }
+.hero .meta { display: flex; flex-wrap: wrap; gap: .6rem 2rem; animation: fade 1.4s 1s both; }
+.hero .meta span { font: 400 .7rem/1.4 var(--f-caps); letter-spacing: .22em; text-transform: uppercase; color: var(--ivory-soft); display: flex; align-items: center; gap: .7rem; }
+.hero .meta span::before { content: ""; width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); }
+.scroll-cue { position: absolute; z-index: 3; left: 50%; bottom: 1.4rem; width: 1px; height: 46px; background: linear-gradient(var(--gold), transparent); transform-origin: top; animation: cue 2.4s var(--ease) infinite; }
+@keyframes cue { 0% { transform: scaleY(0); opacity: 0; } 30% { opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
+@media (max-width: 820px) {
+  .hero { min-height: auto; align-items: start; padding-top: 0; }
+  .hero .photo { position: relative; height: 62svh; min-height: 380px; }
+  .hero .photo img { object-position: 52% 30%; }
+  .hero .photo::after { background: linear-gradient(0deg, var(--lacquer) 2%, rgba(15,10,9,.2) 45%, rgba(15,10,9,.55) 100%); }
+  .arch { right: 50%; transform: translateX(50%); top: 13%; height: 46svh; min-height: 300px; }
+  #sparks { height: 62svh; min-height: 380px; }
+  .hero .wrap { margin-top: -4rem; }
+  .scroll-cue { display: none; }
+}
+
+/* ---------- Genre ribbon ---------- */
+.ribbon { border-block: 1px solid var(--line); overflow: hidden; padding-block: 1.4rem; background: var(--lacquer); }
+.ribbon .track { display: flex; width: max-content; animation: ribbon 60s linear infinite; }
+.ribbon span { font: italic 400 clamp(1.3rem, 2.2vw, 1.8rem)/1 var(--f-display); color: var(--ivory); padding-inline: 1.6rem; display: inline-flex; align-items: center; gap: 3.2rem; white-space: nowrap; }
+.ribbon span::after { content: ""; width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); }
+.ribbon:hover .track { animation-play-state: paused; }
+@keyframes ribbon { to { transform: translateX(-50%); } }
+
+/* ---------- Intro statement ---------- */
+.statement { text-align: center; }
+.statement .wrap { display: grid; gap: 2.2rem; justify-items: center; }
+.statement p.big { font: 400 clamp(1.7rem, 3.4vw, 2.9rem)/1.25 var(--f-display); max-width: 30ch; text-wrap: balance; }
+.statement .sig { font: italic 400 1.1rem/1 var(--f-display); color: var(--ivory-soft); }
+
+/* ---------- Weekend planner ---------- */
+.weekend { background: radial-gradient(1200px 500px at 50% 0%, rgba(215,38,30,.10), transparent 70%), var(--lacquer); }
+.head { display: grid; gap: 1.4rem; max-width: 46rem; }
+.head h2 { font-size: var(--s-2); }
+.head p { color: var(--ivory-soft); max-width: 38rem; }
+.planner { margin-top: clamp(3rem, 6vw, 4.5rem); display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+.rail { position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.rail::before { content: ""; position: absolute; left: 0; top: -1px; height: 1px; width: var(--fill, 0%); background: var(--gold); transition: width .8s var(--ease); }
+.ev { appearance: none; background: none; border: 0; color: inherit; text-align: left; cursor: pointer; padding: 1.4rem 1rem 1.2rem 0; display: grid; gap: .55rem; position: relative; }
+.ev::before { content: ""; position: absolute; top: -5px; left: 0; width: 9px; height: 9px; transform: rotate(45deg); background: var(--lacquer); box-shadow: inset 0 0 0 1px var(--gold-deep); transition: background .4s, box-shadow .4s; }
+.ev[aria-selected="true"]::before { background: var(--gold); box-shadow: 0 0 0 5px rgba(227,195,138,.15); }
+.ev .n { font: 400 .66rem/1 var(--f-caps); letter-spacing: .26em; color: var(--ivory-soft); }
+.ev .t { font: 400 clamp(1.15rem, 1.8vw, 1.5rem)/1.1 var(--f-display); transition: color .3s; }
+.ev[aria-selected="true"] .t { color: var(--gold); font-style: italic; }
+.ev .inc { display: inline-flex; align-items: center; gap: .45rem; font: 400 .62rem/1 var(--f-caps); letter-spacing: .18em; text-transform: uppercase; color: var(--ivory-soft); }
+.ev .inc i { width: 12px; height: 12px; border: 1px solid var(--gold-deep); display: grid; place-items: center; transition: background .3s; }
+.ev.on .inc i { background: var(--gold); border-color: var(--gold); }
+.ev.on .inc i::after { content: ""; width: 5px; height: 3px; border-left: 1.5px solid var(--lacquer); border-bottom: 1.5px solid var(--lacquer); transform: rotate(-45deg) translate(0, -1px); }
+.ev.on .inc { color: var(--gold); }
+.stage { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(2rem, 5vw, 4rem); align-items: start; padding: clamp(1.8rem, 4vw, 3rem); background: linear-gradient(160deg, rgba(227,195,138,.07), rgba(227,195,138,.02)); box-shadow: inset 0 0 0 1px var(--line); position: relative; }
+.stage::before, .stage::after { content: ""; position: absolute; width: 22px; height: 22px; border: 1px solid var(--gold); }
+.stage::before { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
+.stage::after { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+.stage .when { font: 400 .7rem/1 var(--f-caps); letter-spacing: .26em; text-transform: uppercase; color: var(--gold); }
+.stage h3 { font-size: clamp(2.2rem, 4vw, 3.4rem); margin-block: .9rem 1rem; }
+.stage h3 i { color: var(--ivory-soft); font-size: .5em; display: block; margin-top: .5rem; letter-spacing: 0; }
+.stage .mood { color: var(--ivory-soft); max-width: 32rem; }
+.stage .sound { margin-top: 1.6rem; font: italic 400 1.05rem/1.5 var(--f-display); color: var(--ivory); padding-left: 1rem; border-left: 1px solid var(--gold-deep); }
+.stage h4 { margin: 0 0 1rem; font: 400 .7rem/1 var(--f-caps); letter-spacing: .26em; text-transform: uppercase; color: var(--ivory-soft); }
+.stage ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .1rem; }
+.stage li { display: flex; gap: 1rem; align-items: baseline; padding-block: .7rem; border-bottom: 1px solid var(--line); }
+.stage li::before { content: ""; flex: none; width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg) translateY(-2px); }
+.stage .add { margin-top: 1.6rem; display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; }
+.stage .swap { animation: swapIn .7s var(--ease-out); }
+@keyframes swapIn { from { opacity: 0; transform: translateY(14px); filter: blur(4px); } }
+.tally { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding-top: .5rem; }
+.tally p { color: var(--ivory-soft); }
+.tally strong { color: var(--gold); font-weight: 400; font-family: var(--f-display); font-style: italic; font-size: 1.15em; }
+@media (max-width: 900px) {
+  .rail { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: .5rem; }
+  .stage { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) { .rail { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ---------- Production ---------- */
+.prod-grid { margin-top: clamp(3rem, 6vw, 4.5rem); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.prod { padding: clamp(1.6rem, 3vw, 2.4rem); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; gap: 1rem; align-content: start; position: relative; overflow: hidden; transition: background .6s var(--ease); }
+.prod::before { content: ""; position: absolute; inset: auto 0 0 0; height: 0; background: linear-gradient(0deg, rgba(227,195,138,.10), transparent); transition: height .7s var(--ease); }
+.prod:hover::before { height: 100%; }
+.prod > * { position: relative; }
+.prod svg { width: 34px; height: 34px; color: var(--gold); transition: transform .7s var(--ease); }
+.prod:hover svg { transform: translateY(-4px) scale(1.06); }
+.prod h3 { font-size: var(--s-3); }
+.prod p { color: var(--ivory-soft); font-size: .98rem; }
+.prod .list { font: 400 .68rem/1.9 var(--f-caps); letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+@media (max-width: 900px) { .prod-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .prod-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Story ---------- */
+.story { background: linear-gradient(180deg, var(--lacquer), var(--lacquer-2)); }
+.story .wrap { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(2.5rem, 6vw, 6rem); align-items: start; }
+.portrait { position: relative; aspect-ratio: 4 / 5; max-width: 100%; }
+.portrait .frame { position: absolute; inset: 0; clip-path: path('M0 1000 V330 C0 150 160 60 250 0 C340 60 500 150 500 330 V1000 Z'); }
+.portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; transform: scale(1.12); transition: transform 1.6s var(--ease-out); }
+.portrait.in img { transform: scale(1); }
+.portrait svg.edge { position: absolute; inset: -14px; width: calc(100% + 28px); height: calc(100% + 28px); overflow: visible; }
+.portrait svg.edge path { fill: none; stroke: var(--gold); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.portrait .cap { position: absolute; left: 50%; bottom: -1.4rem; transform: translateX(-50%); white-space: nowrap; background: var(--lacquer); padding: .7rem 1.2rem; box-shadow: inset 0 0 0 1px var(--line); font: 400 .64rem/1 var(--f-caps); letter-spacing: .24em; text-transform: uppercase; color: var(--ivory-soft); }
+.story-copy { display: grid; gap: 1.6rem; }
+.story-copy h2 { font-size: var(--s-2); }
+.story-copy p { color: var(--ivory-soft); max-width: 36rem; }
+.story-copy p.lead { font: 400 clamp(1.25rem, 2vw, 1.5rem)/1.5 var(--f-display); color: var(--ivory); }
+.years { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+.years li { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 1.4rem; padding-block: 1.2rem; border-bottom: 1px solid var(--line); align-items: baseline; }
+.years b { font: italic 400 1.8rem/1 var(--f-display); color: var(--gold); font-variant-numeric: lining-nums; }
+.years span { color: var(--ivory-soft); }
+@media (max-width: 860px) { .story .wrap { grid-template-columns: 1fr; } .portrait { max-width: 420px; margin-inline: auto; width: 100%; } }
+
+/* ---------- Worldwide ---------- */
+.world { text-align: center; overflow: hidden; }
+.world .wrap { display: grid; gap: 2.4rem; justify-items: center; }
+.world h2 { font-size: var(--s-2); max-width: 18ch; }
+.places { display: flex; flex-wrap: wrap; justify-content: center; gap: .3rem 0; max-width: 60rem; }
+.places span { font: 400 clamp(1.4rem, 3vw, 2.4rem)/1.3 var(--f-display); padding-inline: 1.1rem; position: relative; color: var(--ivory); transition: color .4s; }
+.places span:hover { color: var(--gold); font-style: italic; }
+.places span:not(:last-child)::after { content: "·"; position: absolute; right: -.15rem; color: var(--gold-deep); font-style: normal; }
+.world p.note { color: var(--ivory-soft); max-width: 36rem; }
+
+/* ---------- Process + playlists ---------- */
+.process .wrap { display: grid; gap: clamp(3rem, 6vw, 5rem); }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; counter-reset: s; }
+.steps li { counter-increment: s; display: grid; gap: .8rem; align-content: start; padding-top: 1.6rem; border-top: 1px solid var(--line); position: relative; }
+.steps li::before { content: counter(s, upper-roman); position: absolute; top: -.8rem; left: 0; background: var(--lacquer); padding-right: .8rem; font: italic 400 1.3rem/1 var(--f-display); color: var(--gold); }
+.steps h3 { font-size: 1.35rem; }
+.steps p { color: var(--ivory-soft); font-size: .97rem; }
+@media (max-width: 900px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 3rem; } }
+@media (max-width: 520px) { .steps { grid-template-columns: 1fr; } }
+
+.lists { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(2rem, 5vw, 4rem); align-items: start; padding: clamp(1.8rem, 4vw, 3rem); box-shadow: inset 0 0 0 1px var(--line); background: rgba(227,195,138,.03); }
+.lists h3 { font-size: var(--s-3); margin-top: 1rem; }
+.lists .intro p { color: var(--ivory-soft); margin-top: 1rem; }
+.cards { display: grid; gap: 1rem; }
+.card { display: grid; grid-template-columns: 3.2rem minmax(0, 1fr); gap: 1.2rem; padding: 1.3rem 0; border-bottom: 1px solid var(--line); }
+.card:last-child { border-bottom: 0; }
+.card .ic { width: 3.2rem; height: 3.2rem; display: grid; place-items: center; box-shadow: inset 0 0 0 1px var(--gold-deep); transform: rotate(45deg); }
+.card .ic span { transform: rotate(-45deg); font: italic 400 1.3rem/1 var(--f-display); color: var(--gold); }
+.card h4 { margin: 0 0 .35rem; font: 400 1.25rem/1.2 var(--f-display); }
+.card p { color: var(--ivory-soft); font-size: .96rem; }
+@media (max-width: 860px) { .lists { grid-template-columns: 1fr; } }
+
+/* ---------- FAQ ---------- */
+.faq .wrap { display: grid; grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+.faq h2 { font-size: var(--s-2); margin-top: 1.2rem; }
+.qa { border-top: 1px solid var(--line); }
+.qa details { border-bottom: 1px solid var(--line); }
+.qa summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 1.5rem; align-items: center; padding: 1.5rem 0; font: 400 clamp(1.15rem, 1.8vw, 1.4rem)/1.3 var(--f-display); transition: color .3s; }
+.qa summary::-webkit-details-marker { display: none; }
+.qa summary:hover { color: var(--gold); }
+.qa summary i { flex: none; width: 14px; height: 14px; position: relative; }
+.qa summary i::before, .qa summary i::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--gold); transition: transform .5s var(--ease); }
+.qa summary i::after { transform: rotate(90deg); }
+.qa details[open] summary i::after { transform: rotate(0); }
+.qa .a { overflow: hidden; color: var(--ivory-soft); }
+.qa .a p { padding-bottom: 1.5rem; max-width: 42rem; }
+@media (max-width: 860px) { .faq .wrap { grid-template-columns: 1fr; } }
+
+/* ---------- Inquiry ---------- */
+.inquire { background: radial-gradient(900px 500px at 80% 100%, rgba(215,38,30,.12), transparent 70%), var(--lacquer-2); border-top: 1px solid var(--line); }
+.inquire .wrap { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(2.5rem, 6vw, 5rem); align-items: start; }
+.inquire h2 { font-size: var(--s-2); margin-block: 1.2rem 1.4rem; }
+.inquire .side p { color: var(--ivory-soft); max-width: 30rem; }
+.direct { margin-top: 2.4rem; display: grid; gap: 1.6rem; }
+.direct div { display: grid; gap: .45rem; }
+.direct span { font: 400 .66rem/1 var(--f-caps); letter-spacing: .26em; text-transform: uppercase; color: var(--ivory-soft); }
+.direct a { font: 400 clamp(1.5rem, 2.6vw, 2rem)/1.1 var(--f-display); text-decoration: none; color: var(--gold); width: fit-content; background: linear-gradient(var(--gold), var(--gold)) 0 100% / 0 1px no-repeat; transition: background-size .5s var(--ease); overflow-wrap: anywhere; }
+.direct a:hover { background-size: 100% 1px; }
+.socials { display: flex; flex-wrap: wrap; gap: .6rem; }
+.socials a { font: 400 .66rem/1 var(--f-caps); letter-spacing: .2em; text-transform: uppercase; text-decoration: none; padding: .75rem 1rem; box-shadow: inset 0 0 0 1px var(--line); color: var(--ivory-soft); transition: color .3s, box-shadow .3s; }
+.socials a:hover { color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold-deep); }
+form.inq { display: grid; gap: 1.6rem; padding: clamp(1.6rem, 3.5vw, 2.8rem); background: rgba(15,10,9,.6); box-shadow: inset 0 0 0 1px var(--line); min-width: 0; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+@media (max-width: 560px) { .row2 { grid-template-columns: 1fr; } }
+.f { display: grid; gap: .5rem; position: relative; }
+.f label, fieldset legend { font: 400 .66rem/1 var(--f-caps); letter-spacing: .24em; text-transform: uppercase; color: var(--ivory-soft); }
+.f input, .f textarea { width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(227,195,138,.3); color: var(--ivory); font: 300 1.05rem/1.4 var(--f-body); padding: .6rem 0 .7rem; border-radius: 0; transition: border-color .3s; }
+.f input::placeholder, .f textarea::placeholder { color: rgba(185,167,141,.45); }
+.f input:focus, .f textarea:focus { outline: none; border-color: var(--gold); }
+.f input[type="date"] { color-scheme: dark; }
+.f textarea { min-height: 5.5rem; resize: vertical; }
+fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: .9rem; }
+.chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+.chips input { position: absolute; opacity: 0; pointer-events: none; }
+.chips label { cursor: pointer; font: 400 .7rem/1 var(--f-caps); letter-spacing: .16em; text-transform: uppercase; padding: .8rem 1rem; box-shadow: inset 0 0 0 1px var(--line); color: var(--ivory-soft); transition: all .35s var(--ease); }
+.chips label:hover { box-shadow: inset 0 0 0 1px var(--gold-deep); color: var(--ivory); }
+.chips input:checked + label { background: var(--gold); color: var(--lacquer); box-shadow: none; }
+.chips input:focus-visible + label { outline: 1.5px solid var(--gold); outline-offset: 3px; }
+.err { color: #ff8a80; font-size: .9rem; min-height: 1.3em; }
+.send { display: flex; flex-wrap: wrap; gap: .9rem; align-items: center; }
+.send small { color: var(--ivory-soft); font-size: .82rem; flex-basis: 100%; }
+@media (max-width: 860px) { .inquire .wrap { grid-template-columns: 1fr; } }
+
+footer { padding-block: 3.5rem calc(3rem + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); }
+footer .wrap { display: grid; justify-items: center; gap: 1.6rem; text-align: center; }
+footer p { color: var(--ivory-soft); font-size: .85rem; }
+footer .tag { font: italic 400 1.3rem/1 var(--f-display); color: var(--ivory); }
+
+.dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 55; display: none; gap: .6rem; padding: .8rem var(--gr) calc(.8rem + env(safe-area-inset-bottom, 0px)) var(--gl); background: rgba(15,10,9,.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--line); transform: translateY(110%); transition: transform .5s var(--ease); }
+.dock.show { transform: none; }
+.dock .btn { flex: 1; padding-inline: .8rem; }
+@media (max-width: 720px) { .dock { display: flex; } footer { padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px)); } #navCta { display: none; } }
+
+/* Reveal: only content that starts below the fold is hidden, then eased in */
+.js .rv { transition: opacity 1.2s var(--ease-out), transform 1.2s var(--ease-out), filter 1.2s var(--ease-out); }
+.js .rv.pre { opacity: 0; transform: translateY(30px); filter: blur(3px); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+  .arch path { stroke-dashoffset: 0; }
+  .js .rv.pre { opacity: 1; transform: none; filter: none; }
+  .portrait img { transform: none; }
+  #sparks { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="word" href="#main" aria-label="Krish Entertainment, home">
+      <b>KRISH</b><small>ENTERTAINMENT</small>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a class="l" href="#weekend">The Weekend</a>
+      <a class="l" href="#production">Production</a>
+      <a class="l" href="#story">Krish</a>
+      <a class="l" href="#process">Booking</a>
+      <a class="l" href="#faq">FAQ</a>
+      <a class="btn btn-gold btn-sm" id="navCta" href="#inquire">Check your date</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="photo"><img src="assets/krish-mc.jpg" alt="Krish on the microphone at a wedding reception, his lit marquee K and the stage behind him." fetchpriority="high"></div>
+    <canvas id="sparks" aria-hidden="true"></canvas>
+    <svg class="arch" viewBox="0 0 400 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <path d="M8 600 V250 C8 168 70 120 130 96 C168 80 190 58 200 14 C210 58 232 80 270 96 C330 120 392 168 392 250 V600"/>
+      <path class="inner" d="M26 600 V256 C26 184 82 140 138 118 C172 104 192 84 200 48 C208 84 228 104 262 118 C318 140 374 184 374 256 V600"/>
+    </svg>
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="caps eyebrow">South Asian Wedding DJ &amp; MC · Since 2008</span>
+        <h1><span class="line"><span>From the first</span></span><span class="line"><span><em class="gold">dhol</em> of the baraat</span></span><span class="line"><span>to the last dance.</span></span></h1>
+        <p class="lede">Krish Entertainment scores your entire wedding weekend: mehndi, sangeet, baraat, ceremony and reception. Every set mixed live, read straight off your dance floor.</p>
+        <div class="ctas">
+          <a class="btn btn-gold" href="#inquire">Check your date</a>
+          <a class="btn btn-line" href="#weekend">Plan your weekend</a>
+        </div>
+        <div class="meta"><span>Florida based</span><span>Booking worldwide</span><span>Fully insured</span></div>
+      </div>
+    </div>
+    <span class="scroll-cue" aria-hidden="true"></span>
+  </section>
+
+  <div class="ribbon" aria-label="Music we play">
+    <div class="track">
+      <span>Bhangra</span><span>Bollywood</span><span>Garba</span><span>Raas</span><span>Telugu</span><span>Tamil</span><span>Malayalam</span><span>Sufi</span><span>Carnatic</span><span>Shehnai</span><span>Chutney</span><span>Soca</span><span>Hip-Hop</span><span>R&amp;B</span><span>Top 40</span><span>Reggaeton</span><span>Bachata</span>
+      <span aria-hidden="true">Bhangra</span><span aria-hidden="true">Bollywood</span><span aria-hidden="true">Garba</span><span aria-hidden="true">Raas</span><span aria-hidden="true">Telugu</span><span aria-hidden="true">Tamil</span><span aria-hidden="true">Malayalam</span><span aria-hidden="true">Sufi</span><span aria-hidden="true">Carnatic</span><span aria-hidden="true">Shehnai</span><span aria-hidden="true">Chutney</span><span aria-hidden="true">Soca</span><span aria-hidden="true">Hip-Hop</span><span aria-hidden="true">R&amp;B</span><span aria-hidden="true">Top 40</span><span aria-hidden="true">Reggaeton</span><span aria-hidden="true">Bachata</span>
+    </div>
+  </div>
+
+  <section class="band statement">
+    <div class="wrap rv">
+      <div class="rule" style="width:min(320px,80%)"><span class="diamond"></span></div>
+      <p class="big">Your grandparents want the classics. Your friends want the drop. <em class="gold">One dance floor</em> has to hold all of them, for days in a row.</p>
+      <p class="sig">That is the job. We have been doing it since 2008.</p>
+    </div>
+  </section>
+
+  <section class="band weekend" id="weekend">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="caps">The wedding weekend</span>
+        <h2>Every event. <em class="gold">One sound</em> that carries through all of them.</h2>
+        <p>Tap through your weekend. Each event has its own mood, music and production. Mark the ones you're having, and they'll carry straight into your inquiry.</p>
+      </div>
+      <div class="planner rv">
+        <div class="rail" id="rail" role="tablist" aria-label="Wedding events"></div>
+        <div class="stage" id="stage" role="tabpanel" aria-live="polite"></div>
+        <div class="tally">
+          <p id="tallyText">Mark the events you're planning, then send them over in one inquiry.</p>
+          <a class="btn btn-line btn-sm" href="#inquire" id="tallyBtn">Send these events</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band production" id="production">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="caps">Production</span>
+        <h2>More than a DJ booth. <em class="gold">The whole room.</em></h2>
+        <p>Sound, light, atmosphere and live performers from one team, so your planner coordinates with a single vendor instead of six.</p>
+      </div>
+      <div class="prod-grid">
+        <article class="prod rv">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="11" y="4" width="18" height="32" rx="2"/><circle cx="20" cy="25" r="6"/><circle cx="20" cy="25" r="2"/><circle cx="20" cy="11" r="3"/></svg>
+          <h3>DJ, MC &amp; sound</h3>
+          <p>Live-mixed sets and an MC who runs your entrances, toasts and timeline, on sound systems sized to the room.</p>
+          <p class="list">Sound systems · Wireless mics · Mobile rigs</p>
+        </article>
+        <article class="prod rv">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M20 4v6M8 9l4 4M32 9l-4 4"/><path d="M13 36l7-20 7 20"/><path d="M10 36h20"/></svg>
+          <h3>Lighting</h3>
+          <p>Uplighting in your colors, your monogram on the dance floor, and moving heads and lasers for when the reception turns into a party.</p>
+          <p class="list">LED uplighting · Monograms &amp; gobos · Moving heads · Lasers · Market lights</p>
+        </article>
+        <article class="prod rv">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M20 36V20"/><path d="M20 20l-5-8M20 20l5-8M20 20l-8-3M20 20l8-3M20 20V8"/><circle cx="20" cy="6" r="1"/><circle cx="13" cy="10" r="1"/><circle cx="27" cy="10" r="1"/></svg>
+          <h3>Atmosphere</h3>
+          <p>The grand-entrance moments: a first dance on a cloud of low fog, cold sparks framing the couple, CO2 blasts on the drop.</p>
+          <p class="list">Cold sparklers · Dancing on clouds · CO2 · Haze · Confetti</p>
+        </article>
+        <article class="prod rv">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><ellipse cx="20" cy="12" rx="10" ry="4"/><path d="M10 12v16c0 2.2 4.5 4 10 4s10-1.8 10-4V12"/><path d="M14 20l4 3M26 20l-4 3"/></svg>
+          <h3>Live performers</h3>
+          <p>Dhol for the baraat, shehnai and sitar for the ceremony, dancers and bands for the sangeet, all booked through us.</p>
+          <p class="list">Dhol · Tabla · Dholak · Sitar · Bhangra &amp; Bollywood dancers · Garba band · Tassa · Violin · Harp</p>
+        </article>
+        <article class="prod rv">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M4 30l16-8 16 8-16 8z"/><path d="M12 26l16 8M28 26l-16 8" opacity=".6"/><circle cx="20" cy="10" r="1.2"/><circle cx="12" cy="14" r="1"/><circle cx="28" cy="14" r="1"/></svg>
+          <h3>Floors &amp; booths</h3>
+          <p>A starlit LED dance floor or a custom vinyl wrap, and a photo booth that sends your guests home with something.</p>
+          <p class="list">LED starlit floor · Vinyl wraps · Open-air &amp; enclosed photo booths</p>
+        </article>
+        <article class="prod rv">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="4" y="8" width="32" height="20" rx="1"/><path d="M14 34h12M20 28v6"/><path d="M17 14l7 4-7 4z"/></svg>
+          <h3>Screens &amp; streaming</h3>
+          <p>LED walls and projection for slideshows and the live feed, plus an online stream for family who can't fly in.</p>
+          <p class="list">LED screens · Projection · Live feed · Online streaming</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band story" id="story">
+    <div class="wrap">
+      <div class="portrait rv" id="portrait">
+        <svg class="edge" viewBox="0 0 528 668" preserveAspectRatio="none" aria-hidden="true"><path d="M14 668 V234 C14 112 120 52 264 4 C408 52 514 112 514 234 V668"/></svg>
+        <div class="frame"><img src="assets/krish-mc-sm.jpg" alt="Krish holding the microphone, dressed in a black vest and white bow tie." loading="lazy"></div>
+        <span class="cap">Krish · DJ &amp; MC</span>
+      </div>
+      <div class="story-copy">
+        <span class="caps rv">Meet Krish</span>
+        <h2 class="rv">Music runs in <em class="gold">the family.</em></h2>
+        <p class="lead rv">Krish was born in New Jersey to parents from Suriname. Before he was born, his father was a DJ there, so speakers, records and dancing were part of home.</p>
+        <p class="rv">He says the reason he does this is simple: seeing people dance, sweat and enjoy themselves. That started as DJing, grew into MCing, and then into lighting, atmospheric effects, video projection and live performers. Krish Entertainment, Inc. is the result.</p>
+        <ul class="years rv">
+          <li><b>2001</b><span>Gets into the music industry.</span></li>
+          <li><b>2008</b><span>Starts DJing professionally, and has worked worldwide ever since.</span></li>
+          <li><b>Today</b><span>A full production company: DJs, MCs, sound, lighting, effects, screens and live performers.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="band world">
+    <div class="wrap">
+      <span class="caps rv">Destination weddings</span>
+      <h2 class="rv">Wherever you say <em class="gold">"I do,"</em> we'll be there.</h2>
+      <div class="places rv">
+        <span>Florida</span><span>Georgia</span><span>The Carolinas</span><span>Mexico</span><span>Dominican Republic</span><span>Jamaica</span><span>Costa Rica</span><span>Panama</span><span>India</span>
+      </div>
+      <p class="note rv">Based in Florida with no travel restrictions. If your wedding is somewhere else, ask. That is usually a yes.</p>
+    </div>
+  </section>
+
+  <section class="band process" id="process">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="caps">Booking</span>
+        <h2>Clear steps, <em class="gold">no guesswork.</em></h2>
+      </div>
+      <ol class="steps">
+        <li class="rv"><h3>Tell us the plan</h3><p>Your events, dates, venues and what you're picturing. We talk through what each event needs.</p></li>
+        <li class="rv"><h3>Official quote</h3><p>You get an itemized quote by email covering the services you picked.</p></li>
+        <li class="rv"><h3>Booking agreement</h3><p>Once the quote is final, we email the agreement. You usually have two weeks to sign, or the same day for last-minute events.</p></li>
+        <li class="rv"><h3>Lock the date</h3><p>A 50% deposit secures your dates. The balance is due before your first event.</p></li>
+      </ol>
+      <div class="lists rv">
+        <div class="intro">
+          <span class="caps">Two weeks out</span>
+          <h3>The three playlists</h3>
+          <p>About two weeks before the first event, we ask for three lists. They don't need 200 songs. Ten to fifty gives us plenty to build on.</p>
+        </div>
+        <div class="cards">
+          <div class="card"><span class="ic"><span>i</span></span><div><h4>Special songs</h4><p>Entrances, cake cutting, first dance, the last song of the night. Put them right into your timeline so each moment gets its own cue.</p></div></div>
+          <div class="card"><span class="ic"><span>ii</span></span><div><h4>Must play</h4><p>Yours, your fiancé's, Mom and Dad's, the aunties' and uncles' favorites. The classics that pull every generation onto the floor.</p></div></div>
+          <div class="card"><span class="ic"><span>iii</span></span><div><h4>Do not play</h4><p>Songs, artists or films your family would rather not hear. We treat this list as law.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band faq" id="faq">
+    <div class="wrap">
+      <div class="rv">
+        <span class="caps">Questions</span>
+        <h2>Before you <em class="gold">ask.</em></h2>
+      </div>
+      <div class="qa rv">
+        <details><summary>Do you mix live, or play pre-recorded sets?<i></i></summary><div class="a"><p>Every one of our DJs mixes live, on the spot. That's the only way to respond to what your crowd is actually feeling in the moment.</p></div></details>
+        <details><summary>Can we choose the music?<i></i></summary><div class="a"><p>Of course. Send us your three playlists, and if a song isn't in our collection, add it to your list ahead of time and we'll have it. With Wi-Fi at the venue, we can take guest requests during the event too, if you want that.</p></div></details>
+        <details><summary>Do you make mixes for sangeet performances or our first dance?<i></i></summary><div class="a"><p>Yes. Choreographed sangeet performances and first-dance edits are something we do. Ask us when you inquire.</p></div></details>
+        <details><summary>Are you insured?<i></i></summary><div class="a"><p>Yes. We're happy to send proof of insurance and, if your venue needs it, add them as an additional insured.</p></div></details>
+        <details><summary>Do you travel?<i></i></summary><div class="a"><p>Yes, worldwide, with no travel restrictions.</p></div></details>
+        <details><summary>What deposit do you need?<i></i></summary><div class="a"><p>A 50% deposit, due within the two-week window of the booking agreement. The remaining 50% is due before your first event date.</p></div></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="band inquire" id="inquire">
+    <div class="wrap">
+      <div class="side rv">
+        <span class="caps">Check your date</span>
+        <h2>Popular dates <em class="gold">go first.</em></h2>
+        <p>Tell us about your weekend and we'll come back with availability and a quote. Prefer to talk? Call or text any time.</p>
+        <div class="direct">
+          <div><span>Call or text</span><a href="tel:+13522990743">+1 (352) 299-0743</a></div>
+          <div><span>Email</span><a href="mailto:info@krishentertainment.com">info@krishentertainment.com</a></div>
+          <div class="socials">
+            <a href="https://www.instagram.com/krishentertainment/" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://www.youtube.com/@krishentertainmentinc." target="_blank" rel="noopener">YouTube</a>
+            <a href="https://soundcloud.com/krishentertainment" target="_blank" rel="noopener">SoundCloud</a>
+            <a href="https://www.facebook.com/officialkrish" target="_blank" rel="noopener">Facebook</a>
+          </div>
+        </div>
+      </div>
+
+      <form class="inq rv" id="inq" novalidate>
+        <div class="row2">
+          <div class="f"><label for="i-names">Your names</label><input id="i-names" type="text" autocomplete="name" placeholder="Priya &amp; Arjun"></div>
+          <div class="f"><label for="i-phone">Phone</label><input id="i-phone" type="tel" autocomplete="tel" placeholder="(407) 555-0123"></div>
+        </div>
+        <div class="row2">
+          <div class="f"><label for="i-date">First event date</label><input id="i-date" type="date"></div>
+          <div class="f"><label for="i-where">City or venue</label><input id="i-where" type="text" placeholder="Orlando, or Cancún"></div>
+        </div>
+        <fieldset>
+          <legend>Events</legend>
+          <div class="chips" id="evChips"></div>
+        </fieldset>
+        <div class="f"><label for="i-guests">Guest count <span style="text-transform:none;letter-spacing:0">(roughly)</span></label><input id="i-guests" type="text" inputmode="numeric" placeholder="350"></div>
+        <div class="f"><label for="i-notes">Anything else</label><textarea id="i-notes" placeholder="Telugu and Punjabi families, a garba night, and we'd love cold sparks for our entrance."></textarea></div>
+        <p class="err" id="err" role="alert"></p>
+        <div class="send">
+          <button class="btn btn-gold" type="submit" data-via="email">Email my inquiry</button>
+          <button class="btn btn-line" type="submit" data-via="text">Text it instead</button>
+          <small>Opens your email or messages with everything filled in. Nothing is sent until you hit send.</small>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="word" href="#main"><b>KRISH</b><small>ENTERTAINMENT, INC.</small></a>
+    <p class="tag">Memories are what we create.</p>
+    <p>+1 (352) 299-0743 · info@krishentertainment.com<br>© <span id="yr">2026</span> Krish Entertainment, Inc.</p>
+  </div>
+</footer>
+
+<div class="dock" id="dock">
+  <a class="btn btn-line" href="tel:+13522990743">Call</a>
+  <a class="btn btn-gold" href="#inquire">Check your date</a>
+</div>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.documentElement.classList.add('js');
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* Header turns solid after the hero; phone dock appears */
+  const top = document.getElementById('top'), dock = document.getElementById('dock');
+  const onScroll = () => { top.classList.toggle('solid', scrollY > 60); dock.classList.toggle('show', scrollY > innerHeight * .6); };
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  /* Reveal (only for content that starts below the fold) */
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (!e.isIntersecting) return;
+      e.target.classList.remove('pre'); e.target.classList.add('in'); io.unobserve(e.target);
+    }), { rootMargin: '0px 0px -10% 0px' });
+    let k = 0;
+    document.querySelectorAll('.rv').forEach((el) => {
+      if (el.getBoundingClientRect().top > innerHeight) {
+        el.classList.add('pre');
+        if (el.closest('.prod-grid, .steps')) el.style.transitionDelay = (k++ % 3) * 110 + 'ms';
+        io.observe(el);
+      } else el.classList.add('in');
+    });
+  } else document.querySelectorAll('.rv').forEach((el) => el.classList.add('in'));
+
+  /* Cold-spark embers rising through the hero */
+  const cv = document.getElementById('sparks');
+  if (!reduce && cv.getContext) {
+    const ctx = cv.getContext('2d');
+    let W = 0, H = 0, dpr = 1, parts = [], running = true, last = 0;
+    const size = () => { const r = cv.getBoundingClientRect(); dpr = Math.min(devicePixelRatio || 1, 2); W = r.width; H = r.height; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
+    const spawn = (y) => ({ x: W * (.45 + Math.random() * .5), y: y ?? H + 10, r: .5 + Math.random() * 1.6, vy: 18 + Math.random() * 42, sway: Math.random() * 6.28, life: 0, max: 4 + Math.random() * 6 });
+    size(); for (let i = 0; i < 46; i++) parts.push(spawn(Math.random() * H));
+    new ResizeObserver(size).observe(cv);
+    new IntersectionObserver((e) => { running = e[0].isIntersecting; if (running) { last = 0; requestAnimationFrame(frame); } }).observe(cv);
+    function frame(ts) {
+      if (!running) return;
+      const dt = last ? Math.min(.05, (ts - last) / 1000) : .016; last = ts;
+      ctx.clearRect(0, 0, W, H);
+      ctx.globalCompositeOperation = 'lighter';
+      parts.forEach((p, i) => {
+        p.life += dt; p.y -= p.vy * dt; p.sway += dt * 1.4; p.x += Math.sin(p.sway) * 6 * dt;
+        const k = p.life / p.max, a = Math.sin(Math.PI * Math.min(1, k)) * (.55 + .45 * Math.sin(ts / 90 + i));
+        if (k >= 1 || p.y < -10) { parts[i] = spawn(); return; }
+        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 5);
+        g.addColorStop(0, 'rgba(255,226,170,' + (a * .95).toFixed(3) + ')');
+        g.addColorStop(.35, 'rgba(227,170,90,' + (a * .35).toFixed(3) + ')');
+        g.addColorStop(1, 'rgba(227,150,60,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 5, 0, 6.283); ctx.fill();
+      });
+      ctx.globalCompositeOperation = 'source-over';
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* Wedding weekend planner */
+  const EV = [
+    { id: 'mehndi', t: 'Mehndi', sub: 'Henna night', when: 'Afternoon or evening · Day one',
+      mood: 'Relaxed and colorful. Guests drift between the henna artists, food and conversation, so the music sets the mood without drowning anyone out.',
+      sound: 'Bollywood classics, folk songs and soft Sufi early on, building into a dance floor once the henna dries.',
+      gear: ['DJ with background-level sound', 'Market lights and warm uplighting', 'Live dholak or sitar', 'Wireless mics for family songs'] },
+    { id: 'sangeet', t: 'Sangeet', sub: 'Or garba night', when: 'Evening · Day one or two',
+      mood: 'The family show. Choreographed performances, friendly rivalries between the two sides, then the night opens up into a full party.',
+      sound: 'Performance mixes cued to the second, then Bollywood, Bhangra and Garba–Raas until the elders call it a night.',
+      gear: ['Custom mixes for choreographed performances', 'MC to run the program', 'LED dance floor and moving heads', 'Garba band, dhol or Bollywood dancers'] },
+    { id: 'haldi', t: 'Haldi', sub: 'Or pithi', when: 'Morning · Wedding day',
+      mood: 'Turmeric, marigolds and a lot of laughing. Usually outdoors, usually early, and often the most candid photos of the weekend.',
+      sound: 'Bright, upbeat folk and Bollywood, kept light so the family can talk and sing along.',
+      gear: ['Mobile sound system for outdoor spaces', 'Wireless microphones', 'Live dhol on request'] },
+    { id: 'baraat', t: 'Baraat', sub: 'The groom’s arrival', when: 'Before the ceremony',
+      mood: 'The loudest twenty minutes of the weekend. The groom’s side dances him to the venue, and nobody walks in a straight line.',
+      sound: 'Bhangra and high-energy Bollywood on a moving sound system, locked in with the dhol.',
+      gear: ['Mobile sound rig that moves with the procession', 'Dhol players', 'Cold sparklers for the arrival', 'Wireless mic for the MC'] },
+    { id: 'ceremony', t: 'Ceremony', sub: 'Pheras, nikah or anand karaj', when: 'Wedding day',
+      mood: 'The quiet heart of the weekend. Every word from the officiant needs to reach the last row, and the music should feel sacred, not staged.',
+      sound: 'Shehnai, sitar, flute and instrumental pieces for the processional and each part of the ritual.',
+      gear: ['Ceremony sound with lavalier and podium mics', 'Live shehnai, sitar, flute, violin or harp', 'Mandap uplighting'] },
+    { id: 'reception', t: 'Reception', sub: 'The grand finale', when: 'Wedding night',
+      mood: 'Grand entrances, toasts, first dance, then a dance floor that refuses to empty. This is the night everyone films.',
+      sound: 'Every genre your guests love, Bollywood to Hip-Hop to Top 40, mixed live and read straight off the floor.',
+      gear: ['MC for entrances, toasts and timeline', 'Dancing on clouds and cold sparks', 'Monogram, uplighting and moving heads', 'LED starlit floor, photo booth, LED screens'] }
+  ];
+  const rail = document.getElementById('rail'), stage = document.getElementById('stage');
+  const chipsWrap = document.getElementById('evChips');
+  const chosen = new Set();
+  let cur = 0;
+  const render = (i, animate) => {
+    cur = i;
+    const e = EV[i];
+    [...rail.children].forEach((b, j) => { b.setAttribute('aria-selected', String(i === j)); b.tabIndex = i === j ? 0 : -1; });
+    rail.style.setProperty('--fill', ((i + 1) / EV.length * 100) + '%');
+    const on = chosen.has(e.id);
+    stage.innerHTML = '<div class="' + (animate ? 'swap' : '') + '"><span class="when">' + e.when + '</span><h3>' + e.t + '<i>' + e.sub + '</i></h3><p class="mood">' + e.mood + '</p><p class="sound">' + e.sound + '</p>' +
+      '<div class="add"><button type="button" class="btn ' + (on ? 'btn-gold' : 'btn-line') + ' btn-sm" id="toggleEv">' + (on ? 'Added to your weekend' : 'We’re having a ' + e.t.toLowerCase()) + '</button></div></div>' +
+      '<div class="' + (animate ? 'swap' : '') + '" style="animation-delay:.08s"><h4>What we bring</h4><ul>' + e.gear.map((g) => '<li>' + g + '</li>').join('') + '</ul></div>';
+    document.getElementById('toggleEv').addEventListener('click', () => { toggle(e.id); render(cur, false); });
+  };
+  const sync = () => {
+    [...rail.children].forEach((b, i) => b.classList.toggle('on', chosen.has(EV[i].id)));
+    chipsWrap.querySelectorAll('input').forEach((c) => { c.checked = chosen.has(c.value); });
+    const names = EV.filter((e) => chosen.has(e.id)).map((e) => e.t);
+    document.getElementById('tallyText').innerHTML = names.length
+      ? 'Your weekend: <strong>' + names.join(' · ') + '</strong>'
+      : 'Mark the events you’re planning, then send them over in one inquiry.';
+  };
+  const toggle = (id) => { chosen.has(id) ? chosen.delete(id) : chosen.add(id); sync(); };
+  EV.forEach((e, i) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'ev'; b.id = 'ev-' + e.id; b.setAttribute('role', 'tab'); b.setAttribute('aria-controls', 'stage');
+    b.innerHTML = '<span class="n">' + ['I', 'II', 'III', 'IV', 'V', 'VI'][i] + '</span><span class="t">' + e.t + '</span><span class="inc"><i></i>Included</span>';
+    b.addEventListener('click', () => render(i, !reduce));
+    b.addEventListener('keydown', (ev) => {
+      const d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[ev.key]; if (!d) return;
+      ev.preventDefault(); const n = (i + d + EV.length) % EV.length; render(n, !reduce); rail.children[n].focus();
+    });
+    rail.appendChild(b);
+    const c = document.createElement('input'); c.type = 'checkbox'; c.id = 'c-' + e.id; c.value = e.id;
+    c.addEventListener('change', () => { c.checked ? chosen.add(e.id) : chosen.delete(e.id); sync(); render(cur, false); });
+    const l = document.createElement('label'); l.htmlFor = c.id; l.textContent = e.t;
+    chipsWrap.append(c, l);
+  });
+  render(0, false); sync();
+
+  /* Inquiry -> prefilled email or text */
+  const form = document.getElementById('inq'), err = document.getElementById('err');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const via = (e.submitter && e.submitter.dataset.via) || 'email';
+    const v = (id) => document.getElementById(id).value.trim();
+    if (!v('i-names')) { err.textContent = 'Add your names so we know who we’re celebrating.'; return; }
+    if (!v('i-date') && !v('i-where')) { err.textContent = 'Add a date or a city so we can check availability.'; return; }
+    err.textContent = '';
+    const evs = EV.filter((x) => chosen.has(x.id)).map((x) => x.t).join(', ') || 'Not decided yet';
+    let date = v('i-date');
+    if (date) { const d = new Date(date + 'T12:00:00'); if (!isNaN(d)) date = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }); }
+    const lines = [
+      'Hi Krish, we’d love to check your availability.', '',
+      'Names: ' + v('i-names'),
+      v('i-phone') ? 'Phone: ' + v('i-phone') : '',
+      'First event: ' + (date || 'TBD'),
+      'Where: ' + (v('i-where') || 'TBD'),
+      'Events: ' + evs,
+      v('i-guests') ? 'Guests: ' + v('i-guests') : '',
+      v('i-notes') ? '\n' + v('i-notes') : ''
+    ].filter(Boolean).join('\n');
+    if (via === 'text') {
+      const sep = /iPhone|iPad|Mac/.test(navigator.userAgent) ? '&' : '?';
+      location.href = 'sms:+13522990743' + sep + 'body=' + encodeURIComponent(lines);
+    } else {
+      location.href = 'mailto:info@krishentertainment.com?subject=' + encodeURIComponent('Wedding inquiry: ' + v('i-names') + (date ? ' · ' + date : '')) + '&body=' + encodeURIComponent(lines);
+    }
+  });
+
+  /* FAQ: smooth open/close */
+  document.querySelectorAll('.qa details').forEach((d) => {
+    const s = d.querySelector('summary'), a = d.querySelector('.a');
+    s.addEventListener('click', (e) => {
+      if (reduce || !a.animate) return;
+      e.preventDefault();
+      if (d.open) {
+        const h = a.offsetHeight;
+        a.animate([{ height: h + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 420, easing: 'cubic-bezier(.22,.7,.2,1)' }).onfinish = () => { d.open = false; };
+      } else {
+        d.open = true; const h = a.offsetHeight;
+        a.animate([{ height: '0px', opacity: 0 }, { height: h + 'px', opacity: 1 }], { duration: 520, easing: 'cubic-bezier(.16,1,.3,1)' });
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
