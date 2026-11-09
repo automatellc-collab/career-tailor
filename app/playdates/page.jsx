@@ -1798,6 +1798,7 @@ const CSS = `
 
 /* toast + confetti */
 .toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top) + 14px);z-index:80;transform:translate(-50%,-140%);padding:12px 20px;border-radius:999px;font-size:15px;font-weight:600;transition:transform .45s cubic-bezier(.3,1.4,.5,1);white-space:nowrap;max-width:calc(100vw - 32px);overflow:hidden;text-overflow:ellipsis}
+.toast:not(.show){opacity:0;visibility:hidden;transition:transform .3s ease,opacity .2s ease,visibility 0s .3s}
 .toast.show{transform:translate(-50%,0)}
 .confetti{position:fixed;inset:0;pointer-events:none;z-index:90;overflow:hidden}
 .confetti i{position:absolute;top:-20px;border-radius:2px;animation:fall linear forwards}
