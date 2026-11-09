@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { cloudEnabled, sb, fromRow, listMine, saveHost, removeHost, getInvite, respond as cloudRespond, subscribe } from "./sync";
 
 /* ────────────────────────────────────────────────────────────
    Playdates — invite another parent, they accept or decline,
@@ -116,7 +117,7 @@ const describe = (p) =>
     .filter(Boolean)
     .join("\n");
 const publicInvite = (p) => {
-  const { role, status, reply, updated, ...rest } = p;
+  const { role, status, reply, updated, synced, live, ...rest } = p;
   return rest;
 };
 const baseUrl = () => `${location.origin}${location.pathname}`;
@@ -207,23 +208,34 @@ function loadGoogle() {
   return gmapsPromise;
 }
 
+// If the Google key is missing, invalid, or not enabled for Places (New),
+// search silently falls back to OpenStreetMap instead of breaking.
+let googleBroken = false;
+if (typeof window !== "undefined") window.gm_authFailure = () => (googleBroken = true);
+const usingGoogle = () => !!GMAPS_KEY && !googleBroken;
+
 async function searchPlaces(term, near, tokenRef) {
-  const g = await loadGoogle().catch(() => null);
+  const g = googleBroken ? null : await loadGoogle().catch(() => null);
   if (g) {
-    const { AutocompleteSuggestion, AutocompleteSessionToken } = await g.maps.importLibrary("places");
-    if (!tokenRef.current) tokenRef.current = new AutocompleteSessionToken();
-    const req = { input: term, sessionToken: tokenRef.current };
-    if (near) req.locationBias = { center: near, radius: 25000 };
-    const { suggestions } = await AutocompleteSuggestion.fetchAutocompleteSuggestions(req);
-    return suggestions
-      .filter((s) => s.placePrediction)
-      .slice(0, 5)
-      .map((s) => ({
-        key: s.placePrediction.placeId,
-        main: s.placePrediction.mainText?.text || s.placePrediction.text.text,
-        sub: s.placePrediction.secondaryText?.text || "",
-        prediction: s.placePrediction,
-      }));
+    try {
+      const { AutocompleteSuggestion, AutocompleteSessionToken } = await g.maps.importLibrary("places");
+      if (!tokenRef.current) tokenRef.current = new AutocompleteSessionToken();
+      const req = { input: term, sessionToken: tokenRef.current };
+      if (near) req.locationBias = { center: near, radius: 25000 };
+      const { suggestions } = await AutocompleteSuggestion.fetchAutocompleteSuggestions(req);
+      return suggestions
+        .filter((s) => s.placePrediction)
+        .slice(0, 5)
+        .map((s) => ({
+          key: s.placePrediction.placeId,
+          main: s.placePrediction.mainText?.text || s.placePrediction.text.text,
+          sub: s.placePrediction.secondaryText?.text || "",
+          prediction: s.placePrediction,
+        }));
+    } catch (e) {
+      console.warn("Google Places unavailable, using OpenStreetMap", e);
+      googleBroken = true;
+    }
   }
   const params = new URLSearchParams({ q: term, format: "jsonv2", limit: "5", "accept-language": navigator.language || "en" });
   if (near) params.set("viewbox", `${near.lng - 0.35},${near.lat + 0.35},${near.lng + 0.35},${near.lat - 0.35}`);
@@ -296,6 +308,8 @@ const PATHS = {
   car: "M5 16l1.5-6A2 2 0 018.4 8.5h7.2a2 2 0 011.9 1.5L19 16M4 16h16v3H4zM7 19v1M17 19v1",
   sparkle: "M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z",
   swap: "M7 7h11l-3-3M17 17H6l3 3",
+  person: "M12 12a4 4 0 100-8 4 4 0 000 8zM4 21a8 8 0 0116 0",
+  cloud: "M7 18h10a4 4 0 00.5-7.97A6 6 0 006.1 9.5 4.25 4.25 0 007 18z",
 };
 function Icon({ name, size = 20, stroke = 2, style }) {
   return (
@@ -502,7 +516,7 @@ function PlacePicker({ value, onChange, activity, invalid }) {
           if (id === seq.current) setLoading(false);
         }
       },
-      GMAPS_KEY ? 220 : 650 // OSM asks for ≤1 request/second
+      usingGoogle() ? 220 : 650 // OSM asks for ≤1 request/second
     );
     return () => clearTimeout(t);
   }, [q, open, near]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -576,7 +590,7 @@ function PlacePicker({ value, onChange, activity, invalid }) {
               </button>
             </li>
           ))}
-          <li className="attribution">{GMAPS_KEY ? "Powered by Google" : "Search © OpenStreetMap contributors"}</li>
+          <li className="attribution">{usingGoogle() ? "Powered by Google" : "Search © OpenStreetMap contributors"}</li>
         </ul>
       ) : null}
       {near ? <div className="hint">📍 Showing places near you</div> : null}
@@ -878,7 +892,17 @@ function SentView({ p, onDone, toast }) {
 }
 
 /* ── Recipient view ────────────────────────────────────── */
-function InviteView({ invite, existing, onRespond, onClose, toast }) {
+function InviteView({ invite, existing, cancelled, onRespond, onReanswer, onClose, toast }) {
+  const [busy, setBusy] = useState(false);
+  const send = async (status, extra) => {
+    if (busy) return;
+    setBusy(true);
+    try {
+      await onRespond(status, extra);
+    } finally {
+      setBusy(false);
+    }
+  };
   const [mode, setMode] = useState(null); // null | "propose"
   const [note, setNote] = useState("");
   const [altDate, setAltDate] = useState(ymd(new Date(invite.start)));
@@ -910,8 +934,24 @@ function InviteView({ invite, existing, onRespond, onClose, toast }) {
             <CalendarButtons p={invite} />
           </>
         ) : null}
-        <div className="section-label">Let {host} know</div>
-        <ShareButtons url={url} text={`${msg}${r.note ? ` “${r.note}”` : ""} — reply for ${titleOf(invite)}:`} title="Playdate reply" toast={toast} label={`Send reply to ${host}`} />
+        {answered.live ? (
+          <div className="banner glass live-banner">
+            <span className="live-dot" /> {host} can already see your answer.
+          </div>
+        ) : null}
+        <div className="section-label">{answered.live ? `Send ${host} a message too` : `Let ${host} know`}</div>
+        <ShareButtons
+          url={url}
+          text={`${msg}${r.note ? ` “${r.note}”` : ""} — reply for ${titleOf(invite)}:`}
+          title="Playdate reply"
+          toast={toast}
+          label={answered.live ? "Send a message" : `Send reply to ${host}`}
+        />
+        {!expired ? (
+          <button className="btn btn-plain" onClick={() => (buzz(), onReanswer())}>
+            <Icon name="swap" size={18} /> Change my answer
+          </button>
+        ) : null}
         <button className="btn btn-plain" onClick={onClose}>
           Go to my playdates
         </button>
@@ -930,7 +970,9 @@ function InviteView({ invite, existing, onRespond, onClose, toast }) {
       </h1>
       <InviteCard p={invite} />
 
-      {expired ? (
+      {cancelled ? (
+        <div className="banner glass">{invite.hostName || "The host"} cancelled this playdate.</div>
+      ) : expired ? (
         <div className="banner glass">This playdate has already happened.</div>
       ) : mode === "propose" ? (
         <div className="glass propose">
@@ -957,7 +999,7 @@ function InviteView({ invite, existing, onRespond, onClose, toast }) {
               onClick={() => {
                 const alt = new Date(`${altDate}T${altTime}`);
                 if (isNaN(alt) || alt < new Date()) return toast("Pick a time in the future");
-                onRespond("proposed", { note: note.trim(), alt: alt.toISOString() });
+                send("proposed", { note: note.trim(), alt: alt.toISOString() });
               }}
             >
               Send suggestion
@@ -968,10 +1010,10 @@ function InviteView({ invite, existing, onRespond, onClose, toast }) {
         <>
           <textarea className="glass note-input" rows={2} placeholder={`Add a note for ${invite.hostName || "the host"} (optional)`} value={note} onChange={(e) => setNote(e.target.value)} />
           <div className="btn-grid two">
-            <button className="btn btn-decline btn-lg" onClick={() => onRespond("declined", { note: note.trim() })}>
+            <button className="btn btn-decline btn-lg" disabled={busy} onClick={() => send("declined", { note: note.trim() })}>
               <Icon name="close" size={18} stroke={2.6} /> Decline
             </button>
-            <button className="btn btn-accept btn-lg" onClick={() => onRespond("accepted", { note: note.trim() })}>
+            <button className="btn btn-accept btn-lg" disabled={busy} onClick={() => send("accepted", { note: note.trim() })}>
               <Icon name="check" size={18} stroke={2.6} /> Accept
             </button>
           </div>
@@ -1260,6 +1302,7 @@ export default function PlaydatesPage() {
           clearHash();
           setView({ name: "home" });
         }}
+        onReanswer={() => save(items.filter((x) => !(x.id === view.invite.id && x.role === "guest")))}
         onRespond={(status, reply) => {
           upsert({ ...view.invite, role: "guest", status, reply });
           if (status === "accepted") {
@@ -1340,6 +1383,19 @@ const CSS = `
 :where(.pd-root) :where(button){cursor:pointer;border:0;background:none;padding:0}
 :where(.pd-root) :where(a){color:inherit;text-decoration:none}
 :where(.pd-root) :where(input,textarea){outline:none}
+.btn:disabled{opacity:.55;pointer-events:none}
+.live-banner{display:flex;align-items:center;justify-content:center;gap:8px;color:var(--green);font-weight:600}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(52,199,89,.6);animation:pulse 1.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(52,199,89,0)}100%{box-shadow:0 0 0 0 rgba(52,199,89,0)}}
+.head-actions{display:flex;align-items:center;gap:10px}
+.avatar{position:relative;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:17px;color:var(--text)}
+.avatar .sync-dot{position:absolute;right:1px;bottom:1px;width:12px;height:12px;border-radius:50%;background:var(--green);border:2px solid var(--bg)}
+.account{display:flex;flex-direction:column;gap:12px;padding-bottom:4px}
+.account h2{font-size:24px;font-weight:700;letter-spacing:-.02em;margin:4px 0 0}
+.account .group .row input{text-align:left}
+.perks{display:flex;flex-direction:column;gap:10px;padding:14px 16px;border-radius:18px}
+.perk{display:flex;gap:12px;align-items:flex-start;font-size:15px}
+.perk span:first-child{font-size:20px;line-height:1.1}
 .pd-root :focus-visible:not(input):not(textarea){outline:2px solid var(--blue);outline-offset:2px}
 
 /* background */
