@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>One Cut Tree Services</title>
+<meta name="description" content="One Cut Tree Services in Roswell, GA: tree removal, trimming, stump grinding, storm damage and land clearing. 18 years of experience, licensed and insured, serving 50 miles around Roswell. Call 770-895-5833.">
+<meta name="theme-color" content="#17110d">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "name": "One Cut Tree Services",
+  "telephone": "+1-770-895-5833",
+  "url": "https://onecuttreeservicesga.com",
+  "address": { "@type": "PostalAddress", "addressLocality": "Roswell", "addressRegion": "GA", "addressCountry": "US" },
+  "openingHours": "Mo-Sa 08:00-17:00",
+  "areaServed": "50 miles around Roswell, GA",
+  "sameAs": ["https://www.tiktok.com/@one.cut.tree.serv", "https://www.pinterest.com/onecuttreeservicesga/"]
+}
+</script>
+<style>
+/* Layout: the cut end of a log. A dark bark hero with a growth-ring cross-section (18 rings, 18 years),
+   then sapwood-light bands on a 1200px column. Rings return as the service-area map. */
+:root {
+  --bark: #17110d;          /* hero and dark bands, same in both themes */
+  --bark-2: #241a13;
+  --on-bark: #f3e9d8;
+  --on-bark-soft: #b7a68e;
+  --ring: #c98d4b;          /* heartwood amber */
+  --paper: #f4f0e6;         /* fresh-cut sapwood */
+  --surface: #fffdf8;
+  --ink: #1d1712;
+  --ink-soft: #62574a;
+  --line: #ddd4c2;
+  --leaf: #1f8a2e;          /* the logo green */
+  --leaf-deep: #14661f;
+  --leaf-wash: #e3f1df;
+  --alert: #c8421d;         /* storm work only */
+
+  --f-display: "Big Shoulders Display", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --f-body: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+  --s-1: clamp(3.2rem, 8.2vw, 7rem);
+  --s-2: clamp(2.3rem, 5vw, 4rem);
+  --gl: max(18px, env(safe-area-inset-left, 0px));
+  --gr: max(18px, env(safe-area-inset-right, 0px));
+  --ease: cubic-bezier(.2,.7,.2,1);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #120d0a; --surface: #1d1611; --ink: #f1e8d9; --ink-soft: #ac9d88; --line: #33281f;
+    --leaf: #4fbd5c; --leaf-deep: #7fd68a; --leaf-wash: #17301a; --alert: #ee6a45; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #120d0a; --surface: #1d1611; --ink: #f1e8d9; --ink-soft: #ac9d88; --line: #33281f;
+  --leaf: #4fbd5c; --leaf-deep: #7fd68a; --leaf-wash: #17301a; --alert: #ee6a45; color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 1.0625rem/1.6 var(--f-body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img, svg { max-width: 100%; display: block; }
+a { color: inherit; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 900; margin: 0; line-height: .92; text-transform: uppercase; letter-spacing: .005em; text-wrap: balance; }
+p { margin: 0; }
+:focus-visible { outline: 3px solid var(--ring); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1200px; margin-inline: auto; padding-left: var(--gl); padding-right: var(--gr); }
+.band { padding-block: clamp(4.5rem, 9vw, 7.5rem); }
+.label { font: 500 .74rem/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--leaf-deep); display: inline-flex; align-items: center; gap: .7rem; }
+.label::before { content: ""; width: 28px; height: 2px; background: currentColor; }
+.head { display: grid; gap: 1.1rem; max-width: 44rem; margin-bottom: clamp(2.2rem, 5vw, 3.5rem); }
+.head h2 { font-size: var(--s-2); }
+.head p { color: var(--ink-soft); max-width: 36rem; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .6rem; cursor: pointer; border: 0; text-decoration: none; font: 600 1rem/1 var(--f-body); padding: 1.05rem 1.4rem; border-radius: 10px; white-space: nowrap; transition: transform .25s var(--ease), background .25s, box-shadow .25s, color .25s; }
+.btn svg { width: 18px; height: 18px; flex: none; }
+.btn-leaf { background: var(--leaf); color: #fff; box-shadow: 0 12px 26px -14px var(--leaf); }
+:root[data-theme="dark"] .btn-leaf { color: #0c1a0e; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn-leaf { color: #0c1a0e; } }
+.btn-leaf:hover { transform: translateY(-2px); }
+.btn-out { background: transparent; color: inherit; box-shadow: inset 0 0 0 1.5px currentColor; opacity: .92; }
+.btn-out:hover { transform: translateY(-2px); opacity: 1; }
+.btn-sm { padding: .75rem 1rem; font-size: .92rem; }
+
+/* ---------- Dark top: util, header, hero ---------- */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 70; background: var(--bark); }
+.dark { background: var(--bark); color: var(--on-bark); }
+.util { font: 400 .76rem/1 var(--f-mono); letter-spacing: .04em; border-bottom: 1px solid rgba(243,233,216,.1); }
+.util .wrap { display: flex; justify-content: space-between; gap: 1rem; padding-block: .7rem; flex-wrap: wrap; color: var(--on-bark-soft); }
+.util a { text-decoration: none; color: var(--on-bark); }
+.status { display: inline-flex; align-items: center; gap: .55rem; }
+.status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #7d6f5d; }
+.status.open::before { background: #58d16a; animation: ping 2s infinite; }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(88,209,106,.6); } 70%, 100% { box-shadow: 0 0 0 7px rgba(88,209,106,0); } }
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 60; background: rgba(23,17,13,.88); color: var(--on-bark); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(243,233,216,.08); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: .7rem; }
+.top .logo img { height: 44px; width: auto; }
+.nav { display: flex; align-items: center; gap: 1.7rem; }
+.nav a.l { text-decoration: none; font: 500 .78rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--on-bark-soft); transition: color .25s; }
+.nav a.l:hover { color: var(--on-bark); }
+@media (max-width: 900px) { .nav a.l { display: none; } }
+
+.hero { position: relative; overflow: hidden; }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: center; padding-block: clamp(3rem, 7vw, 6rem) clamp(3.5rem, 8vw, 7rem); }
+.hero-copy { display: grid; gap: 1.7rem; min-width: 0; }
+.hero .label { color: var(--ring); }
+.hero h1 { font-size: var(--s-1); }
+.hero h1 span { display: block; overflow: hidden; }
+.hero h1 span > i { display: block; font-style: normal; animation: up 1s var(--ease) both; }
+.hero h1 span:nth-child(2) > i { animation-delay: .1s; color: var(--ring); }
+.hero h1 span:nth-child(3) > i { animation-delay: .2s; }
+@keyframes up { from { transform: translateY(105%); } }
+.hero .lede { font-size: 1.18rem; color: var(--on-bark-soft); max-width: 33rem; animation: fade 1s .45s both; }
+.hero .ctas { display: flex; flex-wrap: wrap; gap: .8rem; animation: fade 1s .6s both; }
+@keyframes fade { from { opacity: 0; transform: translateY(10px); } }
+.log { position: relative; aspect-ratio: 1; max-width: 520px; width: 100%; justify-self: center; }
+.log svg { width: 100%; height: 100%; overflow: visible; }
+.log .gr { fill: none; stroke: var(--ring); stroke-linecap: round; opacity: .85; transition: opacity .3s, stroke-width .3s; }
+.log .gr.dim { opacity: .28; }
+.log .bark-edge { fill: none; stroke: #3a2a1e; }
+.log .check { stroke: #0c0806; stroke-width: 2; stroke-linecap: round; opacity: .55; }
+.log .yr { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; }
+.log .yr b { display: block; font: 900 clamp(3.4rem, 8vw, 5.6rem)/.85 var(--f-display); color: var(--on-bark); font-variant-numeric: tabular-nums; text-shadow: 0 2px 24px var(--bark); }
+.log .yr small { font: 500 .7rem/1.4 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--on-bark-soft); text-shadow: 0 1px 10px var(--bark); }
+.log .cap { position: absolute; right: 0; bottom: -1.2rem; font: 400 .72rem/1.4 var(--f-mono); color: var(--on-bark-soft); text-align: right; }
+@media (max-width: 860px) { .hero .wrap { grid-template-columns: 1fr; } .log { max-width: 340px; order: -1; } .log .cap { position: static; text-align: center; margin-top: .8rem; } }
+
+.facts { border-top: 1px solid rgba(243,233,216,.1); }
+.facts .wrap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.facts .wrap > div { padding: 1.5rem 1rem 1.6rem 0; display: grid; gap: .35rem; border-left: 1px solid rgba(243,233,216,.1); padding-left: 1.2rem; }
+.facts .wrap > div:first-child { border-left: 0; padding-left: 0; }
+.facts b { font: 900 clamp(1.9rem, 3.4vw, 2.6rem)/1 var(--f-display); text-transform: uppercase; }
+.facts span { font: 400 .74rem/1.4 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--on-bark-soft); }
+@media (max-width: 760px) { .facts .wrap { grid-template-columns: repeat(2, minmax(0, 1fr)); } .facts .wrap > div:nth-child(3) { border-left: 0; padding-left: 0; } .facts .wrap > div:nth-child(n+3) { border-top: 1px solid rgba(243,233,216,.1); } }
+
+/* ---------- Services ---------- */
+.svc { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.svc li { background: var(--surface); border-radius: 16px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; box-shadow: 0 0 0 1px var(--line), 0 24px 44px -34px rgba(0,0,0,.5); transition: transform .45s var(--ease), box-shadow .45s; }
+.svc li:hover { transform: translateY(-5px); box-shadow: 0 0 0 1.5px var(--leaf), 0 30px 50px -30px rgba(0,0,0,.55); }
+.svc .ph { position: relative; aspect-ratio: 3 / 2; overflow: hidden; background: var(--bark-2); }
+.svc .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--ease); }
+.svc li:hover .ph img { transform: scale(1.07); }
+.svc .tag { position: absolute; left: 12px; top: 12px; font: 500 .66rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; padding: .5rem .65rem; border-radius: 6px; background: rgba(23,17,13,.78); color: var(--on-bark); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.svc .tx { padding: 1.3rem 1.4rem 1.5rem; display: grid; gap: .6rem; align-content: start; }
+.svc h3 { font-size: clamp(1.6rem, 2.4vw, 2rem); display: flex; align-items: center; gap: .6rem; }
+.svc .ic { width: 1.9rem; height: 1.9rem; flex: none; color: var(--leaf-deep); }
+.svc p { color: var(--ink-soft); font-size: .97rem; }
+.svc li.storm .ic, .svc li.storm h3 { color: var(--alert); }
+.svc li.storm .tag { background: var(--alert); color: #fff; }
+@media (max-width: 960px) { .svc { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 580px) { .svc { grid-template-columns: 1fr; } }
+
+/* ---------- Gallery ---------- */
+.gal { columns: 4 220px; column-gap: 12px; }
+.gal button { appearance: none; border: 0; padding: 0; margin: 0 0 12px; display: block; width: 100%; cursor: zoom-in; border-radius: 12px; overflow: hidden; background: var(--bark-2); break-inside: avoid; position: relative; }
+.gal img { width: 100%; height: auto; transition: transform .9s var(--ease), filter .4s; }
+.gal button:hover img { transform: scale(1.05); }
+.gal button::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 0 var(--leaf); transition: box-shadow .3s; border-radius: 12px; }
+.gal button:hover::after, .gal button:focus-visible::after { box-shadow: inset 0 0 0 3px var(--leaf); }
+dialog.lb { border: 0; padding: 0; background: transparent; max-width: min(94vw, 1100px); max-height: 92vh; overflow: visible; }
+dialog.lb::backdrop { background: rgba(10,7,5,.9); backdrop-filter: blur(6px); }
+dialog.lb img { max-width: 100%; max-height: 82vh; width: auto; height: auto; margin-inline: auto; border-radius: 10px; }
+dialog.lb[open] img { animation: lbin .35s var(--ease); }
+@keyframes lbin { from { opacity: 0; transform: scale(.96); } }
+.lb-bar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: .8rem; color: #f3e9d8; font: 400 .8rem/1.4 var(--f-mono); }
+.lb-bar div { display: flex; gap: .5rem; }
+.lb-bar button { appearance: none; border: 0; cursor: pointer; width: 2.8rem; height: 2.8rem; border-radius: 50%; background: rgba(243,233,216,.14); color: #f3e9d8; font-size: 1.1rem; transition: background .2s; }
+.lb-bar button:hover { background: var(--leaf); }
+
+/* ---------- Size-up tool ---------- */
+.sizeup { background: var(--surface); border-block: 1px solid var(--line); }
+.tool { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(1.5rem, 4vw, 3rem); align-items: stretch; }
+.scene { position: relative; border-radius: 18px; overflow: hidden; background: linear-gradient(180deg, #cfe3ee 0%, #e9f1ea 70%); min-height: 420px; display: grid; align-items: end; }
+:root[data-theme="dark"] .scene { background: linear-gradient(180deg, #14222b 0%, #1b2a22 70%); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .scene { background: linear-gradient(180deg, #14222b 0%, #1b2a22 70%); } }
+.scene svg { width: 100%; height: auto; }
+.scene .tree { transform-origin: 150px 340px; transition: transform .5s var(--ease); }
+.scene .sway { transform-origin: 150px 340px; animation: sway 6s ease-in-out infinite; }
+@keyframes sway { 50% { transform: rotate(1.2deg); } }
+.scene .ruler { transition: transform .5s var(--ease); }
+.scene .readout { position: absolute; left: 1rem; top: 1rem; background: color-mix(in srgb, var(--surface) 90%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-radius: 12px; padding: .8rem 1rem; }
+.scene .readout b { font: 900 2.6rem/.9 var(--f-display); font-variant-numeric: tabular-nums; }
+.scene .readout b small { font: 500 .78rem/1 var(--f-mono); color: var(--ink-soft); margin-left: .3rem; }
+.scene .readout > span { display: block; font: 400 .74rem/1.4 var(--f-mono); color: var(--ink-soft); margin-top: .2rem; }
+.panel { display: grid; gap: 1.5rem; align-content: start; min-width: 0; }
+.q { display: grid; gap: .7rem; }
+.q h4 { margin: 0; font: 500 .74rem/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+.chips { display: flex; flex-wrap: wrap; gap: .45rem; }
+.chips button { appearance: none; border: 0; cursor: pointer; background: var(--paper); color: var(--ink); font: 500 .93rem/1 var(--f-body); padding: .75rem .95rem; border-radius: 8px; box-shadow: inset 0 0 0 1px var(--line); transition: background .2s, color .2s, box-shadow .2s, transform .2s var(--ease); }
+.chips button:hover { transform: translateY(-1px); box-shadow: inset 0 0 0 1px var(--leaf); }
+.chips button[aria-pressed="true"] { background: var(--leaf-deep); color: #fff; box-shadow: none; }
+:root[data-theme="dark"] .chips button[aria-pressed="true"] { color: #0c1a0e; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .chips button[aria-pressed="true"] { color: #0c1a0e; } }
+input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 32px; background: transparent; cursor: pointer; }
+input[type="range"]::-webkit-slider-runnable-track { height: 6px; border-radius: 9px; background: linear-gradient(90deg, var(--leaf) var(--p, 30%), var(--line) var(--p, 30%)); }
+input[type="range"]::-moz-range-track { height: 6px; border-radius: 9px; background: var(--line); }
+input[type="range"]::-moz-range-progress { height: 6px; border-radius: 9px; background: var(--leaf); }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 26px; margin-top: -10px; border-radius: 50%; background: var(--surface); border: 3px solid var(--leaf-deep); box-shadow: 0 3px 10px rgba(0,0,0,.25); }
+input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--surface); border: 3px solid var(--leaf-deep); }
+.note { border-left: 3px solid var(--leaf); padding: .2rem 0 .2rem 1rem; display: grid; gap: .35rem; }
+.note b { font: 800 1.5rem/1 var(--f-display); text-transform: uppercase; }
+.note p { color: var(--ink-soft); font-size: .97rem; }
+.note.warn { border-color: var(--alert); }
+.note.warn b { color: var(--alert); }
+.fields { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+.fields input { width: 100%; font: 400 1rem/1.3 var(--f-body); color: var(--ink); background: var(--paper); border: 1.5px solid var(--line); border-radius: 8px; padding: .8rem .9rem; }
+.fields input:focus { outline: none; border-color: var(--leaf); }
+.fields label { display: grid; gap: .4rem; font: 500 .7rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+.send { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+.send small { flex-basis: 100%; color: var(--ink-soft); font-size: .82rem; }
+.err { color: var(--alert); font-size: .9rem; min-height: 1.3em; }
+@media (max-width: 900px) { .tool { grid-template-columns: 1fr; } .scene { min-height: 320px; } }
+@media (max-width: 460px) { .fields { grid-template-columns: 1fr; } }
+
+/* ---------- On the job ---------- */
+.job .wrap { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+.snaps { position: relative; display: grid; grid-template-columns: repeat(12, 1fr); align-items: end; max-width: 520px; width: 100%; justify-self: center; }
+.snap { margin: 0; background: var(--surface); padding: 8px 8px 0; border-radius: 6px; box-shadow: 0 24px 50px -28px rgba(0,0,0,.55), 0 0 0 1px var(--line); transition: transform .6s var(--ease); }
+.snap img { width: 100%; border-radius: 3px; }
+.snap figcaption { font: 400 .7rem/1 var(--f-mono); color: var(--ink-soft); padding: .7rem .2rem; }
+.snap.a { grid-column: 1 / span 6; grid-row: 1; transform: rotate(-3deg); z-index: 1; }
+.snap.b { grid-column: 5 / span 8; grid-row: 1; transform: rotate(2.5deg) translateY(14%); }
+.snaps:hover .snap.a { transform: rotate(-5deg) translateX(-3%); }
+.snaps:hover .snap.b { transform: rotate(4deg) translate(3%, 14%); }
+.job-copy { display: grid; gap: 1.4rem; }
+.job-copy h2 { font-size: var(--s-2); }
+.job-copy blockquote { margin: 0; font-size: 1.2rem; line-height: 1.5; }
+.job-copy p { color: var(--ink-soft); max-width: 34rem; }
+.ticks { list-style: none; margin: .4rem 0 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem 1.4rem; }
+.ticks li { display: flex; gap: .7rem; align-items: baseline; font-weight: 500; }
+.ticks li::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 0 2px var(--paper), 0 0 0 3.5px var(--leaf); background: var(--leaf); transform: translateY(-1px); }
+@media (max-width: 860px) { .job .wrap { grid-template-columns: 1fr; } .snaps { margin-bottom: 3rem; } }
+@media (max-width: 460px) { .ticks { grid-template-columns: 1fr; } }
+
+/* ---------- Area ---------- */
+.area { background: var(--bark); color: var(--on-bark); }
+.area .wrap { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+.area .label { color: var(--ring); }
+.area h2 { font-size: var(--s-2); margin-block: 1.1rem 1.2rem; }
+.area p { color: var(--on-bark-soft); max-width: 30rem; }
+.area .ctas { margin-top: 1.8rem; display: flex; flex-wrap: wrap; gap: .7rem; }
+.map { width: 100%; max-width: 560px; justify-self: center; }
+.map svg { overflow: visible; }
+.map .mr { fill: none; stroke: var(--ring); opacity: .5; }
+.map .ml { font: 400 9px var(--f-mono); fill: var(--on-bark-soft); letter-spacing: .08em; }
+.map .town circle { fill: var(--on-bark); transition: r .3s, fill .3s; }
+.map .town text { font: 500 11px var(--f-body); fill: var(--on-bark); opacity: .85; }
+.map .town:hover circle { fill: var(--ring); r: 5; }
+.map .home circle { fill: #58d16a; }
+.map .home .pulse { fill: none; stroke: #58d16a; animation: radar 3s ease-out infinite; transform-origin: center; transform-box: fill-box; }
+@keyframes radar { from { transform: scale(1); opacity: .9; } to { transform: scale(7); opacity: 0; } }
+.map .home text { font: 800 15px var(--f-display); letter-spacing: .06em; fill: #fff; opacity: 1; }
+@media (max-width: 860px) { .area .wrap { grid-template-columns: 1fr; } }
+
+/* ---------- Reads ---------- */
+.reads { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border-top: 2px solid var(--ink); }
+.reads a { text-decoration: none; padding: 1.5rem 1.4rem 1.6rem 0; display: grid; gap: 2.2rem; align-content: space-between; border-right: 1px solid var(--line); padding-left: 1.4rem; min-height: 190px; transition: background .3s; }
+.reads a:first-child { padding-left: 0; }
+.reads a:last-child { border-right: 0; }
+.reads a:hover { background: var(--leaf-wash); }
+.reads span { font: 400 .72rem/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+.reads b { font: 800 1.5rem/1.02 var(--f-display); text-transform: uppercase; }
+@media (max-width: 900px) { .reads { grid-template-columns: repeat(2, minmax(0, 1fr)); } .reads a:nth-child(odd) { padding-left: 0; } .reads a:nth-child(even) { border-right: 0; } .reads a:nth-child(-n+2) { border-bottom: 1px solid var(--line); } }
+@media (max-width: 480px) { .reads { grid-template-columns: 1fr; } .reads a { padding-left: 0; border-right: 0; border-bottom: 1px solid var(--line); min-height: 0; } }
+
+/* ---------- Contact ---------- */
+.contact { background: var(--leaf-deep); color: #fff; }
+:root[data-theme="dark"] .contact { background: #123b18; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .contact { background: #123b18; } }
+.contact .wrap { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(2rem, 5vw, 4rem); align-items: end; }
+.contact h2 { font-size: clamp(2.8rem, 7vw, 5.6rem); color: #fff; }
+.contact .tel { display: inline-block; margin-top: 1.4rem; font: 900 clamp(2.6rem, 6.5vw, 5rem)/1 var(--f-display); text-decoration: none; color: #fff; font-variant-numeric: tabular-nums; background: linear-gradient(#fff, #fff) 0 100% / 0 3px no-repeat; transition: background-size .5s var(--ease); }
+.contact .tel:hover { background-size: 100% 3px; }
+.contact dl { margin: 0; display: grid; gap: 0; }
+.contact dl div { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: 1rem; padding: .9rem 0; border-top: 1px solid rgba(255,255,255,.22); }
+.contact dt { font: 400 .72rem/1.7 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; opacity: .75; }
+.contact dd { margin: 0; overflow-wrap: anywhere; }
+.contact dd a { color: #fff; }
+@media (max-width: 860px) { .contact .wrap { grid-template-columns: 1fr; } }
+
+footer { background: var(--bark); color: var(--on-bark-soft); padding-block: 2.4rem calc(2.4rem + env(safe-area-inset-bottom, 0px)); font-size: .88rem; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.2rem; }
+footer img { height: 40px; width: auto; }
+footer nav { display: flex; flex-wrap: wrap; gap: 1.3rem; }
+footer a { color: var(--on-bark); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+.dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 55; display: none; gap: .6rem; padding: .7rem var(--gr) calc(.7rem + env(safe-area-inset-bottom, 0px)) var(--gl); background: rgba(23,17,13,.92); color: var(--on-bark); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid rgba(243,233,216,.12); }
+.dock .btn { flex: 1; }
+@media (max-width: 720px) { .dock { display: flex; } footer { padding-bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px)); } .util .hide-sm, #navCall { display: none; } }
+
+.js .rv { transition: opacity .9s var(--ease), transform .9s var(--ease); }
+.js .rv.pre { opacity: 0; transform: translateY(26px); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+  .js .rv.pre { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="dark util">
+  <div class="wrap">
+    <span class="status" id="status">Mon–Sat · 8:00 AM – 5:00 PM</span>
+    <span><span class="hide-sm">Roswell, GA · Licensed &amp; insured · </span><a href="tel:+17708955833">770-895-5833</a></span>
+  </div>
+</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#main" aria-label="One Cut Tree Services, home"><img src="assets/logo.png" alt="One Cut Tree Services" width="122" height="44"></a>
+    <nav class="nav" aria-label="Primary">
+      <a class="l" href="#services">Services</a>
+      <a class="l" href="#sizeup">Size up your tree</a>
+      <a class="l" href="#gallery">Gallery</a>
+      <a class="l" href="#about">About</a>
+      <a class="l" href="#area">Service area</a>
+      <a class="btn btn-leaf btn-sm" id="navCall" href="tel:+17708955833">Call 770-895-5833</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="dark hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="label">Tree service · Roswell, Georgia</span>
+        <h1><span><i>Tree care,</i></span><span><i>one cut</i></span><span><i>above.</i></span></h1>
+        <p class="lede">Removal, trimming, stump grinding and storm clean-up from a crew that does nothing but trees. Eighteen years in, licensed and insured.</p>
+        <div class="ctas">
+          <a class="btn btn-leaf" href="#sizeup">Get a free quote <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn-out" href="tel:+17708955833">Call 770-895-5833</a>
+        </div>
+      </div>
+      <div class="log" aria-hidden="true">
+        <svg viewBox="-260 -260 520 520" id="logSvg"></svg>
+        <div class="yr"><b id="yrNum">18</b><small>years of<br>tree work</small></div>
+        <p class="cap">18 growth rings. One for every year.</p>
+      </div>
+    </div>
+    <div class="facts">
+      <div class="wrap">
+        <div><b>18+ years</b><span>Experience</span></div>
+        <div><b>50 miles</b><span>Covered around Roswell</span></div>
+        <div><b>Mon–Sat</b><span>8 AM to 5 PM</span></div>
+        <div><b>Licensed</b><span>And fully insured</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="services">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="label">What we do</span>
+        <h2>Trees. Only trees.</h2>
+        <p>We focus solely on tree services, so every job gets a crew that does this work every day.</p>
+      </div>
+      <ul class="svc">
+        <li class="rv"><div class="ph"><img src="assets/photos/p5.jpg" alt="A chainsaw cutting through a tree trunk." loading="lazy"><span class="tag">Most requested</span></div><div class="tx"><h3><svg class="ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 40h36"/><path d="M20 40V26l-9-14M20 26l12-18"/><path d="M26 40l14-9"/></svg>Tree removal</h3><p>Trees taken down carefully and in sections, whether the cause is disease, safety or new plans for the yard, with minimal impact on your property.</p></div></li>
+        <li class="rv"><div class="ph"><img src="assets/photos/p7.jpg" alt="A climber in safety gear working high in a tree." loading="lazy"><span class="tag">Health &amp; shape</span></div><div class="tx"><h3><svg class="ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="18" r="13"/><path d="M24 31v13M24 24l6-6M24 19l-5-5"/></svg>Tree trimming</h3><p>Overgrown, dead or diseased branches removed for better airflow, more sunlight and a healthier, better-looking tree.</p></div></li>
+        <li class="rv"><div class="ph"><img src="assets/photos/p12.jpg" alt="A climber at the top of a tree that has been cut back." loading="lazy"><span class="tag">Height control</span></div><div class="tx"><h3><svg class="ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 14h32" stroke-dasharray="3 5"/><path d="M24 44V22M24 30l8-8M24 26l-8-8"/><path d="M14 22a10 10 0 0 1 20 0"/></svg>Tree topping</h3><p>Selective removal of upper branches to bring down a tree's height and keep it clear of roofs and lines.</p></div></li>
+        <li class="rv"><div class="ph"><img src="assets/photos/p8.jpg" alt="A stump grinder cutting into a tree stump." loading="lazy"><span class="tag">After removal</span></div><div class="tx"><h3><svg class="ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="24" cy="22" rx="14" ry="6"/><ellipse cx="24" cy="22" rx="7" ry="3"/><path d="M10 22v8c0 3.300 6.300 6 14 6s14-2.700 14-6v-8M4 40h40"/></svg>Stump grinding</h3><p>Stumps ground down below the surface with specialized equipment, leaving a smooth, hazard-free yard.</p></div></li>
+        <li class="rv"><div class="ph"><img src="assets/photos/p11.jpg" alt="A worker clearing leaves and debris beneath a row of trees." loading="lazy"><span class="tag">Lots &amp; acreage</span></div><div class="tx"><h3><svg class="ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 40h40"/><path d="M12 40v-8M20 40V26M28 40v-6M36 40V28"/><path d="M8 14h20M14 20h26M10 8h14"/></svg>Land clearing</h3><p>Lots opened up for building, fencing or a fresh start. Tell us what the land is for and we'll plan the clearing around it.</p></div></li>
+        <li class="rv storm"><div class="ph"><img src="assets/photos/p9.jpg" alt="A large tree fallen across a road after a storm." loading="lazy"><span class="tag">Call first</span></div><div class="tx"><h3><svg class="ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 26a9 9 0 1 1 3-17.500A11 11 0 0 1 38 14a7 7 0 0 1-2 12"/><path d="M26 22l-6 10h8l-5 10"/></svg>Storm damage &amp; emergencies</h3><p>Fallen limbs and compromised trees assessed and cleared quickly after severe weather, to make your property safe again.</p></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band sizeup" id="sizeup">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="label">Free quote in one minute</span>
+        <h2>Size up your tree.</h2>
+        <p>Drag the tree to match yours, tap what's around it, and send it over. We'll come back with a quote.</p>
+      </div>
+      <div class="tool rv">
+        <div class="scene">
+          <div class="readout"><b><span id="ft">40</span><small>ft</small></b><span id="cmp">Taller than the roofline</span></div>
+          <svg viewBox="0 0 460 370" role="img" aria-label="A tree drawn to scale beside a two-story house">
+            <rect x="0" y="340" width="460" height="30" fill="var(--leaf)" opacity=".35"/>
+            <line x1="0" y1="340" x2="460" y2="340" stroke="var(--ink)" stroke-width="2"/>
+            <g class="ruler" id="ruler"><line x1="20" y1="0" x2="440" y2="0" stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 6" opacity=".5"/></g>
+            <!-- two-story house: 25 ft at 3px per foot -->
+            <g fill="var(--surface)" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round">
+              <path d="M300 340v-52h100v52z"/><path d="M290 290l60-25 60 25z" fill="var(--ring)"/>
+              <rect x="342" y="316" width="16" height="24"/><rect x="312" y="298" width="16" height="14"/><rect x="372" y="298" width="16" height="14"/>
+            </g>
+            <!-- person: 6 ft -->
+            <g stroke="var(--ink)" stroke-width="2" stroke-linecap="round" fill="none"><circle cx="262" cy="325" r="2.6" fill="var(--ink)"/><path d="M262 328v7M262 335l-3 5M262 335l3 5M258 331h8"/></g>
+            <g class="tree" id="tree"><g class="sway">
+              <path d="M146 340c2-40 2-80 1-130h6c-1 50-1 90 1 130z" fill="#6b4a30" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M150 250l-22-26M150 232l20-22" stroke="#6b4a30" stroke-width="4" stroke-linecap="round"/>
+              <g fill="var(--leaf)" stroke="var(--ink)" stroke-width="2"><ellipse cx="150" cy="150" rx="62" ry="78"/><ellipse cx="112" cy="196" rx="34" ry="30"/><ellipse cx="190" cy="190" rx="34" ry="32"/><ellipse cx="150" cy="96" rx="36" ry="38"/></g>
+            </g></g>
+          </svg>
+        </div>
+        <form class="panel" id="quote" novalidate>
+          <div class="q"><h4>What do you need?</h4><div class="chips" id="svcChips"></div></div>
+          <div class="q"><h4>About how tall is it?</h4><input type="range" id="height" min="10" max="100" step="5" value="40" aria-label="Tree height in feet"></div>
+          <div class="q"><h4>What's around it?</h4><div class="chips" id="hazChips"></div></div>
+          <div class="note" id="note" aria-live="polite"></div>
+          <div class="fields">
+            <label for="q-name">Your name<input id="q-name" type="text" autocomplete="name" placeholder="Alex Carter"></label>
+            <label for="q-where">City or ZIP<input id="q-where" type="text" autocomplete="postal-code" placeholder="Roswell, 30075"></label>
+          </div>
+          <p class="err" id="err" role="alert"></p>
+          <div class="send">
+            <button class="btn btn-leaf" type="submit" data-via="text">Text my request</button>
+            <button class="btn btn-out" type="submit" data-via="email">Email it</button>
+            <small>Opens your messages or email with the details filled in. Nothing is sent until you hit send. Add a photo of the tree if you can.</small>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="band job" id="about">
+    <div class="wrap">
+      <div class="snaps rv">
+        <figure class="snap a"><img src="assets/job-truck.jpg" alt="The One Cut Tree Services truck parked in a customer's driveway." width="360" height="480" loading="lazy"><figcaption>The One Cut truck, on a job</figcaption></figure>
+        <figure class="snap b"><img src="assets/job-chipper.jpg" alt="The crew's truck and wood chipper at work on a residential street." width="480" height="360" loading="lazy"><figcaption>Chipper and crew at work</figcaption></figure>
+      </div>
+      <div class="job-copy">
+        <span class="label rv">About One Cut</span>
+        <h2 class="rv">Guardians of Roswell's green canopy.</h2>
+        <blockquote class="rv">“We strive to be more than service providers. We are partners in preserving the natural splendor of Roswell, one tree at a time.”</blockquote>
+        <p class="rv">One Cut Tree Services has spent 18 years on a single trade. From backyard trees to commercial landscapes, the work is the same: keep healthy trees healthy, and take down the ones that have to go safely.</p>
+        <ul class="ticks rv"><li>Licensed &amp; insured</li><li>Residential &amp; commercial</li><li>Free quotes</li><li>Satisfaction guaranteed</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="gallery" style="padding-top:0">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="label">Gallery</span>
+        <h2>The work, up close.</h2>
+        <p>Removals, climbs, stump grinding and storm clean-up. Tap any photo to enlarge it.</p>
+      </div>
+      <div class="gal rv" id="gal"><button type="button" id="g1" data-src="assets/photos/p1.jpg" aria-label="Enlarge photo: The One Cut truck parked in a customer driveway"><img src="assets/photos/p1.jpg" alt="The One Cut truck parked in a customer driveway." loading="lazy"></button><button type="button" id="g2" data-src="assets/photos/p2.jpg" aria-label="Enlarge photo: The crew truck and wood chipper on a residential street"><img src="assets/photos/p2.jpg" alt="The crew truck and wood chipper on a residential street." loading="lazy"></button><button type="button" id="g37" data-src="assets/photos/p37.jpg" aria-label="Enlarge photo: A climber in a helmet working in a pruned tree"><img src="assets/photos/p37.jpg" alt="A climber in a helmet working in a pruned tree." loading="lazy"></button><button type="button" id="g5" data-src="assets/photos/p5.jpg" aria-label="Enlarge photo: A chainsaw cutting through a tree trunk"><img src="assets/photos/p5.jpg" alt="A chainsaw cutting through a tree trunk." loading="lazy"></button><button type="button" id="g9" data-src="assets/photos/p9.jpg" aria-label="Enlarge photo: A large tree fallen across a road"><img src="assets/photos/p9.jpg" alt="A large tree fallen across a road." loading="lazy"></button><button type="button" id="g12" data-src="assets/photos/p12.jpg" aria-label="Enlarge photo: A climber on top of a cut-back tree"><img src="assets/photos/p12.jpg" alt="A climber on top of a cut-back tree." loading="lazy"></button><button type="button" id="g8" data-src="assets/photos/p8.jpg" aria-label="Enlarge photo: An orange stump grinder at work"><img src="assets/photos/p8.jpg" alt="An orange stump grinder at work." loading="lazy"></button><button type="button" id="g7" data-src="assets/photos/p7.jpg" aria-label="Enlarge photo: A climber in high-visibility gear in a pine"><img src="assets/photos/p7.jpg" alt="A climber in high-visibility gear in a pine." loading="lazy"></button><button type="button" id="g29" data-src="assets/photos/p29.jpg" aria-label="Enlarge photo: A climber roped into a tall tree"><img src="assets/photos/p29.jpg" alt="A climber roped into a tall tree." loading="lazy"></button><button type="button" id="g18" data-src="assets/photos/p18.jpg" aria-label="Enlarge photo: An uprooted tree leaning toward a house"><img src="assets/photos/p18.jpg" alt="An uprooted tree leaning toward a house." loading="lazy"></button><button type="button" id="g6" data-src="assets/photos/p6.jpg" aria-label="Enlarge photo: A climber with a chainsaw on a harness"><img src="assets/photos/p6.jpg" alt="A climber with a chainsaw on a harness." loading="lazy"></button><button type="button" id="g14" data-src="assets/photos/p14.jpg" aria-label="Enlarge photo: A blue stump grinder throwing chips"><img src="assets/photos/p14.jpg" alt="A blue stump grinder throwing chips." loading="lazy"></button><button type="button" id="g21" data-src="assets/photos/p21.jpg" aria-label="Enlarge photo: A climber working in a leafy canopy"><img src="assets/photos/p21.jpg" alt="A climber working in a leafy canopy." loading="lazy"></button><button type="button" id="g24" data-src="assets/photos/p24.jpg" aria-label="Enlarge photo: An uprooted tree across a street by a house"><img src="assets/photos/p24.jpg" alt="An uprooted tree across a street by a house." loading="lazy"></button><button type="button" id="g17" data-src="assets/photos/p17.jpg" aria-label="Enlarge photo: A climber on a tree cut back to the trunk"><img src="assets/photos/p17.jpg" alt="A climber on a tree cut back to the trunk." loading="lazy"></button><button type="button" id="g25" data-src="assets/photos/p25.jpg" aria-label="Enlarge photo: A chainsaw bucking a log"><img src="assets/photos/p25.jpg" alt="A chainsaw bucking a log." loading="lazy"></button><button type="button" id="g10" data-src="assets/photos/p10.jpg" aria-label="Enlarge photo: A fallen trunk beside a wet road"><img src="assets/photos/p10.jpg" alt="A fallen trunk beside a wet road." loading="lazy"></button><button type="button" id="g15" data-src="assets/photos/p15.jpg" aria-label="Enlarge photo: A worker sawing a leaning trunk"><img src="assets/photos/p15.jpg" alt="A worker sawing a leaning trunk." loading="lazy"></button><button type="button" id="g22" data-src="assets/photos/p22.jpg" aria-label="Enlarge photo: A tracked stump grinder next to a stump"><img src="assets/photos/p22.jpg" alt="A tracked stump grinder next to a stump." loading="lazy"></button><button type="button" id="g35" data-src="assets/photos/p35.jpg" aria-label="Enlarge photo: An orange chainsaw cutting into a trunk"><img src="assets/photos/p35.jpg" alt="An orange chainsaw cutting into a trunk." loading="lazy"></button><button type="button" id="g30" data-src="assets/photos/p30.jpg" aria-label="Enlarge photo: A chainsaw working on a stump"><img src="assets/photos/p30.jpg" alt="A chainsaw working on a stump." loading="lazy"></button><button type="button" id="g11" data-src="assets/photos/p11.jpg" aria-label="Enlarge photo: A worker with a blower under a row of trees"><img src="assets/photos/p11.jpg" alt="A worker with a blower under a row of trees." loading="lazy"></button><button type="button" id="g27" data-src="assets/photos/p27.jpg" aria-label="Enlarge photo: Looking up the trunk of a tall tree"><img src="assets/photos/p27.jpg" alt="Looking up the trunk of a tall tree." loading="lazy"></button><button type="button" id="g13" data-src="assets/photos/p13.jpg" aria-label="Enlarge photo: Lawn equipment on freshly cut grass"><img src="assets/photos/p13.jpg" alt="Lawn equipment on freshly cut grass." loading="lazy"></button></div>
+    </div>
+  </section>
+
+  <section class="band area" id="area">
+    <div class="wrap">
+      <div class="rv">
+        <span class="label">Service area</span>
+        <h2>Fifty miles, in every direction.</h2>
+        <p>We're based in Roswell and cover a 50-mile radius, which takes in most of north metro Atlanta. If you're on the map, we'll come to you.</p>
+        <div class="ctas"><a class="btn btn-leaf" href="#sizeup">Get a free quote</a><a class="btn btn-out" href="tel:+17708955833">Call us</a></div>
+      </div>
+      <div class="map rv"><svg viewBox="-250 -250 500 500" id="mapSvg" role="img" aria-label="Map of towns within 50 miles of Roswell, Georgia"></svg></div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="label">From our blog</span>
+        <h2>Know your trees.</h2>
+      </div>
+      <div class="reads rv">
+        <a href="https://onecuttreeservicesga.com/blog"><span>Tree health</span><b>Signs your trees need professional help</b></a>
+        <a href="https://onecuttreeservicesga.com/blog"><span>Storm season</span><b>Preparing your trees for storm season</b></a>
+        <a href="https://onecuttreeservicesga.com/blog"><span>After removal</span><b>The benefits of stump grinding after tree removal</b></a>
+        <a href="https://onecuttreeservicesga.com/blog"><span>Hiring</span><b>How to choose the right tree service for your needs</b></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band contact" id="contact">
+    <div class="wrap">
+      <div class="rv">
+        <h2>Got a tree problem? Call.</h2>
+        <a class="tel" href="tel:+17708955833">770-895-5833</a>
+      </div>
+      <dl class="rv">
+        <div><dt>Hours</dt><dd>Monday – Saturday, 8:00 AM – 5:00 PM</dd></div>
+        <div><dt>Based in</dt><dd>Roswell, GA · serving 50 miles around</dd></div>
+        <div><dt>Email</dt><dd><a href="mailto:Armandomejia0520@icloud.com">Armandomejia0520@icloud.com</a></dd></div>
+        <div><dt>Follow</dt><dd><a href="https://www.tiktok.com/@one.cut.tree.serv" target="_blank" rel="noopener">TikTok</a> · <a href="https://www.pinterest.com/onecuttreeservicesga/" target="_blank" rel="noopener">Pinterest</a></dd></div>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="assets/logo.png" alt="One Cut Tree Services" width="111" height="40">
+    <nav aria-label="Footer"><a href="#services">Services</a><a href="#sizeup">Free quote</a><a href="#about">About</a><a href="#area">Service area</a><a href="https://onecuttreeservicesga.com/blog">Blog</a></nav>
+    <span>© <span id="yr">2026</span> One Cut Tree Services · Roswell, GA</span>
+  </div>
+</footer>
+
+<dialog class="lb" id="lb" aria-label="Photo viewer"><img id="lbImg" alt=""><div class="lb-bar"><span id="lbCap"></span><div><button type="button" id="lbPrev" aria-label="Previous photo">←</button><button type="button" id="lbNext" aria-label="Next photo">→</button><button type="button" id="lbClose" aria-label="Close">✕</button></div></div></dialog>
+
+<div class="dock"><a class="btn btn-out" href="tel:+17708955833">Call</a><a class="btn btn-leaf" href="#sizeup">Free quote</a></div>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (n, a) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); return e; };
+  document.documentElement.classList.add('js');
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* Reveal (only for content that starts below the fold) */
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.remove('pre'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.rv').forEach((x, i) => { if (x.getBoundingClientRect().top > innerHeight) { x.classList.add('pre'); if (x.closest('.svc')) x.style.transitionDelay = (i % 3) * 90 + 'ms'; io.observe(x); } });
+  }
+
+  /* Open now, in Atlanta time (Mon–Sat 8–5) */
+  const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date()).map((x) => [x.type, x.value]));
+  const day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(p.weekday), now = +p.hour + +p.minute / 60, st = document.getElementById('status');
+  if (day >= 1 && now >= 8 && now < 17) { st.textContent = 'Open now · until 5:00 PM'; st.classList.add('open'); }
+  else { const next = (day === 6 && now >= 17) || day === 0 ? 'Monday' : now < 8 ? 'today' : 'tomorrow'; st.textContent = 'Closed now · opens ' + next + ' at 8:00 AM'; }
+
+  /* Hero: the cut end of a log, 18 growth rings drawn outward from the pith */
+  const log = document.getElementById('logSvg'), yrNum = document.getElementById('yrNum'), N = 18, R = 232;
+  const shape = (t) => 1 + .055 * Math.sin(t + .6) + .032 * Math.sin(2 * t + 2.1) + .018 * Math.sin(3 * t + .3) + .01 * Math.sin(7 * t);
+  const ringPath = (r, ox, oy) => { let d = ''; for (let i = 0; i <= 120; i++) { const t = i / 120 * Math.PI * 2, rr = r * shape(t); d += (i ? 'L' : 'M') + (ox + Math.cos(t) * rr).toFixed(1) + ' ' + (oy + Math.sin(t) * rr).toFixed(1); } return d + 'Z'; };
+  const defs = el('defs', {}); defs.innerHTML = '<radialGradient id="wood" cx="46%" cy="47%" r="55%"><stop offset="0" stop-color="#5a3620"/><stop offset=".45" stop-color="#7a4d2b"/><stop offset="1" stop-color="#a06c3c"/></radialGradient>';
+  log.appendChild(defs);
+  log.appendChild(el('path', { d: ringPath(R + 12, 0, 0), fill: '#2a1d14' }));
+  log.appendChild(el('path', { d: ringPath(R, 0, 0), fill: 'url(#wood)' }));
+  let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const rings = []; let acc = 0; const gaps = Array.from({ length: N }, () => .7 + rnd() * .6), tot = gaps.reduce((a, b) => a + b, 0);
+  for (let i = 0; i < N; i++) {
+    acc += gaps[i]; const f = acc / tot, r = 14 + (R - 22) * f, k = 1 - f;
+    const g = el('path', { class: 'gr', d: ringPath(r, -16 * k, -10 * k), 'stroke-width': (1 + gaps[i] * 1.1).toFixed(2), pathLength: 1 });
+    rings.push(g); log.appendChild(g);
+  }
+  [[.35, 60, 200], [2.5, 90, 215], [4.4, 40, 150]].forEach(([a, r1, r2]) => log.appendChild(el('line', { class: 'check', x1: Math.cos(a) * r1, y1: Math.sin(a) * r1, x2: Math.cos(a + .05) * r2, y2: Math.sin(a + .05) * r2 })));
+  log.appendChild(el('path', { class: 'bark-edge', d: ringPath(R + 6, 0, 0), 'stroke-width': 12 }));
+  if (!reduce) {
+    rings.forEach((g, i) => { g.style.strokeDasharray = 1; g.style.strokeDashoffset = 1; g.animate([{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: 900, delay: 500 + i * 110, easing: 'cubic-bezier(.2,.7,.2,1)', fill: 'forwards' }); setTimeout(() => { yrNum.textContent = i + 1; }, 500 + i * 110); });
+    yrNum.textContent = '0';
+  }
+  rings.forEach((g, i) => {
+    g.style.pointerEvents = 'stroke';
+    g.addEventListener('pointerenter', () => { rings.forEach((x, j) => x.classList.toggle('dim', j > i)); yrNum.textContent = i + 1; });
+  });
+  log.addEventListener('pointerleave', () => { rings.forEach((x) => x.classList.remove('dim')); yrNum.textContent = N; });
+
+  /* Size-up tool */
+  const SV = ['Tree removal', 'Trimming', 'Topping', 'Stump grinding', 'Land clearing', 'Storm damage'];
+  const HZ = ['Near the house', 'Power lines', 'Fence or shed', 'Tight access', 'Leaning', 'Dead or damaged'];
+  const picked = { s: new Set(['Tree removal']), h: new Set() };
+  const mk = (wrap, list, set, id) => list.forEach((n, i) => {
+    const b = document.createElement('button'); b.type = 'button'; b.id = id + i; b.textContent = n; b.setAttribute('aria-pressed', String(set.has(n)));
+    b.addEventListener('click', () => { set.has(n) ? set.delete(n) : set.add(n); b.setAttribute('aria-pressed', String(set.has(n))); update(); });
+    wrap.appendChild(b);
+  });
+  mk(document.getElementById('svcChips'), SV, picked.s, 'sv');
+  mk(document.getElementById('hazChips'), HZ, picked.h, 'hz');
+  const hIn = document.getElementById('height'), tree = document.getElementById('tree'), ruler = document.getElementById('ruler'), note = document.getElementById('note');
+  function update() {
+    const ft = +hIn.value;
+    // drawn tree is 282px tall at scale 1 (58..340); the scene is 3px per foot
+    tree.style.transform = 'scale(' + (ft * 3 / 282).toFixed(3) + ')';
+    ruler.style.transform = 'translateY(' + (340 - ft * 3) + 'px)';
+    hIn.style.setProperty('--p', ((ft - 10) / 90 * 100) + '%');
+    document.getElementById('ft').textContent = ft >= 100 ? '100+' : ft;
+    document.getElementById('cmp').textContent = ft < 25 ? 'Shorter than a two-story house' : ft < 35 ? 'About roof height' : ft < 65 ? 'Taller than the roofline' : 'A big, mature tree';
+    const lines = picked.h.has('Power lines'), storm = picked.s.has('Storm damage');
+    let t, d;
+    if (lines) { t = 'Stay clear of the lines'; d = 'Never touch a tree or limb that is touching a power line. If it is, call your power company first, then call us.'; }
+    else if (storm) { t = 'Storm damage: call us'; d = 'For a tree on a house, car or driveway, calling is faster than a form. Keep people away from hanging limbs until we get there.'; }
+    else if (ft < 25) { t = 'A small tree'; d = 'Trees this size are usually handled from the ground. Often a quick visit.'; }
+    else if (ft < 65) { t = 'A climbing job'; d = 'Trees taller than the roofline are usually climbed and brought down in sections, so nothing lands where it shouldn\'t.'; }
+    else { t = 'A big one'; d = 'Large trees are taken down piece by piece with ropes and rigging. We\'ll look at access and what\'s underneath before quoting.'; }
+    if (!lines && !storm && picked.h.size) d += ' Thanks for flagging what\'s nearby. It helps us quote accurately.';
+    note.className = 'note' + (lines || storm ? ' warn' : '');
+    note.innerHTML = '<b>' + t + '</b><p>' + d + ' We confirm everything on site before any work starts.</p>';
+  }
+  hIn.addEventListener('input', update); update();
+  const err = document.getElementById('err');
+  document.getElementById('quote').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const v = (id) => document.getElementById(id).value.trim();
+    if (!picked.s.size) { err.textContent = 'Pick at least one service.'; return; }
+    if (!v('q-name') || !v('q-where')) { err.textContent = 'Add your name and city or ZIP so we know where the tree is.'; return; }
+    err.textContent = '';
+    const ft = +hIn.value;
+    const body = ['Hi One Cut, I\'d like a free quote.', 'Name: ' + v('q-name'), 'Location: ' + v('q-where'), 'Service: ' + [...picked.s].join(', '), 'Tree height: about ' + (ft >= 100 ? '100+' : ft) + ' ft', 'Nearby: ' + ([...picked.h].join(', ') || 'nothing noted')].join('\n');
+    if ((e.submitter && e.submitter.dataset.via) === 'email') location.href = 'mailto:Armandomejia0520@icloud.com?subject=' + encodeURIComponent('Tree quote request: ' + v('q-name')) + '&body=' + encodeURIComponent(body);
+    else location.href = 'sms:+17708955833' + (/iPhone|iPad|Mac/.test(navigator.userAgent) ? '&' : '?') + 'body=' + encodeURIComponent(body);
+  });
+
+  /* Gallery lightbox */
+  const lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg'), lbCap = document.getElementById('lbCap');
+  const shots = [...document.querySelectorAll('#gal button')]; let gi = 0;
+  const showShot = (i) => { gi = (i + shots.length) % shots.length; const im = shots[gi].querySelector('img'); lbImg.src = shots[gi].dataset.src; lbImg.alt = im.alt; lbCap.textContent = (gi + 1) + ' / ' + shots.length + ' · ' + im.alt; };
+  shots.forEach((b, i) => b.addEventListener('click', () => { showShot(i); lb.showModal(); }));
+  document.getElementById('lbPrev').addEventListener('click', () => showShot(gi - 1));
+  document.getElementById('lbNext').addEventListener('click', () => showShot(gi + 1));
+  document.getElementById('lbClose').addEventListener('click', () => lb.close());
+  lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
+  lb.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') showShot(gi - 1); if (e.key === 'ArrowRight') showShot(gi + 1); });
+
+  /* Service-area map: rings at 10, 25 and 50 miles from Roswell (square-root scale so nearby towns spread out; positions approximate) */
+  const map = document.getElementById('mapSvg'), S = (mi) => Math.sqrt(mi / 50) * 225;
+  [[10, .9], [25, 1.2], [50, 2]].forEach(([mi, w]) => {
+    map.appendChild(el('path', { class: 'mr', d: ringPath(S(mi) / 1.02, 0, 0), 'stroke-width': w, 'stroke-dasharray': mi === 50 ? '' : '2 6' }));
+    const tx = el('text', { class: 'ml', x: 6, y: -S(mi) + 13 }); tx.textContent = mi + ' MI'; map.appendChild(tx);
+  });
+  // [name, miles, compass bearing in degrees, label side]
+  [['Alpharetta', 6, 60, 1], ['Milton', 9, 15, 1], ['Johns Creek', 10, 100, 1], ['Dunwoody', 8, 150, 1], ['Sandy Springs', 8, 195, -1], ['Marietta', 11, 250, -1], ['Woodstock', 11, 315, -1], ['Kennesaw', 16, 275, -1], ['Atlanta', 20, 185, 1], ['Duluth', 14, 110, 1], ['Cumming', 18, 40, 1], ['Canton', 20, 335, -1], ['Lawrenceville', 24, 115, 1], ['Cartersville', 33, 300, -1], ['Gainesville', 38, 55, 1], ['Peachtree City', 44, 200, -1]].forEach(([n, mi, b, side]) => {
+    const a = (b - 90) * Math.PI / 180, x = Math.cos(a) * S(mi), y = Math.sin(a) * S(mi);
+    const g = el('g', { class: 'town' }); g.appendChild(el('circle', { cx: x, cy: y, r: 3 }));
+    const tx = el('text', { x: x + side * 8, y: y + 4, 'text-anchor': side > 0 ? 'start' : 'end' }); tx.textContent = n; g.appendChild(tx); map.appendChild(g);
+  });
+  const home = el('g', { class: 'town home' }); home.appendChild(el('circle', { class: 'pulse', cx: 0, cy: 0, r: 5, 'stroke-width': 1 })); home.appendChild(el('circle', { cx: 0, cy: 0, r: 5 }));
+  const ht = el('text', { x: 0, y: -12, 'text-anchor': 'middle' }); ht.textContent = 'ROSWELL'; home.appendChild(ht); map.appendChild(home);
+})();
+</script>
+</body>
+</html>
