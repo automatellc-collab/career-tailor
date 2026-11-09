@@ -1,34 +1,59 @@
 "use client";
 import { createClient } from "@supabase/supabase-js";
 
-// Live sync via Supabase. If these env vars are missing the app runs in
-// link-only mode (replies travel back as links, data stays on the device).
+// Live sync via Supabase, keyed by a secret per-device key (no accounts).
+// Without these env vars the app runs in link-only mode.
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "";
 export const cloudEnabled = !!(SUPABASE_URL && SUPABASE_KEY);
 
-let client = null;
-export function sb() {
-  if (!cloudEnabled) return null;
-  if (!client) {
-    client = createClient(SUPABASE_URL, SUPABASE_KEY, {
-      auth: { flowType: "pkce", persistSession: true, detectSessionInUrl: true, storageKey: "playdates.auth" },
-    });
+const DEVICE_KEY = "playdates.deviceKey";
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const newId = () =>
+  crypto.randomUUID
+    ? crypto.randomUUID()
+    : "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) =>
+        (+c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (+c / 4)))).toString(16)
+      );
+
+export function deviceKey() {
+  try {
+    let k = localStorage.getItem(DEVICE_KEY);
+    if (!k || !UUID_RE.test(k)) {
+      k = newId();
+      localStorage.setItem(DEVICE_KEY, k);
+    }
+    return k;
+  } catch {
+    return null;
   }
+}
+export function adoptDeviceKey(k) {
+  if (!UUID_RE.test(k || "")) return false;
+  try {
+    localStorage.setItem(DEVICE_KEY, k);
+    return true;
+  } catch {
+    return false;
+  }
+}
+export const isUuid = (s) => UUID_RE.test(s || "");
+
+let client = null;
+function sb() {
+  if (!client) client = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false, autoRefreshToken: false } });
   return client;
 }
+const rpc = async (fn, args) => {
+  const { data, error } = await sb().rpc(fn, args);
+  if (error) throw error;
+  return data;
+};
 
 const DATA_KEYS = ["hostName", "hostKid", "guestName", "guestKid", "activity", "place", "bring", "note", "created"];
-const toRow = (e) => ({
-  id: e.id,
-  data: Object.fromEntries(DATA_KEYS.map((k) => [k, e[k] ?? null])),
-  start_at: e.start,
-  duration_min: e.duration,
-  status: e.status,
-  reply: e.reply ?? null,
-  updated_at: new Date().toISOString(),
-});
-export const fromRow = (r, uid) => ({
+const dataOf = (e) => Object.fromEntries(DATA_KEYS.map((k) => [k, e[k] ?? null]));
+
+export const fromRow = (r) => ({
   ...r.data,
   id: r.id,
   start: r.start_at,
@@ -36,37 +61,31 @@ export const fromRow = (r, uid) => ({
   status: r.status,
   reply: r.reply,
   token: r.guest_token,
-  role: r.host_id === uid ? "host" : "guest",
+  role: r.role,
   synced: true,
   updated: Date.parse(r.updated_at),
 });
 
-const must = ({ data, error }) => {
-  if (error) throw error;
-  return data;
-};
-
-export const listMine = async (uid) =>
-  must(await sb().from("playdates").select("*").order("start_at")).map((r) => fromRow(r, uid));
-export const saveHost = async (entry) => must(await sb().from("playdates").upsert(toRow(entry)).select().single());
-export const removeHost = async (id) => must(await sb().from("playdates").delete().eq("id", id));
-export const getInvite = async (id, token) => must(await sb().rpc("get_playdate_invite", { p_id: id, p_token: token }));
-export const respond = async (id, token, status, { note = "", alt = null, by = "" } = {}) =>
-  must(
-    await sb().rpc("respond_to_playdate", {
-      p_id: id,
-      p_token: token,
-      p_status: status,
-      p_note: note || null,
-      p_alt: alt || null,
-      p_by: by || null,
-    })
-  );
-
-export function subscribe(uid, onChange) {
-  const ch = sb()
-    .channel(`playdates-${uid}`)
-    .on("postgres_changes", { event: "*", schema: "public", table: "playdates" }, onChange)
-    .subscribe();
-  return () => sb().removeChannel(ch);
-}
+export const listMine = async () => (await rpc("pd_list", { p_key: deviceKey() })).map(fromRow);
+export const saveHost = (e) =>
+  rpc("pd_save", {
+    p_key: deviceKey(),
+    p_id: e.id,
+    p_data: dataOf(e),
+    p_start: e.start,
+    p_duration: e.duration,
+    p_status: e.status || "pending",
+    p_reply: e.reply ?? null,
+  });
+export const removeHost = (id) => rpc("pd_delete", { p_key: deviceKey(), p_id: id });
+export const getInvite = (id, token) => rpc("pd_get_invite", { p_id: id, p_token: token });
+export const respond = (id, token, status, { note = "", alt = null, by = "" } = {}) =>
+  rpc("pd_respond", {
+    p_id: id,
+    p_token: token,
+    p_status: status,
+    p_note: note || null,
+    p_alt: alt || null,
+    p_by: by || null,
+    p_guest_key: deviceKey(),
+  });

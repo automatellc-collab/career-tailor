@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { cloudEnabled, sb, fromRow, listMine, saveHost, removeHost, getInvite, respond as cloudRespond, subscribe } from "./sync";
+import { cloudEnabled, deviceKey, adoptDeviceKey, listMine, saveHost, removeHost, getInvite, respond as cloudRespond } from "./sync";
 
 /* ────────────────────────────────────────────────────────────
    Playdates — invite another parent, they accept or decline,
@@ -237,20 +237,14 @@ async function searchPlaces(term, near, tokenRef) {
       googleBroken = true;
     }
   }
-  const params = new URLSearchParams({ q: term, format: "jsonv2", limit: "5", "accept-language": navigator.language || "en" });
-  if (near) params.set("viewbox", `${near.lng - 0.35},${near.lat + 0.35},${near.lng + 0.35},${near.lat - 0.35}`);
-  const res = await fetch(`https://nominatim.openstreetmap.org/search?${params}`);
-  const rows = await res.json();
-  return rows.map((r) => {
-    const parts = r.display_name.split(",").map((x) => x.trim());
-    const name = r.name || parts[0];
-    return {
-      key: String(r.place_id),
-      main: name,
-      sub: parts.slice(1, 4).join(", "),
-      place: { name, address: r.display_name, lat: +r.lat, lng: +r.lon },
-    };
-  });
+  const params = new URLSearchParams({ q: term, lang: navigator.language || "en" });
+  if (near) {
+    params.set("lat", near.lat);
+    params.set("lng", near.lng);
+  }
+  const res = await fetch(`/api/places?${params}`);
+  if (!res.ok) throw new Error("search failed");
+  return res.json();
 }
 
 async function resolvePlace(item) {
@@ -683,6 +677,7 @@ function CreateView({ initial, onCancel, onSend }) {
         }
   );
   const [tried, setTried] = useState(false);
+  const [sending, setSending] = useState(false);
   const set = (k, v) => setF((s) => ({ ...s, [k]: v }));
   const start = f.date && f.time ? new Date(`${f.date}T${f.time}`) : null;
   const draft = { ...f, start: start && !isNaN(start) ? start.toISOString() : null };
@@ -701,15 +696,17 @@ function CreateView({ initial, onCancel, onSend }) {
     { label: "Sun", d: nextWeekday(0) },
   ];
 
-  const submit = () => {
+  const submit = async () => {
     setTried(true);
     if (!valid) {
       buzz(30);
       return;
     }
+    if (sending) return;
+    setSending(true);
     writeJSON(ME_KEY, { hostName: f.hostName.trim(), hostKid: f.hostKid.trim() });
     const { date, time, ...rest } = draft;
-    onSend({
+    await onSend({
       ...rest,
       id: initial?.id || uid(),
       hostName: f.hostName.trim(),
@@ -719,6 +716,7 @@ function CreateView({ initial, onCancel, onSend }) {
       note: f.note.trim(),
       created: initial?.created || Date.now(),
     });
+    setSending(false);
   };
 
   return (
@@ -858,8 +856,8 @@ function CreateView({ initial, onCancel, onSend }) {
       </div>
 
       <div className="bottom-bar glass-strong">
-        <button className="btn btn-primary btn-lg" onClick={submit}>
-          <Icon name="sparkle" size={18} /> {initial ? "Update invite" : "Create invite"}
+        <button className="btn btn-primary btn-lg" onClick={submit} disabled={sending}>
+          {sending ? <span className="spinner light" /> : <Icon name="sparkle" size={18} />} {initial ? "Update invite" : "Create invite"}
         </button>
       </div>
     </div>
@@ -880,7 +878,8 @@ function SentView({ p, onDone, toast }) {
       </div>
       <h1 className="large-title center">Invite ready</h1>
       <p className="muted center" style={{ marginTop: -6 }}>
-        Send it to {p.guestName || "the other parent"}. When they answer, they send you back a link. Open it and the reply shows up here.
+        Send it to {p.guestName || "the other parent"}.{" "}
+        {p.synced ? "Their answer shows up here automatically." : "When they answer, they send you back a link. Open it and the reply shows up here."}
       </p>
       <InviteCard p={p} showMap={false} />
       <ShareButtons url={url} text={text} title={`Playdate: ${titleOf(p)}`} toast={toast} />
@@ -974,7 +973,7 @@ function InviteView({ invite, existing, cancelled, onRespond, onReanswer, onClos
         <div className="banner glass">{invite.hostName || "The host"} cancelled this playdate.</div>
       ) : expired ? (
         <div className="banner glass">This playdate has already happened.</div>
-      ) : mode === "propose" ? (
+      ) : isHost ? null : mode === "propose" ? (
         <div className="glass propose">
           <div className="section-label" style={{ marginTop: 0 }}>
             Suggest another time
@@ -1128,7 +1127,7 @@ function PlaydateRow({ p, onOpen, i }) {
   );
 }
 
-function Home({ items, onNew, onOpen }) {
+function Home({ items, onNew, onOpen, syncState, onSync }) {
   const [tab, setTab] = useState("upcoming");
   const now = new Date();
   const groups = useMemo(() => {
@@ -1155,9 +1154,17 @@ function Home({ items, onNew, onOpen }) {
           <div className="eyebrow">{now.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" })}</div>
           <h1 className="large-title">Playdates</h1>
         </div>
-        <button className="fab" onClick={() => (buzz(), onNew())} aria-label="New playdate">
-          <Icon name="plus" size={24} stroke={2.6} />
-        </button>
+        <div className="head-actions">
+          {cloudEnabled ? (
+            <button className={`avatar glass sync-${syncState}`} onClick={() => (buzz(), onSync())} aria-label="Sync and devices" title="Sync and devices">
+              <Icon name="cloud" size={20} />
+              <span className="sync-dot" />
+            </button>
+          ) : null}
+          <button className="fab" onClick={() => (buzz(), onNew())} aria-label="New playdate">
+            <Icon name="plus" size={24} stroke={2.6} />
+          </button>
+        </div>
       </header>
 
       {next ? (
@@ -1204,6 +1211,70 @@ function Home({ items, onNew, onOpen }) {
   );
 }
 
+/* ── Sync & devices sheet ──────────────────────────────── */
+function SyncSheet({ syncState, lastSync, onClose, onRefresh, toast }) {
+  const link = `${baseUrl()}#k=${deviceKey()}`;
+  const status =
+    syncState === "ok"
+      ? ["Live sync is on", "Answers show up here automatically, usually within 10 seconds."]
+      : syncState === "error"
+      ? ["Can't reach the server", "Your playdates are safe on this device. Replies can still come back as links."]
+      : ["Syncing…", "Checking for new answers."];
+  return (
+    <Sheet onClose={onClose} label="Sync and devices">
+      <div className="sheet-head">
+        <span className={`pill ${syncState === "ok" ? "pill-green" : syncState === "error" ? "pill-red" : "pill-orange"}`}>{status[0]}</span>
+        <button className="close-btn" onClick={onClose} aria-label="Close">
+          <Icon name="close" size={16} stroke={2.6} />
+        </button>
+      </div>
+      <div className="account">
+        <h2>Sync &amp; devices</h2>
+        <p className="muted" style={{ margin: 0 }}>
+          {status[1]}
+          {lastSync ? ` Last checked ${fmtTime(lastSync)}.` : ""}
+        </p>
+        <div className="perks glass">
+          <div className="perk">
+            <span>⚡️</span>
+            <span>When another parent accepts, declines, or suggests a time, you see it here. No reply link needed.</span>
+          </div>
+          <div className="perk">
+            <span>📱</span>
+            <span>Open the link below on your partner's phone or your iPad and they'll see the same playdates.</span>
+          </div>
+          <div className="perk">
+            <span>🔒</span>
+            <span>Anyone with that link can see and edit your playdates, so only send it to people you trust.</span>
+          </div>
+        </div>
+        <div className="btn-grid two">
+          <button
+            className="btn btn-primary"
+            onClick={async () => {
+              buzz();
+              if (navigator.share) {
+                try {
+                  await navigator.share({ title: "My playdates", url: link });
+                  return;
+                } catch (e) {
+                  if (e?.name === "AbortError") return;
+                }
+              }
+              if (await copyText(link)) toast("Device link copied");
+            }}
+          >
+            <Icon name="share" size={18} /> Add a device
+          </button>
+          <button className="btn btn-glass" onClick={() => (buzz(), onRefresh())}>
+            <Icon name="swap" size={18} /> Check now
+          </button>
+        </div>
+      </div>
+    </Sheet>
+  );
+}
+
 /* ── App ───────────────────────────────────────────────── */
 export default function PlaydatesPage() {
   const [ready, setReady] = useState(false);
@@ -1212,7 +1283,16 @@ export default function PlaydatesPage() {
   const [detailId, setDetailId] = useState(null);
   const [toastMsg, setToastMsg] = useState(null);
   const [burst, setBurst] = useState(0);
+  const [syncState, setSyncState] = useState(cloudEnabled ? "syncing" : "off");
+  const [lastSync, setLastSync] = useState(null);
+  const [syncOpen, setSyncOpen] = useState(false);
+  const [cancelled, setCancelled] = useState(false);
   const toastTimer = useRef(null);
+  const itemsRef = useRef([]);
+  const commitRef = useRef(() => {});
+  useEffect(() => {
+    itemsRef.current = items;
+  }, [items]);
 
   const toast = useCallback((msg) => {
     setToastMsg(msg);
@@ -1234,12 +1314,134 @@ export default function PlaydatesPage() {
 
   const clearHash = () => history.replaceState(null, "", location.pathname + location.search);
 
+  const announce = useCallback(
+    (entry) => {
+      const who = entry.reply?.by || entry.guestName || "They";
+      if (entry.status === "accepted") {
+        setBurst((b) => b + 1);
+        buzz(20);
+        toast(`🎉 ${who} accepted!`);
+      } else if (entry.status === "declined") toast(`${who} can't make it`);
+      else if (entry.status === "proposed") toast(`${who} suggested a new time`);
+    },
+    [toast]
+  );
+
+  // Host-side writes: save on this device, then to the server when live sync is on.
+  const commit = useCallback(
+    async (entry) => {
+      upsert(entry);
+      if (!cloudEnabled || entry.role !== "host") return entry;
+      try {
+        const res = await saveHost(entry);
+        const synced = { ...entry, token: res.guest_token, synced: true };
+        upsert(synced);
+        setSyncState("ok");
+        return synced;
+      } catch (e) {
+        console.warn("sync failed", e);
+        setSyncState("error");
+        return entry;
+      }
+    },
+    [upsert]
+  );
+
+  const refresh = useCallback(
+    async ({ quiet = false } = {}) => {
+      if (!cloudEnabled) return;
+      try {
+        const remote = await listMine();
+        const local = readJSON(STORE_KEY, []);
+        const ids = new Set(remote.map((r) => r.id));
+        // First sync on this device: upload host playdates created offline.
+        for (const e of local.filter((x) => x.role === "host" && !x.synced && !ids.has(x.id) && endOf(x) > new Date())) {
+          try {
+            const res = await saveHost(e);
+            remote.push({ ...e, token: res.guest_token, synced: true });
+            ids.add(e.id);
+          } catch {}
+        }
+        const merged = [
+          ...remote.map((r) => {
+            const l = local.find((x) => x.id === r.id);
+            return r.role === "guest" ? { ...r, live: true, reply: r.reply || l?.reply } : r;
+          }),
+          // keep local-only entries (link-mode); drop synced ones deleted elsewhere
+          ...local.filter((x) => !ids.has(x.id) && !x.synced),
+        ];
+        if (!quiet) {
+          const prev = new Map(itemsRef.current.map((x) => [x.id, x]));
+          const changed = merged.find((r) => r.role === "host" && prev.get(r.id) && prev.get(r.id).status !== r.status && r.status !== "pending");
+          if (changed) announce(changed);
+        }
+        save(merged);
+        setSyncState("ok");
+        setLastSync(new Date());
+      } catch (e) {
+        console.warn("sync failed", e);
+        setSyncState("error");
+      }
+    },
+    [announce, save]
+  );
+
+  commitRef.current = commit;
+
+  // Poll for answers while the app is visible.
+  useEffect(() => {
+    if (!cloudEnabled || !ready) return;
+    refresh({ quiet: true });
+    const tick = () => document.visibilityState === "visible" && refresh();
+    const id = setInterval(tick, 10000);
+    document.addEventListener("visibilitychange", tick);
+    window.addEventListener("focus", tick);
+    return () => {
+      clearInterval(id);
+      document.removeEventListener("visibilitychange", tick);
+      window.removeEventListener("focus", tick);
+    };
+  }, [ready, refresh]);
+
+  // Guest view: pull the latest details (host may have moved the time or cancelled).
+  const inviteId = view.name === "invite" ? view.invite.id : null;
+  useEffect(() => {
+    if (!cloudEnabled || !inviteId || !view.invite.token) return;
+    let alive = true;
+    setCancelled(false);
+    getInvite(inviteId, view.invite.token)
+      .then((fresh) => {
+        if (!alive) return;
+        if (!fresh) return setCancelled(true);
+        setView((v) =>
+          v.name === "invite" && v.invite.id === fresh.id
+            ? { ...v, invite: { ...v.invite, ...fresh.data, start: fresh.start_at, duration: fresh.duration_min } }
+            : v
+        );
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [inviteId]); // eslint-disable-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     setItems(readJSON(STORE_KEY, []));
     setReady(true);
     const route = () => {
       const h = new URLSearchParams(location.hash.slice(1));
-      if (h.get("i")) {
+      if (h.get("k")) {
+        const k = h.get("k");
+        clearHash();
+        if (!cloudEnabled) return;
+        if (k === deviceKey()) return toast("This device is already linked");
+        if (confirm("Show the playdates from your other device here? This device's own synced playdates will be replaced.") && adoptDeviceKey(k)) {
+          writeJSON(STORE_KEY, readJSON(STORE_KEY, []).filter((x) => !x.synced));
+          setItems(readJSON(STORE_KEY, []));
+          toast("Device linked");
+          window.dispatchEvent(new Event("focus"));
+        }
+      } else if (h.get("i")) {
         const inv = dec(h.get("i"));
         if (inv?.id && inv?.start) setView({ name: "invite", invite: inv });
         else {
@@ -1253,26 +1455,17 @@ export default function PlaydatesPage() {
         const cur = readJSON(STORE_KEY, []);
         const found = cur.find((x) => x.id === rep.id && x.role === "host");
         if (!found) return toast("That reply is for an invite made on another device");
-        const next = cur.map((x) =>
-          x.id === rep.id ? { ...x, status: rep.status, reply: { note: rep.note, alt: rep.alt, by: rep.by, at: Date.now() }, updated: Date.now() } : x
-        );
-        setItems(next);
-        writeJSON(STORE_KEY, next);
+        const updated = { ...found, status: rep.status, reply: { note: rep.note, alt: rep.alt, by: rep.by, at: Date.now() } };
+        commitRef.current(updated);
         setView({ name: "home" });
         setDetailId(rep.id);
-        const who = rep.by || found.guestName || "They";
-        if (rep.status === "accepted") {
-          setBurst((b) => b + 1);
-          buzz(20);
-          toast(`🎉 ${who} accepted!`);
-        } else if (rep.status === "declined") toast(`${who} can't make it`);
-        else toast(`${who} suggested a new time`);
+        announce(updated);
       }
     };
     route();
     window.addEventListener("hashchange", route);
     return () => window.removeEventListener("hashchange", route);
-  }, [toast]);
+  }, [toast]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const detail = items.find((x) => x.id === detailId);
 
@@ -1283,9 +1476,9 @@ export default function PlaydatesPage() {
       <CreateView
         initial={view.initial}
         onCancel={() => setView({ name: "home" })}
-        onSend={(p) => {
-          const entry = { ...p, role: "host", status: "pending", reply: null };
-          upsert(entry);
+        onSend={async (p) => {
+          const entry = await commit({ ...p, role: "host", status: "pending", reply: null });
+          if (cloudEnabled && !entry.synced) toast("Offline: replies will come back as a link");
           setView({ name: "sent", p: entry });
           buzz(15);
         }}
@@ -1303,8 +1496,22 @@ export default function PlaydatesPage() {
           setView({ name: "home" });
         }}
         onReanswer={() => save(items.filter((x) => !(x.id === view.invite.id && x.role === "guest")))}
-        onRespond={(status, reply) => {
-          upsert({ ...view.invite, role: "guest", status, reply });
+        cancelled={cancelled}
+        onRespond={async (status, reply) => {
+          const inv = view.invite;
+          if (items.some((x) => x.id === inv.id && x.role === "host")) return toast("This is your own invite");
+          let live = false;
+          if (cloudEnabled && inv.token) {
+            try {
+              await cloudRespond(inv.id, inv.token, status, { ...reply, by: inv.guestName });
+              live = true;
+            } catch (e) {
+              const gone = /over|not found/i.test(e?.message || "");
+              if (gone) return toast("This invite is no longer open");
+              toast("Couldn't reach the server, so send your reply as a link");
+            }
+          }
+          upsert({ ...inv, role: "guest", status, reply, live, synced: live });
           if (status === "accepted") {
             setBurst((b) => b + 1);
             buzz(20);
@@ -1313,7 +1520,7 @@ export default function PlaydatesPage() {
         }}
       />
     );
-  else content = <Home items={items} onNew={() => setView({ name: "create" })} onOpen={setDetailId} />;
+  else content = <Home items={items} onNew={() => setView({ name: "create" })} onOpen={setDetailId} syncState={syncState} onSync={() => setSyncOpen(true)} />;
 
   return (
     <div className="pd-root">
@@ -1332,19 +1539,22 @@ export default function PlaydatesPage() {
           entry={detail}
           toast={toast}
           onClose={() => setDetailId(null)}
-          onUpdate={upsert}
+          onUpdate={commit}
           onDelete={(id) => {
+            const gone = items.find((x) => x.id === id);
             save(items.filter((x) => x.id !== id));
             setDetailId(null);
             toast("Deleted");
+            if (cloudEnabled && gone?.role === "host" && gone.synced) removeHost(id).catch(() => setSyncState("error"));
           }}
-          onReshare={(entry) => {
-            upsert(entry);
+          onReshare={async (entry) => {
             setDetailId(null);
-            setView({ name: "sent", p: entry });
+            const saved = await commit(entry);
+            setView({ name: "sent", p: saved });
           }}
         />
       ) : null}
+      {syncOpen ? <SyncSheet syncState={syncState} lastSync={lastSync} toast={toast} onClose={() => setSyncOpen(false)} onRefresh={() => refresh()} /> : null}
       <Confetti burst={burst} />
       <div className={`toast glass-strong ${toastMsg ? "show" : ""}`} role="status" aria-live="polite">
         {toastMsg}
@@ -1389,6 +1599,10 @@ const CSS = `
 @keyframes pulse{70%{box-shadow:0 0 0 8px rgba(52,199,89,0)}100%{box-shadow:0 0 0 0 rgba(52,199,89,0)}}
 .head-actions{display:flex;align-items:center;gap:10px}
 .avatar{position:relative;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:17px;color:var(--text)}
+.spinner.light{border-color:rgba(255,255,255,.35);border-top-color:#fff}
+.avatar{color:var(--blue)}
+.sync-error .sync-dot{background:var(--red)}
+.sync-syncing .sync-dot{background:var(--orange)}
 .avatar .sync-dot{position:absolute;right:1px;bottom:1px;width:12px;height:12px;border-radius:50%;background:var(--green);border:2px solid var(--bg)}
 .account{display:flex;flex-direction:column;gap:12px;padding-bottom:4px}
 .account h2{font-size:24px;font-weight:700;letter-spacing:-.02em;margin:4px 0 0}
