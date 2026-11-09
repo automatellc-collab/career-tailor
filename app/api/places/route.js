@@ -13,10 +13,11 @@ export async function GET(req) {
   const lat = parseFloat(searchParams.get("lat"));
   const lng = parseFloat(searchParams.get("lng"));
   const lang = (searchParams.get("lang") || "en").slice(0, 20);
+  const cc = /^[a-z]{2}$/i.test(searchParams.get("cc") || "") ? searchParams.get("cc").toLowerCase() : "";
   if (q.length < 2) return Response.json([]);
 
   const near = Number.isFinite(lat) && Number.isFinite(lng);
-  const key = `${q.toLowerCase()}|${near ? `${lat.toFixed(2)},${lng.toFixed(2)}` : ""}|${lang}`;
+  const key = `${q.toLowerCase()}|${near ? `${lat.toFixed(2)},${lng.toFixed(2)}` : ""}|${lang}|${cc}`;
   const hit = cache.get(key);
   if (hit && Date.now() - hit.at < TTL) return Response.json(hit.body);
 
@@ -26,6 +27,7 @@ export async function GET(req) {
   if (wait) await new Promise((r) => setTimeout(r, wait));
 
   const params = new URLSearchParams({ q, format: "jsonv2", limit: "5", "accept-language": lang });
+  if (cc && !near) params.set("countrycodes", cc);
   if (near) params.set("viewbox", `${lng - 0.35},${lat + 0.35},${lng + 0.35},${lat - 0.35}`);
   try {
     const res = await fetch(`https://nominatim.openstreetmap.org/search?${params}`, {

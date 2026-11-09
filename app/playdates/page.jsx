@@ -147,7 +147,7 @@ const outlookUrl = (p) =>
     body: describe(p),
   });
 const icsEscape = (s = "") => String(s).replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
-const downloadIcs = (p) => {
+const icsText = (p) => {
   const lines = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
@@ -171,15 +171,11 @@ const downloadIcs = (p) => {
     "END:VEVENT",
     "END:VCALENDAR",
   ].filter(Boolean);
-  const blob = new Blob([lines.join("\r\n")], { type: "text/calendar;charset=utf-8" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = `playdate-${ymd(new Date(p.start))}.ics`;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  return lines.join("\r\n");
 };
+// Served by /api/ics so iPhone/iPad opens the "Add to Calendar" sheet directly
+// (a client-side download only offers to save a file in Safari).
+const icsHref = (p) => `/api/ics?n=playdate-${ymd(new Date(p.start))}&c=${enc(icsText(p))}`;
 
 /* ── Maps ──────────────────────────────────────────────── */
 const mapEmbedUrl = (place) =>
@@ -238,6 +234,11 @@ async function searchPlaces(term, near, tokenRef) {
     }
   }
   const params = new URLSearchParams({ q: term, lang: navigator.language || "en" });
+  // Keep results in the parent's country (from the phone's region setting) unless "near me" is on.
+  try {
+    const region = new Intl.Locale(navigator.language || "en").maximize().region;
+    if (region && /^[A-Z]{2}$/.test(region)) params.set("cc", region);
+  } catch {}
   if (near) {
     params.set("lat", near.lat);
     params.set("lng", near.lng);
@@ -604,9 +605,9 @@ function CalendarButtons({ p }) {
       <a className="btn btn-tinted" href={googleCalUrl(p)} target="_blank" rel="noopener noreferrer" onClick={() => buzz()}>
         <span className="g-dot">G</span> Google
       </a>
-      <button className="btn btn-tinted" onClick={() => (buzz(), downloadIcs(p))}>
+      <a className="btn btn-tinted" href={icsHref(p)} onClick={() => buzz()}>
         <Icon name="calendar" size={18} /> Apple / iCal
-      </button>
+      </a>
       <a className="btn btn-tinted" href={outlookUrl(p)} target="_blank" rel="noopener noreferrer" onClick={() => buzz()}>
         <Icon name="mail" size={18} /> Outlook
       </a>
@@ -883,6 +884,8 @@ function SentView({ p, onDone, toast }) {
       </p>
       <InviteCard p={p} showMap={false} />
       <ShareButtons url={url} text={text} title={`Playdate: ${titleOf(p)}`} toast={toast} />
+      <div className="section-label">Add to your calendar</div>
+      <CalendarButtons p={p} />
       <button className="btn btn-plain" onClick={onDone}>
         Done
       </button>
@@ -1016,6 +1019,9 @@ function InviteView({ invite, existing, cancelled, onRespond, onReanswer, onClos
               <Icon name="check" size={18} stroke={2.6} /> Accept
             </button>
           </div>
+          <p className="muted small center" style={{ margin: "-4px 0 0" }}>
+            <Icon name="calendar" size={13} style={{ verticalAlign: "-2px" }} /> After you accept, add it to Google, Apple or Outlook Calendar in one tap.
+          </p>
           <button className="btn btn-plain" onClick={() => (buzz(), setMode("propose"))}>
             <Icon name="swap" size={18} /> Suggest another time
           </button>
