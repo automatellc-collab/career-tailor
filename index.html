@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NeWave Power &amp; Light</title>
+<meta name="description" content="NeWave Power &amp; Light: licensed and insured electricians for Cobb, Fulton and Cherokee counties. Panel upgrades, troubleshooting, EV chargers, solar and backup generators. Quality work guaranteed. 770-750-4588.">
+<meta name="theme-color" content="#1c1d20">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@500;700&display=swap">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Electrician",
+  "name": "NeWave Power & Light",
+  "slogan": "Six volts to lightning bolts",
+  "telephone": "+1-770-750-4588",
+  "areaServed": ["Cobb County, GA", "Fulton County, GA", "Cherokee County, GA"]
+}
+</script>
+<style>
+/* Layout: the van's charcoal paint, with the logo's orange arc and green bolt as the only colors.
+   Hero = a live voltmeter; services = a sticky gauge that climbs as you scroll; one EV readiness tool.
+   Deliberately one dark look, like the van. */
+:root {
+  --coal: #1c1d20;        /* van paint, deepest */
+  --coal-2: #24262a;
+  --coal-3: #2e3035;
+  --line: rgba(255,255,255,.09);
+  --white: #f5f5f2;
+  --soft: #a7aaaf;
+  --orange: #f4a338;      /* the logo arc */
+  --green: #a3d84d;       /* the logo bolt */
+  --red: #ff6a5c;
+  --f-display: "Poppins", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body: "DM Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --s-1: clamp(2.9rem, 7vw, 6.2rem);
+  --s-2: clamp(2.1rem, 4.4vw, 3.6rem);
+  --gl: max(18px, env(safe-area-inset-left, 0px));
+  --gr: max(18px, env(safe-area-inset-right, 0px));
+  --ease: cubic-bezier(.2,.7,.2,1);
+  --snap: cubic-bezier(.34,1.5,.5,1);
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; background: var(--coal); }
+body { margin: 0; background: var(--coal); color: var(--white); font: 400 1.0625rem/1.6 var(--f-body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img, svg, canvas { max-width: 100%; display: block; }
+a { color: inherit; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 800; margin: 0; line-height: 1; letter-spacing: -.035em; text-wrap: balance; }
+p { margin: 0; }
+::selection { background: var(--green); color: var(--coal); }
+:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1240px; margin-inline: auto; padding-left: var(--gl); padding-right: var(--gr); }
+.band { padding-block: clamp(5rem, 10vw, 8rem); position: relative; }
+.kick { font: 700 .72rem/1 var(--f-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--orange); display: inline-flex; align-items: center; gap: .6rem; }
+.kick svg { width: 12px; height: 16px; color: var(--green); }
+.hi-o { color: var(--orange); } .hi-g { color: var(--green); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .6rem; cursor: pointer; border: 0; text-decoration: none; font: 600 1rem/1 var(--f-display); letter-spacing: -.01em; padding: 1.05rem 1.45rem; border-radius: 999px; white-space: nowrap; position: relative; overflow: hidden; isolation: isolate; transition: transform .3s var(--snap), box-shadow .3s, background .3s, color .3s; }
+.btn svg { width: 18px; height: 18px; flex: none; }
+.btn-go { background: var(--green); color: #14200a; box-shadow: 0 0 0 0 rgba(163,216,77,.0), 0 10px 30px -12px rgba(163,216,77,.7); }
+.btn-go::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.65) 50%, transparent 65%); transform: translateX(-120%); transition: transform .8s var(--ease); }
+.btn-go:hover { transform: translateY(-2px); box-shadow: 0 0 0 6px rgba(163,216,77,.14), 0 16px 34px -12px rgba(163,216,77,.8); }
+.btn-go:hover::after { transform: translateX(120%); }
+.btn-line { color: var(--white); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.22); }
+.btn-line:hover { box-shadow: inset 0 0 0 1.5px var(--orange); color: var(--orange); transform: translateY(-2px); }
+.btn-sm { padding: .78rem 1.05rem; font-size: .9rem; }
+
+/* ---------- Header ---------- */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 70; background: var(--coal); }
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 60; transition: background .4s, border-color .4s; border-bottom: 1px solid transparent; }
+.top.solid { background: rgba(28,29,32,.86); backdrop-filter: blur(14px) saturate(1.3); -webkit-backdrop-filter: blur(14px) saturate(1.3); border-bottom-color: var(--line); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: .9rem; }
+.brand { display: flex; align-items: center; gap: .7rem; text-decoration: none; }
+.brand svg { width: 44px; height: 44px; flex: none; }
+.brand b { display: block; font: 800 1.22rem/1 var(--f-display); letter-spacing: -.02em; }
+.brand small { display: block; font: 600 .56rem/1 var(--f-display); letter-spacing: .32em; margin-top: 4px; color: var(--soft); }
+.nav { display: flex; align-items: center; gap: 1.8rem; }
+.nav a.l { text-decoration: none; font: 500 .92rem/1 var(--f-body); color: var(--soft); transition: color .25s; }
+.nav a.l:hover { color: var(--white); }
+@media (max-width: 920px) { .nav a.l { display: none; } }
+
+/* ---------- Hero ---------- */
+.hero { position: relative; overflow: hidden; }
+#traces { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .55; pointer-events: none; }
+.hero::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(800px 500px at 78% 40%, rgba(244,163,56,.10), transparent 70%), radial-gradient(600px 400px at 70% 60%, rgba(163,216,77,.08), transparent 70%), linear-gradient(0deg, var(--coal), transparent 30%); }
+.hero .wrap { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(1.5rem, 4vw, 4rem); align-items: center; padding-block: clamp(2.5rem, 6vw, 5rem) clamp(4rem, 8vw, 6.5rem); }
+.hero-copy { display: grid; gap: 1.7rem; min-width: 0; }
+.hero h1 { font-size: var(--s-1); }
+.hero h1 .w { display: inline-block; opacity: 0; transform: translateY(.4em); animation: wup .9s var(--ease) forwards; }
+@keyframes wup { to { opacity: 1; transform: none; } }
+.hero h1 .bolt { color: var(--green); position: relative; }
+.hero h1 .bolt.flash { animation: wup .9s var(--ease) forwards, zap 1.6s 1.4s steps(1) 1; }
+@keyframes zap { 0%, 100% { text-shadow: none; } 10%, 30% { text-shadow: 0 0 22px rgba(163,216,77,.9), 0 0 4px #fff; color: #e8ffc4; } 20% { text-shadow: none; } }
+.hero .lede { font-size: 1.18rem; color: var(--soft); max-width: 33rem; opacity: 0; animation: fade 1s .9s var(--ease) forwards; }
+.hero .ctas { display: flex; flex-wrap: wrap; gap: .8rem; opacity: 0; animation: fade 1s 1.05s var(--ease) forwards; }
+.badges { display: flex; flex-wrap: wrap; gap: .5rem; opacity: 0; animation: fade 1s 1.2s var(--ease) forwards; }
+.badges span { display: inline-flex; align-items: center; gap: .5rem; font: 500 .74rem/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--white); padding: .6rem .8rem; border-radius: 999px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 1px var(--line); }
+.badges span::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green); }
+@keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+.meter { position: relative; width: 100%; max-width: 480px; justify-self: center; aspect-ratio: 460 / 400; }
+.meter svg { width: 100%; height: 100%; overflow: visible; }
+.meter .arc-bg { fill: none; stroke: rgba(255,255,255,.07); stroke-width: 22; stroke-linecap: round; }
+.meter .arc { fill: none; stroke: url(#arcGrad); stroke-width: 22; stroke-linecap: round; filter: drop-shadow(0 0 14px rgba(244,163,56,.35)); }
+.meter .tick { stroke: rgba(255,255,255,.28); stroke-width: 2; stroke-linecap: round; }
+.meter .tick.major { stroke: rgba(255,255,255,.65); stroke-width: 3; }
+.meter .tl { font: 700 13px var(--f-mono); fill: var(--soft); }
+.meter .tl.on { fill: var(--white); }
+.meter .needle { transform-origin: 200px 210px; transition: transform 1.1s var(--snap); }
+.meter .hub { fill: var(--coal-3); stroke: var(--orange); stroke-width: 3; }
+.meter .read { position: absolute; left: 50%; top: 92%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; }
+.meter .read b { display: block; font: 700 clamp(2.2rem, 5vw, 3.2rem)/1 var(--f-mono); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.meter .read b.bolted { color: var(--green); text-shadow: 0 0 24px rgba(163,216,77,.7); }
+.meter .read span { display: block; margin-top: .4rem; font: 500 .74rem/1.3 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--soft); }
+.meter .zapline { fill: none; stroke: var(--green); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 8px var(--green)); opacity: 0; }
+.meter .zapline.go { animation: strike .9s steps(1) forwards; }
+@keyframes strike { 0% { opacity: 1; } 15% { opacity: 0; } 25% { opacity: 1; } 45% { opacity: 0; } 55%, 100% { opacity: 0; } }
+@media (max-width: 880px) { .hero .wrap { grid-template-columns: 1fr; } .meter { max-width: 340px; order: -1; } }
+
+/* ---------- Strip ---------- */
+.strip { border-block: 1px solid var(--line); overflow: hidden; background: var(--coal-2); }
+.strip .track { display: flex; width: max-content; animation: slide 40s linear infinite; padding-block: 1.1rem; }
+.strip span { display: inline-flex; align-items: center; gap: 2.2rem; padding-right: 2.2rem; font: 700 clamp(1.05rem, 2vw, 1.35rem)/1 var(--f-display); letter-spacing: -.01em; white-space: nowrap; }
+.strip span::after { content: ""; width: 11px; height: 15px; background: var(--green); clip-path: polygon(55% 0, 0 58%, 42% 58%, 30% 100%, 100% 38%, 58% 38%); }
+@keyframes slide { to { transform: translateX(-50%); } }
+
+/* ---------- Voltage scale (sticky gauge) ---------- */
+.scale .wrap { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: clamp(2rem, 6vw, 6rem); align-items: start; }
+.stick { position: sticky; top: 110px; display: grid; gap: 1.6rem; }
+.stick h2 { font-size: var(--s-2); }
+.stick p { color: var(--soft); max-width: 26rem; }
+.rail { position: relative; height: 330px; width: 100%; max-width: 360px; display: grid; grid-template-columns: 70px 1fr; gap: 1.2rem; }
+.rail .tube { position: relative; width: 22px; justify-self: center; border-radius: 99px; background: rgba(255,255,255,.06); box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; }
+.rail .fill { position: absolute; left: 0; right: 0; bottom: 0; height: 8%; border-radius: 99px; background: linear-gradient(0deg, var(--orange), var(--green)); box-shadow: 0 0 20px rgba(163,216,77,.5); transition: height .9s var(--snap); }
+.rail .fill::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent 0 10px, rgba(255,255,255,.18) 10px 12px); animation: rise 1.4s linear infinite; }
+@keyframes rise { to { background-position: 0 -24px; } }
+.rail ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column-reverse; justify-content: space-between; }
+.rail li { font: 700 .82rem/1 var(--f-mono); color: rgba(255,255,255,.3); display: flex; gap: .7rem; align-items: center; transition: color .4s; }
+.rail li::before { content: ""; width: 18px; height: 2px; background: currentColor; }
+.rail li.on { color: var(--white); }
+.rail li.now { color: var(--green); }
+.rail li.now span { text-shadow: 0 0 14px rgba(163,216,77,.6); }
+.steps { display: grid; gap: clamp(1.2rem, 2.5vw, 1.8rem); }
+.step { position: relative; border-radius: 22px; padding: clamp(1.6rem, 3.5vw, 2.4rem); background: linear-gradient(160deg, var(--coal-2), var(--coal)); box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; transition: box-shadow .5s, transform .5s var(--ease); }
+.step::before { content: ""; position: absolute; inset: 0; background: radial-gradient(500px 220px at 100% 0%, rgba(163,216,77,.10), transparent 60%); opacity: 0; transition: opacity .6s; }
+.step.live { box-shadow: inset 0 0 0 1px rgba(163,216,77,.45), 0 30px 60px -40px rgba(163,216,77,.5); }
+.step.live::before { opacity: 1; }
+.step > * { position: relative; }
+.step .v { font: 700 .78rem/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--orange); display: flex; align-items: center; gap: .6rem; }
+.step .v i { font-style: normal; color: var(--coal); background: var(--orange); padding: .3rem .5rem; border-radius: 6px; }
+.step h3 { font-size: clamp(1.7rem, 3vw, 2.4rem); margin: 1rem 0 .8rem; }
+.step p { color: var(--soft); max-width: 36rem; }
+.step ul { list-style: none; margin: 1.3rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .45rem; }
+.step li { font: 500 .78rem/1 var(--f-mono); padding: .55rem .75rem; border-radius: 8px; background: rgba(255,255,255,.05); color: var(--white); }
+.step .glyph { position: absolute; right: clamp(1rem, 3vw, 2rem); top: clamp(1rem, 3vw, 2rem); width: 54px; height: 54px; color: var(--green); opacity: .9; }
+.step.end { background: linear-gradient(150deg, #2c3a17, var(--coal) 70%); box-shadow: inset 0 0 0 1px rgba(163,216,77,.35); }
+.step.end h3 { color: var(--green); }
+@media (max-width: 900px) { .scale .wrap { grid-template-columns: 1fr; } .stick { position: static; } .rail { display: none; } .step .glyph { width: 40px; height: 40px; } }
+
+/* ---------- EV readiness ---------- */
+.ev { background: var(--coal-2); border-block: 1px solid var(--line); }
+.ev-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3rem); align-items: stretch; }
+.ev-head { max-width: 46rem; display: grid; gap: 1.1rem; margin-bottom: clamp(2rem, 4vw, 3rem); }
+.ev-head h2 { font-size: var(--s-2); }
+.ev-head p { color: var(--soft); }
+.ev-form { display: grid; gap: 1.6rem; align-content: start; }
+.q { display: grid; gap: .75rem; }
+.q h4 { margin: 0; font: 700 .72rem/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); }
+.seg { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 14px; background: var(--coal); box-shadow: inset 0 0 0 1px var(--line); position: relative; }
+.seg.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.seg button { appearance: none; border: 0; background: none; color: var(--soft); font: 600 .95rem/1.15 var(--f-display); padding: .85rem .4rem; border-radius: 10px; cursor: pointer; position: relative; z-index: 1; transition: color .3s; }
+.seg button small { display: block; font: 500 .68rem/1.2 var(--f-mono); margin-top: .25rem; opacity: .75; }
+.seg button[aria-pressed="true"] { color: #14200a; }
+.seg .pill { position: absolute; top: 4px; bottom: 4px; border-radius: 10px; background: var(--green); transition: left .45s var(--snap), width .45s var(--snap); box-shadow: 0 6px 20px -8px rgba(163,216,77,.7); }
+.loads { display: flex; flex-wrap: wrap; gap: .5rem; }
+.loads button { appearance: none; border: 0; cursor: pointer; display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 1rem; border-radius: 999px; background: var(--coal); color: var(--soft); font: 500 .93rem/1 var(--f-body); box-shadow: inset 0 0 0 1px var(--line); transition: all .25s var(--ease); }
+.loads button::before { content: "+"; font: 700 .9rem/1 var(--f-mono); color: var(--orange); transition: transform .3s var(--snap); }
+.loads button[aria-pressed="true"] { color: var(--white); box-shadow: inset 0 0 0 1.5px var(--orange); background: rgba(244,163,56,.1); }
+.loads button[aria-pressed="true"]::before { content: "✓"; color: var(--orange); }
+.result { border-radius: 22px; background: var(--coal); box-shadow: inset 0 0 0 1px var(--line); padding: clamp(1.5rem, 3vw, 2.2rem); display: grid; gap: 1.3rem; align-content: start; position: relative; overflow: hidden; }
+.result .bar { position: relative; height: 10px; border-radius: 99px; background: linear-gradient(90deg, var(--green), var(--orange) 65%, var(--red)); overflow: hidden; }
+.result .bar i { position: absolute; top: 0; right: 0; bottom: 0; width: calc(100% - var(--w, 40%)); background: var(--coal-3); transition: width .9s var(--snap); }
+.result .bar i::before { content: ""; position: absolute; left: -5px; top: -3px; bottom: -3px; width: 10px; border-radius: 99px; background: var(--white); box-shadow: 0 0 10px rgba(255,255,255,.6); }
+.result .bar-l { display: flex; justify-content: space-between; font: 500 .68rem/1 var(--f-mono); color: var(--soft); letter-spacing: .08em; text-transform: uppercase; margin-top: -.6rem; }
+.verdict { display: grid; gap: .45rem; }
+.verdict .tag { font: 700 .72rem/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--c, var(--green)); }
+.verdict h3 { font-size: clamp(1.6rem, 2.8vw, 2.2rem); color: var(--white); }
+.verdict p { color: var(--soft); }
+.specs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
+.specs div { padding: .9rem 1rem; border-radius: 14px; background: var(--coal-2); }
+.specs dt { font: 500 .68rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--soft); }
+.specs dd { margin: .45rem 0 0; font: 700 1.15rem/1.1 var(--f-display); }
+.fine { font-size: .82rem; color: var(--soft); }
+.result.swap > * { animation: sw .5s var(--ease) both; }
+@keyframes sw { from { opacity: .2; transform: translateY(6px); } }
+@media (max-width: 900px) { .ev-grid { grid-template-columns: 1fr; } }
+@media (max-width: 460px) { .seg { grid-template-columns: repeat(2, minmax(0, 1fr)); } .specs { grid-template-columns: 1fr; } }
+
+/* ---------- Van ---------- */
+.van .wrap { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+.photo { position: relative; border-radius: 26px; overflow: hidden; aspect-ratio: 1512 / 1331; max-width: 100%; box-shadow: 0 40px 80px -40px rgba(0,0,0,.9), inset 0 0 0 1px var(--line); }
+.photo img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.08); transition: transform 1.6s var(--ease); }
+.photo.in img { transform: scale(1); }
+.photo .plate { position: absolute; right: 14px; bottom: 14px; padding: .6rem .8rem; border-radius: 12px; background: rgba(28,29,32,.78); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); font: 500 .74rem/1.3 var(--f-mono); color: var(--soft); }
+.photo .plate b { color: var(--white); font-weight: 700; letter-spacing: .08em; }
+.van-copy { display: grid; gap: 1.4rem; }
+.van-copy h2 { font-size: var(--s-2); }
+.van-copy p { color: var(--soft); }
+.promises { display: grid; gap: .8rem; margin-top: .4rem; }
+.promises > div { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr); gap: 1rem; align-items: center; padding: 1rem 1.1rem; border-radius: 16px; background: var(--coal-2); box-shadow: inset 0 0 0 1px var(--line); }
+.promises svg { width: 2.6rem; height: 2.6rem; color: var(--green); }
+.promises b { display: block; font: 700 1.05rem/1.2 var(--f-display); }
+.promises span { color: var(--soft); font-size: .93rem; }
+@media (max-width: 880px) { .van .wrap { grid-template-columns: 1fr; } }
+
+/* ---------- Area ---------- */
+.area-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 1.5rem; margin-bottom: clamp(2rem, 4vw, 3rem); }
+.area-head h2 { font-size: var(--s-2); margin-top: 1rem; max-width: 16ch; }
+.area-head p { color: var(--soft); max-width: 26rem; }
+.counties { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.county { border-radius: 22px; padding: 1.8rem; background: var(--coal-2); box-shadow: inset 0 0 0 1px var(--line); display: grid; gap: 1.3rem; position: relative; overflow: hidden; transition: transform .45s var(--ease), box-shadow .45s; }
+.county:hover { transform: translateY(-4px); box-shadow: inset 0 0 0 1px rgba(244,163,56,.5); }
+.county h3 { font-size: 2rem; }
+.county h3 span { display: block; font: 700 .7rem/1 var(--f-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--orange); margin-bottom: .6rem; }
+.county ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem; position: relative; z-index: 1; }
+.county li { font: 500 .9rem/1 var(--f-body); padding: .6rem .8rem; border-radius: 999px; background: rgba(255,255,255,.05); }
+@media (max-width: 860px) { .counties { grid-template-columns: 1fr; } }
+
+/* ---------- Contact ---------- */
+.call { position: relative; overflow: hidden; background: radial-gradient(900px 500px at 15% 100%, rgba(163,216,77,.12), transparent 60%), radial-gradient(700px 400px at 90% 0%, rgba(244,163,56,.12), transparent 60%), var(--coal-2); border-top: 1px solid var(--line); }
+.call .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
+.call h2 { font-size: clamp(2.6rem, 6vw, 5rem); }
+.call .num { display: inline-block; margin-top: 1.5rem; font: 700 clamp(2.2rem, 5.5vw, 4.2rem)/1 var(--f-mono); letter-spacing: -.04em; text-decoration: none; color: var(--green); text-shadow: 0 0 30px rgba(163,216,77,.35); font-variant-numeric: tabular-nums; }
+.call .num:hover { color: #c6f07f; }
+.call .sub { margin-top: 1rem; color: var(--soft); max-width: 30rem; }
+form.req { display: grid; gap: 1.1rem; padding: clamp(1.5rem, 3vw, 2.2rem); border-radius: 22px; background: var(--coal); box-shadow: inset 0 0 0 1px var(--line); min-width: 0; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.f { display: grid; gap: .5rem; }
+.f label { font: 700 .68rem/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); }
+.f input, .f select, .f textarea { width: 100%; font: 400 1rem/1.4 var(--f-body); color: var(--white); background: var(--coal-2); border: 1px solid var(--line); border-radius: 12px; padding: .85rem .95rem; transition: border-color .25s, box-shadow .25s; }
+.f input:focus, .f select:focus, .f textarea:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 4px rgba(163,216,77,.15); }
+.f textarea { min-height: 6rem; resize: vertical; }
+.err { color: var(--red); font-size: .9rem; min-height: 1.2em; }
+.req small { color: var(--soft); font-size: .82rem; }
+@media (max-width: 880px) { .call .wrap { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .two { grid-template-columns: 1fr; } }
+
+footer { padding-block: 2.6rem calc(2.6rem + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); color: var(--soft); font-size: .88rem; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.2rem; }
+footer em { font-style: normal; font: 600 .7rem/1 var(--f-display); letter-spacing: .3em; text-transform: uppercase; color: var(--white); }
+
+.dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 55; display: none; gap: .6rem; padding: .7rem var(--gr) calc(.7rem + env(safe-area-inset-bottom, 0px)) var(--gl); background: rgba(28,29,32,.9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--line); transform: translateY(110%); transition: transform .45s var(--ease); }
+.dock.show { transform: none; }
+.dock .btn { flex: 1; }
+@media (max-width: 720px) { .dock { display: flex; } footer { padding-bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px)); } #navCall { display: none; } }
+
+.js .rv { transition: opacity .9s var(--ease), transform .9s var(--ease); }
+.js .rv.pre { opacity: 0; transform: translateY(28px); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .hero h1 .w, .hero .lede, .hero .ctas, .badges { opacity: 1 !important; transform: none !important; }
+  html { scroll-behavior: auto; }
+  .js .rv.pre { opacity: 1; transform: none; }
+  #traces { display: none; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="mark" viewBox="0 0 64 64">
+      <path d="M44 9.5A26 26 0 1 0 44 54.500" fill="none" stroke="#f4a338" stroke-width="9" stroke-linecap="round"/>
+      <path d="M33 6 15 37h12l-5 22 24-33H33z" fill="#a3d84d"/>
+      <g stroke="#f4a338" stroke-width="2.6" stroke-linecap="round"><path d="M50 22l7-3M52 30h8M50 38l7 3M47 45l5 5"/></g>
+    </symbol>
+    <symbol id="boltS" viewBox="0 0 12 16"><path d="M7 0 0 9h5l-2 7 9-10H7z" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="brand" href="#main" aria-label="NeWave Power and Light, home">
+      <svg aria-hidden="true"><use href="#mark"/></svg>
+      <span><b>NEWAVE</b><small>POWER &amp; LIGHT</small></span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a class="l" href="#services">Services</a>
+      <a class="l" href="#ev">EV check</a>
+      <a class="l" href="#area">Service area</a>
+      <a class="btn btn-go btn-sm" id="navCall" href="tel:+17707504588"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>770-750-4588</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <canvas id="traces" aria-hidden="true"></canvas>
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="kick"><svg aria-hidden="true"><use href="#boltS"/></svg>Electrical services · Cobb, Fulton &amp; Cherokee</span>
+        <h1><span class="w" style="animation-delay:.1s">Six</span> <span class="w" style="animation-delay:.18s">volts</span> <span class="w" style="animation-delay:.26s">to</span> <span class="w bolt flash" style="animation-delay:.34s">lightning</span> <span class="w bolt" style="animation-delay:.42s">bolts.</span></h1>
+        <p class="lede">From a dead outlet to a new 200-amp service, NeWave handles the whole range: panel upgrades, troubleshooting, EV chargers, solar and backup generators.</p>
+        <div class="ctas">
+          <a class="btn btn-go" href="tel:+17707504588">Call 770-750-4588</a>
+          <a class="btn btn-line" href="#ev">Is my panel EV-ready? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="badges"><span>Licensed</span><span>Insured</span><span>Quality work guaranteed</span></div>
+      </div>
+      <div class="meter" aria-hidden="true">
+        <svg viewBox="-30 0 460 340" id="gauge">
+          <defs><linearGradient id="arcGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f4a338"/><stop offset=".7" stop-color="#d7c94a"/><stop offset="1" stop-color="#a3d84d"/></linearGradient></defs>
+          <g id="ticks"></g>
+          <path class="arc-bg" id="arcBg"/>
+          <path class="arc" id="arc"/>
+          <g class="needle" id="needle"><path d="M200 210 L196 206 L200 62 L204 206 Z" fill="#f5f5f2"/><circle class="hub" cx="200" cy="210" r="14"/></g>
+          <path class="zapline" id="zap" d="M318 52 L298 96 L314 96 L290 146"/>
+        </svg>
+        <div class="read"><b id="volt">0 V</b><span id="voltLbl">Warming up</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="strip" aria-hidden="true"><div class="track">
+    <span>Service upgrades</span><span>Panel upgrades</span><span>Troubleshooting</span><span>EV charging</span><span>Solar</span><span>Backup generators</span><span>Licensed &amp; insured</span>
+    <span>Service upgrades</span><span>Panel upgrades</span><span>Troubleshooting</span><span>EV charging</span><span>Solar</span><span>Backup generators</span><span>Licensed &amp; insured</span>
+  </div></div>
+
+  <section class="band scale" id="services">
+    <div class="wrap">
+      <div class="stick rv">
+        <span class="kick"><svg aria-hidden="true"><use href="#boltS"/></svg>The NeWave range</span>
+        <h2>Small fix or <span class="hi-g">whole-house</span> power.</h2>
+        <p>Scroll the range. Every job, from the smallest circuit to the biggest service, gets the same licensed crew and the same guarantee.</p>
+        <div class="rail" aria-hidden="true">
+          <div class="tube"><div class="fill" id="fill"></div></div>
+          <ol id="railList"><li data-i="0"><span>120 V</span></li><li data-i="1"><span>240 V</span></li><li data-i="2"><span>200 A</span></li><li data-i="3"><span>Standby</span></li><li data-i="4"><span>Solar</span></li><li data-i="5"><span>⚡ Guaranteed</span></li></ol>
+        </div>
+      </div>
+      <div class="steps">
+        <article class="step" data-i="0"><svg class="glyph" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="21" cy="21" r="13"/><path d="M31 31l11 11M16 19h10M21 14v10"/></svg>
+          <span class="v"><i>120 V</i>Everyday circuits</span>
+          <h3>Troubleshooting</h3>
+          <p>Breakers that keep tripping, outlets that died, lights that flicker. We trace the problem to its source and fix it right, instead of swapping parts until something works.</p>
+          <ul><li>Tripping breakers</li><li>Dead outlets</li><li>Flickering lights</li><li>Code issues</li></ul>
+        </article>
+        <article class="step" data-i="1"><svg class="glyph" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="10" width="22" height="30" rx="4"/><path d="M30 20h5a4 4 0 0 1 4 4v10a3 3 0 0 0 6 0V18l-4-4M21 18l-5 8h6l-4 7"/></svg>
+          <span class="v"><i>240 V</i>Level 2 charging</span>
+          <h3>EV charger installation</h3>
+          <p>A dedicated 240-volt circuit sized for your charger and your car, installed to code so you're charging overnight instead of all weekend.</p>
+          <ul><li>Tesla &amp; universal chargers</li><li>Garage &amp; outdoor</li><li>Load checks</li></ul>
+        </article>
+        <article class="step" data-i="2"><svg class="glyph" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="10" y="5" width="28" height="38" rx="3"/><path d="M17 13h5M26 13h5M17 20h5M26 20h5M17 27h5M26 27h5M17 34h5M26 34h5"/></svg>
+          <span class="v"><i>200 A</i>The heart of the house</span>
+          <h3>Service &amp; panel upgrades</h3>
+          <p>Older 100-amp panels weren't built for EVs, heat pumps and today's kitchens. We upgrade the panel and service so your home has the capacity it actually needs.</p>
+          <ul><li>New service panels</li><li>100 A → 200 A</li><li>Breaker space</li></ul>
+        </article>
+        <article class="step" data-i="3"><svg class="glyph" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="14" width="38" height="24" rx="3"/><path d="M11 38v4M37 38v4M12 22h10M26 20l-4 6h6l-4 6"/></svg>
+          <span class="v"><i>Standby</i>When the grid goes down</span>
+          <h3>Backup generators</h3>
+          <p>Keep the fridge, the HVAC and the lights running through Georgia storm outages, with a generator wired in safely to your home.</p>
+          <ul><li>Standby generators</li><li>Transfer switches</li><li>Whole-home or essentials</li></ul>
+        </article>
+        <article class="step" data-i="4"><svg class="glyph" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="34" cy="12" r="5"/><path d="M34 2v2M44 12h-2M41 5l-1.500 1.500"/><path d="M4 40l6-18h24l-6 18zM7 31h24M19 22l-3 18"/></svg>
+          <span class="v"><i>Solar</i>Make your own</span>
+          <h3>Solar electrical</h3>
+          <p>The electrical side of going solar, connected to your panel safely and ready to work alongside your EV charger or generator.</p>
+          <ul><li>Panel tie-ins</li><li>Pairs with EV &amp; backup</li></ul>
+        </article>
+        <article class="step end" data-i="5"><svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M27 2 9 27h12l-4 19 22-27H27z" fill="currentColor"/></svg>
+          <span class="v"><i>⚡</i>Every job</span>
+          <h3>Quality work, guaranteed.</h3>
+          <p>Six volts or lightning bolts, it's the same promise: licensed, insured, and done right.</p>
+          <ul><li>Licensed</li><li>Insured</li><li>Guaranteed</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band ev" id="ev">
+    <div class="wrap">
+      <div class="ev-head rv">
+        <span class="kick"><svg aria-hidden="true"><use href="#boltS"/></svg>30-second EV check</span>
+        <h2>Can your panel handle an <span class="hi-g">EV charger?</span></h2>
+        <p>Find the number on your main breaker, tell us what else runs on electricity, and get a straight first answer.</p>
+      </div>
+      <div class="ev-grid rv">
+        <div class="ev-form">
+          <div class="q"><h4>Main panel size</h4><div class="seg" id="segPanel"></div></div>
+          <div class="q"><h4>Charger you want</h4><div class="seg two" id="segCharger"></div></div>
+          <div class="q"><h4>Also electric in your home</h4><div class="loads" id="loads"></div></div>
+        </div>
+        <div class="result" id="result" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band van">
+    <div class="wrap">
+      <div class="photo rv" id="photo">
+        <img src="assets/van.jpg" alt="The NeWave Power and Light van, with the slogan Six volts to lightning bolts and plate NEWAVE1." loading="lazy">
+        <div class="plate">Spotted on the road: <b>NEWAVE1</b></div>
+      </div>
+      <div class="van-copy">
+        <span class="kick rv"><svg aria-hidden="true"><use href="#boltS"/></svg>Look for the van</span>
+        <h2 class="rv">Local, licensed, and <span class="hi-o">already nearby.</span></h2>
+        <p class="rv">NeWave works across Cobb, Fulton and Cherokee every day. When you call, you get a licensed electrician who knows north metro Atlanta homes.</p>
+        <div class="promises rv">
+          <div><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 4l13 5v10c0 8-5.500 13.500-13 16-7.500-2.500-13-8-13-16V9z"/><path d="M14 20l4 4 8-8"/></svg><div><b>Licensed &amp; insured</b><span>Protection for your home and our crew.</span></div></div>
+          <div><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="17" r="11"/><path d="M14 26l-3 10 9-4 9 4-3-10M15 17l4 4 7-7"/></svg><div><b>Quality work guaranteed</b><span>If it's not right, we make it right.</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="area" style="padding-top:0">
+    <div class="wrap">
+      <div class="area-head rv">
+        <div><span class="kick"><svg aria-hidden="true"><use href="#boltS"/></svg>Service area</span><h2>Three counties. One call.</h2></div>
+        <p>If you're in Cobb, Fulton or Cherokee County, we come to you. Not sure? Call and ask.</p>
+      </div>
+      <div class="counties">
+        <div class="county rv" data-n="Cobb"><h3><span>County 01</span>Cobb</h3><ul><li>Marietta</li><li>Kennesaw</li><li>Smyrna</li><li>Acworth</li><li>Powder Springs</li><li>Austell</li><li>Mableton</li></ul></div>
+        <div class="county rv" data-n="Fulton"><h3><span>County 02</span>Fulton</h3><ul><li>Roswell</li><li>Alpharetta</li><li>Sandy Springs</li><li>Johns Creek</li><li>Milton</li><li>Atlanta</li></ul></div>
+        <div class="county rv" data-n="Cherokee"><h3><span>County 03</span>Cherokee</h3><ul><li>Woodstock</li><li>Canton</li><li>Holly Springs</li><li>Ball Ground</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band call" id="contact">
+    <div class="wrap">
+      <div class="rv">
+        <span class="kick"><svg aria-hidden="true"><use href="#boltS"/></svg>Get it fixed</span>
+        <h2 style="margin-top:1rem">Power problem? <span class="hi-g">Call.</span></h2>
+        <a class="num" href="tel:+17707504588">770-750-4588</a>
+        <p class="sub">Or send the details here and they'll arrive as a text, ready to send. If you smell burning or see sparks, turn off the breaker and call instead.</p>
+      </div>
+      <form class="req rv" id="req" novalidate>
+        <div class="two">
+          <div class="f"><label for="r-name">Name</label><input id="r-name" type="text" autocomplete="name" placeholder="Jordan Reyes"></div>
+          <div class="f"><label for="r-where">City</label><input id="r-where" type="text" autocomplete="address-level2" placeholder="Marietta"></div>
+        </div>
+        <div class="f"><label for="r-job">What do you need?</label><select id="r-job"><option>Troubleshooting</option><option>EV charger installation</option><option>Service / panel upgrade</option><option>Backup generator</option><option>Solar</option><option>Something else</option></select></div>
+        <div class="f"><label for="r-notes">Details</label><textarea id="r-notes" placeholder="Kitchen breaker trips when the microwave and toaster run together."></textarea></div>
+        <p class="err" id="err" role="alert"></p>
+        <button class="btn btn-go" type="submit">Text my request <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <small>Opens your messaging app with everything filled in. Nothing is sent until you hit send.</small>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#main"><svg aria-hidden="true" style="width:36px;height:36px"><use href="#mark"/></svg><span><b>NEWAVE</b><small>POWER &amp; LIGHT</small></span></a>
+    <em>Six volts to lightning bolts</em>
+    <span>770-750-4588 · Licensed &amp; insured · © <span id="yr">2026</span></span>
+  </div>
+</footer>
+
+<div class="dock" id="dock"><a class="btn btn-line" href="#ev">EV check</a><a class="btn btn-go" href="tel:+17707504588">Call now</a></div>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.documentElement.classList.add('js');
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  const top = document.getElementById('top'), dock = document.getElementById('dock');
+  const onScroll = () => { top.classList.toggle('solid', scrollY > 20); dock.classList.toggle('show', scrollY > innerHeight * .5); };
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  /* Reveal (only for content that starts below the fold) */
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.remove('pre'); e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+    let k = 0;
+    document.querySelectorAll('.rv').forEach((x) => { if (x.getBoundingClientRect().top > innerHeight) { x.classList.add('pre'); if (x.closest('.counties')) x.style.transitionDelay = (k++ % 3) * 100 + 'ms'; io.observe(x); } else x.classList.add('in'); });
+  } else document.querySelectorAll('.rv').forEach((x) => x.classList.add('in'));
+
+  /* Hero meter: a 240-degree gauge from 6 V to a lightning bolt */
+  const CX = 200, CY = 210, R = 150, A0 = 210, A1 = -30;
+  const pt = (a, r) => [CX + Math.cos(a * Math.PI / 180) * r, CY - Math.sin(a * Math.PI / 180) * r];
+  const arcD = (a, b, r) => { const [x0, y0] = pt(a, r), [x1, y1] = pt(b, r); return 'M' + x0 + ' ' + y0 + ' A' + r + ' ' + r + ' 0 ' + (a - b > 180 ? 1 : 0) + ' 1 ' + x1 + ' ' + y1; };
+  document.getElementById('arcBg').setAttribute('d', arcD(A0, A1, R));
+  const arc = document.getElementById('arc'); arc.setAttribute('d', arcD(A0, A1, R));
+  const LEN = arc.getTotalLength(); arc.style.strokeDasharray = LEN; arc.style.strokeDashoffset = LEN;
+  const STOPS = [['6 V', 'Low voltage'], ['120 V', 'Outlets & lights'], ['240 V', 'EV chargers'], ['200 A', 'Panel upgrades'], ['⚡', 'Lightning bolts']];
+  const ticks = document.getElementById('ticks'), NS = 'http://www.w3.org/2000/svg';
+  for (let i = 0; i <= 40; i++) {
+    const a = A0 - (A0 - A1) * i / 40, major = i % 10 === 0, [x0, y0] = pt(a, R - 24), [x1, y1] = pt(a, R - (major ? 40 : 32));
+    const l = document.createElementNS(NS, 'line'); l.setAttribute('class', 'tick' + (major ? ' major' : '')); l.setAttribute('x1', x0); l.setAttribute('y1', y0); l.setAttribute('x2', x1); l.setAttribute('y2', y1); ticks.appendChild(l);
+    if (major) { const [tx, ty] = pt(a, R + 42), t = document.createElementNS(NS, 'text'); t.setAttribute('class', 'tl'); t.setAttribute('x', tx); t.setAttribute('y', ty + 4); t.setAttribute('text-anchor', 'middle'); t.textContent = STOPS[i / 10][0]; t.id = 'tl' + i / 10; ticks.appendChild(t); }
+  }
+  const needle = document.getElementById('needle'), volt = document.getElementById('volt'), voltLbl = document.getElementById('voltLbl'), zap = document.getElementById('zap');
+  const setStop = (k) => {
+    const f = k / 4, a = A0 - (A0 - A1) * f;
+    needle.style.transform = 'rotate(' + (90 - a) + 'deg)';
+    arc.style.transition = reduce ? 'none' : 'stroke-dashoffset 1.1s cubic-bezier(.34,1.5,.5,1)'; arc.style.strokeDashoffset = LEN * (1 - f);
+    volt.textContent = STOPS[k][0]; voltLbl.textContent = STOPS[k][1]; volt.classList.toggle('bolted', k === 4);
+    for (let i = 0; i < 5; i++) document.getElementById('tl' + i).classList.toggle('on', i <= k);
+    if (k === 4 && !reduce) { zap.classList.remove('go'); void zap.getBBox(); zap.classList.add('go'); }
+  };
+  needle.style.transform = 'rotate(' + (90 - A0) + 'deg)';
+  if (reduce) setStop(4);
+  else { let k = 0; setTimeout(function step() { setStop(k); k++; if (k <= 4) setTimeout(step, k === 1 ? 700 : 620); }, 600);
+    document.querySelector('.meter').addEventListener('pointerenter', () => { let j = 0; (function s() { setStop(j); if (++j <= 4) setTimeout(s, 260); })(); }); }
+
+  /* Hero background: circuit traces with current pulses */
+  const cv = document.getElementById('traces');
+  if (!reduce && cv.getContext) {
+    const ctx = cv.getContext('2d'); let W, H, paths = [], pulses = [], run = true, last = 0;
+    const build = () => {
+      const r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2); W = r.width; H = r.height; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+      let s = 7; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647; paths = [];
+      for (let i = 0; i < 16; i++) { let x = rnd() * W, y = rnd() < .5 ? -10 : H + 10; const p = [[x, y]], dir = y < 0 ? 1 : -1;
+        for (let k = 0; k < 6; k++) { if (k % 2 === 0) y += dir * (40 + rnd() * 120); else x += (rnd() < .5 ? -1 : 1) * (40 + rnd() * 160); p.push([x, y]); }
+        let len = 0; for (let k = 1; k < p.length; k++) len += Math.hypot(p[k][0] - p[k - 1][0], p[k][1] - p[k - 1][1]); paths.push({ p, len }); }
+      pulses = paths.map((_, i) => ({ i, t: rnd(), v: .06 + rnd() * .1, c: rnd() < .5 ? '163,216,77' : '244,163,56' }));
+    };
+    const at = (P, t) => { let d = t * P.len; for (let k = 1; k < P.p.length; k++) { const [x0, y0] = P.p[k - 1], [x1, y1] = P.p[k], s = Math.hypot(x1 - x0, y1 - y0); if (d <= s) return [x0 + (x1 - x0) * d / s, y0 + (y1 - y0) * d / s]; d -= s; } return P.p[P.p.length - 1]; };
+    const frame = (ts) => {
+      if (!run) return; const dt = last ? Math.min(.05, (ts - last) / 1000) : .016; last = ts;
+      ctx.clearRect(0, 0, W, H); ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(255,255,255,.06)';
+      paths.forEach((P) => { ctx.beginPath(); P.p.forEach(([x, y], k) => k ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.stroke(); const [ex, ey] = P.p[P.p.length - 1]; ctx.fillStyle = 'rgba(255,255,255,.12)'; ctx.fillRect(ex - 2, ey - 2, 4, 4); });
+      pulses.forEach((q) => { q.t += q.v * dt; if (q.t > 1) q.t = 0; const P = paths[q.i];
+        for (let k = 0; k < 14; k++) { const tt = q.t - k * .006; if (tt < 0) break; const [x, y] = at(P, tt); ctx.fillStyle = 'rgba(' + q.c + ',' + (.9 * (1 - k / 14)).toFixed(2) + ')'; ctx.beginPath(); ctx.arc(x, y, 1.8 - k * .08, 0, 6.29); ctx.fill(); } });
+      requestAnimationFrame(frame);
+    };
+    build(); new ResizeObserver(build).observe(cv);
+    new IntersectionObserver((e) => { run = e[0].isIntersecting; if (run) { last = 0; requestAnimationFrame(frame); } }).observe(cv);
+  }
+
+  /* Services: the gauge rail fills as each step becomes the one in view */
+  const steps = [...document.querySelectorAll('.step')], railLis = [...document.querySelectorAll('#railList li')], fill = document.getElementById('fill');
+  const setRail = (i) => {
+    steps.forEach((s, j) => s.classList.toggle('live', j === i));
+    railLis.forEach((l, j) => { l.classList.toggle('on', j <= i); l.classList.toggle('now', j === i); });
+    fill.style.height = (8 + i / (steps.length - 1) * 92) + '%';
+  };
+  if ('IntersectionObserver' in window) {
+    const so = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) setRail(+e.target.dataset.i); }), { rootMargin: '-45% 0px -45% 0px' });
+    steps.forEach((s) => so.observe(s));
+  }
+  setRail(0);
+
+  /* EV readiness check. Breaker sizes follow the 125% continuous-load rule (32 A → 40 A, 48 A → 60 A).
+     This is a first look; a real answer needs a load calculation on site. */
+  const PANELS = [['100 A', 'Older homes', 100], ['150 A', '', 150], ['200 A', 'Most newer homes', 200], ['Not sure', 'We\'ll check', 0]];
+  const CHARGERS = [['32 A charger', '40 A circuit · plug-in OK', 32], ['48 A charger', '60 A circuit · hardwired', 48]];
+  const LOADS = ['Electric range', 'Electric dryer', 'Electric water heater', 'Heat pump or electric heat', 'Pool or hot tub', 'A second EV'];
+  const st = { p: 2, c: 0, l: new Set(['Electric dryer']) };
+  const seg = (id, list, key) => {
+    const el = document.getElementById(id), pill = document.createElement('span'); pill.className = 'pill'; el.appendChild(pill);
+    list.forEach((o, i) => { const b = document.createElement('button'); b.type = 'button'; b.id = id + '-' + i; b.innerHTML = o[0] + (o[1] ? '<small>' + o[1] + '</small>' : ''); b.addEventListener('click', () => { st[key] = i; paint(); evUpdate(true); }); el.appendChild(b); });
+    const paint = () => { const bs = el.querySelectorAll('button'); bs.forEach((b, i) => b.setAttribute('aria-pressed', String(i === st[key]))); const b = bs[st[key]]; pill.style.left = b.offsetLeft + 'px'; pill.style.width = b.offsetWidth + 'px'; pill.style.top = b.offsetTop + 'px'; pill.style.height = b.offsetHeight + 'px'; };
+    paint(); new ResizeObserver(paint).observe(el); return paint;
+  };
+  seg('segPanel', PANELS, 'p'); seg('segCharger', CHARGERS, 'c');
+  const loadsEl = document.getElementById('loads');
+  LOADS.forEach((n, i) => { const b = document.createElement('button'); b.type = 'button'; b.id = 'ld' + i; b.textContent = n; b.setAttribute('aria-pressed', String(st.l.has(n)));
+    b.addEventListener('click', () => { st.l.has(n) ? st.l.delete(n) : st.l.add(n); b.setAttribute('aria-pressed', String(st.l.has(n))); evUpdate(true); }); loadsEl.appendChild(b); });
+  const res = document.getElementById('result');
+  function evUpdate(anim) {
+    const amps = PANELS[st.p][2], ch = CHARGERS[st.c][2], n = st.l.size, breaker = ch === 48 ? 60 : 40;
+    // rough pressure score: charger circuit + ~60 A of general household load + ~15 A per big appliance (after diversity), against panel size
+    let pressure = amps ? Math.min(1, (ch * 1.25 + n * 15 + 60) / amps) : .55;
+    // a mostly-gas home on 100 A can often add a charger with a load-management device, so don't jump straight to "upgrade"
+    if (amps === 100 && n <= 1) pressure = Math.min(pressure, .9);
+    let tag, h, p, c;
+    if (!amps) { c = 'var(--orange)'; tag = 'Let\'s find out'; h = 'Check your main breaker.'; p = 'Open your panel door. The largest breaker, usually at the top, is stamped with your service size: 100, 150 or 200. Pick it above, or we\'ll check on the visit.'; }
+    else if (pressure < .75) { c = 'var(--green)'; tag = 'Likely ready'; h = 'Your panel can probably take it.'; p = 'A ' + amps + '-amp service with these loads usually has room for a ' + ch + '-amp charger on its own ' + breaker + '-amp circuit. We\'ll confirm with a load calculation and check for breaker space.'; }
+    else if (pressure < .95) { c = 'var(--orange)'; tag = 'Load calc needed'; h = 'Possible, but it\'s getting tight.'; p = 'It may fit as-is, or with a load-management device that pauses charging when the house is busy. A load calculation tells us which, before you buy anything.'; }
+    else { c = 'var(--red)'; tag = 'Upgrade likely'; h = 'Plan on a panel upgrade.'; p = 'A ' + amps + '-amp service with this many big electric loads probably can\'t add a ' + ch + '-amp charger safely. Upgrading to 200 amps gives you room for the EV and whatever comes next.'; }
+    res.innerHTML =
+      '<div class="verdict" style="--c:' + c + '"><span class="tag">' + tag + '</span><h3>' + h + '</h3><p>' + p + '</p></div>' +
+      '<div><div class="bar"><i style="--w:' + Math.round((amps ? pressure : .5) * 100) + '%"></i></div></div><div class="bar-l"><span>Room to spare</span><span>Maxed out</span></div>' +
+      '<dl class="specs"><div><dt>Charger circuit</dt><dd>' + breaker + ' A · 240 V</dd></div><div><dt>Install type</dt><dd>' + (ch === 48 ? 'Hardwired' : 'Plug-in or hardwired') + '</dd></div></dl>' +
+      '<div style="display:flex;flex-wrap:wrap;gap:.6rem"><a class="btn btn-go btn-sm" href="#contact" id="evSend">Book an EV install check</a><a class="btn btn-line btn-sm" href="tel:+17707504588">Call 770-750-4588</a></div>' +
+      '<p class="fine">A quick first look, not a quote. Your electrician confirms with a load calculation on site.</p>';
+    document.getElementById('evSend').addEventListener('click', () => { document.getElementById('r-job').value = 'EV charger installation'; document.getElementById('r-notes').value = 'EV check: ' + PANELS[st.p][0] + ' panel, ' + CHARGERS[st.c][0] + (n ? ', also have ' + [...st.l].join(', ').toLowerCase() : '') + '. Result: ' + tag + '.'; });
+    if (anim && !reduce) { res.classList.remove('swap'); void res.offsetWidth; res.classList.add('swap'); }
+  }
+  evUpdate(false);
+
+  /* Request form → prefilled text */
+  const err = document.getElementById('err');
+  document.getElementById('req').addEventListener('submit', (e) => {
+    e.preventDefault(); const v = (id) => document.getElementById(id).value.trim();
+    if (!v('r-name') || !v('r-where')) { err.textContent = 'Add your name and city so we know where to come.'; return; }
+    err.textContent = '';
+    const body = 'Hi NeWave, I need an electrician.\nName: ' + v('r-name') + '\nCity: ' + v('r-where') + '\nJob: ' + v('r-job') + (v('r-notes') ? '\nDetails: ' + v('r-notes') : '');
+    location.href = 'sms:+17707504588' + (/iPhone|iPad|Mac/.test(navigator.userAgent) ? '&' : '?') + 'body=' + encodeURIComponent(body);
+  });
+})();
+</script>
+</body>
+</html>
