@@ -50,7 +50,7 @@ const rpc = async (fn, args) => {
   return data;
 };
 
-const DATA_KEYS = ["hostName", "hostKid", "guestName", "guestKid", "activity", "place", "bring", "note", "created"];
+const DATA_KEYS = ["hostName", "hostKid", "guestName", "guestKid", "guestPhone", "guestEmail", "activity", "place", "bring", "note", "created"];
 const dataOf = (e) => Object.fromEntries(DATA_KEYS.map((k) => [k, e[k] ?? null]));
 
 export const fromRow = (r) => ({

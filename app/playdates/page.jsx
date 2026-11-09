@@ -117,7 +117,7 @@ const describe = (p) =>
     .filter(Boolean)
     .join("\n");
 const publicInvite = (p) => {
-  const { role, status, reply, updated, synced, live, ...rest } = p;
+  const { role, status, reply, updated, synced, live, guestPhone, guestEmail, ...rest } = p;
   return rest;
 };
 const baseUrl = () => `${location.origin}${location.pathname}`;
@@ -178,8 +178,12 @@ const icsText = (p) => {
 const icsHref = (p) => `/api/ics?n=playdate-${ymd(new Date(p.start))}&c=${enc(icsText(p))}`;
 
 /* ── Maps ──────────────────────────────────────────────── */
-const mapEmbedUrl = (place) =>
-  place?.lat != null ? `https://maps.google.com/maps?q=${place.lat},${place.lng}&z=15&output=embed` : null;
+const mapEmbedUrl = (place) => {
+  if (place?.lat != null) return `https://maps.google.com/maps?q=${place.lat},${place.lng}&z=15&output=embed`;
+  // Typed-in places (not in the search results) are pinned by Google Maps' own search.
+  if (place?.name && place.name.trim().length > 3) return `https://maps.google.com/maps?q=${encodeURIComponent(placeLine(place))}&z=14&output=embed`;
+  return null;
+};
 const directionsUrl = (place) =>
   `https://www.google.com/maps/dir/?api=1&destination=${
     place?.lat != null ? `${place.lat},${place.lng}` : encodeURIComponent(placeLine(place))
@@ -570,6 +574,21 @@ function PlacePicker({ value, onChange, activity, invalid }) {
           {locating ? <span className="spinner" /> : <Icon name="locate" size={18} />}
         </button>
       </div>
+      {open && !loading && !results.length && value?.custom && q.trim().length >= 3 ? (
+        <ul className="results glass-strong" role="listbox">
+          <li>
+            <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => (buzz(), setOpen(false))}>
+              <span className="icon-bubble small">
+                <Icon name="pin" size={14} />
+              </span>
+              <span style={{ minWidth: 0 }}>
+                <span className="strong ellipsis block">Use “{q.trim()}”</span>
+                <span className="muted ellipsis block small">Not in the list. We'll pin it on Google Maps; add the city if it's off.</span>
+              </span>
+            </button>
+          </li>
+        </ul>
+      ) : null}
       {open && results.length ? (
         <ul className="results glass-strong" role="listbox">
           {results.map((r) => (
@@ -585,6 +604,16 @@ function PlacePicker({ value, onChange, activity, invalid }) {
               </button>
             </li>
           ))}
+          {value?.custom && q.trim().length >= 3 ? (
+            <li>
+              <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => (buzz(), setOpen(false))}>
+                <span className="icon-bubble small">
+                  <Icon name="pin" size={14} />
+                </span>
+                <span className="strong ellipsis block">Use “{q.trim()}” as typed</span>
+              </button>
+            </li>
+          ) : null}
           <li className="attribution">{usingGoogle() ? "Powered by Google" : "Search © OpenStreetMap contributors"}</li>
         </ul>
       ) : null}
@@ -615,7 +644,7 @@ function CalendarButtons({ p }) {
   );
 }
 
-function ShareButtons({ url, text, title, toast, label = "Share invite link" }) {
+function ShareButtons({ url, text, title, toast, label = "Share invite link", phone = "", email = "" }) {
   const full = `${text}\n${url}`;
   const nativeShare = async () => {
     buzz();
@@ -635,13 +664,13 @@ function ShareButtons({ url, text, title, toast, label = "Share invite link" }) 
         <Icon name="share" size={19} /> {label}
       </button>
       <div className="btn-grid four">
-        <a className="btn btn-glass" href={`sms:?&body=${encodeURIComponent(full)}`}>
+        <a className="btn btn-glass" href={`sms:${encodeURIComponent(phone)}?&body=${encodeURIComponent(full)}`}>
           <Icon name="message" size={18} /> Text
         </a>
         <a className="btn btn-glass" href={`https://wa.me/?text=${encodeURIComponent(full)}`} target="_blank" rel="noopener noreferrer">
           <span style={{ fontSize: 16 }}>💬</span> WhatsApp
         </a>
-        <a className="btn btn-glass" href={`mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(full)}`}>
+        <a className="btn btn-glass" href={`mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(full)}`}>
           <Icon name="mail" size={18} /> Email
         </a>
         <button className="btn btn-glass" onClick={async () => (buzz(), (await copyText(url)) && toast("Link copied"))}>
@@ -653,7 +682,89 @@ function ShareButtons({ url, text, title, toast, label = "Share invite link" }) 
 }
 
 /* ── Create view ───────────────────────────────────────── */
-function CreateView({ initial, onCancel, onSend }) {
+const contactPickerSupported = () => typeof navigator !== "undefined" && "contacts" in navigator && typeof navigator.contacts?.select === "function";
+const fmtPhone = (t = "") => t.replace(/[^\d+]/g, "");
+
+function GuestField({ f, set, recents }) {
+  const [open, setOpen] = useState(false);
+  const [canPick, setCanPick] = useState(false);
+  useEffect(() => setCanPick(contactPickerSupported()), []);
+  const q = f.guestName.trim().toLowerCase();
+  const matches = recents.filter((r) => (!q || r.guestName.toLowerCase().includes(q)) && r.guestName.toLowerCase() !== q).slice(0, 5);
+
+  const choose = (r) => {
+    buzz();
+    set("guestName", r.guestName);
+    if (r.guestKid) set("guestKid", r.guestKid);
+    set("guestPhone", r.guestPhone || "");
+    set("guestEmail", r.guestEmail || "");
+    setOpen(false);
+  };
+  const pickContact = async () => {
+    try {
+      const [c] = await navigator.contacts.select(["name", "tel", "email"], { multiple: false });
+      if (!c) return;
+      set("guestName", (c.name?.[0] || "").trim());
+      set("guestPhone", fmtPhone(c.tel?.[0] || ""));
+      set("guestEmail", (c.email?.[0] || "").trim());
+      buzz();
+    } catch {}
+  };
+
+  return (
+    <div className="picker">
+      <label className="row">
+        <span className="row-label">Inviting</span>
+        <input
+          value={f.guestName}
+          onChange={(e) => {
+            set("guestName", e.target.value);
+            set("guestPhone", "");
+            set("guestEmail", "");
+            setOpen(true);
+          }}
+          onFocus={() => setOpen(true)}
+          onBlur={() => setTimeout(() => setOpen(false), 180)}
+          placeholder={recents.length ? "Name or pick a recent parent" : "Other parent"}
+          autoComplete="off"
+          aria-label="Parent you're inviting"
+        />
+        {canPick ? (
+          <button type="button" className="locate" onClick={pickContact} aria-label="Pick from contacts" title="Pick from contacts">
+            <Icon name="person" size={18} />
+          </button>
+        ) : null}
+      </label>
+      {f.guestPhone || f.guestEmail ? (
+        <div className="hint contact-hint">
+          📱 {f.guestPhone || f.guestEmail}: the Text and Email buttons will go straight to them
+        </div>
+      ) : null}
+      {open && matches.length ? (
+        <ul className="results glass-strong" role="listbox" aria-label="Recent parents">
+          <li className="attribution" style={{ textAlign: "left" }}>
+            Recent
+          </li>
+          {matches.map((r) => (
+            <li key={r.guestName}>
+              <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => choose(r)}>
+                <span className="icon-bubble small initial">{r.guestName.charAt(0).toUpperCase()}</span>
+                <span style={{ minWidth: 0 }}>
+                  <span className="strong ellipsis block">{r.guestName}</span>
+                  <span className="muted ellipsis block small">
+                    {[r.guestKid && `Parent of ${r.guestKid}`, r.guestPhone || r.guestEmail].filter(Boolean).join(" · ") || "Invited before"}
+                  </span>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
+  );
+}
+
+function CreateView({ initial, onCancel, onSend, recents = [] }) {
   const me = useMemo(() => readJSON(ME_KEY, {}), []);
   const tomorrow = addDays(new Date(), 1);
   const [f, setF] = useState(() =>
@@ -668,6 +779,8 @@ function CreateView({ initial, onCancel, onSend }) {
           hostKid: me.hostKid || "",
           guestName: "",
           guestKid: "",
+          guestPhone: "",
+          guestEmail: "",
           activity: "park",
           date: ymd(tomorrow),
           time: "10:00",
@@ -734,7 +847,7 @@ function CreateView({ initial, onCancel, onSend }) {
         <div className="create-form">
           <section>
             <div className="section-label">Who</div>
-            <div className="group glass">
+            <div className="group glass" style={{ overflow: "visible" }}>
               <label className={`row ${tried && errors.hostName ? "invalid" : ""}`}>
                 <span className="row-label">You</span>
                 <input value={f.hostName} onChange={(e) => set("hostName", e.target.value)} placeholder="Your name" autoComplete="given-name" />
@@ -743,10 +856,7 @@ function CreateView({ initial, onCancel, onSend }) {
                 <span className="row-label">Your kid</span>
                 <input value={f.hostKid} onChange={(e) => set("hostKid", e.target.value)} placeholder="e.g. Maya" />
               </label>
-              <label className="row">
-                <span className="row-label">Inviting</span>
-                <input value={f.guestName} onChange={(e) => set("guestName", e.target.value)} placeholder="Other parent" />
-              </label>
+              <GuestField f={f} set={set} recents={recents} />
               <label className="row">
                 <span className="row-label">Their kid</span>
                 <input value={f.guestKid} onChange={(e) => set("guestKid", e.target.value)} placeholder="e.g. Leo" />
@@ -883,7 +993,7 @@ function SentView({ p, onDone, toast }) {
         {p.synced ? "Their answer shows up here automatically." : "When they answer, they send you back a link. Open it and the reply shows up here."}
       </p>
       <InviteCard p={p} showMap={false} />
-      <ShareButtons url={url} text={text} title={`Playdate: ${titleOf(p)}`} toast={toast} />
+      <ShareButtons url={url} text={text} title={`Playdate: ${titleOf(p)}`} toast={toast} phone={p.guestPhone} email={p.guestEmail} />
       <div className="section-label">Add to your calendar</div>
       <CalendarButtons p={p} />
       <button className="btn btn-plain" onClick={onDone}>
@@ -1281,6 +1391,19 @@ function SyncSheet({ syncState, lastSync, onClose, onRefresh, toast }) {
   );
 }
 
+// Parents you've invited before, newest first, for quick re-invites.
+function recentParents(items) {
+  const seen = new Map();
+  [...items]
+    .filter((x) => x.role === "host" && x.guestName?.trim())
+    .sort((a, b) => (b.created || 0) - (a.created || 0))
+    .forEach((x) => {
+      const k = x.guestName.trim().toLowerCase();
+      if (!seen.has(k)) seen.set(k, { guestName: x.guestName.trim(), guestKid: x.guestKid, guestPhone: x.guestPhone, guestEmail: x.guestEmail });
+    });
+  return [...seen.values()];
+}
+
 /* ── App ───────────────────────────────────────────────── */
 export default function PlaydatesPage() {
   const [ready, setReady] = useState(false);
@@ -1481,6 +1604,7 @@ export default function PlaydatesPage() {
     content = (
       <CreateView
         initial={view.initial}
+        recents={recentParents(items)}
         onCancel={() => setView({ name: "home" })}
         onSend={async (p) => {
           const entry = await commit({ ...p, role: "host", status: "pending", reply: null });
@@ -1578,7 +1702,7 @@ const CSS = `
   --blue:#007aff; --green:#34c759; --red:#ff3b30; --orange:#ff9500; --purple:#af52de;
   --shadow:0 1px 1px rgba(0,0,0,.02), 0 12px 40px rgba(40,50,110,.10);
   --inner:inset 0 1px 0 rgba(255,255,255,.7);
-  --blob-o:.55;
+  --blob-o:.55; --menu:#fff;
   position:relative; min-height:100vh; min-height:100dvh; background:var(--bg); color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter","Helvetica Neue",system-ui,sans-serif;
   -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; letter-spacing:-.01em;
@@ -1590,7 +1714,7 @@ const CSS = `
     --glass:rgba(30,30,34,.55); --glass-strong:rgba(40,40,44,.82); --stroke:rgba(255,255,255,.09);
     --hair:rgba(84,84,88,.5); --fill:rgba(118,118,128,.24); --fill2:rgba(118,118,128,.34);
     --blue:#0a84ff; --green:#30d158; --red:#ff453a; --orange:#ff9f0a; --purple:#bf5af2;
-    --shadow:0 12px 40px rgba(0,0,0,.5); --inner:inset 0 1px 0 rgba(255,255,255,.06); --blob-o:.32;
+    --shadow:0 12px 40px rgba(0,0,0,.5); --inner:inset 0 1px 0 rgba(255,255,255,.06); --blob-o:.32; --menu:#2c2c2e;
     color-scheme:dark;
   }
 }
@@ -1616,6 +1740,8 @@ const CSS = `
 .perks{display:flex;flex-direction:column;gap:10px;padding:14px 16px;border-radius:18px}
 .perk{display:flex;gap:12px;align-items:flex-start;font-size:15px}
 .perk span:first-child{font-size:20px;line-height:1.1}
+.icon-bubble.small.initial{color:#fff;background:linear-gradient(135deg,#5ac8fa,var(--blue));font-weight:700;font-size:14px}
+.contact-hint{padding-top:0;margin-top:-4px}
 .pd-root :focus-visible:not(input):not(textarea){outline:2px solid var(--blue);outline-offset:2px}
 
 /* background */
@@ -1696,7 +1822,7 @@ const CSS = `
 /* grouped list */
 .group{border-radius:16px;overflow:hidden}
 .row{display:flex;align-items:center;gap:12px;min-height:50px;padding:6px 16px;position:relative;font-size:17px}
-.group > .row + .row::before,.group > .picker + .row::before{content:"";position:absolute;top:0;left:16px;right:0;height:1px;background:var(--hair);transform:scaleY(.5)}
+.group > .row + .row::before,.group > .picker + .row::before,.group > .row + .picker > .row::before{content:"";position:absolute;top:0;left:16px;right:0;height:1px;background:var(--hair);transform:scaleY(.5)}
 .row-label{min-width:82px;color:var(--text);font-weight:500}
 .row input{flex:1;min-width:0;background:transparent;border:0;text-align:right;color:var(--text);font-size:17px}
 .row input::placeholder,.textarea::placeholder,.note-input::placeholder{color:var(--text3)}
@@ -1760,6 +1886,7 @@ const CSS = `
 .picker .search input{text-align:left}
 .locate{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:var(--blue);background:rgba(0,122,255,.1);flex-shrink:0}
 .locate.on{background:var(--blue);color:#fff}
+.results.glass-strong{background:var(--menu);-webkit-backdrop-filter:none;backdrop-filter:none}
 .results{position:absolute;left:8px;right:8px;top:calc(100% - 4px);z-index:20;list-style:none;margin:0;padding:6px;border-radius:16px;animation:fadeUp .2s ease}
 .results button{display:flex;align-items:center;gap:10px;width:100%;padding:9px 10px;border-radius:11px;text-align:left}
 .results button:hover{background:var(--fill)}
