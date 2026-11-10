@@ -157,9 +157,26 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 @media (max-width: 580px) { .svc { grid-template-columns: 1fr; } }
 
 /* ---------- Gallery ---------- */
-.gal { columns: 4 220px; column-gap: 12px; }
-.gal button { appearance: none; border: 0; padding: 0; margin: 0 0 12px; display: block; width: 100%; cursor: zoom-in; border-radius: 12px; overflow: hidden; background: var(--bark-2); break-inside: avoid; position: relative; }
-.gal img { width: 100%; height: auto; transition: transform .9s var(--ease), filter .4s; }
+.gal { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: clamp(140px, 15vw, 200px); gap: 12px; }
+.gal button:first-child { grid-column: span 2; grid-row: span 2; }
+.gal button:nth-child(n+10) { display: none; }
+.gal-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.4rem; }
+.gal-foot p { font: 400 .78rem/1.3 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
+.gal-foot .swipe { display: none; }
+@media (max-width: 760px) {
+  .gal { grid-template-columns: none; grid-template-rows: repeat(2, 150px); grid-auto-flow: column; grid-auto-columns: 44%; grid-auto-rows: auto; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; margin-inline: calc(-1 * var(--gl)) calc(-1 * var(--gr)); padding-inline: var(--gl) var(--gr); scroll-padding-inline: var(--gl); }
+  .gal::-webkit-scrollbar { display: none; }
+  .gal button:first-child { grid-column: auto; grid-row: span 2; }
+  .gal button:first-child { grid-column: span 1; }
+  .gal button:nth-child(n+10) { display: block; }
+  .gal button { scroll-snap-align: start; }
+  .gal-foot .swipe { display: inline-flex; align-items: center; gap: .5rem; }
+  .gal-foot .swipe::after { content: "→"; animation: nudge 1.6s ease-in-out infinite; }
+  #galAll { display: none; }
+}
+@keyframes nudge { 50% { transform: translateX(5px); } }
+.gal button { appearance: none; border: 0; padding: 0; margin: 0; display: block; width: 100%; height: 100%; min-height: 0; cursor: zoom-in; border-radius: 12px; overflow: hidden; background: var(--bark-2); break-inside: avoid; position: relative; }
+.gal img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease), filter .4s; }
 .gal button:hover img { transform: scale(1.05); }
 .gal button::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 0 var(--leaf); transition: box-shadow .3s; border-radius: 12px; }
 .gal button:hover::after, .gal button:focus-visible::after { box-shadow: inset 0 0 0 3px var(--leaf); }
@@ -451,9 +468,10 @@ footer a:hover { text-decoration: underline; }
       <div class="head rv">
         <span class="label">Gallery</span>
         <h2>The work, up close.</h2>
-        <p>Removals, climbs, stump grinding and storm clean-up. Tap any photo to enlarge it.</p>
+        <p>Removals, climbs, stump grinding and storm clean-up. Tap any photo to see it full size.</p>
       </div>
       <div class="gal rv" id="gal"><button type="button" id="g1" data-src="assets/photos/p1.jpg" aria-label="Enlarge photo: The One Cut truck parked in a customer driveway"><img src="assets/photos/p1.jpg" alt="The One Cut truck parked in a customer driveway." loading="lazy"></button><button type="button" id="g2" data-src="assets/photos/p2.jpg" aria-label="Enlarge photo: The crew truck and wood chipper on a residential street"><img src="assets/photos/p2.jpg" alt="The crew truck and wood chipper on a residential street." loading="lazy"></button><button type="button" id="g37" data-src="assets/photos/p37.jpg" aria-label="Enlarge photo: A climber in a helmet working in a pruned tree"><img src="assets/photos/p37.jpg" alt="A climber in a helmet working in a pruned tree." loading="lazy"></button><button type="button" id="g5" data-src="assets/photos/p5.jpg" aria-label="Enlarge photo: A chainsaw cutting through a tree trunk"><img src="assets/photos/p5.jpg" alt="A chainsaw cutting through a tree trunk." loading="lazy"></button><button type="button" id="g9" data-src="assets/photos/p9.jpg" aria-label="Enlarge photo: A large tree fallen across a road"><img src="assets/photos/p9.jpg" alt="A large tree fallen across a road." loading="lazy"></button><button type="button" id="g12" data-src="assets/photos/p12.jpg" aria-label="Enlarge photo: A climber on top of a cut-back tree"><img src="assets/photos/p12.jpg" alt="A climber on top of a cut-back tree." loading="lazy"></button><button type="button" id="g8" data-src="assets/photos/p8.jpg" aria-label="Enlarge photo: An orange stump grinder at work"><img src="assets/photos/p8.jpg" alt="An orange stump grinder at work." loading="lazy"></button><button type="button" id="g7" data-src="assets/photos/p7.jpg" aria-label="Enlarge photo: A climber in high-visibility gear in a pine"><img src="assets/photos/p7.jpg" alt="A climber in high-visibility gear in a pine." loading="lazy"></button><button type="button" id="g29" data-src="assets/photos/p29.jpg" aria-label="Enlarge photo: A climber roped into a tall tree"><img src="assets/photos/p29.jpg" alt="A climber roped into a tall tree." loading="lazy"></button><button type="button" id="g18" data-src="assets/photos/p18.jpg" aria-label="Enlarge photo: An uprooted tree leaning toward a house"><img src="assets/photos/p18.jpg" alt="An uprooted tree leaning toward a house." loading="lazy"></button><button type="button" id="g6" data-src="assets/photos/p6.jpg" aria-label="Enlarge photo: A climber with a chainsaw on a harness"><img src="assets/photos/p6.jpg" alt="A climber with a chainsaw on a harness." loading="lazy"></button><button type="button" id="g14" data-src="assets/photos/p14.jpg" aria-label="Enlarge photo: A blue stump grinder throwing chips"><img src="assets/photos/p14.jpg" alt="A blue stump grinder throwing chips." loading="lazy"></button><button type="button" id="g21" data-src="assets/photos/p21.jpg" aria-label="Enlarge photo: A climber working in a leafy canopy"><img src="assets/photos/p21.jpg" alt="A climber working in a leafy canopy." loading="lazy"></button><button type="button" id="g24" data-src="assets/photos/p24.jpg" aria-label="Enlarge photo: An uprooted tree across a street by a house"><img src="assets/photos/p24.jpg" alt="An uprooted tree across a street by a house." loading="lazy"></button><button type="button" id="g17" data-src="assets/photos/p17.jpg" aria-label="Enlarge photo: A climber on a tree cut back to the trunk"><img src="assets/photos/p17.jpg" alt="A climber on a tree cut back to the trunk." loading="lazy"></button><button type="button" id="g25" data-src="assets/photos/p25.jpg" aria-label="Enlarge photo: A chainsaw bucking a log"><img src="assets/photos/p25.jpg" alt="A chainsaw bucking a log." loading="lazy"></button><button type="button" id="g10" data-src="assets/photos/p10.jpg" aria-label="Enlarge photo: A fallen trunk beside a wet road"><img src="assets/photos/p10.jpg" alt="A fallen trunk beside a wet road." loading="lazy"></button><button type="button" id="g15" data-src="assets/photos/p15.jpg" aria-label="Enlarge photo: A worker sawing a leaning trunk"><img src="assets/photos/p15.jpg" alt="A worker sawing a leaning trunk." loading="lazy"></button><button type="button" id="g22" data-src="assets/photos/p22.jpg" aria-label="Enlarge photo: A tracked stump grinder next to a stump"><img src="assets/photos/p22.jpg" alt="A tracked stump grinder next to a stump." loading="lazy"></button><button type="button" id="g35" data-src="assets/photos/p35.jpg" aria-label="Enlarge photo: An orange chainsaw cutting into a trunk"><img src="assets/photos/p35.jpg" alt="An orange chainsaw cutting into a trunk." loading="lazy"></button><button type="button" id="g30" data-src="assets/photos/p30.jpg" aria-label="Enlarge photo: A chainsaw working on a stump"><img src="assets/photos/p30.jpg" alt="A chainsaw working on a stump." loading="lazy"></button><button type="button" id="g11" data-src="assets/photos/p11.jpg" aria-label="Enlarge photo: A worker with a blower under a row of trees"><img src="assets/photos/p11.jpg" alt="A worker with a blower under a row of trees." loading="lazy"></button><button type="button" id="g27" data-src="assets/photos/p27.jpg" aria-label="Enlarge photo: Looking up the trunk of a tall tree"><img src="assets/photos/p27.jpg" alt="Looking up the trunk of a tall tree." loading="lazy"></button><button type="button" id="g13" data-src="assets/photos/p13.jpg" aria-label="Enlarge photo: Lawn equipment on freshly cut grass"><img src="assets/photos/p13.jpg" alt="Lawn equipment on freshly cut grass." loading="lazy"></button></div>
+      <div class="gal-foot"><p><span class="swipe">Swipe for more</span><span id="galCount"></span></p><button type="button" class="btn btn-leaf btn-sm" id="galAll">See all 24 photos</button></div>
     </div>
   </section>
 
@@ -609,6 +627,14 @@ footer a:hover { text-decoration: underline; }
   const shots = [...document.querySelectorAll('#gal button')]; let gi = 0;
   const showShot = (i) => { gi = (i + shots.length) % shots.length; const im = shots[gi].querySelector('img'); lbImg.src = shots[gi].dataset.src; lbImg.alt = im.alt; lbCap.textContent = (gi + 1) + ' / ' + shots.length + ' · ' + im.alt; };
   shots.forEach((b, i) => b.addEventListener('click', () => { showShot(i); lb.showModal(); }));
+  document.getElementById('galAll').textContent = 'See all ' + shots.length + ' photos';
+  document.getElementById('galAll').addEventListener('click', () => { showShot(9 < shots.length ? 9 : 0); lb.showModal(); });
+  const gal = document.getElementById('gal'), galCount = document.getElementById('galCount');
+  const countPaint = () => {
+    if (getComputedStyle(gal).overflowX === 'auto') { const per = gal.scrollWidth / Math.ceil(shots.length / 2); const seen = Math.min(shots.length, Math.round((gal.scrollLeft + gal.clientWidth) / per) * 2); galCount.textContent = ' · ' + seen + ' of ' + shots.length; }
+    else galCount.textContent = '9 of ' + shots.length + ' shown';
+  };
+  gal.addEventListener('scroll', countPaint, { passive: true }); addEventListener('resize', countPaint); countPaint();
   document.getElementById('lbPrev').addEventListener('click', () => showShot(gi - 1));
   document.getElementById('lbNext').addEventListener('click', () => showShot(gi + 1));
   document.getElementById('lbClose').addEventListener('click', () => lb.close());
