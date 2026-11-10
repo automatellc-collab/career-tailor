@@ -4,12 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>JAD Plumbing</title>
-<meta name="description" content="JAD Plumbing LLC: residential and commercial plumbing in Metro Atlanta, in English and Spanish. Gas lines, leaks, drains, sewer and water lines, water heaters. Fully insured, free estimates. Call 770-369-7054.">
-<meta name="theme-color" content="#f6f8fc" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0d1530" media="(prefers-color-scheme: dark)">
+<meta name="description" content="JAD Plumbing LLC: residential and commercial plumbing in Metro Atlanta, in English and Spanish. Main water lines, sewer lines, gas lines, water heaters, leaks, drains, sump pumps and fixtures. Fully insured, free estimates. 770-369-7054.">
+<meta name="theme-color" content="#0f1d44">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@600;800;900&family=Red+Hat+Text:wght@400;500;600;700&family=Red+Hat+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Onest:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="alternate" hreflang="en" href="?lang=en">
 <link rel="alternate" hreflang="es" href="?lang=es">
 <script type="application/ld+json">
@@ -24,225 +23,272 @@
 }
 </script>
 <style>
-/* Layout: the van's badge colors (navy, royal blue, white) on a clean light page; 1200px column.
-   Hero = van photo + a headline that switches between English and Spanish.
-   Centerpiece = an estimate builder whose phone preview writes the text message live, in either language.
-   Built to Vercel's Web Interface Guidelines: visible focus, labeled controls, URL-synced state,
-   reduced motion, no transition: all, sized images, curly quotes and ellipses. */
+/* Signature: "The Plumbing Plan". The page is a plumber's drawing set: a navy blueprint sheet with a
+   line drawing of a whole house's plumbing, numbered keynotes, and a title block holding the trust facts.
+   One deliberate look (dark blueprint) with a single light "white-print" band for the estimate builder.
+   Colors: blueprint navy, drafting white, brass (valves & fittings) as the only accent.
+   Type: Unbounded (display) / Onest (body) / IBM Plex Mono (annotations), scale ratio 1.333.
+   Built to Vercel's Web Interface Guidelines. */
 :root {
-  --paper: #f6f8fc;
-  --surface: #ffffff;
-  --ink: #111a36;
-  --ink-soft: #4d587a;
-  --line: #d9e0ee;
-  --navy: #1b2a5e;        /* badge navy */
-  --blue: #2c5bb8;        /* badge royal blue */
-  --sky: #e6eefb;
-  --flag: #c63a30;        /* the flag stickers, used once or twice */
-  --ok: #1d8a57;
-  --err: #c0362c;
-  --on-blue: #ffffff;
-  --f-display: "Red Hat Display", "Avenir Next", "Segoe UI", system-ui, sans-serif;
-  --f-body: "Red Hat Text", "Segoe UI", system-ui, sans-serif;
-  --f-mono: "Red Hat Mono", ui-monospace, Menlo, Consolas, monospace;
-  --s-1: clamp(2.7rem, 6.4vw, 5.4rem);
-  --s-2: clamp(2rem, 4vw, 3.2rem);
-  --r: 18px;
+  --navy: #0f1d44;
+  --navy-2: #13245a;
+  --navy-3: #1a2f6e;
+  --white: #eef2fa;
+  --soft: #a3b3d8;
+  --dim: rgba(238,242,250,.5);
+  --rule: rgba(238,242,250,.14);
+  --grid: rgba(150,178,240,.075);
+  --brass: #e0a94a;
+  --brass-deep: #9c6a17;
+  --paper: #eef2fa;
+  --ink: #0f1d44;
+  --ink-soft: #46557f;
+  --paper-rule: #cfd8ec;
+  --err-ink: #b3321f;
+
+  --f-display: "Unbounded", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Onest", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --t-cap: .75rem;
+  --t-body: 1.0625rem;
+  --t-h4: 1.42rem;
+  --t-h2: clamp(1.9rem, 3.8vw, 2.52rem);
+  --t-h1: clamp(2.1rem, 5vw, 4.2rem);
   --gl: max(16px, env(safe-area-inset-left, 0px));
   --gr: max(16px, env(safe-area-inset-right, 0px));
   --ease: cubic-bezier(.2,.7,.2,1);
-  --spring: cubic-bezier(.34,1.4,.5,1);
-  --shadow: 0 1px 2px rgba(17,26,54,.06), 0 18px 40px -26px rgba(17,26,54,.35);
-  color-scheme: light;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #0d1530; --surface: #141f42; --ink: #eef2fb; --ink-soft: #a6b1cf; --line: #263361;
-    --navy: #c9d6f5; --blue: #6f9bf0; --sky: #182a5a; --flag: #f0675d; --ok: #4cc28c; --err: #ff8a80; --on-blue: #0d1530;
-    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 18px 40px -26px rgba(0,0,0,.8); color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --paper: #0d1530; --surface: #141f42; --ink: #eef2fb; --ink-soft: #a6b1cf; --line: #263361;
-  --navy: #c9d6f5; --blue: #6f9bf0; --sky: #182a5a; --flag: #f0675d; --ok: #4cc28c; --err: #ff8a80; --on-blue: #0d1530;
-  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 18px 40px -26px rgba(0,0,0,.8); color-scheme: dark;
+  --spring: cubic-bezier(.34,1.45,.5,1);
+  color-scheme: dark;
 }
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-padding-top: 96px; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: rgba(44,91,184,.18); }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: rgba(224,169,74,.22); background: var(--navy); }
 @media (pointer: fine) { html { overscroll-behavior: none; } }
-body { margin: 0; background: var(--paper); color: var(--ink); font: 400 1.0625rem/1.6 var(--f-body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+body { margin: 0; background: var(--navy); color: var(--white); font: 400 var(--t-body)/1.6 var(--f-body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 img, svg { max-width: 100%; display: block; }
 a { color: inherit; }
-a, button, input, label { touch-action: manipulation; }
-h1, h2, h3 { font-family: var(--f-display); margin: 0; line-height: 1; letter-spacing: -.025em; text-wrap: balance; }
+a, button, input, label, textarea { touch-action: manipulation; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 700; margin: 0; line-height: 1.04; letter-spacing: -.02em; text-wrap: balance; }
 p { margin: 0; text-wrap: pretty; }
-section[id], main[id] { scroll-margin-top: 84px; }
-:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 8px; }
-.skip { position: absolute; left: var(--gl); top: -60px; z-index: 100; background: var(--navy); color: var(--paper); padding: .7rem 1rem; border-radius: 10px; text-decoration: none; font-weight: 700; transition: top .2s var(--ease); }
+section[id] { scroll-margin-top: 84px; }
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; border-radius: 6px; }
+.skip { position: absolute; left: var(--gl); top: -64px; z-index: 100; background: var(--brass); color: var(--navy); padding: .7rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 700; transition: top .2s var(--ease); }
 .skip:focus-visible { top: calc(10px + env(safe-area-inset-top, 0px)); }
-.wrap { max-width: 1200px; margin-inline: auto; padding-left: var(--gl); padding-right: var(--gr); }
-.band { padding-block: clamp(4.5rem, 9vw, 7rem); }
-.eyebrow { font: 500 .74rem/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--blue); display: inline-flex; align-items: center; gap: .55rem; }
-.eyebrow::before { content: ""; width: 9px; height: 9px; border-radius: 2px; background: var(--blue); transform: rotate(45deg); }
-.head { display: grid; gap: 1rem; max-width: 44rem; margin-bottom: clamp(2rem, 4vw, 3rem); }
-.head h2 { font-size: var(--s-2); font-weight: 900; }
-.head p { color: var(--ink-soft); font-size: 1.08rem; }
+.wrap { max-width: 1240px; margin-inline: auto; padding-left: var(--gl); padding-right: var(--gr); }
+.kicker { font: 500 var(--t-cap)/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--brass); display: inline-flex; align-items: center; gap: .6rem; }
+.kicker::before { content: ""; width: 22px; height: 1px; background: currentColor; }
+.grid-bg { background-color: var(--navy); background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px), linear-gradient(rgba(150,178,240,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(150,178,240,.035) 1px, transparent 1px); background-size: 96px 96px, 96px 96px, 24px 24px, 24px 24px; }
 
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: .55rem; cursor: pointer; border: 0; text-decoration: none; font: 700 1rem/1 var(--f-body); padding: 1rem 1.35rem; border-radius: 12px; white-space: nowrap; transition: transform .25s var(--spring), background-color .2s, box-shadow .2s, color .2s; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .6rem; cursor: pointer; border: 0; text-decoration: none; font: 600 1rem/1 var(--f-body); padding: 1rem 1.35rem; border-radius: 6px; white-space: nowrap; transition: transform .25s var(--spring), background-color .2s, box-shadow .2s, color .2s; }
 .btn svg { width: 18px; height: 18px; flex: none; }
-.btn-blue { background: var(--blue); color: var(--on-blue); box-shadow: 0 10px 24px -14px var(--blue); }
-.btn-blue:hover { background: var(--navy); color: var(--paper); transform: translateY(-2px); }
-.btn-blue:active { transform: translateY(0) scale(.98); }
-.btn-line { background: var(--surface); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); }
-.btn-line:hover { box-shadow: inset 0 0 0 1.5px var(--blue); color: var(--blue); transform: translateY(-2px); }
-.btn-sm { padding: .72rem 1rem; font-size: .92rem; border-radius: 10px; }
-.btn[data-done="true"] { background: var(--ok); color: #fff; }
+.btn-brass { background: var(--brass); color: var(--navy); box-shadow: 0 12px 26px -14px var(--brass); }
+.btn-brass:hover { background: #ebb85c; transform: translateY(-2px); }
+.btn-brass:active { transform: translateY(0) scale(.98); }
+.btn-line { color: var(--white); box-shadow: inset 0 0 0 1px rgba(238,242,250,.45); background: transparent; }
+.btn-line:hover { box-shadow: inset 0 0 0 1px var(--brass); color: var(--brass); transform: translateY(-2px); }
+.btn-sm { padding: .72rem 1rem; font-size: .92rem; }
 
 /* ---------- Header ---------- */
-body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 70; background: var(--paper); }
-.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 60; background: color-mix(in srgb, var(--paper) 86%, transparent); backdrop-filter: blur(14px) saturate(1.3); -webkit-backdrop-filter: blur(14px) saturate(1.3); border-bottom: 1px solid transparent; transition: border-color .3s; }
-.top.scrolled { border-bottom-color: var(--line); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 70; background: var(--navy); }
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 60; background: rgba(15,29,68,.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid transparent; transition: border-color .3s; }
+.top.scrolled { border-bottom-color: var(--rule); }
 .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: .8rem; padding-block: .7rem; }
 .brand { display: flex; align-items: center; gap: .65rem; text-decoration: none; min-width: 0; }
-.brand svg { width: 46px; height: 42px; flex: none; }
-.brand b { display: block; font: 900 1.12rem/1 var(--f-display); letter-spacing: -.01em; color: var(--navy); white-space: nowrap; }
-.brand small { display: block; margin-top: 3px; font: 500 .62rem/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); white-space: nowrap; }
-.nav { display: flex; align-items: center; gap: 1.1rem; }
-.nav a.l { text-decoration: none; font-weight: 600; font-size: .95rem; color: var(--ink-soft); padding: .4rem .2rem; transition: color .2s; }
-.nav a.l:hover { color: var(--ink); }
-.lang { display: inline-grid; grid-template-columns: 1fr 1fr; padding: 3px; border-radius: 11px; background: var(--sky); position: relative; }
-.lang::before { content: ""; position: absolute; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); border-radius: 8px; background: var(--surface); box-shadow: 0 2px 8px -3px rgba(17,26,54,.35); transition: transform .35s var(--spring); }
+.brand svg { width: 44px; height: 40px; flex: none; }
+.brand b { display: block; font: 700 1rem/1 var(--f-display); letter-spacing: -.01em; white-space: nowrap; }
+.brand small { display: block; margin-top: 4px; font: 400 .62rem/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); white-space: nowrap; }
+.nav { display: flex; align-items: center; gap: 1.2rem; }
+.nav a.l { text-decoration: none; font-weight: 500; font-size: .95rem; color: var(--soft); padding: .4rem .1rem; transition: color .2s; }
+.nav a.l:hover { color: var(--white); }
+.lang { display: inline-grid; grid-template-columns: 1fr 1fr; padding: 3px; border-radius: 8px; box-shadow: inset 0 0 0 1px var(--rule); position: relative; }
+.lang::before { content: ""; position: absolute; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); border-radius: 5px; background: var(--brass); transition: transform .35s var(--spring); }
 .lang[data-lang="es"]::before { transform: translateX(100%); }
-.lang button { position: relative; z-index: 1; appearance: none; border: 0; background: none; cursor: pointer; padding: .5rem .7rem; min-width: 44px; min-height: 36px; font: 700 .82rem/1 var(--f-body); color: var(--ink-soft); border-radius: 8px; transition: color .2s; }
-.lang button:hover { color: var(--ink); }
-.lang button[aria-pressed="true"] { color: var(--blue); }
-@media (max-width: 960px) { .nav a.l { display: none; } }
+.lang button { position: relative; z-index: 1; appearance: none; border: 0; background: none; cursor: pointer; padding: .5rem .7rem; min-width: 44px; min-height: 36px; font: 500 .8rem/1 var(--f-mono); letter-spacing: .06em; color: var(--soft); border-radius: 5px; transition: color .2s; }
+.lang button:hover { color: var(--white); }
+.lang button[aria-pressed="true"] { color: var(--navy); }
+@media (max-width: 980px) { .nav a.l { display: none; } }
 @media (max-width: 560px) { #navCall { display: none; } .brand small { display: none; } }
 
-/* ---------- Hero ---------- */
-.hero { padding-block: clamp(2rem, 5vw, 4rem) clamp(3.5rem, 7vw, 5.5rem); position: relative; overflow: hidden; }
-.hero::before { content: ""; position: absolute; right: -10%; top: -20%; width: 60vw; height: 60vw; max-width: 760px; max-height: 760px; border-radius: 50%; background: radial-gradient(circle, var(--sky), transparent 68%); pointer-events: none; }
-.hero .wrap { position: relative; display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: clamp(1.8rem, 5vw, 4rem); align-items: center; }
-.hero-copy { display: grid; gap: 1.5rem; min-width: 0; }
-.hero h1 { font-size: var(--s-1); font-weight: 900; letter-spacing: -.04em; line-height: .96; }
-.hero h1 .flip { display: block; position: relative; color: var(--blue); height: 1.04em; overflow: hidden; }
-.hero h1 .flip span { position: absolute; left: 0; top: 0; white-space: nowrap; transition: transform .6s var(--spring), opacity .4s var(--ease); }
-.hero h1 .flip span[data-state="in"] { transform: translateY(0); opacity: 1; }
-.hero h1 .flip span[data-state="out"] { transform: translateY(-105%); opacity: 0; }
-.hero h1 .flip span[data-state="wait"] { transform: translateY(105%); opacity: 0; }
-.hero .lede { font-size: 1.18rem; color: var(--ink-soft); max-width: 34rem; }
-.hero .ctas { display: flex; flex-wrap: wrap; gap: .7rem; }
-.chips { display: flex; flex-wrap: wrap; gap: .45rem; }
-.chips > span { display: inline-flex; align-items: center; gap: .45rem; font: 600 .86rem/1 var(--f-body); padding: .6rem .8rem; border-radius: 999px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
-.chips svg { width: 15px; height: 15px; color: var(--ok); }
-.hero-copy > * { animation: rise .8s var(--ease) both; }
-.hero-copy > :nth-child(2) { animation-delay: .07s; } .hero-copy > :nth-child(3) { animation-delay: .14s; }
-.hero-copy > :nth-child(4) { animation-delay: .21s; } .hero-copy > :nth-child(5) { animation-delay: .28s; }
+/* ---------- Hero + plan sheet ---------- */
+.hero { padding-block: clamp(2rem, 5vw, 3.6rem) clamp(3rem, 6vw, 5rem); }
+.hero-head { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, .9fr); gap: 1.2rem clamp(1.5rem, 4vw, 3.5rem); align-items: end; margin-bottom: clamp(1.8rem, 4vw, 2.8rem); }
+.hero h1 { font-size: var(--t-h1); font-weight: 800; letter-spacing: -.03em; margin-top: 1.1rem; }
+.hero h1 span { display: block; animation: rise .8s var(--ease) both; }
+.hero h1 .l2 { color: var(--brass); font-weight: 700; animation-delay: .1s; }
+.hero-side { display: grid; gap: 1.3rem; animation: rise .8s .2s var(--ease) both; }
+.hero-side p { color: var(--soft); font-size: 1.08rem; }
+.ctas { display: flex; flex-wrap: wrap; gap: .65rem; }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
-.van { position: relative; justify-self: center; width: 100%; max-width: 460px; animation: rise .9s .15s var(--ease) both; }
-.van figure { margin: 0; border-radius: 26px; overflow: hidden; box-shadow: var(--shadow), 0 0 0 1px var(--line); background: var(--sky); aspect-ratio: 771 / 806; }
-.van img { width: 100%; height: 100%; object-fit: cover; }
-.van .bubble { position: absolute; left: -6%; bottom: 12%; display: grid; gap: .1rem; padding: .85rem 1.05rem; border-radius: 18px 18px 18px 4px; background: var(--navy); color: var(--paper); box-shadow: var(--shadow); max-width: 70%; animation: pop .6s .7s var(--spring) both; }
-.van .bubble b { font: 800 1.15rem/1.15 var(--f-display); }
-.van .bubble span { font-size: .86rem; opacity: .85; }
-.van .tag { position: absolute; right: -4%; top: 8%; padding: .55rem .8rem; border-radius: 12px; background: var(--surface); box-shadow: var(--shadow), 0 0 0 1px var(--line); font: 700 .86rem/1.2 var(--f-body); display: flex; gap: .45rem; align-items: center; animation: pop .6s .9s var(--spring) both; }
-.van .tag svg { width: 16px; height: 16px; color: var(--ok); }
-@keyframes pop { from { opacity: 0; transform: scale(.85) translateY(8px); } }
-@media (max-width: 880px) { .hero .wrap { grid-template-columns: 1fr; } .van { max-width: 360px; } .van .bubble { left: -2%; } .van .tag { right: -2%; } }
+@media (max-width: 900px) { .hero-head { grid-template-columns: 1fr; } }
 
-/* ---------- Trust strip ---------- */
-.trust { border-block: 1px solid var(--line); background: var(--surface); }
-.trust .wrap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.trust .wrap > div { padding: 1.3rem 1rem; display: grid; gap: .3rem; border-left: 1px solid var(--line); min-width: 0; }
-.trust .wrap > div:first-child { border-left: 0; padding-left: 0; }
-.trust b { font: 800 1.2rem/1.15 var(--f-display); color: var(--navy); }
-.trust span { font-size: .9rem; color: var(--ink-soft); }
-@media (max-width: 760px) { .trust .wrap { grid-template-columns: 1fr 1fr; } .trust .wrap > div:nth-child(3) { border-left: 0; padding-left: 0; } .trust .wrap > div:nth-child(n+3) { border-top: 1px solid var(--line); } }
+.sheet { position: relative; border: 1px solid rgba(238,242,250,.55); padding: 6px; animation: rise .9s .25s var(--ease) both; }
+.sheet-body { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); border: 1px solid var(--rule); border-bottom: 0; }
+.plan-wrap { position: relative; padding: clamp(2rem, 3vw, 2.4rem) clamp(.6rem, 2vw, 1.4rem) clamp(.6rem, 2vw, 1.2rem); border-right: 1px solid var(--rule); min-width: 0; }
+.plan-label { position: absolute; left: clamp(.8rem, 2vw, 1.4rem); top: clamp(.6rem, 1.4vw, .9rem); font: 400 var(--t-cap)/1.3 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
+.plan { width: 100%; height: auto; overflow: visible; }
+.plan text { font-family: var(--f-mono); }
+.plan .wall { fill: none; stroke: var(--white); stroke-width: 1.6; stroke-linejoin: round; }
+.plan .wall-thin { fill: none; stroke: rgba(238,242,250,.45); stroke-width: 1; }
+.plan .wall-dash { fill: none; stroke: rgba(238,242,250,.35); stroke-width: 1; }
+.plan .room { font-size: 9.5px; letter-spacing: .12em; fill: rgba(238,242,250,.45); }
+.plan .ground { stroke: var(--white); stroke-width: 1.4; }
+.plan .fixture { fill: rgba(238,242,250,.05); stroke: rgba(238,242,250,.75); stroke-width: 1.2; stroke-linejoin: round; transition: stroke .35s var(--ease); }
+.plan .pipe { fill: none; stroke: rgba(238,242,250,.85); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; transition: stroke .35s var(--ease); }
+.plan .pipe.drain { stroke-width: 4; stroke: rgba(238,242,250,.7); }
+.plan .pipe.gas { stroke-dasharray: 10 4 2 4; }
+.plan .flow { fill: none; stroke: var(--brass); stroke-width: 2.6; stroke-linecap: round; stroke-dasharray: 3 11; opacity: 0; transition: opacity .4s var(--ease); pointer-events: none; }
+.plan .flow.drain { stroke-width: 3; }
+.plan .sys { transition: opacity .35s var(--ease); cursor: pointer; }
+.plan .key circle { fill: var(--navy); stroke: var(--white); stroke-width: 1.3; transition: fill .3s, stroke .3s; }
+.plan .key text { font-size: 11px; font-weight: 500; fill: var(--white); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.plan .key .leader { stroke: rgba(238,242,250,.55); stroke-width: 1; stroke-dasharray: 2 3; }
+.plan .key { transform-box: fill-box; transform-origin: center; }
+.plan .drip { fill: var(--brass); opacity: 0; pointer-events: none; }
+.plan[data-sel] .sys:not(.on) { opacity: .24; }
+.plan .sys.on .pipe, .plan .sys.on .fixture { stroke: var(--brass); }
+.plan .sys.on .flow { opacity: 1; }
+.plan .sys.on .key circle { fill: var(--brass); stroke: var(--brass); }
+.plan .sys.on .key text { fill: var(--navy); }
+.plan .sys.on .drip { opacity: 1; }
+.plan:not([data-sel]) .sys.ambient .flow { opacity: .85; }
+.plan .sys:hover .key circle { stroke: var(--brass); }
 
-/* ---------- Services ---------- */
-.svc { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-.svc li { background: var(--surface); border-radius: var(--r); box-shadow: var(--shadow), 0 0 0 1px var(--line); padding: 1.4rem; display: grid; gap: .75rem; align-content: start; min-width: 0; transition: transform .35s var(--spring), box-shadow .3s; }
-.svc li:hover { transform: translateY(-4px); box-shadow: var(--shadow), 0 0 0 1.5px var(--blue); }
-.svc .ic { width: 3rem; height: 3rem; border-radius: 14px; display: grid; place-items: center; background: var(--sky); color: var(--blue); transition: transform .4s var(--spring); }
-.svc li:hover .ic { transform: rotate(-8deg) scale(1.06); }
-.svc .ic svg { width: 24px; height: 24px; }
-.svc h3 { font-size: 1.18rem; font-weight: 800; letter-spacing: -.01em; line-height: 1.15; }
-.svc p { color: var(--ink-soft); font-size: .95rem; }
-@media (max-width: 1000px) { .svc { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 520px) { .svc { grid-template-columns: 1fr; } }
+.js .plan .draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.1s var(--ease) forwards; animation-delay: var(--d, 0s); }
+.js .plan .pipe.gas.draw { stroke-dasharray: 10 4 2 4; stroke-dashoffset: 0; opacity: 0; animation: fadein .8s var(--ease) forwards; animation-delay: var(--d, 0s); }
+.js .plan .keyin { opacity: 0; animation: keyin .5s var(--spring) forwards; animation-delay: var(--d, 0s); }
+.js .plan .roomin { opacity: 0; animation: fadein .8s var(--ease) forwards; animation-delay: var(--d, 0s); }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes fadein { to { opacity: 1; } }
+@keyframes keyin { from { opacity: 0; transform: scale(.4); } to { opacity: 1; transform: none; } }
+.plan.flowing .flow { animation: flow 1.1s linear infinite; }
+.plan.flowing .flow.drain { animation-duration: 2.2s; }
+@keyframes flow { to { stroke-dashoffset: -14; } }
+.plan.flowing .sys.on .drip { animation: drip 1.8s ease-in infinite; transform-box: fill-box; transform-origin: center top; }
+@keyframes drip { 0%, 20% { transform: translateY(0) scale(.5); } 70% { transform: translateY(14px) scale(1); opacity: 1; } 100% { transform: translateY(16px); opacity: 0; } }
 
-/* ---------- Estimate builder ---------- */
-.est { background: linear-gradient(180deg, var(--sky), var(--paper)); }
+.side { display: grid; grid-template-rows: auto 1fr; min-width: 0; }
+.legend { padding: clamp(1rem, 2vw, 1.4rem); border-bottom: 1px solid var(--rule); }
+.legend h2 { font: 500 var(--t-cap)/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin-bottom: .9rem; }
+.keys { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.keys button { appearance: none; border: 0; background: none; cursor: pointer; width: 100%; min-height: 44px; display: grid; grid-template-columns: 1.7rem minmax(0, 1fr); gap: .55rem; align-items: center; text-align: left; padding: .45rem .5rem; border-radius: 6px; color: var(--white); font: 500 .9rem/1.2 var(--f-body); transition: background-color .2s, color .2s; }
+.keys button:hover { background: rgba(238,242,250,.07); }
+.keys button i { font: 500 .72rem/1 var(--f-mono); font-style: normal; width: 1.7rem; height: 1.7rem; border-radius: 50%; display: grid; place-items: center; box-shadow: inset 0 0 0 1px rgba(238,242,250,.6); transition: background-color .2s, color .2s, box-shadow .2s; font-variant-numeric: tabular-nums; }
+.keys button[aria-pressed="true"] { background: rgba(224,169,74,.13); color: var(--brass); }
+.keys button[aria-pressed="true"] i { background: var(--brass); color: var(--navy); box-shadow: none; }
+.keys button span { overflow-wrap: anywhere; }
+.detail { padding: clamp(1rem, 2vw, 1.4rem); display: grid; gap: .9rem; align-content: start; min-width: 0; min-height: 13rem; }
+.detail .num { font: 500 var(--t-cap)/1 var(--f-mono); letter-spacing: .14em; color: var(--brass); text-transform: uppercase; }
+.detail h3 { font-size: var(--t-h4); font-weight: 700; }
+.detail p { color: var(--soft); }
+.detail .acts { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .2rem; }
+.detail .btn[data-done="true"] { background: transparent; color: var(--brass); box-shadow: inset 0 0 0 1px var(--brass); }
+.detail.swap > * { animation: rise .45s var(--ease) both; }
+.detail.swap > :nth-child(2) { animation-delay: .04s; } .detail.swap > :nth-child(3) { animation-delay: .08s; } .detail.swap > :nth-child(4) { animation-delay: .12s; }
+.empty { color: var(--soft); display: grid; gap: .7rem; }
+.empty b { color: var(--white); font: 700 var(--t-h4)/1.15 var(--f-display); }
+
+.tblock { margin: 0; display: grid; grid-template-columns: minmax(0, 1.3fr) repeat(4, minmax(0, 1fr)); border: 1px solid var(--rule); border-top: 1px solid rgba(238,242,250,.55); }
+.tblock > div { padding: .85rem 1rem; border-left: 1px solid var(--rule); display: grid; gap: .3rem; align-content: start; min-width: 0; }
+.tblock > div:first-child { border-left: 0; }
+.tblock dt { font: 400 .66rem/1.2 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+.tblock dd { margin: 0; font: 600 .95rem/1.25 var(--f-body); }
+.tblock .co dd { font: 700 .95rem/1.2 var(--f-display); }
+@media (max-width: 980px) {
+  .sheet-body { grid-template-columns: 1fr; }
+  .plan-wrap { border-right: 0; border-bottom: 1px solid var(--rule); }
+  .tblock { grid-template-columns: 1fr 1fr; }
+  .tblock .co { grid-column: 1 / -1; }
+  .tblock > div:nth-child(2), .tblock > div:nth-child(4) { border-left: 0; }
+  .tblock > div:nth-child(n+2) { border-top: 1px solid var(--rule); }
+  .detail { min-height: 0; }
+}
+@media (max-width: 340px) { .keys { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .keys button { font-size: .84rem; } .plan-wrap { padding-top: 2.2rem; } }
+
+/* ---------- Estimate: the white-print band ---------- */
+.est { background: var(--paper); color: var(--ink); padding-block: clamp(4.5rem, 9vw, 7rem); }
+.est .kicker { color: var(--brass-deep); }
+.est-head { display: grid; gap: 1rem; max-width: 46rem; margin-bottom: clamp(2rem, 4vw, 3rem); }
+.est-head h2 { font-size: var(--t-h2); }
+.est-head p { color: var(--ink-soft); font-size: 1.08rem; }
 .est-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(1.5rem, 4vw, 3.5rem); align-items: start; }
-form.builder { background: var(--surface); border-radius: 22px; box-shadow: var(--shadow), 0 0 0 1px var(--line); padding: clamp(1.4rem, 3vw, 2.2rem); display: grid; gap: 1.5rem; min-width: 0; }
+form.builder { background: #ffffff; border: 1px solid var(--paper-rule); border-radius: 10px; padding: clamp(1.3rem, 3vw, 2rem); display: grid; gap: 1.5rem; min-width: 0; box-shadow: 0 30px 60px -44px rgba(15,29,68,.45); color-scheme: light; }
 fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: .7rem; min-width: 0; }
-legend, .lbl { font: 700 .92rem/1.2 var(--f-body); padding: 0; margin-bottom: .1rem; }
-legend small, .lbl small { font-weight: 500; color: var(--ink-soft); }
+legend, .lbl { font: 600 .92rem/1.2 var(--f-body); padding: 0; color: var(--ink); }
+legend small, .lbl small { font-weight: 400; color: var(--ink-soft); }
 .seg { display: grid; grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr)); gap: 6px; }
 .opts { display: flex; flex-wrap: wrap; gap: .45rem; }
 .choice { position: relative; display: block; }
 .choice input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
-.choice span { display: flex; align-items: center; justify-content: center; gap: .45rem; min-height: 44px; padding: .65rem .95rem; border-radius: 12px; font: 600 .95rem/1.2 var(--f-body); text-align: center; background: var(--paper); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); transition: background-color .2s, color .2s, box-shadow .2s, transform .25s var(--spring); pointer-events: none; }
-.choice:hover span { box-shadow: inset 0 0 0 1.5px var(--blue); }
-.choice input:checked + span { background: var(--blue); color: var(--on-blue); box-shadow: none; }
-.choice input:focus-visible + span { outline: 3px solid var(--blue); outline-offset: 2px; }
-.choice input[type="checkbox"] + span::before { content: ""; width: 14px; height: 14px; border-radius: 4px; box-shadow: inset 0 0 0 1.5px currentColor; flex: none; }
-.choice input[type="checkbox"]:checked + span::before { background: currentColor; box-shadow: none; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M0 0h14v14H0z' fill='%23000'/%3E%3Cpath d='M3 7.200l2.600 2.600L11 4.400' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") center/100% luminance; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M0 0h14v14H0z' fill='%23fff'/%3E%3Cpath d='M3 7.200l2.600 2.600L11 4.400' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E") center/100% luminance; }
+.choice span { display: flex; align-items: center; justify-content: center; gap: .45rem; min-height: 44px; padding: .65rem .95rem; border-radius: 6px; font: 500 .95rem/1.2 var(--f-body); text-align: center; background: var(--paper); color: var(--ink); box-shadow: inset 0 0 0 1px var(--paper-rule); transition: background-color .2s, color .2s, box-shadow .2s; pointer-events: none; }
+.choice:hover span { box-shadow: inset 0 0 0 1px var(--ink); }
+.choice input:checked + span { background: var(--ink); color: var(--white); box-shadow: none; }
+.choice input:focus-visible + span { outline: 2px solid var(--brass-deep); outline-offset: 2px; }
+.choice input[type="checkbox"] + span::before { content: ""; width: 14px; height: 14px; border-radius: 3px; box-shadow: inset 0 0 0 1.5px currentColor; flex: none; }
+.choice input[type="checkbox"]:checked + span::before { background: var(--brass); box-shadow: none; }
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .field { display: grid; gap: .45rem; min-width: 0; }
-.field input, .field textarea { width: 100%; font: 400 16px/1.4 var(--f-body); color: var(--ink); background: var(--paper); border: 1.5px solid var(--line); border-radius: 12px; padding: .8rem .9rem; transition: border-color .2s, box-shadow .2s; }
-.field input:focus-visible, .field textarea:focus-visible { outline: none; border-color: var(--blue); box-shadow: 0 0 0 4px color-mix(in srgb, var(--blue) 22%, transparent); }
+.field input, .field textarea { width: 100%; font: 400 16px/1.4 var(--f-body); color: var(--ink); background: var(--paper); border: 1px solid var(--paper-rule); border-radius: 6px; padding: .8rem .9rem; transition: border-color .2s, box-shadow .2s; }
+.field input::placeholder, .field textarea::placeholder { color: #6c7899; }
+.field input:focus-visible, .field textarea:focus-visible { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px rgba(224,169,74,.5); }
 .field textarea { min-height: 5.5rem; resize: vertical; }
-.field[data-invalid="true"] input { border-color: var(--err); }
-.field .msg { font-size: .86rem; color: var(--err); min-height: 1.2em; }
+.field[data-invalid="true"] input { border-color: var(--err-ink); }
+.msg, #needMsg { font-size: .86rem; color: var(--err-ink); min-height: 1.2em; margin: 0; }
 .phone-wrap { position: sticky; top: 96px; display: grid; gap: 1rem; justify-items: center; }
-.phone { width: 100%; max-width: 340px; border-radius: 40px; padding: 12px; background: #0f1630; box-shadow: 0 40px 70px -40px rgba(17,26,54,.7), inset 0 0 0 2px #2b3766; }
-.screen { border-radius: 30px; background: var(--surface); overflow: hidden; display: grid; grid-template-rows: auto 1fr auto; min-height: 520px; }
-.screen .bar { display: flex; align-items: center; gap: .7rem; padding: 1.1rem 1rem .8rem; border-bottom: 1px solid var(--line); }
-.screen .bar svg { width: 36px; height: 33px; flex: none; }
-.screen .bar b { display: block; font: 800 .98rem/1.15 var(--f-display); }
-.screen .bar span { font: 500 .74rem/1.2 var(--f-mono); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
-.thread { padding: 1rem .9rem; display: grid; align-content: end; gap: .6rem; background: var(--paper); }
-.bub { justify-self: end; max-width: 88%; padding: .75rem .9rem; border-radius: 18px 18px 4px 18px; background: var(--blue); color: var(--on-blue); font-size: .92rem; line-height: 1.45; white-space: pre-line; overflow-wrap: anywhere; transform-origin: bottom right; }
+.phone { width: 100%; max-width: 340px; border-radius: 40px; padding: 11px; background: var(--navy); box-shadow: 0 40px 70px -40px rgba(15,29,68,.75), inset 0 0 0 2px var(--navy-3); }
+.screen { border-radius: 30px; background: var(--navy-2); overflow: hidden; display: grid; grid-template-rows: auto 1fr auto; min-height: 500px; }
+.screen .bar { display: flex; align-items: center; gap: .7rem; padding: 1.1rem 1rem .8rem; border-bottom: 1px solid var(--rule); color: var(--white); }
+.screen .bar svg { width: 34px; height: 31px; flex: none; }
+.screen .bar b { display: block; font: 700 .86rem/1.2 var(--f-display); }
+.screen .bar span { font: 400 .72rem/1.2 var(--f-mono); color: var(--soft); font-variant-numeric: tabular-nums; }
+.thread { padding: 1rem .9rem; display: grid; align-content: end; gap: .6rem; }
+.bub { justify-self: end; max-width: 88%; padding: .75rem .9rem; border-radius: 16px 16px 4px 16px; background: var(--brass); color: var(--navy); font-size: .92rem; line-height: 1.45; white-space: pre-line; overflow-wrap: anywhere; transform-origin: bottom right; }
 .bub.in { animation: bub .4s var(--spring); }
 @keyframes bub { from { opacity: .4; transform: scale(.94); } }
-.bub-in { justify-self: start; max-width: 82%; padding: .65rem .85rem; border-radius: 18px 18px 18px 4px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); font-size: .88rem; color: var(--ink-soft); }
-.screen .compose { display: flex; align-items: center; gap: .5rem; padding: .7rem .8rem 1rem; border-top: 1px solid var(--line); font-size: .82rem; color: var(--ink-soft); }
-.screen .compose i { flex: 1; padding: .6rem .8rem; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line); font-style: normal; }
-#needMsg { color: var(--err); font-size: .86rem; min-height: 1.2em; }
+.bub-in { justify-self: start; max-width: 82%; padding: .65rem .85rem; border-radius: 16px 16px 16px 4px; background: rgba(238,242,250,.09); font-size: .88rem; color: var(--soft); }
+.screen .compose { display: flex; padding: .7rem .8rem 1rem; border-top: 1px solid var(--rule); font-size: .82rem; color: var(--soft); }
+.screen .compose i { flex: 1; padding: .6rem .8rem; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--rule); font-style: normal; }
 .send { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; }
+.est .btn-line { color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.est .btn-line:hover { color: var(--brass-deep); box-shadow: inset 0 0 0 1px var(--brass-deep); }
+.est .btn[data-done="true"] { background: var(--ink); color: var(--white); box-shadow: none; }
 .send-note { font-size: .84rem; color: var(--ink-soft); text-align: center; max-width: 340px; }
 @media (max-width: 920px) { .est-grid { grid-template-columns: 1fr; } .phone-wrap { position: static; } .screen { min-height: 0; } }
 @media (max-width: 460px) { .two { grid-template-columns: 1fr; } }
 
 /* ---------- Contact ---------- */
-.contact { background: var(--navy); color: var(--paper); }
-:root[data-theme="dark"] .contact { background: #0a1128; color: var(--ink); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .contact { background: #0a1128; color: var(--ink); } }
-.contact .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4rem); align-items: end; }
-.contact h2 { font-size: clamp(2.4rem, 5.5vw, 4.4rem); font-weight: 900; }
-.contact .num { display: inline-block; margin-top: 1.2rem; font: 900 clamp(2.4rem, 6vw, 4.4rem)/1 var(--f-display); letter-spacing: -.03em; text-decoration: none; font-variant-numeric: tabular-nums; transition: color .2s; }
-.contact .num:hover { color: #9fc0ff; }
-.contact dl { margin: 0; display: grid; }
-.contact dl div { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 1rem; padding: .95rem 0; border-top: 1px solid rgba(255,255,255,.18); }
-.contact dt { font: 500 .74rem/1.7 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; opacity: .7; }
+.contact { padding-block: clamp(4.5rem, 9vw, 7rem); }
+.contact .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .85fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+.contact h2 { font-size: var(--t-h2); margin-top: 1rem; }
+.contact .num { display: inline-block; margin-top: 1.4rem; font: 800 clamp(2.1rem, 5.4vw, 3.8rem)/1.05 var(--f-display); letter-spacing: -.03em; text-decoration: none; font-variant-numeric: tabular-nums; color: var(--white); background: linear-gradient(var(--brass), var(--brass)) 0 100% / 0 3px no-repeat; transition: background-size .5s var(--ease), color .2s; }
+.contact .num:hover { color: var(--brass); background-size: 100% 3px; }
+.contact dl { margin: 2rem 0 0; display: grid; border-top: 1px solid var(--rule); }
+.contact dl div { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: 1rem; padding: .9rem 0; border-bottom: 1px solid var(--rule); }
+.contact dt { font: 400 var(--t-cap)/1.7 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
 .contact dd { margin: 0; overflow-wrap: anywhere; }
-.contact dd a { color: inherit; text-underline-offset: 3px; transition: color .2s; }
-.contact dd a:hover { color: #9fc0ff; }
-@media (max-width: 860px) { .contact .wrap { grid-template-columns: 1fr; } }
+.contact dd a { text-underline-offset: 3px; transition: color .2s; }
+.contact dd a:hover { color: var(--brass); }
+.field-photo { margin: 0; border: 1px solid rgba(238,242,250,.55); padding: 6px; max-width: 460px; width: 100%; justify-self: center; }
+.field-photo .ph { aspect-ratio: 771 / 806; overflow: hidden; border: 1px solid var(--rule); }
+.field-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+.field-photo:hover img { transform: scale(1.03); }
+.field-photo figcaption { display: flex; justify-content: space-between; gap: 1rem; padding: .7rem .4rem .3rem; font: 400 var(--t-cap)/1.3 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--soft); }
+@media (max-width: 880px) { .contact .wrap { grid-template-columns: 1fr; } }
 
-footer { padding-block: 2.2rem calc(2.2rem + env(safe-area-inset-bottom, 0px)); color: var(--ink-soft); font-size: .88rem; }
-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: center; }
+footer { border-top: 1px solid var(--rule); padding-block: 1.6rem calc(1.6rem + env(safe-area-inset-bottom, 0px)); font: 400 var(--t-cap)/1.5 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .8rem; }
 
-.dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 55; display: none; gap: .6rem; padding: .7rem var(--gr) calc(.7rem + env(safe-area-inset-bottom, 0px)) var(--gl); background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--line); }
+.dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 55; display: none; gap: .6rem; padding: .7rem var(--gr) calc(.7rem + env(safe-area-inset-bottom, 0px)) var(--gl); background: rgba(15,29,68,.95); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--rule); }
 .dock .btn { flex: 1; }
-@media (max-width: 720px) { .dock { display: flex; } footer { padding-bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px)); } section[id], main[id] { scroll-margin-top: 72px; } }
+@media (max-width: 720px) { .dock { display: flex; } footer { padding-bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px)); } }
 
 .js .rv { transition: opacity .8s var(--ease), transform .8s var(--ease); }
 .js .rv.pre { opacity: 0; transform: translateY(22px); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
+  .js .plan .draw { stroke-dasharray: none; stroke-dashoffset: 0; }
+  .js .plan .pipe.gas.draw { stroke-dasharray: 10 4 2 4; opacity: 1; }
+  .js .plan .keyin, .js .plan .roomin { opacity: 1; }
   .js .rv.pre { opacity: 1; transform: none; }
 }
 </style>
@@ -253,13 +299,10 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <symbol id="badge" viewBox="0 0 92 84">
-      <path d="M46 2 88 22v40L46 82 4 62V22z" fill="#1b2a5e"/>
-      <path d="M46 7 83 25v34L46 77 9 59V25z" fill="none" stroke="#2c5bb8" stroke-width="3"/>
-      <path d="M18 44 32 32l9 7 13-11 20 16v14H18z" fill="#2c5bb8"/>
-      <path d="M41 39l13-11 20 16" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
-      <path d="M18 44 32 32l9 7" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/>
-      <rect x="51" y="44" width="6" height="7" fill="#fff"/><rect x="29" y="45" width="5" height="6" fill="#fff"/>
-      <path d="m46 12 1.600 3.300 3.600.500-2.600 2.500.600 3.600L46 20.200l-3.200 1.700.600-3.600-2.600-2.500 3.600-.500z" fill="#fff"/>
+      <path d="M46 2 88 22v40L46 82 4 62V22z" fill="#13245a" stroke="#eef2fa" stroke-width="2"/>
+      <path d="M18 46 32 34l9 7 13-11 20 16v13H18z" fill="#2c5bb8"/>
+      <path d="M18 46 32 34l9 7M41 41l13-11 20 16" fill="none" stroke="#eef2fa" stroke-width="3" stroke-linejoin="round"/>
+      <path d="m46 12 1.600 3.300 3.600.500-2.600 2.500.600 3.600L46 20.200l-3.200 1.700.600-3.600-2.600-2.500 3.600-.500z" fill="#e0a94a"/>
     </symbol>
   </defs>
 </svg>
@@ -271,76 +314,132 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <span><b>JAD Plumbing</b><small data-t="brandSub">Commercial &amp; Residential</small></span>
     </a>
     <nav class="nav" aria-label="Primary" data-t-aria="navLabel">
-      <a class="l" href="#services" data-t="navServices">Services</a>
+      <a class="l" href="#plan" data-t="navPlan">Services</a>
       <a class="l" href="#estimate" data-t="navEstimate">Free Estimate</a>
       <a class="l" href="#contact" data-t="navContact">Contact</a>
       <div class="lang" id="langToggle" role="group" aria-label="Language / Idioma">
         <button type="button" data-lang="en" aria-pressed="true" lang="en">EN</button>
         <button type="button" data-lang="es" aria-pressed="false" lang="es">ES</button>
       </div>
-      <a class="btn btn-blue btn-sm" id="navCall" href="tel:+17703697054"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>770-369-7054</a>
+      <a class="btn btn-brass btn-sm" id="navCall" href="tel:+17703697054"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>770-369-7054</a>
     </nav>
   </div>
 </header>
 
 <main id="main">
-  <section class="hero" aria-labelledby="h1">
+  <section class="hero grid-bg" id="plan" aria-labelledby="h1">
     <div class="wrap">
-      <div class="hero-copy">
-        <span class="eyebrow" data-t="eyebrow">Plumbing · Metro Atlanta</span>
-        <h1 id="h1"><span data-t="h1a">Plumbing Done Right.</span> <span class="flip" aria-hidden="true"><span lang="en" data-state="in">In English.</span><span lang="es" data-state="wait">En Español.</span></span><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)" data-t="h1sr">In English or Spanish.</span></h1>
-        <p class="lede" data-t="lede">Gas lines, leaks, clogs, sewer and water lines, water heaters and fixtures, for homes and businesses. Ask questions and get your estimate in the language you’re most comfortable with.</p>
-        <div class="ctas">
-          <a class="btn btn-blue" href="tel:+17703697054"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span data-t="callCta">Call 770-369-7054</span></a>
-          <a class="btn btn-line" href="#estimate" data-t="estCta">Get a Free Estimate</a>
+      <div class="hero-head">
+        <div>
+          <span class="kicker" data-t="kicker">Plumbing · Metro Atlanta</span>
+          <h1 id="h1"><span class="l1" data-t="h1a">Every pipe in the house.</span><span class="l2" data-t="h1b">In English o en español.</span></h1>
         </div>
-        <div class="chips">
-          <span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 8.500l3 3 7-7"/></svg><span data-t="chip1">Fully Insured</span></span>
-          <span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 8.500l3 3 7-7"/></svg><span data-t="chip2">Free Estimates</span></span>
-          <span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 8.500l3 3 7-7"/></svg><span data-t="chip3">English &amp; Español</span></span>
+        <div class="hero-side">
+          <p data-t="lede">From the main line at the street to the faucet in your kitchen, JAD handles the whole system, for homes and businesses. Ask questions and get your estimate in your language.</p>
+          <div class="ctas">
+            <a class="btn btn-brass" href="tel:+17703697054"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span data-t="callCta">Call 770-369-7054</span></a>
+            <a class="btn btn-line" href="#estimate" data-t="estCta">Get a Free Estimate</a>
+          </div>
         </div>
       </div>
-      <div class="van">
-        <figure><img src="assets/van.jpg" width="771" height="806" alt="The JAD Plumbing van, listing its services, Fully Insured, Free Estimates and Spanish / English." data-t-alt="vanAlt" fetchpriority="high"></figure>
-        <div class="bubble"><b data-t="bubble1">¿Habla español?</b><span data-t="bubble2">Sí. Call or text in either language.</span></div>
-        <div class="tag"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 8.500l3 3 7-7"/></svg><span data-t="tag">Commercial &amp; Residential</span></div>
+
+      <div class="sheet">
+        <div class="sheet-body">
+          <div class="plan-wrap">
+            <span class="plan-label" data-t="planLabel">Plumbing plan · Section A–A</span>
+            <svg class="plan" id="planSvg" viewBox="0 0 800 524" role="img" aria-labelledby="planTitle">
+              <title id="planTitle" data-t="planTitle">Drawing of a house’s plumbing system with 8 numbered services</title>
+              <defs>
+                <pattern id="earth" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="10" stroke="rgba(238,242,250,.12)" stroke-width="1"/></pattern>
+              </defs>
+              <rect x="0" y="433" width="800" height="91" fill="url(#earth)"/>
+              <line class="ground draw" pathLength="1" style="--d:.1s" x1="0" y1="432" x2="800" y2="432"/>
+              <path class="wall-thin draw" pathLength="1" style="--d:.2s" d="M0 426h120"/>
+              <text class="room roomin" style="--d:1s" x="12" y="418" data-t="rStreet">STREET</text>
+              <path class="wall draw" pathLength="1" style="--d:.25s" d="M170 432V160L400 64l230 96v272"/>
+              <path class="wall-thin draw" pathLength="1" style="--d:.55s" d="M170 290h460M320 290v142M320 160v130M470 160v130"/>
+              <path class="wall-dash draw" pathLength="1" style="--d:.7s" d="M170 432v70h460v-70"/>
+              <text class="room roomin" style="--d:1.1s" x="182" y="308" data-t="rUtil">UTILITY</text>
+              <text class="room roomin" style="--d:1.15s" x="380" y="308" data-t="rKitchen">KITCHEN</text>
+              <text class="room roomin" style="--d:1.2s" x="380" y="178" data-t="rBath">BATH</text>
+              <text class="room roomin" style="--d:1.25s" x="182" y="178" data-t="rBed">BEDROOM</text>
+              <text class="room roomin" style="--d:1.3s" x="182" y="494" data-t="rCrawl">CRAWLSPACE</text>
+              <rect class="fixture roomin" style="--d:1s" x="470" y="380" width="70" height="52"/>
+
+              <g class="sys ambient" data-k="main">
+                <path class="pipe draw" pathLength="1" style="--d:.9s" d="M0 470H200V398H220"/>
+                <path class="flow" d="M0 470H200V398H220"/>
+                <g class="key keyin" style="--d:2.1s"><line class="leader" x1="110" y1="470" x2="110" y2="492"/><circle cx="110" cy="505" r="12"/><text x="110" y="505">1</text></g>
+              </g>
+              <g class="sys ambient" data-k="heater">
+                <rect class="fixture draw" pathLength="1" style="--d:1s" x="220" y="340" width="40" height="88" rx="14"/>
+                <path class="pipe draw" pathLength="1" style="--d:1.2s" d="M240 340V306H330"/>
+                <path class="flow" d="M240 340V306H330"/>
+                <g class="key keyin" style="--d:2.2s"><line class="leader" x1="260" y1="398" x2="280" y2="398"/><circle cx="293" cy="398" r="12"/><text x="293" y="398">2</text></g>
+              </g>
+              <g class="sys ambient" data-k="fixtures">
+                <path class="fixture draw" pathLength="1" style="--d:1.4s" d="M346 238h22v18h-22zM340 256h38c0 16-8 28-19 28s-19-12-19-28z"/>
+                <path class="fixture draw" pathLength="1" style="--d:1.45s" d="M412 236h44v10h-44zM434 236v-9h9"/>
+                <path class="pipe draw" pathLength="1" style="--d:1.35s" d="M330 306H434V250M352 306V272"/>
+                <path class="flow" d="M330 306H434V250M352 306V272"/>
+                <g class="key keyin" style="--d:2.3s"><line class="leader" x1="446" y1="236" x2="458" y2="216"/><circle cx="466" cy="204" r="12"/><text x="466" y="204">3</text></g>
+              </g>
+              <g class="sys" data-k="leak">
+                <path class="pipe draw" pathLength="1" style="--d:1.25s" d="M270 306H300"/>
+                <path class="drip" d="M285 312c0 0-4 6-4 9a4 4 0 0 0 8 0c0-3-4-9-4-9z"/>
+                <g class="key keyin" style="--d:2.4s"><line class="leader" x1="285" y1="318" x2="285" y2="334"/><circle cx="285" cy="347" r="12"/><text x="285" y="347">4</text></g>
+              </g>
+              <g class="sys" data-k="drain">
+                <path class="fixture draw" pathLength="1" style="--d:1.5s" d="M492 380h40v9h-40z"/>
+                <path class="pipe drain draw" pathLength="1" style="--d:1.55s" d="M368 58V452M512 389V452"/>
+                <path class="flow drain" d="M368 286V452M512 389V452"/>
+                <g class="key keyin" style="--d:2.5s"><line class="leader" x1="516" y1="440" x2="538" y2="458"/><circle cx="548" cy="468" r="12"/><text x="548" y="468">5</text></g>
+              </g>
+              <g class="sys" data-k="sewer">
+                <path class="pipe drain draw" pathLength="1" style="--d:1.65s" d="M520 452H140L0 494"/>
+                <path class="flow drain" d="M520 452H140L0 494"/>
+                <g class="key keyin" style="--d:2.6s"><line class="leader" x1="290" y1="452" x2="290" y2="474"/><circle cx="290" cy="487" r="12"/><text x="290" y="487">6</text></g>
+              </g>
+              <g class="sys" data-k="gas">
+                <rect class="fixture roomin" style="--d:1.3s" x="660" y="394" width="30" height="34" rx="3"/>
+                <text class="room roomin" style="--d:1.35s" x="670" y="415">G</text>
+                <path class="fixture draw" pathLength="1" style="--d:1.4s" d="M548 382h52v50h-52zM556 382v-6M570 382v-6M584 382v-6"/>
+                <path class="pipe gas draw" style="--d:1.7s" d="M800 412H690M660 412H600"/>
+                <path class="flow" d="M800 412H690M660 412H600"/>
+                <g class="key keyin" style="--d:2.7s"><line class="leader" x1="745" y1="412" x2="745" y2="394"/><circle cx="745" cy="381" r="12"/><text x="745" y="381">7</text></g>
+              </g>
+              <g class="sys" data-k="sump">
+                <path class="fixture draw" pathLength="1" style="--d:1.6s" d="M588 452h46v44h-46z"/>
+                <rect class="fixture roomin" style="--d:1.7s" x="600" y="472" width="22" height="20" rx="3"/>
+                <path class="pipe draw" pathLength="1" style="--d:1.75s" d="M611 472V444H720V436"/>
+                <path class="flow" d="M611 472V444H720V436"/>
+                <g class="key keyin" style="--d:2.8s"><line class="leader" x1="634" y1="480" x2="656" y2="488"/><circle cx="668" cy="490" r="12"/><text x="668" y="490">8</text></g>
+              </g>
+            </svg>
+          </div>
+          <div class="side">
+            <div class="legend">
+              <h2 data-t="legendH">Keynotes · tap a system</h2>
+              <ul class="keys" id="keys"></ul>
+            </div>
+            <div class="detail" id="detail" aria-live="polite"></div>
+          </div>
+        </div>
+        <dl class="tblock">
+          <div class="co"><dt data-t="tbSheet">Sheet P-101 · Plumbing plan</dt><dd translate="no">JAD Plumbing LLC</dd></div>
+          <div><dt data-t="tb1k">Coverage</dt><dd data-t="tb1">Fully Insured</dd></div>
+          <div><dt data-t="tb2k">Pricing</dt><dd data-t="tb2">Free Estimates</dd></div>
+          <div><dt data-t="tb3k">Work</dt><dd data-t="tb3">Commercial &amp; Residential</dd></div>
+          <div><dt data-t="tb4k">Languages</dt><dd data-t="tb4">English &amp; Español</dd></div>
+        </dl>
       </div>
     </div>
   </section>
 
-  <div class="trust" role="list" aria-label="Why JAD Plumbing" data-t-aria="trustLabel">
+  <section class="est" id="estimate" aria-labelledby="est-h">
     <div class="wrap">
-      <div role="listitem"><b data-t="t1b">Fully Insured</b><span data-t="t1s">Coverage on every job.</span></div>
-      <div role="listitem"><b data-t="t2b">Free Estimates</b><span data-t="t2s">Know the price before work starts.</span></div>
-      <div role="listitem"><b data-t="t3b">Homes &amp; Businesses</b><span data-t="t3s">Residential and commercial.</span></div>
-      <div role="listitem"><b data-t="t4b">2 Languages</b><span data-t="t4s">English and Spanish, by phone or text.</span></div>
-    </div>
-  </div>
-
-  <section class="band" id="services" aria-labelledby="svc-h">
-    <div class="wrap">
-      <div class="head rv">
-        <span class="eyebrow" data-t="svcEyebrow">Services</span>
-        <h2 id="svc-h" data-t="svcH">From the Main Line to the Faucet</h2>
-        <p data-t="svcP">Repairs, replacements and new installs, for houses, rentals and commercial buildings.</p>
-      </div>
-      <ul class="svc">
-        <li class="rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c2 3 5 5 5 9a5 5 0 0 1-10 0c0-2 1-3.500 2-4.500.500 1.500 1.500 2 2 2 0-2-.500-4 1-6.500z"/></svg></span><h3 data-t="s1h">Gas Lines</h3><p data-t="s1p">New gas lines and repairs for ranges, dryers, water heaters and grills.</p></li>
-        <li class="rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9h8v6H2M14 9h8v6h-8M10 12h4"/><path d="M12 16c0 1.500-1 2.500-1 3.500a1 1 0 0 0 2 0c0-1-1-2-1-3.500z"/></svg></span><h3 data-t="s2h">Leak Repairs</h3><p data-t="s2p">Leaks found and fixed before they damage floors, walls and ceilings.</p></li>
-        <li class="rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M8 12h8M12 8v8"/></svg></span><h3 data-t="s3h">Drainage Clogs</h3><p data-t="s3p">Slow and backed-up drains cleared, from sinks and tubs to the main line.</p></li>
-        <li class="rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h6v4h6v4h6M3 18h18"/></svg></span><h3 data-t="s4h">Sewage Line Replacement</h3><p data-t="s4p">Broken, root-filled or collapsed sewer lines replaced.</p></li>
-        <li class="rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="3"/><path d="M10 15c0-1.500 2-2 2-4 0 2 2 2.500 2 4a2 2 0 0 1-4 0z"/></svg></span><h3 data-t="s5h">Water Heater Installation</h3><p data-t="s5p">New water heaters installed when the old one quits or starts leaking.</p></li>
-        <li class="rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12h20M6 8v8M18 8v8M12 10v4"/></svg></span><h3 data-t="s6h">Main Water Line Replacement</h3><p data-t="s6p">The line from the street to your house, replaced when it leaks or fails.</p></li>
-        <li class="rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="9" width="10" height="12" rx="2"/><path d="M12 3v6M9 13h6M10 17h4"/></svg></span><h3 data-t="s7h">Sump Pumps</h3><p data-t="s7p">Sump pumps installed and replaced to keep basements and crawlspaces dry.</p></li>
-        <li class="rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 10h14a7 7 0 0 1-14 0zM8 17l-1 4h10l-1-4M7 10V5h5v5"/></svg></span><h3 data-t="s8h">Toilet &amp; Faucet Installation</h3><p data-t="s8p">New toilets, faucets and fixtures, installed level and leak-free.</p></li>
-      </ul>
-    </div>
-  </section>
-
-  <section class="band est" id="estimate" aria-labelledby="est-h">
-    <div class="wrap">
-      <div class="head rv">
-        <span class="eyebrow" data-t="estEyebrow">Free Estimate</span>
+      <div class="est-head rv">
+        <span class="kicker" data-t="estKicker">Free estimate</span>
         <h2 id="est-h" data-t="estH">Build Your Request in 30 Seconds</h2>
         <p data-t="estP">Pick what you need. Your message writes itself on the right, in English or Spanish. Send it as a text or an email.</p>
       </div>
@@ -356,7 +455,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
           <fieldset>
             <legend><span data-t="fNeed">What do you need?</span> <small data-t="fNeedHint">(pick 1 or more)</small></legend>
             <div class="opts" id="needOpts"></div>
-            <p id="needMsg" aria-live="polite" style="margin:0"></p>
+            <p id="needMsg" aria-live="polite"></p>
           </fieldset>
           <fieldset>
             <legend data-t="fWhen">How soon?</legend>
@@ -396,28 +495,33 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
             </div>
           </div>
           <div class="send">
-            <button class="btn btn-blue" type="button" id="sendText" data-t="sendText">Text This Message</button>
+            <button class="btn btn-brass" type="button" id="sendText" data-t="sendText">Text This Message</button>
             <button class="btn btn-line" type="button" id="sendEmail" data-t="sendEmail">Email It</button>
             <button class="btn btn-line" type="button" id="copyMsg" data-t="copyMsg">Copy</button>
           </div>
-          <p class="send-note" id="sendNote" aria-live="polite" data-t="sendNote">Opens your messages or email with this text filled in. Nothing is sent until you hit send.</p>
+          <p class="send-note" data-t="sendNote">Opens your messages or email with this text filled in. Nothing is sent until you hit send.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="band contact" id="contact" aria-labelledby="ct-h">
+  <section class="contact grid-bg" id="contact" aria-labelledby="ct-h">
     <div class="wrap">
       <div class="rv">
-        <h2 id="ct-h" data-t="ctH">Need a Plumber? Call JAD.</h2>
+        <span class="kicker" data-t="ctKicker">Call or text</span>
+        <h2 id="ct-h" data-t="ctH">Water where it shouldn’t be? Call JAD.</h2>
         <a class="num" href="tel:+17703697054">770-369-7054</a>
+        <dl>
+          <div><dt data-t="dEmail">Email</dt><dd><a href="mailto:jadplumbingandremodeling@gmail.com">jadplumbingandremodeling@gmail.com</a></dd></div>
+          <div><dt data-t="dLang">Languages</dt><dd data-t="ddLang">English &amp; Español</dd></div>
+          <div><dt data-t="dWork">Work</dt><dd data-t="ddWork">Residential &amp; commercial · Fully insured · Free estimates</dd></div>
+          <div><dt data-t="dArea">Area</dt><dd data-t="ddArea">Metro Atlanta</dd></div>
+        </dl>
       </div>
-      <dl class="rv">
-        <div><dt data-t="dEmail">Email</dt><dd><a href="mailto:jadplumbingandremodeling@gmail.com">jadplumbingandremodeling@gmail.com</a></dd></div>
-        <div><dt data-t="dLang">Languages</dt><dd data-t="ddLang">English &amp; Español</dd></div>
-        <div><dt data-t="dWork">Work</dt><dd data-t="ddWork">Residential &amp; commercial · Fully insured · Free estimates</dd></div>
-        <div><dt data-t="dArea">Area</dt><dd data-t="ddArea">Metro Atlanta</dd></div>
-      </dl>
+      <figure class="field-photo rv">
+        <div class="ph"><img src="assets/van.jpg" width="771" height="806" loading="lazy" decoding="async" alt="The JAD Plumbing van, listing its services, Fully Insured, Free Estimates and Spanish / English." data-t-alt="vanAlt"></div>
+        <figcaption><span data-t="photoCap">Field photo · the JAD van</span><span>P-102</span></figcaption>
+      </figure>
     </div>
   </section>
 </main>
@@ -431,7 +535,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
 <nav class="dock" aria-label="Quick actions" data-t-aria="dockLabel">
   <a class="btn btn-line" href="#estimate" data-t="dockEst">Free Estimate</a>
-  <a class="btn btn-blue" href="tel:+17703697054" data-t="dockCall">Call Now</a>
+  <a class="btn btn-brass" href="tel:+17703697054" data-t="dockCall">Call Now</a>
 </nav>
 
 <script>
@@ -439,43 +543,33 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.documentElement.classList.add('js');
   document.getElementById('yr').textContent = new Intl.DateTimeFormat('en-US', { year: 'numeric' }).format(new Date());
-
   const top = document.getElementById('top');
   const onScroll = () => top.classList.toggle('scrolled', scrollY > 10);
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
-  /* ---------- Copy, English and Spanish ---------- */
   const T = {
     skip: ['Skip to Content', 'Saltar al Contenido'],
-    brandSub: ['Commercial & Residential', 'Comercial y Residencial'],
-    navLabel: ['Primary', 'Principal'],
-    navServices: ['Services', 'Servicios'], navEstimate: ['Free Estimate', 'Estimado Gratis'], navContact: ['Contact', 'Contacto'],
-    eyebrow: ['Plumbing · Metro Atlanta', 'Plomería · Área de Atlanta'],
-    h1a: ['Plumbing Done Right.', 'Plomería Bien Hecha.'],
-    h1sr: ['In English or Spanish.', 'En inglés o en español.'],
-    lede: ['Gas lines, leaks, clogs, sewer and water lines, water heaters and fixtures, for homes and businesses. Ask questions and get your estimate in the language you’re most comfortable with.',
-           'Líneas de gas, fugas, tapones, líneas de drenaje y de agua, calentadores y accesorios, para casas y negocios. Haga sus preguntas y reciba su estimado en el idioma que le sea más cómodo.'],
+    brandSub: ['Commercial & Residential', 'Comercial y Residencial'], navLabel: ['Primary', 'Principal'],
+    navPlan: ['Services', 'Servicios'], navEstimate: ['Free Estimate', 'Estimado Gratis'], navContact: ['Contact', 'Contacto'],
+    kicker: ['Plumbing · Metro Atlanta', 'Plomería · Área de Atlanta'],
+    h1a: ['Every pipe in the house.', 'Cada tubería de la casa.'],
+    h1b: ['In English o en español.', 'En español or in English.'],
+    lede: ['From the main line at the street to the faucet in your kitchen, JAD handles the whole system, for homes and businesses. Ask questions and get your estimate in your language.',
+           'Desde la línea principal en la calle hasta la llave de su cocina, JAD se encarga de todo el sistema, en casas y negocios. Haga sus preguntas y reciba su estimado en su idioma.'],
     callCta: ['Call 770-369-7054', 'Llame al 770-369-7054'], estCta: ['Get a Free Estimate', 'Pida un Estimado Gratis'],
-    chip1: ['Fully Insured', 'Totalmente Asegurados'], chip2: ['Free Estimates', 'Estimados Gratis'], chip3: ['English & Español', 'Inglés y Español'],
-    vanAlt: ['The JAD Plumbing van, listing its services, Fully Insured, Free Estimates and Spanish / English.', 'La camioneta de JAD Plumbing con sus servicios, Fully Insured, Free Estimates y Spanish / English.'],
-    bubble1: ['¿Habla español?', 'Do you speak English?'], bubble2: ['Sí. Call or text in either language.', 'Yes. Llame o escriba en cualquier idioma.'],
-    tag: ['Commercial & Residential', 'Comercial y Residencial'],
-    trustLabel: ['Why JAD Plumbing', 'Por qué JAD Plumbing'],
-    t1b: ['Fully Insured', 'Asegurados'], t1s: ['Coverage on every job.', 'Cobertura en cada trabajo.'],
-    t2b: ['Free Estimates', 'Estimados Gratis'], t2s: ['Know the price before work starts.', 'Sepa el precio antes de empezar.'],
-    t3b: ['Homes & Businesses', 'Casas y Negocios'], t3s: ['Residential and commercial.', 'Residencial y comercial.'],
-    t4b: ['2 Languages', '2 Idiomas'], t4s: ['English and Spanish, by phone or text.', 'Inglés y español, por teléfono o texto.'],
-    svcEyebrow: ['Services', 'Servicios'], svcH: ['From the Main Line to the Faucet', 'De la Línea Principal a la Llave'],
-    svcP: ['Repairs, replacements and new installs, for houses, rentals and commercial buildings.', 'Reparaciones, reemplazos e instalaciones nuevas, para casas, rentas y edificios comerciales.'],
-    s1h: ['Gas Lines', 'Líneas de Gas'], s1p: ['New gas lines and repairs for ranges, dryers, water heaters and grills.', 'Líneas de gas nuevas y reparaciones para estufas, secadoras, calentadores y parrillas.'],
-    s2h: ['Leak Repairs', 'Reparación de Fugas'], s2p: ['Leaks found and fixed before they damage floors, walls and ceilings.', 'Fugas encontradas y reparadas antes de que dañen pisos, paredes y techos.'],
-    s3h: ['Drainage Clogs', 'Desagües Tapados'], s3p: ['Slow and backed-up drains cleared, from sinks and tubs to the main line.', 'Desagües lentos o tapados, desde lavabos y tinas hasta la línea principal.'],
-    s4h: ['Sewage Line Replacement', 'Reemplazo de Línea de Drenaje'], s4p: ['Broken, root-filled or collapsed sewer lines replaced.', 'Reemplazo de líneas de drenaje rotas, con raíces o colapsadas.'],
-    s5h: ['Water Heater Installation', 'Instalación de Calentadores'], s5p: ['New water heaters installed when the old one quits or starts leaking.', 'Calentadores de agua nuevos cuando el viejo deja de funcionar o empieza a gotear.'],
-    s6h: ['Main Water Line Replacement', 'Reemplazo de Línea Principal de Agua'], s6p: ['The line from the street to your house, replaced when it leaks or fails.', 'La línea de la calle a su casa, reemplazada cuando gotea o falla.'],
-    s7h: ['Sump Pumps', 'Bombas de Sumidero'], s7p: ['Sump pumps installed and replaced to keep basements and crawlspaces dry.', 'Instalación y reemplazo de bombas para mantener sótanos y espacios bajo la casa secos.'],
-    s8h: ['Toilet & Faucet Installation', 'Instalación de Inodoros y Llaves'], s8p: ['New toilets, faucets and fixtures, installed level and leak-free.', 'Inodoros, llaves y accesorios nuevos, nivelados y sin fugas.'],
-    estEyebrow: ['Free Estimate', 'Estimado Gratis'], estH: ['Build Your Request in 30 Seconds', 'Arme su Solicitud en 30 Segundos'],
+    planLabel: ['Plumbing plan · Section A–A', 'Plano de plomería · Corte A–A'],
+    planTitle: ['Drawing of a house’s plumbing system with 8 numbered services', 'Dibujo del sistema de plomería de una casa con 8 servicios numerados'],
+    rStreet: ['STREET', 'CALLE'], rUtil: ['UTILITY', 'LAVANDERÍA'], rKitchen: ['KITCHEN', 'COCINA'], rBath: ['BATH', 'BAÑO'], rBed: ['BEDROOM', 'RECÁMARA'], rCrawl: ['CRAWLSPACE', 'BAJO LA CASA'],
+    legendH: ['Keynotes · tap a system', 'Notas · toque un sistema'],
+    emptyB: ['8 systems. 1 crew.', '8 sistemas. 1 equipo.'],
+    emptyP: ['Tap a number on the drawing, or pick a service from the list, to see what JAD does there.', 'Toque un número en el dibujo, o elija un servicio de la lista, para ver lo que JAD hace ahí.'],
+    keyNote: ['Keynote', 'Nota'], addEst: ['Add to My Estimate', 'Agregar a Mi Estimado'], added: ['In Your Estimate', 'En Su Estimado'],
+    tbSheet: ['Sheet P-101 · Plumbing plan', 'Hoja P-101 · Plano de plomería'],
+    tb1k: ['Coverage', 'Cobertura'], tb1: ['Fully Insured', 'Totalmente Asegurados'],
+    tb2k: ['Pricing', 'Precio'], tb2: ['Free Estimates', 'Estimados Gratis'],
+    tb3k: ['Work', 'Trabajos'], tb3: ['Commercial & Residential', 'Comercial y Residencial'],
+    tb4k: ['Languages', 'Idiomas'], tb4: ['English & Español', 'Inglés y Español'],
+    estKicker: ['Free estimate', 'Estimado gratis'], estH: ['Build Your Request in 30 Seconds', 'Arme su Solicitud en 30 Segundos'],
     estP: ['Pick what you need. Your message writes itself on the right, in English or Spanish. Send it as a text or an email.', 'Elija lo que necesita. Su mensaje se escribe solo, en inglés o en español. Envíelo por texto o por correo.'],
     fType: ['Property', 'Propiedad'], optHome: ['Home', 'Casa'], optBiz: ['Business', 'Negocio'],
     fNeed: ['What do you need?', '¿Qué necesita?'], fNeedHint: ['(pick 1 or more)', '(elija 1 o más)'],
@@ -489,144 +583,150 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     sendText: ['Text This Message', 'Enviar por Texto'], sendEmail: ['Email It', 'Enviar por Correo'], copyMsg: ['Copy', 'Copiar'],
     copied: ['Copied', 'Copiado'], copyFail: ['Select & Copy', 'Seleccione y Copie'],
     sendNote: ['Opens your messages or email with this text filled in. Nothing is sent until you hit send.', 'Abre sus mensajes o su correo con el texto listo. No se envía nada hasta que usted lo envíe.'],
-    ctH: ['Need a Plumber? Call JAD.', '¿Necesita un Plomero? Llame a JAD.'],
+    ctKicker: ['Call or text', 'Llame o escriba'], ctH: ['Water where it shouldn’t be? Call JAD.', '¿Agua donde no debe? Llame a JAD.'],
     dEmail: ['Email', 'Correo'], dLang: ['Languages', 'Idiomas'], ddLang: ['English & Español', 'Inglés y Español'],
     dWork: ['Work', 'Trabajos'], ddWork: ['Residential & commercial · Fully insured · Free estimates', 'Residencial y comercial · Asegurados · Estimados gratis'],
     dArea: ['Area', 'Zona'], ddArea: ['Metro Atlanta', 'Área de Atlanta'],
+    vanAlt: ['The JAD Plumbing van, listing its services, Fully Insured, Free Estimates and Spanish / English.', 'La camioneta de JAD Plumbing con sus servicios, Fully Insured, Free Estimates y Spanish / English.'],
+    photoCap: ['Field photo · the JAD van', 'Foto de campo · la camioneta'],
     footNote: ['Plumbing in English & Español · 770-369-7054', 'Plomería en inglés y español · 770-369-7054'],
     dockLabel: ['Quick actions', 'Acciones rápidas'], dockEst: ['Free Estimate', 'Estimado Gratis'], dockCall: ['Call Now', 'Llamar'],
     errName: ['Add your name so JAD knows who to call back.', 'Agregue su nombre para que JAD sepa a quién llamar.'],
     errCity: ['Add your city so JAD knows where the job is.', 'Agregue su ciudad para que JAD sepa dónde es el trabajo.'],
     errNeed: ['Pick at least 1 service. Not sure? Pick “Something Else”.', 'Elija al menos 1 servicio. ¿No está seguro? Elija “Otra Cosa”.']
   };
+  const SYS = [
+    { k: 'main', need: 'main', n: ['Main Water Line', 'Línea Principal de Agua'], d: ['The line from the street to your house. When it leaks or fails, JAD replaces it so you have steady water again.', 'La línea de la calle a su casa. Cuando gotea o falla, JAD la reemplaza para que vuelva a tener agua estable.'] },
+    { k: 'heater', need: 'heater', n: ['Water Heater', 'Calentador de Agua'], d: ['New water heaters installed when the old one quits, runs cold or starts leaking.', 'Calentadores nuevos cuando el viejo deja de funcionar, da agua fría o empieza a gotear.'] },
+    { k: 'fixtures', need: 'fixture', n: ['Toilets & Faucets', 'Inodoros y Llaves'], d: ['New toilets, faucets and fixtures, installed level and leak-free.', 'Inodoros, llaves y accesorios nuevos, nivelados y sin fugas.'] },
+    { k: 'leak', need: 'leak', n: ['Leak Repairs', 'Reparación de Fugas'], d: ['Leaks found and fixed before they damage floors, walls and ceilings.', 'Fugas encontradas y reparadas antes de que dañen pisos, paredes y techos.'] },
+    { k: 'drain', need: 'drain', n: ['Drainage Clogs', 'Desagües Tapados'], d: ['Slow and backed-up drains cleared, from sinks and tubs to the main stack.', 'Desagües lentos o tapados, desde lavabos y tinas hasta la columna principal.'] },
+    { k: 'sewer', need: 'sewer', n: ['Sewer Line Replacement', 'Reemplazo de Drenaje'], d: ['Broken, root-filled or collapsed sewer lines replaced, from the house to the street.', 'Líneas de drenaje rotas, con raíces o colapsadas, reemplazadas de la casa a la calle.'] },
+    { k: 'gas', need: 'gas', n: ['Gas Lines', 'Líneas de Gas'], d: ['New gas lines and repairs for ranges, dryers, water heaters and grills.', 'Líneas de gas nuevas y reparaciones para estufas, secadoras, calentadores y parrillas.'] },
+    { k: 'sump', need: 'sump', n: ['Sump Pumps', 'Bombas de Sumidero'], d: ['Sump pumps installed and replaced to keep basements and crawlspaces dry.', 'Bombas instaladas y reemplazadas para mantener sótanos y espacios bajo la casa secos.'] }
+  ];
   const NEEDS = [
     ['gas', 'Gas Lines', 'Líneas de gas'], ['leak', 'Leak Repair', 'Reparación de fuga'], ['drain', 'Clogged Drain', 'Desagüe tapado'],
     ['sewer', 'Sewer Line', 'Línea de drenaje'], ['heater', 'Water Heater', 'Calentador de agua'], ['main', 'Main Water Line', 'Línea principal de agua'],
     ['sump', 'Sump Pump', 'Bomba de sumidero'], ['fixture', 'Toilet or Faucet', 'Inodoro o llave'], ['other', 'Something Else', 'Otra cosa']
   ];
-  let lang = 'en';
+  let lang = 'en', sel = null;
   const L = () => (lang === 'es' ? 1 : 0);
   const t = (k) => (T[k] ? T[k][L()] : k);
 
-  /* Build the service choices (label + control share one hit target) */
-  const needOpts = document.getElementById('needOpts');
-  NEEDS.forEach(([v]) => {
-    const l = document.createElement('label'); l.className = 'choice';
-    l.innerHTML = '<input type="checkbox" name="need" value="' + v + '"><span data-need="' + v + '"></span>';
-    needOpts.appendChild(l);
-  });
+  const form = document.getElementById('builder'), needOpts = document.getElementById('needOpts');
+  NEEDS.forEach(([v]) => { const l = document.createElement('label'); l.className = 'choice'; l.innerHTML = '<input type="checkbox" name="need" value="' + v + '"><span data-need="' + v + '"></span>'; needOpts.appendChild(l); });
 
-  /* ---------- URL state: language and estimate choices live in the query string ---------- */
-  const form = document.getElementById('builder');
+  /* ---------- Plan: keynotes + selection ---------- */
+  const plan = document.getElementById('planSvg'), keys = document.getElementById('keys'), detail = document.getElementById('detail');
+  SYS.forEach((s, i) => {
+    const li = document.createElement('li');
+    li.innerHTML = '<button type="button" id="key-' + s.k + '" aria-pressed="false" aria-controls="detail"><i>' + (i + 1) + '</i><span></span></button>';
+    li.firstChild.addEventListener('click', () => select(sel === s.k ? null : s.k, true));
+    keys.appendChild(li);
+  });
+  plan.querySelectorAll('.sys').forEach((g) => g.addEventListener('click', () => { const k = g.dataset.k; select(sel === k ? null : k, true); }));
+  function paintDetail(animate) {
+    if (!sel) detail.innerHTML = '<div class="empty"><b>' + t('emptyB') + '</b><p>' + t('emptyP') + '</p></div>';
+    else {
+      const i = SYS.findIndex((s) => s.k === sel), s = SYS[i];
+      const inEst = form.querySelector('input[name="need"][value="' + s.need + '"]').checked;
+      detail.innerHTML = '<span class="num">' + t('keyNote') + ' ' + (i + 1) + ' / 8</span><h3>' + s.n[L()] + '</h3><p>' + s.d[L()] + '</p>' +
+        '<div class="acts"><button type="button" class="btn btn-brass btn-sm" id="addEst"' + (inEst ? ' data-done="true"' : '') + '>' + (inEst ? '✓ ' + t('added') : t('addEst')) + '</button><a class="btn btn-line btn-sm" href="tel:+17703697054">' + t('callCta') + '</a></div>';
+      document.getElementById('addEst').addEventListener('click', () => {
+        form.querySelector('input[name="need"][value="' + s.need + '"]').checked = true;
+        clearErrors(); preview(true); writeURL(); paintDetail(false);
+        document.getElementById('estimate').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+      });
+    }
+    if (animate && !reduce) { detail.classList.remove('swap'); void detail.offsetWidth; detail.classList.add('swap'); }
+  }
+  function select(k, animate) {
+    sel = k;
+    if (k) plan.dataset.sel = k; else delete plan.dataset.sel;
+    plan.querySelectorAll('.sys').forEach((g) => g.classList.toggle('on', g.dataset.k === k));
+    keys.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.id === 'key-' + k)));
+    paintDetail(animate);
+    if (animate) writeURL();
+  }
+
+  /* ---------- URL state ---------- */
   const readURL = () => {
     const q = new URLSearchParams(location.search);
     if (q.get('lang') === 'es' || q.get('lang') === 'en') lang = q.get('lang');
     else { try { lang = localStorage.getItem('jad-lang') || ((navigator.languages || [navigator.language]).some((x) => /^es\b/i.test(x || '')) ? 'es' : 'en'); } catch (e) { lang = 'en'; } }
-    if (q.get('type')) { const r = form.querySelector('input[name="type"][value="' + q.get('type') + '"]'); if (r) r.checked = true; }
-    if (q.get('when')) { const r = form.querySelector('input[name="when"][value="' + q.get('when') + '"]'); if (r) r.checked = true; }
+    ['type', 'when'].forEach((n) => { if (q.get(n)) { const r = form.querySelector('input[name="' + n + '"][value="' + q.get(n) + '"]'); if (r) r.checked = true; } });
     (q.get('need') || '').split(',').filter(Boolean).forEach((v) => { const c = form.querySelector('input[name="need"][value="' + v + '"]'); if (c) c.checked = true; });
+    const s = q.get('sys'); return SYS.some((x) => x.k === s) ? s : null;
   };
   const writeURL = () => {
     const q = new URLSearchParams(location.search);
     q.set('lang', lang);
+    sel ? q.set('sys', sel) : q.delete('sys');
     q.set('type', form.type.value); q.set('when', form.when.value);
     const needs = [...form.querySelectorAll('input[name="need"]:checked')].map((c) => c.value);
     needs.length ? q.set('need', needs.join(',')) : q.delete('need');
     history.replaceState(null, '', '?' + q.toString() + location.hash);
   };
 
-  /* ---------- Apply language ---------- */
+  /* ---------- Language ---------- */
   const toggle = document.getElementById('langToggle');
-  function applyLang(animate) {
+  function applyLang() {
     document.documentElement.lang = lang;
     document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = t(el.dataset.t); });
     document.querySelectorAll('[data-t-ph]').forEach((el) => { el.placeholder = t(el.dataset.tPh); });
     document.querySelectorAll('[data-t-aria]').forEach((el) => { el.setAttribute('aria-label', t(el.dataset.tAria)); });
     document.querySelectorAll('[data-t-alt]').forEach((el) => { el.alt = t(el.dataset.tAlt); });
-    document.querySelectorAll('[data-need]').forEach((el) => { const n = NEEDS.find((x) => x[0] === el.dataset.need); el.textContent = n[1 + L()]; });
+    document.querySelectorAll('[data-need]').forEach((el) => { el.textContent = NEEDS.find((x) => x[0] === el.dataset.need)[1 + L()]; });
+    SYS.forEach((s) => { document.querySelector('#key-' + s.k + ' span').textContent = s.n[L()]; });
     toggle.dataset.lang = lang;
     toggle.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
     ['f-name', 'f-city'].forEach((id) => { const w = document.getElementById(id + '-wrap'); if (w.dataset.err) showErr(id, w.dataset.err); });
-    if (document.getElementById('needMsg').dataset.err) document.getElementById('needMsg').textContent = t('errNeed');
-    setFlip(lang, animate);
+    const nm = document.getElementById('needMsg'); if (nm.dataset.err) nm.textContent = t('errNeed');
     try { localStorage.setItem('jad-lang', lang); } catch (e) {}
-    preview(false);
+    paintDetail(false); preview(false);
   }
-  toggle.addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b || b.dataset.lang === lang) return; lang = b.dataset.lang; stopFlip(); applyLang(true); writeURL(); });
+  toggle.addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b || b.dataset.lang === lang) return; lang = b.dataset.lang; applyLang(); writeURL(); });
 
-  /* ---------- Hero headline: shows both languages twice, then settles on the page language ---------- */
-  const flips = [...document.querySelectorAll('.flip span')];
-  let flipTimer = null;
-  function setFlip(l, animate) {
-    flips.forEach((s) => {
-      const on = s.lang === l;
-      if (!animate || reduce) { s.style.transition = 'none'; s.dataset.state = on ? 'in' : 'wait'; void s.offsetWidth; s.style.transition = ''; }
-      else s.dataset.state = on ? 'in' : (s.dataset.state === 'in' ? 'out' : 'wait');
-      if (!on && s.dataset.state === 'out') setTimeout(() => { s.style.transition = 'none'; s.dataset.state = 'wait'; void s.offsetWidth; s.style.transition = ''; }, 650);
-    });
-  }
-  function stopFlip() { clearInterval(flipTimer); flipTimer = null; }
-  function startFlip() {
-    if (reduce) return;
-    let n = 0, cur = lang;
-    flipTimer = setInterval(() => { cur = cur === 'en' ? 'es' : 'en'; setFlip(cur, true); if (++n >= 2) stopFlip(); }, 2200);
-  }
-
-  /* ---------- Live message preview ---------- */
+  /* ---------- Live message ---------- */
   const prev = document.getElementById('preview');
   let lastMsg = '';
   function message() {
-    const v = (id) => document.getElementById(id).value.trim();
+    const v = (id) => document.getElementById(id).value.trim(), es = lang === 'es';
     const needs = [...form.querySelectorAll('input[name="need"]:checked')].map((c) => NEEDS.find((x) => x[0] === c.value)[1 + L()]);
-    const es = lang === 'es';
     const type = form.type.value === 'biz' ? (es ? 'un negocio' : 'a business') : (es ? 'una casa' : 'a home');
     const when = { today: es ? 'hoy' : 'today', week: es ? 'esta semana' : 'this week', flex: es ? 'cuando se pueda' : 'whenever works' }[form.when.value];
-    const svc = needs.length ? needs.join(', ').toLowerCase() : (es ? '…' : '…');
-    let m = es
-      ? '¡Hola JAD! Necesito un estimado gratis para ' + type + ': ' + svc + '. Lo necesito ' + when + '.'
-      : 'Hi JAD! I need a free estimate for ' + type + ': ' + svc + '. I need it ' + when + '.';
-    if (v('f-city')) m += es ? '\nCiudad: ' + v('f-city') : '\nCity: ' + v('f-city');
+    const svc = needs.length ? needs.join(', ').toLowerCase() : '…';
+    let m = es ? '¡Hola JAD! Necesito un estimado gratis para ' + type + ': ' + svc + '. Lo necesito ' + when + '.'
+               : 'Hi JAD! I need a free estimate for ' + type + ': ' + svc + '. I need it ' + when + '.';
+    if (v('f-city')) m += (es ? '\nCiudad: ' : '\nCity: ') + v('f-city');
     if (v('f-notes')) m += (es ? '\nDetalles: ' : '\nDetails: ') + v('f-notes');
-    m += '\n— ' + (v('f-name') || (es ? 'Su nombre' : 'Your name'));
-    return m;
+    return m + '\n— ' + (v('f-name') || (es ? 'Su nombre' : 'Your name'));
   }
   function preview(bounce) {
-    const m = message();
-    if (m === lastMsg) return; lastMsg = m;
-    prev.textContent = m;
+    const m = message(); if (m === lastMsg) return; lastMsg = m; prev.textContent = m;
     if (bounce && !reduce) { prev.classList.remove('in'); void prev.offsetWidth; prev.classList.add('in'); }
   }
   let typeTimer;
-  form.addEventListener('change', () => { clearErrors(false); preview(true); writeURL(); });
+  form.addEventListener('change', () => { clearErrors(); preview(true); writeURL(); if (sel) paintDetail(false); });
   form.addEventListener('input', (e) => { if (e.target.type === 'text' || e.target.tagName === 'TEXTAREA') { const w = e.target.closest('.field'); if (w && w.dataset.err) showErr(e.target.id, ''); clearTimeout(typeTimer); typeTimer = setTimeout(() => preview(false), 120); } });
   form.addEventListener('submit', (e) => e.preventDefault());
-
-  /* ---------- Validation: inline errors, focus the first one ---------- */
   function showErr(id, key) {
     const w = document.getElementById(id + '-wrap'), msg = document.getElementById(id + '-msg'), inp = document.getElementById(id);
-    w.dataset.err = key; w.dataset.invalid = String(!!key); msg.textContent = key ? t(key) : '';
+    if (key) w.dataset.err = key; else delete w.dataset.err;
+    w.dataset.invalid = String(!!key); msg.textContent = key ? t(key) : '';
     key ? inp.setAttribute('aria-invalid', 'true') : inp.removeAttribute('aria-invalid');
   }
-  function clearErrors(all) {
-    const nm = document.getElementById('needMsg');
-    if (form.querySelector('input[name="need"]:checked')) { nm.textContent = ''; delete nm.dataset.err; }
-    if (all) { showErr('f-name', ''); showErr('f-city', ''); }
-  }
+  function clearErrors() { const nm = document.getElementById('needMsg'); if (form.querySelector('input[name="need"]:checked')) { nm.textContent = ''; delete nm.dataset.err; } }
   function validate() {
-    const firstBad = [];
-    const nm = document.getElementById('needMsg');
-    if (!form.querySelector('input[name="need"]:checked')) { nm.dataset.err = '1'; nm.textContent = t('errNeed'); firstBad.push(form.querySelector('input[name="need"]')); }
-    if (!document.getElementById('f-name').value.trim()) { showErr('f-name', 'errName'); firstBad.push(document.getElementById('f-name')); }
-    if (!document.getElementById('f-city').value.trim()) { showErr('f-city', 'errCity'); firstBad.push(document.getElementById('f-city')); }
-    if (firstBad.length) { firstBad[0].focus(); return false; }
+    const bad = [], nm = document.getElementById('needMsg');
+    if (!form.querySelector('input[name="need"]:checked')) { nm.dataset.err = '1'; nm.textContent = t('errNeed'); bad.push(form.querySelector('input[name="need"]')); }
+    if (!document.getElementById('f-name').value.trim()) { showErr('f-name', 'errName'); bad.push(document.getElementById('f-name')); }
+    if (!document.getElementById('f-city').value.trim()) { showErr('f-city', 'errCity'); bad.push(document.getElementById('f-city')); }
+    if (bad.length) { bad[0].focus(); return false; }
     return true;
   }
-
-  /* ---------- Send ---------- */
-  document.getElementById('sendText').addEventListener('click', () => {
-    if (!validate()) return;
-    location.href = 'sms:+17703697054' + (/iPhone|iPad|Mac/.test(navigator.userAgent) ? '&' : '?') + 'body=' + encodeURIComponent(message());
-  });
+  document.getElementById('sendText').addEventListener('click', () => { if (!validate()) return; location.href = 'sms:+17703697054' + (/iPhone|iPad|Mac/.test(navigator.userAgent) ? '&' : '?') + 'body=' + encodeURIComponent(message()); });
   document.getElementById('sendEmail').addEventListener('click', () => {
     if (!validate()) return;
     const subj = (lang === 'es' ? 'Solicitud de estimado: ' : 'Estimate request: ') + document.getElementById('f-name').value.trim();
@@ -639,19 +739,18 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     if (navigator.clipboard) navigator.clipboard.writeText(message()).then(() => done('copied', true), fallback); else fallback();
   });
 
-  /* ---------- Reveal: only content that starts below the fold ---------- */
   if (!reduce && 'IntersectionObserver' in window) {
     const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.remove('pre'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
-    let k = 0;
-    const els = [...document.querySelectorAll('.rv')], vh = innerHeight;
-    const below = els.filter((el) => el.getBoundingClientRect().top > vh);
-    below.forEach((el) => { el.classList.add('pre'); if (el.closest('.svc')) el.style.transitionDelay = (k++ % 4) * 70 + 'ms'; io.observe(el); });
+    const vh = innerHeight;
+    [...document.querySelectorAll('.rv')].filter((el) => el.getBoundingClientRect().top > vh).forEach((el) => { el.classList.add('pre'); io.observe(el); });
   }
 
-  readURL();
-  applyLang(false);
+  /* Start: water flows once the drawing has finished drawing itself */
+  const initSel = readURL();
+  applyLang();
+  select(initSel, false);
+  if (!reduce) setTimeout(() => plan.classList.add('flowing'), 2600);
   if (new URLSearchParams(location.search).has('lang')) writeURL();
-  startFlip();
 })();
 </script>
 </body>
