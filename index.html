@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>E. Dennis Home Heroes</title>
+<meta name="description" content="E. Dennis: A/C, heating, plumbing and electrical for Marietta and metro Atlanta homes since 1993. Atlanta's Home Heroes. Call (770) 501-8620.">
+<meta name="theme-color" content="#16226a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,700&family=Barlow+Condensed:wght@600;700&display=swap">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HVACBusiness",
+  "name": "E. Dennis Heating, Cooling, Plumbing & Electrical",
+  "slogan": "Atlanta's Home Heroes",
+  "foundingDate": "1993",
+  "telephone": "+1-770-501-8620",
+  "url": "https://www.e-dennis.com",
+  "address": { "@type": "PostalAddress", "streetAddress": "425 Franklin Gateway SE, #530", "addressLocality": "Marietta", "addressRegion": "GA", "postalCode": "30067", "addressCountry": "US" },
+  "areaServed": "Greater Marietta and metro Atlanta"
+}
+</script>
+<style>
+/* Layout: the van livery as a page. Navy body, the yellow / red / navy stripe as section dividers,
+   comic-panel frames and halftone for the "Home Heroes" world. Centerpiece: a house cutaway you tap
+   to call the right hero. Deliberately one look, matching the fleet. */
+:root {
+  --navy: #16226a;       /* livery navy */
+  --navy-2: #1d2b80;
+  --navy-deep: #0e1647;
+  --yellow: #f6c624;     /* livery yellow */
+  --yellow-2: #ffd84d;
+  --red: #e2392f;        /* livery red */
+  --white: #ffffff;
+  --cream: #fff8e2;
+  --ink: #0e1647;
+  --soft: #b9c1ec;
+  --line: rgba(255,255,255,.14);
+  --f-display: "Teko", "Impact", "Arial Narrow Bold", sans-serif;
+  --f-cond: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --f-body: "Barlow", "Segoe UI", system-ui, sans-serif;
+  --s-1: clamp(3.6rem, 9.5vw, 8.4rem);
+  --s-2: clamp(2.8rem, 6vw, 5rem);
+  --gl: max(18px, env(safe-area-inset-left, 0px));
+  --gr: max(18px, env(safe-area-inset-right, 0px));
+  --ease: cubic-bezier(.2,.7,.2,1);
+  --pop: cubic-bezier(.34,1.6,.5,1);
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; background: var(--navy); }
+body { margin: 0; background: var(--navy); color: var(--white); font: 400 1.0625rem/1.6 var(--f-body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img, svg { max-width: 100%; display: block; }
+a { color: inherit; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 700; margin: 0; line-height: .86; text-transform: uppercase; letter-spacing: .005em; text-wrap: balance; }
+p { margin: 0; }
+::selection { background: var(--yellow); color: var(--navy); }
+:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: 1240px; margin-inline: auto; padding-left: var(--gl); padding-right: var(--gr); }
+.band { padding-block: clamp(5rem, 10vw, 8rem); position: relative; }
+.tag { font: 700 .82rem/1 var(--f-cond); letter-spacing: .16em; text-transform: uppercase; color: var(--yellow); display: inline-flex; align-items: center; gap: .6rem; }
+.tag::before { content: "★"; color: var(--red); font-size: .9rem; }
+.halftone { background-image: radial-gradient(rgba(255,255,255,.07) 1.2px, transparent 1.4px); background-size: 9px 9px; }
+.livery { height: 30px; background: linear-gradient(var(--yellow) 0 34%, var(--red) 34% 62%, var(--navy-deep) 62%); transform: skewY(-1.2deg); margin-block: -14px; position: relative; z-index: 2; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .6rem; cursor: pointer; border: 0; text-decoration: none; font: 700 1.05rem/1 var(--f-cond); letter-spacing: .08em; text-transform: uppercase; padding: 1.05rem 1.5rem; border-radius: 6px; white-space: nowrap; transition: transform .25s var(--pop), box-shadow .25s; }
+.btn svg { width: 18px; height: 18px; flex: none; }
+.btn-hero { background: var(--yellow); color: var(--navy); box-shadow: 4px 4px 0 var(--red), 4px 4px 0 2px var(--navy-deep); }
+.btn-hero:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--red), 7px 7px 0 2px var(--navy-deep); }
+.btn-hero:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--red); }
+.btn-line { color: var(--white); box-shadow: inset 0 0 0 2px rgba(255,255,255,.35); }
+.btn-line:hover { box-shadow: inset 0 0 0 2px var(--yellow); color: var(--yellow); transform: translateY(-2px); }
+.btn-sm { padding: .78rem 1rem; font-size: .95rem; }
+
+/* ---------- Header ---------- */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 70; background: var(--navy-deep); }
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 60; background: rgba(14,22,71,.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 3px solid var(--yellow); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: .65rem; }
+.brand { display: flex; align-items: center; gap: .7rem; text-decoration: none; }
+.brand svg { width: 44px; height: 50px; flex: none; }
+.brand b { display: block; font: 700 2rem/.8 var(--f-display); letter-spacing: .02em; font-style: italic; }
+.brand small { display: block; font: 700 .7rem/1 var(--f-cond); letter-spacing: .12em; color: var(--yellow); margin-top: 3px; }
+.nav { display: flex; align-items: center; gap: 1.6rem; }
+.nav a.l { text-decoration: none; font: 700 .95rem/1 var(--f-cond); letter-spacing: .1em; text-transform: uppercase; color: var(--soft); transition: color .2s; }
+.nav a.l:hover { color: var(--yellow); }
+@media (max-width: 940px) { .nav a.l { display: none; } }
+
+/* ---------- Hero ---------- */
+.hero { position: relative; overflow: hidden; background: radial-gradient(900px 600px at 75% 45%, var(--navy-2), var(--navy) 60%); }
+.burst { position: absolute; right: -10%; top: 50%; width: 95vmax; height: 95vmax; transform: translateY(-50%); pointer-events: none; opacity: .5; }
+.burst svg { width: 100%; height: 100%; animation: spin 90s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.hero .wrap { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1.5rem, 4vw, 3rem); align-items: center; padding-block: clamp(2.5rem, 6vw, 5rem) clamp(4rem, 8vw, 6rem); }
+.hero-copy { display: grid; gap: 1.6rem; min-width: 0; }
+.hero h1 { font-size: var(--s-1); font-style: italic; }
+.hero h1 span { display: block; }
+.hero h1 .y { color: var(--yellow); text-shadow: 5px 5px 0 var(--red); }
+.hero h1 span { animation: slam .7s var(--pop) both; }
+.hero h1 span:nth-child(2) { animation-delay: .12s; }
+.hero h1 span:nth-child(3) { animation-delay: .24s; }
+@keyframes slam { from { opacity: 0; transform: translateX(-40px) skewX(-12deg); } }
+.hero .lede { font-size: 1.2rem; color: var(--soft); max-width: 31rem; animation: fade .9s .5s both; }
+.hero .ctas { display: flex; flex-wrap: wrap; gap: 1rem; animation: fade .9s .65s both; }
+.powers { display: flex; flex-wrap: wrap; gap: .5rem; animation: fade .9s .8s both; }
+.powers span { font: 700 .9rem/1 var(--f-cond); letter-spacing: .1em; text-transform: uppercase; padding: .6rem .85rem; border-radius: 4px; background: var(--navy-deep); box-shadow: inset 0 0 0 1.5px var(--line); display: inline-flex; gap: .5rem; align-items: center; }
+.powers span i { width: 9px; height: 9px; transform: rotate(45deg); background: var(--yellow); }
+@keyframes fade { from { opacity: 0; transform: translateY(12px); } }
+.panel { position: relative; justify-self: center; width: 100%; max-width: 560px; transform: rotate(1.5deg); animation: panelIn 1s .2s var(--pop) both; }
+@keyframes panelIn { from { opacity: 0; transform: rotate(8deg) scale(.86); } }
+.panel .frame { position: relative; border: 6px solid var(--white); box-shadow: 10px 10px 0 var(--red), 10px 10px 0 6px var(--navy-deep); overflow: hidden; background: var(--yellow); aspect-ratio: 1081 / 1031; }
+.panel .frame img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+.panel:hover .frame img { transform: scale(1.04); }
+.panel .speech { position: absolute; left: -6%; top: -9%; background: var(--white); color: var(--navy); font: 700 clamp(1.4rem, 2.6vw, 2rem)/.9 var(--f-display); text-transform: uppercase; padding: .8rem 1.1rem .6rem; border-radius: 14px; border: 3px solid var(--navy-deep); transform: rotate(-6deg); animation: pop .6s 1.1s var(--pop) both; }
+.panel .speech::after { content: ""; position: absolute; left: 30%; bottom: -16px; border: 9px solid transparent; border-top: 14px solid var(--white); }
+.panel .stamp { position: absolute; right: -5%; bottom: -7%; width: 30%; aspect-ratio: 1; animation: pop .6s 1.3s var(--pop) both; filter: drop-shadow(4px 4px 0 var(--navy-deep)); }
+.panel .stamp svg { width: 100%; height: 100%; }
+.panel .stamp .ring { animation: spin 24s linear infinite; transform-origin: 50% 50%; transform-box: fill-box; }
+@keyframes pop { from { opacity: 0; transform: scale(.4) rotate(-20deg); } }
+.panel .cap { margin-top: 1.4rem; font: 600 .8rem/1.3 var(--f-cond); letter-spacing: .08em; text-transform: uppercase; color: var(--soft); transform: rotate(-1.5deg); }
+@media (max-width: 880px) { .hero .wrap { grid-template-columns: 1fr; } .panel { max-width: 400px; margin-top: 1.5rem; } }
+
+/* ---------- Trades ---------- */
+.trades { background: var(--cream); color: var(--ink); }
+.trades .head h2 { color: var(--navy); }
+.head { display: grid; gap: 1rem; max-width: 46rem; margin-bottom: clamp(2.2rem, 5vw, 3.5rem); }
+.head h2 { font-size: var(--s-2); }
+.head p { color: var(--soft); font-size: 1.1rem; }
+.trades .head p { color: #4a5281; }
+.trades .tag { color: var(--red); }
+.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.card { position: relative; background: var(--white); border: 3px solid var(--navy-deep); box-shadow: 8px 8px 0 var(--navy-deep); padding: 1.8rem 1.6rem 1.7rem; display: grid; gap: 1rem; align-content: start; transition: transform .35s var(--pop), box-shadow .35s var(--pop); }
+.card:hover { transform: translate(-4px, -4px); box-shadow: 12px 12px 0 var(--navy-deep); }
+.card .badge { width: 74px; height: 74px; display: grid; place-items: center; border-radius: 50%; background: var(--yellow); border: 3px solid var(--navy-deep); transition: transform .5s var(--pop); }
+.card:hover .badge { transform: rotate(-12deg) scale(1.08); }
+.card .badge svg { width: 38px; height: 38px; color: var(--navy); }
+.card.r .badge { background: var(--red); } .card.r .badge svg { color: #fff; }
+.card.n .badge { background: var(--navy); } .card.n .badge svg { color: var(--yellow); }
+.card h3 { font-size: 2.6rem; color: var(--navy); }
+.card h3 small { display: block; font: 700 .82rem/1 var(--f-cond); letter-spacing: .14em; color: var(--red); margin-bottom: .35rem; }
+.card p { color: #3b4270; }
+.card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
+.card li { display: flex; gap: .6rem; font-weight: 600; color: var(--ink); }
+.card li::before { content: "★"; color: var(--red); font-size: .8rem; transform: translateY(.15em); }
+@media (max-width: 920px) { .cards { grid-template-columns: 1fr; max-width: 560px; } }
+
+/* ---------- House signal ---------- */
+.signal .grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: clamp(1.5rem, 4vw, 3rem); align-items: stretch; }
+.house { position: relative; background: var(--navy-deep); border: 4px solid var(--white); box-shadow: 10px 10px 0 var(--yellow); padding: clamp(.8rem, 2vw, 1.4rem); }
+.house svg { width: 100%; height: auto; overflow: visible; }
+.house .room { fill: #24338c; stroke: #0b1240; stroke-width: 3; }
+.house .room.lit { fill: #2e40a6; }
+.house .wall { fill: none; stroke: var(--white); stroke-width: 4; stroke-linejoin: round; }
+.house .det { fill: none; stroke: rgba(255,255,255,.55); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.house .fill-det { fill: rgba(255,255,255,.18); stroke: rgba(255,255,255,.55); stroke-width: 2; }
+.house .lbl { font: 700 11px var(--f-cond); letter-spacing: .12em; fill: rgba(255,255,255,.45); text-transform: uppercase; }
+.hs { cursor: pointer; outline: none; }
+.hs .dot { stroke: var(--navy-deep); stroke-width: 3; transition: r .3s var(--pop); }
+.hs .ping { fill: none; stroke-width: 2.5; animation: ping 2.2s ease-out infinite; transform-box: fill-box; transform-origin: center; }
+.hs:nth-of-type(3n) .ping { animation-delay: .7s; } .hs:nth-of-type(3n+1) .ping { animation-delay: 1.4s; }
+@keyframes ping { from { transform: scale(1); opacity: .9; } to { transform: scale(3.2); opacity: 0; } }
+.hs .glyph { font: 700 13px var(--f-display); fill: var(--navy-deep); pointer-events: none; }
+.hs:hover .dot, .hs:focus-visible .dot, .hs.on .dot { r: 15; }
+.hs.on .dot { stroke: var(--white); stroke-width: 4; }
+.hs.ac .dot, .hs.ac .ping { fill: var(--yellow); stroke: var(--yellow); } .hs.ac .dot { stroke: var(--navy-deep); }
+.hs.pl .dot { fill: #4fc3ff; } .hs.pl .ping { stroke: #4fc3ff; }
+.hs.el .dot { fill: var(--red); } .hs.el .ping { stroke: var(--red); }
+.hs.on .dot { stroke: #fff; }
+.legend { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: .8rem; font: 700 .8rem/1 var(--f-cond); letter-spacing: .1em; text-transform: uppercase; color: var(--soft); }
+.legend span { display: inline-flex; align-items: center; gap: .45rem; }
+.legend i { width: 12px; height: 12px; border-radius: 50%; }
+.dossier { background: var(--white); color: var(--ink); border: 4px solid var(--navy-deep); box-shadow: 10px 10px 0 var(--red); padding: clamp(1.4rem, 3vw, 2rem); display: grid; gap: 1.1rem; align-content: start; min-width: 0; }
+.dossier.swap { animation: dsw .45s var(--pop); }
+@keyframes dsw { from { transform: scale(.96) rotate(-1deg); opacity: .4; } }
+.dossier .who { display: inline-flex; align-self: start; justify-self: start; gap: .5rem; align-items: center; font: 700 .85rem/1 var(--f-cond); letter-spacing: .12em; text-transform: uppercase; padding: .55rem .8rem; border-radius: 4px; color: var(--navy-deep); background: var(--c, var(--yellow)); }
+.dossier h3 { font-size: clamp(2.2rem, 3.4vw, 2.9rem); color: var(--navy); }
+.dossier h4 { margin: 0 0 .5rem; font: 700 .8rem/1 var(--f-cond); letter-spacing: .14em; text-transform: uppercase; color: var(--red); }
+.dossier ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem; }
+.dossier ul li { font-weight: 600; font-size: .92rem; padding: .45rem .7rem; border-radius: 4px; background: #eef0fb; color: var(--navy); }
+.dossier ol { margin: 0; padding-left: 1.2rem; display: grid; gap: .45rem; color: #2c3361; }
+.dossier ol li::marker { font-weight: 700; color: var(--red); }
+.dossier .warn { padding: .8rem 1rem; border-left: 4px solid var(--red); background: #fdeceb; color: #7a1712; font-weight: 600; font-size: .95rem; }
+.dossier .hint { color: #5b6290; font-size: .95rem; }
+@media (max-width: 960px) { .signal .grid { grid-template-columns: 1fr; } }
+
+/* ---------- One call ---------- */
+.onecall { background: var(--yellow); color: var(--navy-deep); }
+.onecall .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+.onecall .tag { color: var(--navy); } .onecall .tag::before { color: var(--red); }
+.onecall h2 { font-size: var(--s-2); color: var(--navy); margin-block: 1rem 1.2rem; }
+.onecall p { font-size: 1.12rem; color: #2a326d; max-width: 32rem; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 2rem; }
+.stats div { background: var(--navy); color: var(--white); padding: 1.1rem 1rem; border-radius: 6px; box-shadow: 5px 5px 0 var(--red); }
+.stats b { display: block; font: 700 clamp(2.4rem, 4vw, 3.2rem)/.85 var(--f-display); color: var(--yellow); font-variant-numeric: tabular-nums; }
+.stats span { font: 700 .76rem/1.25 var(--f-cond); letter-spacing: .1em; text-transform: uppercase; color: var(--soft); }
+.shot { position: relative; border: 6px solid var(--white); box-shadow: 12px 12px 0 var(--navy); transform: rotate(-1.5deg); overflow: hidden; aspect-ratio: 1400 / 1232; transition: transform .6s var(--pop); }
+.shot:hover { transform: rotate(0deg) scale(1.01); }
+.shot img { width: 100%; height: 100%; object-fit: cover; }
+.shot figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: .8rem 1rem; background: linear-gradient(transparent, rgba(14,22,71,.92)); color: var(--white); font: 700 .85rem/1.2 var(--f-cond); letter-spacing: .1em; text-transform: uppercase; }
+@media (max-width: 880px) { .onecall .wrap { grid-template-columns: 1fr; } }
+@media (max-width: 460px) { .stats { grid-template-columns: 1fr; } }
+
+/* ---------- Reviews ---------- */
+.revs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; align-items: start; }
+.rev { position: relative; margin: 0; background: var(--white); color: var(--ink); border: 3px solid var(--navy-deep); border-radius: 22px; padding: 1.6rem 1.5rem 1.4rem; box-shadow: 8px 8px 0 var(--yellow); display: grid; gap: 1rem; transition: transform .4s var(--pop); }
+.rev:nth-child(2) { transform: rotate(1.2deg) translateY(18px); box-shadow: 8px 8px 0 var(--red); }
+.rev:nth-child(3) { transform: rotate(-1deg); }
+.rev:hover { transform: rotate(0) translateY(-4px); }
+.rev::after { content: ""; position: absolute; left: 34px; bottom: -22px; border: 12px solid transparent; border-top: 20px solid var(--navy-deep); }
+.rev::before { content: ""; position: absolute; left: 37px; bottom: -14px; border: 9px solid transparent; border-top: 15px solid var(--white); z-index: 1; }
+.rev .stars { color: var(--red); letter-spacing: .15em; font-size: 1rem; }
+.rev blockquote { margin: 0; font-size: 1.02rem; line-height: 1.55; color: #262d5c; }
+.rev blockquote b { background: linear-gradient(transparent 58%, rgba(246,198,36,.55) 58%); font-weight: 700; color: var(--navy); }
+.rev figcaption { font: 700 1rem/1 var(--f-cond); letter-spacing: .1em; text-transform: uppercase; color: var(--navy); }
+.rev figcaption span { display: block; margin-top: .3rem; font-size: .78rem; color: #6a71a0; }
+@media (max-width: 960px) { .revs { grid-template-columns: 1fr; max-width: 560px; } .rev:nth-child(n) { transform: none; } }
+
+/* ---------- Call ---------- */
+.call { position: relative; overflow: hidden; }
+.call .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: start; position: relative; z-index: 1; }
+.call h2 { font-size: clamp(3rem, 7vw, 6rem); margin-top: 1rem; font-style: italic; }
+.call h2 .y { color: var(--yellow); text-shadow: 4px 4px 0 var(--red); }
+.call .num { display: inline-block; margin-top: 1.4rem; font: 700 clamp(3rem, 7vw, 5.4rem)/.85 var(--f-display); text-decoration: none; color: var(--white); font-variant-numeric: tabular-nums; letter-spacing: .01em; transition: color .2s, transform .3s var(--pop); }
+.call .num:hover { color: var(--yellow); transform: scale(1.02); }
+.addr { margin-top: 1.6rem; display: grid; gap: .3rem; color: var(--soft); }
+.addr b { color: var(--white); font-family: var(--f-cond); letter-spacing: .08em; text-transform: uppercase; }
+.addr a { color: var(--yellow); }
+form.req { background: var(--white); color: var(--ink); border: 4px solid var(--navy-deep); box-shadow: 10px 10px 0 var(--yellow); padding: clamp(1.4rem, 3vw, 2rem); display: grid; gap: 1.1rem; min-width: 0; }
+.req h3 { font-size: 2.2rem; color: var(--navy); }
+.trade { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.trade input { position: absolute; opacity: 0; pointer-events: none; }
+.trade label { cursor: pointer; text-align: center; padding: .85rem .4rem; border-radius: 6px; border: 2.5px solid var(--navy-deep); font: 700 1rem/1 var(--f-cond); letter-spacing: .08em; text-transform: uppercase; color: var(--navy); background: #f2f3fb; transition: all .25s var(--pop); }
+.trade label:hover { transform: translateY(-2px); }
+.trade input:checked + label { background: var(--yellow); box-shadow: 3px 3px 0 var(--red); transform: translate(-1px, -1px); }
+.trade input:focus-visible + label { outline: 3px solid var(--red); outline-offset: 2px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; }
+.f { display: grid; gap: .4rem; }
+.f label { font: 700 .76rem/1 var(--f-cond); letter-spacing: .14em; text-transform: uppercase; color: #4a5281; }
+.f input, .f textarea { width: 100%; font: 500 1rem/1.4 var(--f-body); color: var(--ink); background: #f4f5fb; border: 2px solid #d4d8ef; border-radius: 6px; padding: .8rem .9rem; transition: border-color .2s; }
+.f input:focus, .f textarea:focus { outline: none; border-color: var(--navy); }
+.f textarea { min-height: 5.5rem; resize: vertical; }
+.err { color: #c1271e; font-weight: 600; font-size: .92rem; min-height: 1.2em; }
+.req small { color: #5b6290; font-size: .84rem; }
+@media (max-width: 880px) { .call .wrap { grid-template-columns: 1fr; } }
+@media (max-width: 460px) { .two { grid-template-columns: 1fr; } .trade label { font-size: .9rem; } }
+
+footer { background: var(--navy-deep); padding-block: 2.6rem calc(2.6rem + env(safe-area-inset-bottom, 0px)); color: var(--soft); font-size: .9rem; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.2rem; }
+footer em { font: 700 1.4rem/1 var(--f-display); font-style: italic; text-transform: uppercase; color: var(--yellow); }
+
+.dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 55; display: none; gap: .6rem; padding: .7rem var(--gr) calc(.7rem + env(safe-area-inset-bottom, 0px)) var(--gl); background: rgba(14,22,71,.95); border-top: 3px solid var(--yellow); }
+.dock .btn { flex: 1; }
+@media (max-width: 720px) { .dock { display: flex; } footer { padding-bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px)); } #navCall { display: none; } }
+
+.js .rv { transition: opacity .8s var(--ease), transform .8s var(--pop); }
+.js .rv.pre { opacity: 0; transform: translateY(34px) scale(.98); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+  .js .rv.pre { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="shield" viewBox="0 0 88 100">
+      <path d="M44 3 82 13v32c0 26-17 44-38 52C23 89 6 71 6 45V13z" fill="#fff"/>
+      <path d="M44 10 75 18v27c0 21-13 36-31 43C26 81 13 66 13 45V18z" fill="#16226a"/>
+      <path d="M44 10 13 18v27c0 21 13 36 31 43v-8C30 74 21 62 21 45V24l23-6z" fill="#e2392f"/>
+      <path d="M34 30h28l-2.500 8H44l-1.200 5h12l-2.200 8h-12l-1.300 5h17l-2.500 8H29z" fill="#fff"/>
+      <path d="M22 36h9l-1 4h-9zM20 44h9l-1 4h-9z" fill="#f6c624"/>
+      <path d="m64 49 1.900 4 4.300.400-3.300 2.800 1 4.200-3.900-2.300-3.700 2.300.9-4.200-3.200-2.800 4.300-.400z" fill="#fff"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#main" aria-label="E. Dennis, home">
+      <svg aria-hidden="true"><use href="#shield"/></svg>
+      <span><b>E. DENNIS</b><small>A/C · PLUMBING · ELECTRIC</small></span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a class="l" href="#trades">Services</a>
+      <a class="l" href="#signal">What's wrong?</a>
+      <a class="l" href="#about">About</a>
+      <a class="l" href="#reviews">Reviews</a>
+      <a class="btn btn-hero btn-sm" id="navCall" href="tel:+17705018620">(770) 501-8620</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero halftone">
+    <div class="burst" aria-hidden="true"><svg viewBox="-100 -100 200 200" id="burstSvg"></svg></div>
+    <div class="wrap">
+      <div class="hero-copy">
+        <span class="tag">Marietta &amp; metro Atlanta · Since 1993</span>
+        <h1><span>Atlanta's</span><span class="y">Home</span><span class="y">Heroes.</span></h1>
+        <p class="lede">A/C, heating, plumbing and electrical, handled by one licensed team that's available 24/7. When something in the house breaks, one call sends the right hero.</p>
+        <div class="ctas">
+          <a class="btn btn-hero" href="tel:+17705018620"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>Call (770) 501-8620</a>
+          <a class="btn btn-line" href="#signal">Show us what's wrong</a>
+        </div>
+        <div class="powers"><span><i></i>Available 24/7</span><span><i></i>Honest, upfront pricing</span><span><i></i>Since 1993</span></div>
+      </div>
+      <div class="panel">
+        <div class="frame"><img src="assets/crew.jpg" alt="The E. Dennis crew illustration from the company vans: three technicians in navy uniforms charging forward behind the E-star shield, one carrying a plunger." width="1081" height="1031"></div>
+        <div class="speech">On our way!</div>
+        <div class="stamp" aria-hidden="true"><svg viewBox="0 0 120 120"><g class="ring"><circle cx="60" cy="60" r="56" fill="#f6c624" stroke="#0e1647" stroke-width="3"/><path id="ringPath" d="M60 60m-42 0a42 42 0 1 1 84 0a42 42 0 1 1-84 0" fill="none"/><text font-family="Barlow Condensed, sans-serif" font-weight="700" font-size="12.5" letter-spacing="2.5" fill="#0e1647"><textPath href="#ringPath">★ SINCE 1993 ★ HOME HEROES </textPath></text></g><use href="#shield" x="38" y="35" width="44" height="50"/></svg></div>
+        <p class="cap">The crew, as seen on every E. Dennis van</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="livery" aria-hidden="true"></div>
+
+  <section class="band trades" id="trades">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="tag">Three trades, one team</span>
+        <h2>Every system in your home. Covered.</h2>
+        <p>Heating, cooling, water and power all affect each other. One licensed team that handles all three means fewer contractors in your house and fewer repeat visits.</p>
+      </div>
+      <div class="cards">
+        <article class="card rv"><span class="badge"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 4v32M6 12l28 16M6 28l28-16"/><path d="M16 6l4 4 4-4M16 34l4-4 4 4M5 17l5-1-1-5M35 23l-5 1 1 5M5 23l5 1-1 5M35 17l-5-1 1-5"/></svg></span>
+          <h3><small>Hero 01</small>A/C &amp; Heating</h3>
+          <p>Georgia summers are brutal on air conditioners. We repair and install cooling and heating systems so the house stays comfortable in July and January.</p>
+          <ul><li>A/C repair &amp; replacement</li><li>Heater repair &amp; replacement</li><li>Heat pumps &amp; thermostats</li><li>24/7 cooling service</li></ul></article>
+        <article class="card r rv"><span class="badge"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 4c5 7 10 12 10 18a10 10 0 0 1-20 0c0-6 5-11 10-18z"/><path d="M15 23a5 5 0 0 0 5 5"/></svg></span>
+          <h3><small>Hero 02</small>Plumbing</h3>
+          <p>Leaks, clogs, running toilets and water heaters. Found, fixed and cleaned up, before a small drip turns into a ceiling stain.</p>
+          <ul><li>Leaks &amp; general plumbing</li><li>Drains</li><li>Water heaters</li><li>Sewers &amp; water lines</li></ul></article>
+        <article class="card n rv"><span class="badge"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M23 3 9 23h10l-3 14 15-21H21z" fill="currentColor"/></svg></span>
+          <h3><small>Hero 03</small>Electric</h3>
+          <p>From a breaker that keeps tripping to a full panel upgrade, our licensed electricians work to Georgia code and coordinate with the rest of the team.</p>
+          <ul><li>Panels</li><li>Lighting</li><li>EV chargers &amp; generators</li><li>Surge protection</li></ul></article>
+      </div>
+    </div>
+  </section>
+
+  <div class="livery" aria-hidden="true" style="transform:skewY(1.2deg)"></div>
+
+  <section class="band signal halftone" id="signal">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="tag">Send the signal</span>
+        <h2>Where's the trouble?</h2>
+        <p>Tap the spot in the house that's giving you grief. You'll see which hero handles it, what's usually wrong, and what to do before we get there.</p>
+      </div>
+      <div class="grid rv">
+        <div>
+          <div class="house">
+            <svg viewBox="0 0 640 470" id="houseSvg" role="group" aria-label="Cutaway of a two-story house with tappable problem spots">
+              <!-- ground -->
+              <rect x="0" y="430" width="640" height="40" fill="#0b1240"/>
+              <!-- roof + attic -->
+              <path class="room" d="M60 160 L280 40 L500 160 Z"/>
+              <!-- rooms -->
+              <rect class="room" id="r-bath" x="70" y="160" width="190" height="135"/>
+              <rect class="room" id="r-bed" x="260" y="160" width="230" height="135"/>
+              <rect class="room" id="r-kit" x="70" y="295" width="190" height="135"/>
+              <rect class="room" id="r-util" x="260" y="295" width="230" height="135"/>
+              <path class="wall" d="M60 160 L280 40 L500 160 M70 160 V430 H490 V160 M70 295 H490 M260 160 V430 M60 160 H500"/>
+              <text class="lbl" x="150" y="150">Attic</text>
+              <text class="lbl" x="82" y="182">Bathroom</text><text class="lbl" x="272" y="182">Bedroom</text>
+              <text class="lbl" x="82" y="317">Kitchen</text><text class="lbl" x="272" y="317">Garage &amp; utility</text>
+              <!-- attic air handler -->
+              <rect class="fill-det" x="225" y="100" width="90" height="42" rx="4"/><path class="det" d="M235 112h70M235 122h70M235 132h70"/>
+              <!-- bathroom: toilet + shower -->
+              <path class="det" d="M95 285v-60h40M100 230l25 0"/><path class="fill-det" d="M180 285v-22h40v-14h16v14c0 12-8 22-20 22z"/><rect class="fill-det" x="198" y="236" width="38" height="16" rx="3"/>
+              <!-- bedroom: thermostat, ceiling light, bed -->
+              <rect class="fill-det" x="300" y="225" width="22" height="30" rx="4"/><path class="det" d="M375 160v18M355 186h40l-6-8h-28z"/><rect class="fill-det" x="400" y="258" width="80" height="27" rx="4"/><rect class="fill-det" x="406" y="248" width="24" height="14" rx="3"/>
+              <!-- kitchen: counter, sink, outlet -->
+              <rect class="fill-det" x="80" y="378" width="170" height="52"/><path class="det" d="M150 378v-6h40v6M178 372v-22h-14v8"/><rect class="fill-det" x="100" y="345" width="16" height="22" rx="3"/>
+              <!-- utility: water heater, panel -->
+              <rect class="fill-det" x="290" y="335" width="54" height="90" rx="22"/><path class="det" d="M305 335v-20M330 335v-20"/>
+              <rect class="fill-det" x="420" y="330" width="52" height="70" rx="3"/><path class="det" d="M430 345h32M430 357h32M430 369h32M430 381h32"/>
+              <!-- outdoor condenser -->
+              <rect class="fill-det" x="525" y="370" width="90" height="60" rx="4"/><circle class="det" cx="570" cy="400" r="20"/><path class="det" d="M570 380v40M550 400h40M490 395h35"/>
+            </svg>
+          </div>
+          <div class="legend"><span><i style="background:var(--yellow)"></i>A/C &amp; heating</span><span><i style="background:#4fc3ff"></i>Plumbing</span><span><i style="background:var(--red)"></i>Electric</span></div>
+        </div>
+        <div class="dossier" id="dossier" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band onecall" id="about">
+    <div class="wrap">
+      <figure class="shot rv"><img src="assets/van-house.jpg" alt="An E. Dennis van parked outside a two-story home in metro Atlanta." loading="lazy"><figcaption>On a call in metro Atlanta</figcaption></figure>
+      <div class="rv">
+        <span class="tag">Honest &amp; reliable since 1993</span>
+        <h2>The team you can trust in your home.</h2>
+        <p>E. Dennis has been keeping Marietta and metro Atlanta homes comfortable, dry and powered since 1993. Our licensed team works hard to be honest, reliable and affordable, and treats every house like it's our own.</p>
+        <div class="stats">
+          <div><b id="yrs">33</b><span>Years in Atlanta</span></div>
+          <div><b>200+</b><span>Years of combined experience</span></div>
+          <div><b>24/7</b><span>Emergency service</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="reviews">
+    <div class="wrap">
+      <div class="head rv">
+        <span class="tag">5-star reviewed</span>
+        <h2>Heroes, by name.</h2>
+        <p>Real customers, naming the real technicians who showed up.</p>
+      </div>
+      <div class="revs">
+        <figure class="rev rv"><span class="stars">★★★★★</span><blockquote>“<b>Josh and Brock</b> were on time, were very professional, and did an outstanding job from start to finish in installing a new Lennox AC and heating unit. They took care in protecting my home and furnishings during installation, and left everything clean and in order.”</blockquote><figcaption>Adam F.<span>New A/C &amp; heating install</span></figcaption></figure>
+        <figure class="rev rv"><span class="stars">★★★★★</span><blockquote>“We have been customers of E Dennis AC, Inc. for <b>almost 20 years</b> - in the 3 homes we've lived in during that time. They are consistently dependable, honest and hardworking folks. Brandon takes time to explain our system and repair options.”</blockquote><figcaption>Beverly A.<span>Customer for almost 20 years</span></figcaption></figure>
+        <figure class="rev rv"><span class="stars">★★★★★</span><blockquote>“Our Company recently had an A/C Unit to go down, and in a pinch, I called, and <b>within days they had a unit installed</b>. Their team is professional and well trained. I can depend on anyone they send out to us to do a great job.”</blockquote><figcaption>Andrea T.<span>Home &amp; business customer</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="band call halftone" id="contact">
+    <div class="wrap">
+      <div class="rv">
+        <span class="tag">Need a hero?</span>
+        <h2>Call in the <span class="y">heroes.</span></h2>
+        <p style="margin-top:1rem;color:var(--soft);font-size:1.1rem">Available 24/7. Emergency service when you need it.</p>
+        <a class="num" href="tel:+17705018620">(770) 501-8620</a>
+        <p style="margin-top:1.2rem;display:inline-flex;gap:.6rem;align-items:center;font:700 1rem/1.2 var(--f-cond);letter-spacing:.08em;text-transform:uppercase;background:var(--red);padding:.7rem 1rem;border-radius:6px;box-shadow:4px 4px 0 var(--navy-deep)">★ 10% off for veterans &amp; first responders</p>
+        <div class="addr">
+          <b>Headquarters</b>
+          <span>425 Franklin Gateway SE, #530<br>Marietta, GA 30067</span>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=425+Franklin+Gateway+SE+530+Marietta+GA+30067" target="_blank" rel="noopener">Get directions →</a>
+        </div>
+      </div>
+      <form class="req rv" id="req" novalidate>
+        <h3>Send the signal</h3>
+        <div class="trade" role="radiogroup" aria-label="Which hero do you need?">
+          <input type="radio" name="trade" id="t-ac" value="A/C & heating" checked><label for="t-ac">A/C &amp; Heat</label>
+          <input type="radio" name="trade" id="t-pl" value="Plumbing"><label for="t-pl">Plumbing</label>
+          <input type="radio" name="trade" id="t-el" value="Electric"><label for="t-el">Electric</label>
+        </div>
+        <div class="two">
+          <div class="f"><label for="r-name">Name</label><input id="r-name" type="text" autocomplete="name" placeholder="Taylor Brooks"></div>
+          <div class="f"><label for="r-city">City</label><input id="r-city" type="text" autocomplete="address-level2" placeholder="Marietta"></div>
+        </div>
+        <div class="f"><label for="r-notes">What's going on?</label><textarea id="r-notes" placeholder="Upstairs is 80° and the A/C is running non-stop."></textarea></div>
+        <p class="err" id="err" role="alert"></p>
+        <button class="btn btn-hero" type="submit">Text my request</button>
+        <small>Opens your messaging app with everything filled in. Nothing is sent until you hit send.</small>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#main"><svg aria-hidden="true" style="width:38px;height:44px"><use href="#shield"/></svg><span><b>E. DENNIS</b><small>HEATING · COOLING · PLUMBING · ELECTRICAL</small></span></a>
+    <em>Atlanta's Home Heroes</em>
+    <span>(770) 501-8620 · Marietta, GA · © <span id="yr">2026</span></span>
+  </div>
+</footer>
+
+<div class="dock"><a class="btn btn-line" href="#signal">What's wrong?</a><a class="btn btn-hero" href="tel:+17705018620">Call</a></div>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const NS = 'http://www.w3.org/2000/svg';
+  document.documentElement.classList.add('js');
+  const y = new Date().getFullYear();
+  document.getElementById('yr').textContent = y;
+  document.getElementById('yrs').textContent = y - 1993;
+
+  /* Comic burst behind the hero */
+  const burst = document.getElementById('burstSvg');
+  for (let i = 0; i < 28; i++) {
+    const a0 = i / 28 * Math.PI * 2, a1 = a0 + Math.PI / 28;
+    const p = document.createElementNS(NS, 'path');
+    p.setAttribute('d', 'M0 0L' + (Math.cos(a0) * 140).toFixed(1) + ' ' + (Math.sin(a0) * 140).toFixed(1) + 'L' + (Math.cos(a1) * 140).toFixed(1) + ' ' + (Math.sin(a1) * 140).toFixed(1) + 'Z');
+    p.setAttribute('fill', i % 2 ? 'rgba(246,198,36,.10)' : 'rgba(255,255,255,.025)');
+    burst.appendChild(p);
+  }
+
+  /* Reveal (only for content that starts below the fold) */
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.remove('pre'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+    let k = 0;
+    document.querySelectorAll('.rv').forEach((x) => { if (x.getBoundingClientRect().top > innerHeight) { x.classList.add('pre'); if (x.closest('.cards')) x.style.transitionDelay = (k++ % 3) * 110 + 'ms'; io.observe(x); } });
+  }
+
+  /* House cutaway: tap a spot, get the right hero */
+  const H = {
+    ac: { name: 'A/C & heating', c: 'var(--yellow)', radio: 't-ac' },
+    pl: { name: 'Plumbing', c: '#4fc3ff', radio: 't-pl' },
+    el: { name: 'Electric', c: 'var(--red)', radio: 't-el' }
+  };
+  const SPOTS = [
+    { id: 'cond', t: 'ac', x: 570, y: 365, room: null, name: 'Outdoor A/C unit', probs: ['Blowing warm air', 'Ice on the lines', 'Loud buzzing', 'Won\'t turn on'],
+      now: ['Make sure the thermostat is on Cool and set below room temperature.', 'Check the A/C breaker in your panel.', 'Clear leaves and debris about 2 feet around the unit.', 'Replace the indoor air filter if it\'s dirty.'] },
+    { id: 'attic', t: 'ac', x: 330, y: 121, room: null, name: 'Air handler or furnace', probs: ['No heat', 'Weak airflow', 'Water in the drain pan', 'Burning smell on first start'],
+      now: ['Change the air filter.', 'Check that the condensate drain line isn\'t clogged; many systems shut off when the pan fills.', 'A brief dusty smell on the first cold day is normal. A strong or lasting burning smell is not: turn the system off and call.'] },
+    { id: 'thermo', t: 'ac', x: 311, y: 222, room: 'r-bed', name: 'Thermostat', probs: ['Blank screen', 'Wrong temperature', 'System won\'t respond'],
+      now: ['Replace the batteries if it has them.', 'Check the mode (Heat / Cool / Auto) and any schedule.', 'Check the HVAC breaker.'] },
+    { id: 'toilet', t: 'pl', x: 205, y: 232, room: 'r-bath', name: 'Toilet & bathroom', probs: ['Running toilet', 'Clogged toilet', 'Leak at the base', 'Low shower pressure'],
+      now: ['To stop water, turn the valve behind the toilet clockwise.', 'Use a flanged plunger for clogs. Skip chemical cleaners.', 'Water on the floor around the base usually means a failed wax seal. Stop using that toilet.'] },
+    { id: 'sink', t: 'pl', x: 170, y: 352, room: 'r-kit', name: 'Kitchen sink & disposal', probs: ['Slow drain', 'Leak under the sink', 'Disposal hums but won\'t turn'],
+      now: ['Don\'t pour chemical drain cleaners down it.', 'For a jammed disposal: switch it off, press the reset button underneath, then turn it with the hex key at the bottom.', 'Put a bucket under any leak and close the shutoff valves under the sink.'] },
+    { id: 'wh', t: 'pl', x: 317, y: 372, room: 'r-util', name: 'Water heater', probs: ['No hot water', 'Leaking tank', 'Rumbling or popping', 'Rusty water'],
+      now: ['If it\'s leaking: shut the cold-water valve on top and turn off the power or gas to the unit.', 'Electric: check its breaker. Gas: check the pilot, following the label on the tank.', 'If you smell gas, leave the house and call 911 or your gas company from outside.'] },
+    { id: 'panel', t: 'el', x: 446, y: 318, room: 'r-util', name: 'Electrical panel', probs: ['Breaker keeps tripping', 'Panel is warm or buzzing', 'Not enough breaker space'],
+      now: ['Reset a tripped breaker once. If it trips again, leave it off and call.', 'A panel that\'s warm, buzzing or smells hot needs attention now. Don\'t open the cover.', 'Note which circuits are dead before we arrive.'] },
+    { id: 'light', t: 'el', x: 375, y: 200, room: 'r-bed', name: 'Lights & ceiling fans', probs: ['Flickering lights', 'Dead fixtures', 'Fan wobble or hum'],
+      now: ['Try a new bulb first.', 'If several lights flicker at once, or dim when an appliance starts, call. That can be a loose connection.'] },
+    { id: 'outlet', t: 'el', x: 108, y: 340, room: 'r-kit', name: 'Outlets', probs: ['Dead outlets', 'Warm or scorched outlet', 'Outlets that spark'],
+      now: ['Press Reset on the GFCI outlets in your kitchen, bathrooms, garage and outside. One tripped GFCI can kill several outlets.', 'A warm, scorched or sparking outlet: stop using it and turn off its breaker.'] }
+  ];
+  const svg = document.getElementById('houseSvg'), dossier = document.getElementById('dossier');
+  let cur = null;
+  const pick = (s, focus) => {
+    cur = s;
+    svg.querySelectorAll('.hs').forEach((g) => { const on = g.dataset.id === s.id; g.classList.toggle('on', on); g.setAttribute('aria-pressed', String(on)); });
+    svg.querySelectorAll('.room').forEach((r) => r.classList.toggle('lit', r.id === s.room));
+    const h = H[s.t];
+    dossier.innerHTML = '<span class="who" style="--c:' + h.c + '">' + h.name + ' hero</span><h3>' + s.name + '</h3>' +
+      '<div><h4>Usually it\'s</h4><ul>' + s.probs.map((p) => '<li>' + p + '</li>').join('') + '</ul></div>' +
+      '<div><h4>Do this now</h4><ol>' + s.now.map((p) => '<li>' + p + '</li>').join('') + '</ol></div>' +
+      '<div style="display:flex;flex-wrap:wrap;gap:.6rem"><a class="btn btn-hero btn-sm" href="#contact" id="sendSig">Send the ' + h.name + ' hero</a><a class="btn btn-sm" style="color:var(--navy);box-shadow:inset 0 0 0 2px var(--navy)" href="tel:+17705018620">Call now</a></div>';
+    document.getElementById('sendSig').addEventListener('click', () => { document.getElementById(h.radio).checked = true; document.getElementById('r-notes').value = s.name + ': '; });
+    if (!reduce) { dossier.classList.remove('swap'); void dossier.offsetWidth; dossier.classList.add('swap'); }
+  };
+  SPOTS.forEach((s, i) => {
+    const g = document.createElementNS(NS, 'g');
+    g.setAttribute('class', 'hs ' + s.t); g.setAttribute('tabindex', '0'); g.setAttribute('role', 'button'); g.setAttribute('aria-label', s.name + ', ' + H[s.t].name); g.dataset.id = s.id; g.id = 'hs-' + s.id;
+    g.innerHTML = '<circle class="ping" cx="' + s.x + '" cy="' + s.y + '" r="11"/><circle class="dot" cx="' + s.x + '" cy="' + s.y + '" r="11"/><text class="glyph" x="' + s.x + '" y="' + (s.y + 4.5) + '" text-anchor="middle">' + (s.t === 'ac' ? '❄' : s.t === 'pl' ? '' : '') + '</text>';
+    g.addEventListener('click', () => pick(s));
+    g.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(s); } });
+    svg.appendChild(g);
+  });
+  pick(SPOTS[0]);
+  dossier.classList.remove('swap');
+
+  /* Request → prefilled text */
+  const err = document.getElementById('err');
+  document.getElementById('req').addEventListener('submit', (e) => {
+    e.preventDefault(); const v = (id) => document.getElementById(id).value.trim();
+    if (!v('r-name') || !v('r-city')) { err.textContent = 'Add your name and city so the heroes know where to go.'; return; }
+    err.textContent = '';
+    const trade = document.querySelector('input[name="trade"]:checked').value;
+    const body = 'Hi E. Dennis, I need help.\nName: ' + v('r-name') + '\nCity: ' + v('r-city') + '\nService: ' + trade + (v('r-notes') ? '\nDetails: ' + v('r-notes') : '');
+    location.href = 'sms:+17705018620' + (/iPhone|iPad|Mac/.test(navigator.userAgent) ? '&' : '?') + 'body=' + encodeURIComponent(body);
+  });
+})();
+</script>
+</body>
+</html>
