@@ -220,14 +220,23 @@ input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; border-radius
 
 /* ---------- On the job ---------- */
 .job .wrap { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 5rem); align-items: center; }
-.snaps { position: relative; display: grid; grid-template-columns: repeat(12, 1fr); align-items: end; max-width: 520px; width: 100%; justify-self: center; }
-.snap { margin: 0; background: var(--surface); padding: 8px 8px 0; border-radius: 6px; box-shadow: 0 24px 50px -28px rgba(0,0,0,.55), 0 0 0 1px var(--line); transition: transform .6s var(--ease); }
-.snap img { width: 100%; border-radius: 3px; }
-.snap figcaption { font: 400 .7rem/1 var(--f-mono); color: var(--ink-soft); padding: .7rem .2rem; }
-.snap.a { grid-column: 1 / span 6; grid-row: 1; transform: rotate(-3deg); z-index: 1; }
-.snap.b { grid-column: 5 / span 8; grid-row: 1; transform: rotate(2.5deg) translateY(14%); }
-.snaps:hover .snap.a { transform: rotate(-5deg) translateX(-3%); }
-.snaps:hover .snap.b { transform: rotate(4deg) translate(3%, 14%); }
+.snaps { display: grid; grid-template-columns: 1fr 1fr; gap: 0; align-items: start; max-width: 540px; width: 100%; justify-self: center; padding-block: 1rem 2.5rem; }
+.snap { margin: 0; background: var(--surface); padding: 8px 8px 0; border-radius: 8px; box-shadow: 0 24px 50px -28px rgba(0,0,0,.55), 0 0 0 1px var(--line); transition: transform .6s var(--ease); min-width: 0; }
+.snap img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 4px; }
+.snap figcaption { font: 400 .7rem/1.3 var(--f-mono); color: var(--ink-soft); padding: .65rem .2rem .7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.snap.a { transform: rotate(-3deg); margin-right: -8%; position: relative; z-index: 1; }
+.snap.b { transform: rotate(2.5deg) translateY(2.2rem); }
+.snap.b img { object-position: 72% 50%; }
+.snap.b figcaption { text-align: right; }
+.snaps:hover .snap.a { transform: rotate(-4.5deg) translateX(-3%); }
+.snaps:hover .snap.b { transform: rotate(4deg) translate(3%, 2.2rem); }
+@media (max-width: 560px) {
+  .snaps { padding-bottom: 2rem; }
+  .snap { padding: 6px 6px 0; }
+  .snap.a { margin-right: -4%; transform: rotate(-2deg); }
+  .snap.b { transform: rotate(2deg) translateY(1.4rem); }
+  .snap figcaption { font-size: .62rem; }
+}
 .job-copy { display: grid; gap: 1.4rem; }
 .job-copy h2 { font-size: var(--s-2); }
 .job-copy blockquote { margin: 0; font-size: 1.2rem; line-height: 1.5; }
@@ -424,8 +433,8 @@ footer a:hover { text-decoration: underline; }
   <section class="band job" id="about">
     <div class="wrap">
       <div class="snaps rv">
-        <figure class="snap a"><img src="assets/job-truck.jpg" alt="The One Cut Tree Services truck parked in a customer's driveway." width="360" height="480" loading="lazy"><figcaption>The One Cut truck, on a job</figcaption></figure>
-        <figure class="snap b"><img src="assets/job-chipper.jpg" alt="The crew's truck and wood chipper at work on a residential street." width="480" height="360" loading="lazy"><figcaption>Chipper and crew at work</figcaption></figure>
+        <figure class="snap a"><img src="assets/job-truck.jpg" alt="The One Cut Tree Services truck parked in a customer's driveway." width="400" height="500" loading="lazy"><figcaption>The One Cut truck, on a job</figcaption></figure>
+        <figure class="snap b"><img src="assets/job-chipper.jpg" alt="The crew's truck and wood chipper at work on a residential street." width="400" height="500" loading="lazy"><figcaption>Chipper &amp; crew at work</figcaption></figure>
       </div>
       <div class="job-copy">
         <span class="label rv">About One Cut</span>
