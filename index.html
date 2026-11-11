@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Patriots Pool Services</title>
+<meta name="description" content="Patriots Pool Services, LLC: weekly pool and spa service with every chemical included and a report after every visit. CPO & CPI certified. Free in-person estimates: (706) 714-4401.">
+<meta name="theme-color" content="#0d1f3c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,600;0,700;1,700&family=Manrope:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap">
+<link rel="preload" as="image" href="assets/crew.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "name": "Patriots Pool Services, LLC",
+  "telephone": "+1-706-714-4401",
+  "email": "service@patriotspoolservices.com",
+  "url": "https://patriotspoolservices.com",
+  "openingHours": "Mo-Fr 08:00-17:00"
+}
+</script>
+<style>
+/* Signature: the after-visit "service report" — the detail that sets them apart — shown as a live card
+   that runs its water tests on load, over a photo of their own crew. Colors come from the logo:
+   navy, flag red and white. One deliberate dark look. Type: Zilla Slab (workwear Americana) /
+   Manrope (body) / DM Mono (readings). Built to Vercel's Web Interface Guidelines. */
+:root {
+  --navy: #0d1f3c;
+  --navy-2: #13294d;
+  --navy-3: #1c3561;
+  --red: #c8202f;
+  --red-hi: #e03342;
+  --white: #f7f4ee;
+  --soft: #b6c0d3;
+  --rule: rgba(247,244,238,.14);
+  --ok: #3fbf7f;
+  --card: #fbf9f4;
+  --ink: #0d1f3c;
+  --ink-soft: #55627d;
+  --f-display: "Zilla Slab", "Rockwell", "Roboto Slab", Georgia, serif;
+  --f-body: "Manrope", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "DM Mono", ui-monospace, Menlo, Consolas, monospace;
+  --t-cap: .75rem;
+  --t-h1: clamp(2.6rem, 6.2vw, 5.4rem);
+  --gl: max(16px, env(safe-area-inset-left, 0px));
+  --gr: max(16px, env(safe-area-inset-right, 0px));
+  --ease: cubic-bezier(.2,.7,.2,1);
+  --spring: cubic-bezier(.34,1.45,.5,1);
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: rgba(200,32,47,.25); background: var(--navy); }
+@media (pointer: fine) { html { overscroll-behavior: none; } }
+body { margin: 0; background: var(--navy); color: var(--white); font: 400 1.0625rem/1.6 var(--f-body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img, svg { max-width: 100%; display: block; }
+a { color: inherit; }
+a, button { touch-action: manipulation; }
+h1 { font-family: var(--f-display); font-weight: 700; margin: 0; line-height: .98; letter-spacing: -.01em; text-wrap: balance; }
+p { margin: 0; text-wrap: pretty; }
+:focus-visible { outline: 2px solid var(--white); outline-offset: 3px; border-radius: 6px; }
+.skip { position: absolute; left: var(--gl); top: -64px; z-index: 100; background: var(--white); color: var(--navy); padding: .7rem 1rem; border-radius: 8px; text-decoration: none; font-weight: 700; transition: top .2s var(--ease); }
+.skip:focus-visible { top: calc(10px + env(safe-area-inset-top, 0px)); }
+.wrap { max-width: 1240px; margin-inline: auto; padding-left: var(--gl); padding-right: var(--gr); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .6rem; cursor: pointer; border: 0; text-decoration: none; font: 700 1rem/1 var(--f-body); padding: 1.05rem 1.4rem; border-radius: 6px; white-space: nowrap; transition: transform .25s var(--spring), background-color .2s, box-shadow .2s, color .2s; }
+.btn svg { width: 18px; height: 18px; flex: none; }
+.btn-red { background: var(--red); color: #fff; box-shadow: 0 14px 30px -16px var(--red); }
+.btn-red:hover { background: var(--red-hi); transform: translateY(-2px); }
+.btn-red:active { transform: translateY(0) scale(.98); }
+.btn-line { color: var(--white); box-shadow: inset 0 0 0 1.5px rgba(247,244,238,.5); }
+.btn-line:hover { box-shadow: inset 0 0 0 1.5px var(--white); transform: translateY(-2px); }
+.btn-sm { padding: .72rem 1rem; font-size: .92rem; }
+
+/* ---------- Header ---------- */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 70; background: var(--navy); }
+.flagbar { height: 6px; background: repeating-linear-gradient(90deg, var(--red) 0 28px, var(--white) 28px 56px); }
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 60; background: rgba(13,31,60,.9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--rule); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: .6rem; }
+.brand { display: flex; align-items: center; gap: .75rem; text-decoration: none; min-width: 0; }
+.brand img { width: 52px; height: 49px; border-radius: 6px; background: #fff; padding: 3px; flex: none; }
+.brand b { display: block; font: 700 1.2rem/1 var(--f-display); white-space: nowrap; }
+.brand small { display: block; margin-top: 4px; font: 400 .66rem/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--soft); white-space: nowrap; }
+.nav { display: flex; align-items: center; gap: 1.5rem; }
+.nav a.l { text-decoration: none; font-weight: 600; font-size: .95rem; color: var(--soft); transition: color .2s; }
+.nav a.l:hover { color: var(--white); }
+@media (max-width: 900px) { .nav a.l { display: none; } }
+@media (max-width: 520px) { #navCall { display: none; } }
+
+/* ---------- Hero ---------- */
+.hero { position: relative; overflow: hidden; isolation: isolate; }
+.hero::before { content: ""; position: absolute; inset: 0; z-index: -2; background:
+  radial-gradient(900px 600px at 80% 30%, rgba(46,120,190,.28), transparent 65%),
+  radial-gradient(700px 500px at 0% 100%, rgba(200,32,47,.16), transparent 60%), var(--navy); }
+#caustics { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; opacity: .5; pointer-events: none; }
+.hero .hero-grid { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; padding-block: clamp(2.5rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem); }
+.copy { display: grid; gap: 1.6rem; min-width: 0; }
+.kicker { display: inline-flex; align-items: center; gap: .65rem; font: 500 var(--t-cap)/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--soft); }
+.kicker i { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--red); color: #fff; font-style: normal; font-size: .7rem; }
+.hero h1 { font-size: var(--t-h1); }
+.hero h1 .r { color: var(--red-hi); font-style: italic; }
+.hero h1 > span { display: block; }
+.lede { font-size: 1.16rem; color: var(--soft); max-width: 34rem; }
+.lede b { color: var(--white); font-weight: 600; }
+.ctas { display: flex; flex-wrap: wrap; gap: .7rem; }
+.promo { display: inline-flex; align-items: center; gap: .7rem; padding: .7rem .9rem .7rem .7rem; border-radius: 8px; background: rgba(247,244,238,.06); box-shadow: inset 0 0 0 1px var(--rule); font-size: .93rem; color: var(--soft); max-width: 34rem; }
+.promo svg { width: 34px; height: 34px; flex: none; }
+.promo b { color: var(--white); }
+.copy > * { animation: rise .8s var(--ease) both; }
+.copy > :nth-child(2) { animation-delay: .07s; } .copy > :nth-child(3) { animation-delay: .14s; }
+.copy > :nth-child(4) { animation-delay: .21s; } .copy > :nth-child(5) { animation-delay: .28s; }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } }
+
+/* visual: crew photo + live service report */
+.visual { position: relative; justify-self: center; width: 100%; max-width: 520px; padding-bottom: 11rem; animation: rise .9s .15s var(--ease) both; }
+.photo { position: relative; margin: 0; border-radius: 10px; overflow: hidden; aspect-ratio: 1100 / 1250; max-width: 92%; box-shadow: 0 40px 80px -40px rgba(0,0,0,.8); }
+.photo img { width: 100%; height: 100%; object-fit: cover; }
+
+.photo figcaption { position: absolute; left: 14px; top: 12px; padding: .35rem .55rem; border-radius: 4px; background: rgba(13,31,60,.7); z-index: 1; font: 500 .7rem/1.3 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--white); }
+.stripe { position: absolute; left: -10px; top: 22px; bottom: 90px; width: 6px; background: repeating-linear-gradient(180deg, var(--red) 0 18px, var(--white) 18px 36px); border-radius: 3px; }
+
+.report { position: absolute; right: -4%; bottom: 0; width: min(330px, 70%); background: var(--card); color: var(--ink); border-radius: 12px; box-shadow: 0 30px 60px -24px rgba(0,0,0,.7); overflow: hidden; animation: cardIn .9s .55s var(--spring) both; }
+@keyframes cardIn { from { opacity: 0; transform: translateY(26px) rotate(2deg); } }
+.report header { display: flex; justify-content: space-between; align-items: center; gap: .6rem; padding: .85rem 1rem .7rem; border-bottom: 1px dashed #d6d9e1; }
+.report header b { font: 700 1.05rem/1.1 var(--f-display); }
+.report header span { font: 400 .66rem/1.2 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); text-align: right; }
+.report ul { list-style: none; margin: 0; padding: .55rem 1rem .3rem; display: grid; gap: .1rem; }
+.report li { display: grid; grid-template-columns: minmax(0, 1fr) auto 18px; gap: .6rem; align-items: center; padding: .4rem 0; border-bottom: 1px solid #eceef2; font-size: .86rem; }
+.report li:last-child { border-bottom: 0; }
+.report li .v { font: 500 .86rem/1 var(--f-mono); font-variant-numeric: tabular-nums; color: var(--ink); min-width: 4.5rem; text-align: right; }
+.report li .ck { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; background: var(--ok); color: #fff; transform: scale(0); transition: transform .4s var(--spring); }
+.report li .ck svg { width: 11px; height: 11px; }
+.report li.done .ck { transform: scale(1); }
+.report .bar { position: relative; height: 4px; border-radius: 2px; background: #e6e9ef; margin-top: .35rem; grid-column: 1 / -1; overflow: hidden; }
+.report .bar i { position: absolute; top: 0; bottom: 0; left: 0; width: 0; background: var(--ok); border-radius: 2px; transition: width .9s var(--ease); }
+.report .bar u { position: absolute; top: -1px; bottom: -1px; border-left: 1px solid rgba(13,31,60,.35); border-right: 1px solid rgba(13,31,60,.35); background: rgba(63,191,127,.15); }
+.report footer { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: .75rem; align-items: center; padding: .7rem 1rem .9rem; background: #f1f2f5; }
+.report footer img { width: 76px; height: 48px; object-fit: cover; border-radius: 5px; }
+.report footer p { font-size: .8rem; color: var(--ink-soft); line-height: 1.35; }
+.report footer b { color: var(--ink); }
+.report .note { padding: 0 1rem .55rem; font: 400 .62rem/1.3 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: #8a93a6; background: #f1f2f5; }
+
+/* credibility strip + water line */
+.facts { position: relative; z-index: 1; padding-bottom: clamp(5rem, 8vw, 6.5rem); }
+.facts ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); background: var(--navy-2); border-radius: 10px; box-shadow: inset 0 0 0 1px var(--rule), 0 24px 50px -30px rgba(0,0,0,.7); }
+.facts li { padding: 1.05rem 1.2rem; display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: .75rem; align-items: center; border-left: 1px solid var(--rule); min-width: 0; }
+.facts li:first-child { border-left: 0; }
+.facts svg { width: 28px; height: 28px; color: var(--red-hi); }
+.facts b { display: block; font: 700 1rem/1.2 var(--f-display); }
+.facts span { font-size: .84rem; color: var(--soft); line-height: 1.35; }
+.water { position: absolute; left: 0; right: 0; bottom: 0; height: 90px; z-index: -1; pointer-events: none; }
+.water svg { width: 200%; max-width: none; height: 100%; }
+.water .w1 { animation: wave 14s linear infinite; }
+.water .w2 { animation: wave 22s linear infinite reverse; }
+@keyframes wave { to { transform: translateX(-50%); } }
+.after-hero { padding-block: 4rem 6rem; text-align: center; color: var(--soft); font: 400 var(--t-cap)/1.4 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; }
+
+@media (max-width: 920px) {
+  .hero .hero-grid { grid-template-columns: 1fr; }
+  .visual { max-width: 460px; padding-bottom: 0; }
+  .report { position: relative; width: 88%; margin: -5rem 0 0 auto; }
+  .facts ul { grid-template-columns: 1fr 1fr; }
+  .facts li:nth-child(3) { border-left: 0; }
+  .facts li:nth-child(n+3) { border-top: 1px solid var(--rule); }
+}
+@media (max-width: 480px) { .facts ul { grid-template-columns: 1fr; } .facts li { border-left: 0; } .facts li + li { border-top: 1px solid var(--rule); } .report { width: 94%; } .photo { max-width: 92%; } }
+
+.dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 55; display: none; gap: .6rem; padding: .7rem var(--gr) calc(.7rem + env(safe-area-inset-bottom, 0px)) var(--gl); background: rgba(13,31,60,.95); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--rule); }
+.dock .btn { flex: 1; }
+@media (max-width: 720px) { .dock { display: flex; } .after-hero { padding-bottom: 8rem; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  #caustics { display: none; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to Content</a>
+<div class="flagbar" aria-hidden="true"></div>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#main" aria-label="Patriots Pool Services, LLC" translate="no">
+      <img src="assets/logo.jpg" width="52" height="49" alt="">
+      <span><b>Patriots Pool Services</b><small>Pool &amp; spa care</small></span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a class="l" href="#main">Plans</a>
+      <a class="l" href="#main">Services</a>
+      <a class="l" href="#main">Before &amp; After</a>
+      <a class="btn btn-red btn-sm" id="navCall" href="tel:+17067144401"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>(706) 714-4401</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="h1">
+    <canvas id="caustics" aria-hidden="true"></canvas>
+    <div class="wrap hero-grid">
+      <div class="copy">
+        <span class="kicker"><i aria-hidden="true">★</i>Pool &amp; spa service · CPO &amp; CPI certified</span>
+        <h1 id="h1"><span>Your pool,</span><span>serviced like</span><span class="r">it’s our own.</span></h1>
+        <p class="lede">Weekly service with <b>every chemical included</b>, even the balancing chemicals others charge extra for. After every visit, you get a <b>report with your water readings and photos</b>.</p>
+        <div class="ctas">
+          <a class="btn btn-red" href="tel:+17067144401"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>Call (706) 714-4401</a>
+          <a class="btn btn-line" href="mailto:service@patriotspoolservices.com?subject=Free%20in-person%20estimate">Get a Free In-Person Estimate</a>
+        </div>
+        <p class="promo"><svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="16" fill="#c8202f"/><circle cx="17" cy="17" r="12" fill="none" stroke="#f7f4ee" stroke-width="1.5" stroke-dasharray="2 2.6"/><path d="m17 9 2.2 4.6 5 .7-3.6 3.5.9 5-4.500-2.400L12.500 22.800l.9-5L9.800 14.300l5-.7z" fill="#f7f4ee"/></svg><span><b>Thank you for your service.</b> Discounts on our Patriots’ and Heroes’ plans for seniors (60+), veterans, first responders and law enforcement.</span></p>
+      </div>
+
+      <div class="visual">
+        <span class="stripe" aria-hidden="true"></span>
+        <figure class="photo">
+          <img src="assets/crew.jpg" width="1100" height="1250" alt="Two Patriots Pool Services technicians in branded shirts, looking over a client’s pool." fetchpriority="high">
+          <figcaption>The Patriots crew, on the job</figcaption>
+        </figure>
+        <article class="report" aria-label="Sample service report">
+          <header><b>Service Report</b><span>Weekly visit<br>Sample</span></header>
+          <ul id="readings">
+            <li data-w="62" data-min="40" data-max="80"><span>Free chlorine</span><span class="v" data-to="3.0" data-unit=" ppm">— ppm</span><span class="ck" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2.500 6.200 5 8.600 9.500 3.500"/></svg></span><span class="bar" aria-hidden="true"><u style="left:40%;width:40%"></u><i></i></span></li>
+            <li data-w="56" data-min="46" data-max="66"><span>pH</span><span class="v" data-to="7.4" data-unit="">—</span><span class="ck" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2.500 6.200 5 8.600 9.500 3.500"/></svg></span><span class="bar" aria-hidden="true"><u style="left:46%;width:20%"></u><i></i></span></li>
+            <li data-w="60" data-min="44" data-max="72"><span>Total alkalinity</span><span class="v" data-to="100" data-unit=" ppm">— ppm</span><span class="ck" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2.500 6.200 5 8.600 9.500 3.500"/></svg></span><span class="bar" aria-hidden="true"><u style="left:44%;width:28%"></u><i></i></span></li>
+            <li><span>Filters &amp; skimmer baskets</span><span class="v">Cleaned</span><span class="ck" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2.500 6.200 5 8.600 9.500 3.500"/></svg></span></li>
+          </ul>
+          <footer><img src="assets/after.jpg" width="76" height="48" alt="" loading="lazy"><p><b>Photos attached.</b> Chemicals added and notes, emailed right after the visit.</p></footer>
+          <p class="note">Example readings for illustration</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="wrap facts">
+      <ul>
+        <li><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3 24 7v7c0 6-4.400 10-10 11-5.600-1-10-5-10-11V7z"/><path d="m9.500 14 3 3 6-6"/></svg><div><b>CPO &amp; CPI Certified</b><span>Pool operator &amp; inspector</span></div></li>
+        <li><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 3h6M12 3v6L6 21a3 3 0 0 0 2.700 4h10.600A3 3 0 0 0 22 21L16 9V3"/><path d="M8.500 17h11"/></svg><div><b>All Chemicals Included</b><span>Even balancing chemicals</span></div></li>
+        <li><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="18" height="22" rx="2"/><path d="M9 9h10M9 13h10M9 17h6"/></svg><div><b>A Report Every Visit</b><span>Readings, dosages &amp; photos</span></div></li>
+        <li><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="6" width="20" height="18" rx="2"/><path d="M4 11h20M9 3v5M19 3v5"/></svg><div><b>3 Plans, Year-Round</b><span>Weekly or seasonal service</span></div></li>
+      </ul>
+    </div>
+
+    <div class="water" aria-hidden="true">
+      <svg class="w2" viewBox="0 0 2880 90" preserveAspectRatio="none"><path d="M0 50c240-30 480-30 720 0s480 30 720 0 480-30 720 0 480 30 720 0V90H0z" fill="#16335f" opacity=".7"/></svg>
+    </div>
+    <div class="water" aria-hidden="true" style="height:60px">
+      <svg class="w1" viewBox="0 0 2880 60" preserveAspectRatio="none"><path d="M0 30c180-22 360-22 540 0s360 22 540 0 360-22 540 0 360 22 540 0 360-22 540 0 180 11 180 11V60H0z" fill="#1d4374"/></svg>
+    </div>
+  </section>
+  <p class="after-hero">Hero concept · Plans, services and before &amp; after sections come next</p>
+</main>
+
+<nav class="dock" aria-label="Quick actions">
+  <a class="btn btn-line" href="mailto:service@patriotspoolservices.com?subject=Free%20in-person%20estimate">Free Estimate</a>
+  <a class="btn btn-red" href="tel:+17067144401">Call Now</a>
+</nav>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* The report runs its tests: values count up, bars fill into the target band, checks pop in. */
+  const rows = [...document.querySelectorAll('#readings li')];
+  const fmt = (n, to) => (String(to).includes('.') ? n.toFixed(1) : String(Math.round(n)));
+  const finish = (li) => {
+    const v = li.querySelector('.v[data-to]');
+    if (v) v.textContent = v.dataset.to + v.dataset.unit;
+    const bar = li.querySelector('.bar i'); if (bar) bar.style.width = li.dataset.w + '%';
+    li.classList.add('done');
+  };
+  if (reduce) rows.forEach(finish);
+  else rows.forEach((li, i) => setTimeout(() => {
+    const v = li.querySelector('.v[data-to]'), bar = li.querySelector('.bar i');
+    if (bar) bar.style.width = li.dataset.w + '%';
+    if (!v) { li.classList.add('done'); return; }
+    const to = parseFloat(v.dataset.to), t0 = performance.now();
+    const step = (t) => { const k = Math.min(1, (t - t0) / 800), e = 1 - Math.pow(1 - k, 3); v.textContent = fmt(to * e, v.dataset.to) + v.dataset.unit; if (k < 1) requestAnimationFrame(step); else li.classList.add('done'); };
+    requestAnimationFrame(step);
+  }, 1100 + i * 420));
+
+  /* Soft pool-light caustics drifting across the navy */
+  const cv = document.getElementById('caustics');
+  if (!reduce && cv.getContext) {
+    const ctx = cv.getContext('2d'); let W, H, run = true, t0 = performance.now();
+    const blobs = Array.from({ length: 14 }, (_, i) => ({ x: Math.random(), y: Math.random(), r: .08 + Math.random() * .14, sx: (Math.random() - .5) * .02, sy: (Math.random() - .5) * .02, p: Math.random() * 6.28 }));
+    const size = () => { const r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2); W = r.width; H = r.height; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0); };
+    size(); new ResizeObserver(size).observe(cv);
+    const frame = (now) => {
+      if (!run) return;
+      const t = (now - t0) / 1000;
+      ctx.clearRect(0, 0, W, H); ctx.globalCompositeOperation = 'lighter';
+      blobs.forEach((b) => {
+        const x = ((b.x + b.sx * t) % 1 + 1) % 1 * W, y = ((b.y + b.sy * t) % 1 + 1) % 1 * H;
+        const rr = b.r * Math.max(W, H) * (1 + .15 * Math.sin(t * .6 + b.p));
+        const g = ctx.createRadialGradient(x, y, rr * .55, x, y, rr);
+        g.addColorStop(0, 'rgba(120,190,255,0)'); g.addColorStop(.8, 'rgba(120,190,255,.07)'); g.addColorStop(1, 'rgba(120,190,255,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, rr, 0, 6.283); ctx.fill();
+      });
+      ctx.globalCompositeOperation = 'source-over';
+      requestAnimationFrame(frame);
+    };
+    new IntersectionObserver((e) => { run = e[0].isIntersecting; if (run) requestAnimationFrame(frame); }).observe(cv);
+    document.addEventListener('visibilitychange', () => { run = !document.hidden; if (run) requestAnimationFrame(frame); });
+    requestAnimationFrame(frame);
+  }
+})();
+</script>
+</body>
+</html>
