@@ -112,7 +112,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   linear-gradient(90deg, rgba(15,10,9,.96) 0%, rgba(15,10,9,.82) 34%, rgba(15,10,9,.15) 62%, rgba(15,10,9,.35) 100%),
   linear-gradient(0deg, var(--lacquer) 0%, rgba(15,10,9,0) 40%); }
 #sparks { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
-.arch { position: absolute; z-index: 2; right: 8%; top: 9%; height: 84%; aspect-ratio: 400 / 600; pointer-events: none; }
+/* Desktop: the arch frames the lit stage to Krish's left, clear of his face and arm */
+.arch { position: absolute; z-index: 2; right: 2.5vw; top: 13%; width: min(25vw, 420px); height: auto; aspect-ratio: 400 / 600; pointer-events: none; }
 .arch path { fill: none; stroke: var(--gold); stroke-width: 1.2; vector-effect: non-scaling-stroke; stroke-dasharray: 2600; stroke-dashoffset: 2600; animation: drawArch 3.2s .5s var(--ease-out) forwards; }
 .arch path.inner { stroke-opacity: .45; animation-delay: .9s; }
 @keyframes drawArch { to { stroke-dashoffset: 0; } }
@@ -138,7 +139,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   .hero .photo { position: relative; height: 62svh; min-height: 380px; }
   .hero .photo img { object-position: 52% 30%; }
   .hero .photo::after { background: linear-gradient(0deg, var(--lacquer) 2%, rgba(15,10,9,.2) 45%, rgba(15,10,9,.55) 100%); }
-  .arch { right: 50%; transform: translateX(50%); top: 13%; height: 46svh; min-height: 300px; }
+  /* Phones: a wide canopy over him; the dome sits above his head and the curves pass well clear of his face */
+  .arch { right: 50%; transform: translateX(50%); top: 1svh; width: min(120vw, 620px); max-width: none; -webkit-mask-image: linear-gradient(#000 58%, transparent 84%); mask-image: linear-gradient(#000 58%, transparent 84%); }
   #sparks { height: 62svh; min-height: 380px; }
   .hero .wrap { margin-top: -4rem; }
   .scroll-cue { display: none; }
