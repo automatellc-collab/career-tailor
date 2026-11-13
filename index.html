@@ -152,14 +152,16 @@
   /* Load builder */
   .builder { background: var(--asphalt-2); position: relative; }
   .builder-grid { display: grid; grid-template-columns: 1fr 1.08fr; gap: 44px; align-items: start; }
-  .chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-  .chip { position: relative; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 8px; padding: 14px 14px; background: var(--asphalt-3); border: 2px solid transparent; border-radius: 4px; color: var(--chalk); font: 600 16.5px/1.15 var(--display); letter-spacing: .05em; text-transform: uppercase; cursor: pointer; text-align: left; transition: border-color .2s, background .2s, transform .2s var(--snap); }
+  .chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; }
+  .chip { position: relative; display: grid; grid-template-columns: 34px 1fr auto; align-items: center; gap: 8px; padding: 14px 14px; background: var(--asphalt-3); border: 2px solid transparent; border-radius: 4px; color: var(--chalk); font: 600 16.5px/1.15 var(--display); letter-spacing: .05em; text-transform: uppercase; cursor: pointer; text-align: left; transition: border-color .2s, background .2s, transform .2s var(--snap); }
   .chip:hover { border-color: rgba(252,191,66,.5); transform: translateY(-2px); }
   .chip .ct { min-width: 28px; height: 28px; border-radius: 3px; display: grid; place-items: center; background: rgba(244,242,236,.08); font-size: 16px; color: var(--chalk-dim); }
   .chip.on { border-color: var(--gold); background: #2e2616; }
   .chip.on .ct { background: var(--gold); color: var(--asphalt); }
   .chip { min-width: 0; }
-  .chip .nm { min-width: 0; overflow-wrap: anywhere; hyphens: auto; }
+  .chip .ic { width: 34px; height: 28px; display: grid; place-items: center; }
+  .chip .ic svg { max-width: 34px; max-height: 28px; width: auto; height: auto; }
+  .chip .nm { min-width: 0; overflow-wrap: break-word; }
   .chip .sw { position: absolute; left: 0; top: 10px; bottom: 10px; width: 4px; border-radius: 0 2px 2px 0; }
   .chip-note { font-size: 14px; color: var(--concrete); margin: 14px 0 0; }
 
@@ -170,13 +172,16 @@
   .reset { background: none; border: 0; color: var(--chalk-dim); font: 700 14px/1 var(--display); letter-spacing: .14em; text-transform: uppercase; cursor: pointer; padding: 8px 0; }
   .reset:hover { color: var(--chalk); }
   .truck-svg { width: 100%; height: auto; display: block; overflow: visible; }
-  .cell { transform-box: fill-box; transform-origin: 50% 100%; }
-  .cell.drop { animation: celldrop .55s var(--snap) both; }
-  @keyframes celldrop { from { transform: translateY(-140px) scaleY(1.2); opacity: 0; } 60% { opacity: 1; } to { transform: none; opacity: 1; } }
-  .overflow { font: 800 18px/1 var(--display); letter-spacing: .08em; text-transform: uppercase; fill: var(--red); }
+  .truck-wrap { position: relative; }
+  .bed { position: absolute; left: 2.5%; top: 21.5%; width: 67.4%; height: 57.4%; display: flex; flex-wrap: wrap-reverse; align-content: flex-start; align-items: flex-end; gap: 3px 1.2%; padding: 4px 6px; }
+  .itm { display: block; line-height: 0; transform-origin: 50% 100%; filter: drop-shadow(0 2px 2px rgba(0,0,0,.45)); }
+  .itm svg { width: 100%; height: auto; display: block; }
+  .itm.drop { animation: celldrop .6s var(--snap) both; }
+  .ovf { position: absolute; left: 2.5%; top: 6%; font: 600 15px/1 var(--display); letter-spacing: .08em; text-transform: uppercase; color: var(--gold); background: rgba(18,18,18,.85); padding: 6px 10px; border-radius: 3px; border: 1px solid rgba(252,191,66,.4); }
+  @keyframes celldrop { from { transform: translateY(-160px) rotate(-8deg); opacity: 0; } 55% { opacity: 1; transform: translateY(6px) rotate(2deg) scaleY(.94); } to { transform: none; opacity: 1; } }
   .list { margin: 18px 0 20px; padding: 14px 16px; background: var(--asphalt-2); border-radius: 4px; font-size: 15px; color: var(--chalk-dim); min-height: 52px; }
   .list b { color: var(--chalk); font-weight: 600; }
-  .rig .btn { width: 100%; }
+  .rig .btn { width: 100%; white-space: normal; text-align: center; line-height: 1.15; }
   .rig .fine { font-size: 13.5px; color: var(--concrete); margin: 12px 0 0; text-align: center; }
 
   /* Services */
@@ -228,6 +233,56 @@
   .rv { transition: opacity .8s var(--ease), transform .8s var(--ease); }
   .rv.pre { opacity: 0; transform: translateY(40px); }
 
+  /* ---------- Chat assistant ---------- */
+  .bot[hidden], .bot-hint[hidden] { display: none !important; }
+  .bot-fab { position: fixed; z-index: 60; right: max(20px, env(safe-area-inset-right, 0px)); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); width: 66px; height: 66px; border-radius: 50%; border: 0; cursor: pointer; background: var(--gold); color: var(--asphalt); display: grid; place-items: center; box-shadow: 0 10px 30px rgba(0,0,0,.5), 0 0 0 4px rgba(252,191,66,.18); transition: transform .3s var(--snap); }
+  .bot-fab:hover { transform: scale(1.07) rotate(-4deg); }
+  .bot-fab svg { width: 30px; height: 30px; }
+  .bot-fab .dot { position: absolute; top: 4px; right: 4px; width: 14px; height: 14px; border-radius: 50%; background: var(--red-hi); border: 2px solid var(--asphalt); }
+  .bot-fab[aria-expanded="true"] .dot { display: none; }
+  .bot-fab:focus-visible { outline: 3px solid var(--chalk); outline-offset: 3px; }
+  .bot-hint { position: fixed; z-index: 59; right: calc(max(20px, env(safe-area-inset-right, 0px)) + 80px); bottom: calc(34px + env(safe-area-inset-bottom, 0px)); background: var(--chalk); color: var(--asphalt); font: 600 14px/1.3 var(--body); padding: 10px 14px; border-radius: 10px 10px 2px 10px; box-shadow: 0 8px 24px rgba(0,0,0,.4); animation: hintIn .5s var(--snap) both; max-width: 210px; }
+  @keyframes hintIn { from { opacity: 0; transform: translateY(10px) scale(.9); } to { opacity: 1; transform: none; } }
+  .bot { position: fixed; z-index: 61; right: max(20px, env(safe-area-inset-right, 0px)); bottom: calc(100px + env(safe-area-inset-bottom, 0px)); width: min(390px, calc(100vw - 40px)); height: min(600px, calc(100vh - 140px)); display: flex; flex-direction: column; background: var(--asphalt-2); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.65); transform-origin: 100% 100%; animation: botIn .35s var(--snap) both; }
+  @keyframes botIn { from { opacity: 0; transform: scale(.85) translateY(20px); } to { opacity: 1; transform: none; } }
+  .bot-head { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--red); }
+  .bot-head svg.lg { width: 30px; height: 39px; flex: none; }
+  .bot-head b { display: block; font: 700 19px/1.1 var(--display); text-transform: uppercase; letter-spacing: .03em; }
+  .bot-head small { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: #f3dcd4; }
+  .bot-head small i { width: 8px; height: 8px; border-radius: 50%; background: #5fd38a; }
+  .bot-x { margin-left: auto; width: 36px; height: 36px; border-radius: 50%; border: 0; background: rgba(0,0,0,.2); color: #fff; font-size: 20px; cursor: pointer; display: grid; place-items: center; }
+  .bot-x:hover { background: rgba(0,0,0,.35); }
+  .bot-log { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; scroll-behavior: smooth; }
+  .msg { max-width: 86%; padding: 11px 14px; border-radius: 14px; font-size: 15px; line-height: 1.5; animation: msgIn .3s var(--ease) both; overflow-wrap: anywhere; }
+  @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .msg.b { background: var(--asphalt-3); border-bottom-left-radius: 4px; align-self: flex-start; }
+  .msg.u { background: var(--gold); color: var(--asphalt); border-bottom-right-radius: 4px; align-self: flex-end; font-weight: 500; }
+  .msg ul { margin: 6px 0 0; padding-left: 18px; }
+  .msg .acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .msg .acts a, .msg .acts button { font: 600 14px/1 var(--display); letter-spacing: .06em; text-transform: uppercase; text-decoration: none; padding: 9px 12px; border-radius: 4px; border: 0; cursor: pointer; }
+  .msg .acts .g { background: var(--gold); color: var(--asphalt); }
+  .msg .acts .r { background: var(--red); color: #fff; }
+  .msg .acts .o { background: transparent; color: var(--chalk); box-shadow: inset 0 0 0 1px rgba(255,246,234,.35); }
+  .typing { display: inline-flex; gap: 4px; padding: 14px; }
+  .typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--chalk-dim); animation: blink 1s infinite; }
+  .typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+  @keyframes blink { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
+  .bot-quick { display: flex; gap: 8px; overflow-x: auto; padding: 0 16px 12px; scrollbar-width: none; }
+  .bot-quick::-webkit-scrollbar { display: none; }
+  .bot-quick button { flex: none; font: 500 14px/1 var(--body); color: var(--gold); background: transparent; border: 1px solid rgba(252,191,66,.45); border-radius: 999px; padding: 9px 13px; cursor: pointer; white-space: nowrap; }
+  .bot-quick button:hover { background: rgba(252,191,66,.12); }
+  .bot-form { display: flex; gap: 8px; padding: 12px 14px; border-top: 1px solid var(--line); background: var(--asphalt); }
+  .bot-form input { flex: 1; min-width: 0; font: 400 16px var(--body); color: var(--chalk); background: var(--asphalt-3); border: 1px solid transparent; border-radius: 999px; padding: 11px 16px; outline: none; }
+  .bot-form input:focus { border-color: var(--gold); }
+  .bot-form button { width: 44px; height: 44px; flex: none; border-radius: 50%; border: 0; background: var(--gold); color: var(--asphalt); cursor: pointer; display: grid; place-items: center; }
+  .bot-form button svg { width: 20px; height: 20px; }
+  .bot-note { font-size: 11.5px; color: var(--concrete); text-align: center; padding: 0 14px 10px; background: var(--asphalt); }
+  @media (max-width: 600px) {
+    .bot-fab { bottom: calc(86px + env(safe-area-inset-bottom, 0px)); width: 58px; height: 58px; }
+    .bot-hint { bottom: calc(96px + env(safe-area-inset-bottom, 0px)); right: calc(max(20px, env(safe-area-inset-right, 0px)) + 70px); }
+    .bot { inset: 0; width: auto; height: auto; border-radius: 0; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
     .rv.pre { opacity: 1; transform: none; }
@@ -260,6 +315,8 @@
     .svc ul { grid-template-columns: 1fr; }
     .rig { padding: 18px; }
     .chips { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .chip { grid-template-columns: 1fr auto; grid-template-areas: "ic ct" "nm nm"; row-gap: 8px; padding: 12px; }
+    .chip .ic { grid-area: ic; justify-self: start; } .chip .ct { grid-area: ct; } .chip .nm { grid-area: nm; font-size: 15px; }
     .ticker span { font-size: 24px; }
     .mbar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; gap: 8px; background: rgba(18,18,18,.95); backdrop-filter: blur(10px); border-top: 1px solid var(--line); padding: 10px max(12px, env(safe-area-inset-left, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)); }
     .mbar .btn { flex: 1; padding: 14px 10px; font-size: 17px; box-shadow: none; }
@@ -356,7 +413,7 @@
             <div class="size" id="size">Empty bed<small id="sizeNote">Add items to see how big the job is.</small></div>
             <button class="reset" id="reset" type="button">Clear</button>
           </div>
-          <svg class="truck-svg" id="truck" viewBox="0 0 640 300" role="img" aria-label="A truck bed that fills up as you add items"></svg>
+          <div class="truck-wrap"><svg class="truck-svg" id="truck" viewBox="0 0 640 300" role="img" aria-label="A truck bed that fills up as you add items"></svg><div class="bed" id="bed"></div><span class="ovf" id="ovf" hidden></span></div>
           <div class="list" id="list">Nothing added yet.</div>
           <a class="btn btn-gold" id="sendList" href="sms:+16783506348">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/></svg>
@@ -440,6 +497,26 @@
   </div>
 </footer>
 
+<button class="bot-fab" id="botFab" type="button" aria-expanded="false" aria-controls="bot" aria-label="Chat with us">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>
+  <span class="dot"></span>
+</button>
+<div class="bot-hint" id="botHint" hidden></div>
+<div class="bot" id="bot" role="dialog" aria-modal="false" aria-labelledby="botTitle" hidden>
+  <div class="bot-head">
+    <svg class="lg" viewBox="0 0 1100 1419" aria-hidden="true" style="fill:#fcbf42"><use href="#sp-logo"/></svg>
+    <div><b id="botTitle"></b><small><i></i><span id="botSub"></span></small></div>
+    <button class="bot-x" id="botClose" type="button" aria-label="Close chat">×</button>
+  </div>
+  <div class="bot-log" id="botLog" aria-live="polite"></div>
+  <div class="bot-quick" id="botQuick"></div>
+  <form class="bot-form" id="botForm" autocomplete="off">
+    <input id="botIn" type="text" maxlength="300" aria-label="Type your question">
+    <button type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  </form>
+  <div class="bot-note" id="botNote"></div>
+</div>
+
 <div class="mbar">
   <a class="btn btn-red" href="tel:+16783506348">Call</a>
   <a class="btn btn-gold" href="sms:+16783506348?body=Hi%20Strong%20Point%20Hauling!%20Here%27s%20a%20photo%20of%20what%20I%20need%20hauled%3A">Text a photo</a>
@@ -449,39 +526,58 @@
 document.getElementById('yr').textContent = new Date().getFullYear();
 
 /* ---------- Load builder ---------- */
+const ICONS = {
+  couch: ['0 0 100 52', '<rect x="12" y="4" width="76" height="26" rx="7" fill="#c43333"/><rect x="8" y="24" width="84" height="16" rx="4" fill="#a82828"/><rect x="0" y="16" width="16" height="28" rx="6" fill="#d24040"/><rect x="84" y="16" width="16" height="28" rx="6" fill="#d24040"/><path d="M50 8v20" stroke="#7a1717" stroke-width="2"/><rect x="8" y="44" width="6" height="8" fill="#5a1212"/><rect x="86" y="44" width="6" height="8" fill="#5a1212"/>'],
+  mattress: ['0 0 100 30', '<rect x="0" y="4" width="100" height="22" rx="6" fill="#ece6da"/><path d="M4 12h92" stroke="#bdb5a6" stroke-width="2"/><g fill="#bdb5a6"><circle cx="20" cy="19" r="2"/><circle cx="40" cy="19" r="2"/><circle cx="60" cy="19" r="2"/><circle cx="80" cy="19" r="2"/></g>'],
+  recliner: ['0 0 70 60', '<path d="M6 7c0-4 3-7 7-7h12c4 0 7 3 7 7v26H6z" fill="#8a5631"/><rect x="4" y="30" width="44" height="14" rx="4" fill="#a0683d"/><rect x="26" y="22" width="22" height="12" rx="5" fill="#8a5631"/><path d="M48 34l20 6v8l-22-4z" fill="#a0683d"/><rect x="8" y="44" width="6" height="14" fill="#4a2e18"/><rect x="38" y="44" width="6" height="14" fill="#4a2e18"/>'],
+  dresser: ['0 0 56 62', '<rect x="0" y="0" width="56" height="56" rx="3" fill="#a8743f"/><g stroke="#5e3e20" stroke-width="2"><path d="M3 19h50M3 37h50"/></g><g fill="#f1d9a8"><rect x="22" y="8" width="12" height="3" rx="1.5"/><rect x="22" y="26" width="12" height="3" rx="1.5"/><rect x="22" y="44" width="12" height="3" rx="1.5"/></g><rect x="3" y="56" width="6" height="6" fill="#5e3e20"/><rect x="47" y="56" width="6" height="6" fill="#5e3e20"/>'],
+  table: ['0 0 90 46', '<rect x="0" y="0" width="90" height="8" rx="2" fill="#c48a52"/><rect x="8" y="8" width="7" height="38" fill="#8a5c33"/><rect x="75" y="8" width="7" height="38" fill="#8a5c33"/><rect x="15" y="14" width="60" height="4" fill="#8a5c33"/>'],
+  chair: ['0 0 36 62', '<rect x="4" y="0" width="7" height="58" rx="2" fill="#c48a52"/><rect x="4" y="30" width="30" height="7" rx="2" fill="#c48a52"/><rect x="27" y="37" width="6" height="25" fill="#8a5c33"/><rect x="4" y="37" width="6" height="25" fill="#8a5c33"/>'],
+  fridge: ['0 0 40 86', '<rect x="0" y="0" width="40" height="86" rx="5" fill="#e9e3d7"/><path d="M0 30h40" stroke="#a7a094" stroke-width="2"/><rect x="31" y="8" width="3" height="14" rx="1.5" fill="#8d8b85"/><rect x="31" y="38" width="3" height="22" rx="1.5" fill="#8d8b85"/>'],
+  washer: ['0 0 56 60', '<rect x="0" y="0" width="56" height="60" rx="5" fill="#e9e3d7"/><rect x="0" y="0" width="56" height="12" rx="5" fill="#d3ccbe"/><circle cx="10" cy="6" r="2.5" fill="#8d8b85"/><circle cx="18" cy="6" r="2.5" fill="#8d8b85"/><circle cx="28" cy="36" r="16" fill="#8d8b85"/><circle cx="28" cy="36" r="11" fill="#5b7d95"/>'],
+  tv: ['0 0 70 52', '<rect x="0" y="0" width="70" height="42" rx="3" fill="#56565c"/><rect x="4" y="4" width="62" height="34" rx="1" fill="#2f4656"/><path d="M10 33L32 11" stroke="#6f90a6" stroke-width="3"/><rect x="31" y="42" width="8" height="6" fill="#56565c"/><rect x="20" y="47" width="30" height="5" rx="2" fill="#56565c"/>'],
+  bags: ['0 0 62 46', '<path d="M19 8C8 10 1 21 2 32c1 9 7 13 17 13s16-4 17-13c1-11-6-22-17-24z" fill="#55555b"/><path d="M12 4l7 6 7-6" stroke="#fcbf42" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="32" y="18" width="30" height="28" rx="2" fill="#c69a5f"/><path d="M32 26h30" stroke="#9c7442" stroke-width="2"/><rect x="44" y="18" width="6" height="8" fill="#e8cf9e"/>'],
+  yard: ['0 0 84 42', '<path d="M2 40c10-14 30-22 40-20s30 6 40 20z" fill="#5d6b2f"/><g stroke="#8a6a40" stroke-width="3" stroke-linecap="round"><path d="M10 34L40 10"/><path d="M30 30L60 6"/><path d="M50 36L78 18"/></g><g fill="#8aa046"><circle cx="40" cy="10" r="5"/><circle cx="60" cy="6" r="5"/><circle cx="78" cy="18" r="5"/><circle cx="24" cy="22" r="4"/></g>'],
+  build: ['0 0 84 40', '<rect x="0" y="36" width="84" height="4" fill="#8d8b85"/><rect x="0" y="27" width="84" height="8" rx="1" fill="#c09a68"/><rect x="6" y="17" width="70" height="8" rx="1" fill="#b08a5a" transform="rotate(-4 41 21)"/><g fill="#b4503a"><rect x="10" y="3" width="18" height="10" rx="1"/><rect x="30" y="5" width="18" height="10" rx="1"/><rect x="50" y="1" width="16" height="10" rx="1"/></g>'],
+  hottub: ['0 0 120 52', '<rect x="0" y="10" width="120" height="42" rx="8" fill="#8a6446"/><g stroke="#634631" stroke-width="2"><path d="M20 12v38M40 12v38M60 12v38M80 12v38M100 12v38"/></g><rect x="6" y="4" width="108" height="12" rx="6" fill="#4e88a8"/><g fill="#bfe3f2"><circle cx="30" cy="8" r="2.5"/><circle cx="55" cy="6" r="2"/><circle cx="80" cy="9" r="2.5"/></g>'],
+  shed: ['0 0 110 92', '<path d="M0 36L55 4l55 32z" fill="#7a1717"/><rect x="8" y="34" width="94" height="58" fill="#9a7a58"/><g stroke="#76593c" stroke-width="2"><path d="M8 50h94M8 66h94M8 82h94"/></g><rect x="40" y="52" width="30" height="40" fill="#634631"/><rect x="74" y="44" width="18" height="14" fill="#9cc3d6"/>'],
+};
+const icon = id => `<svg viewBox="${ICONS[id][0]}" aria-hidden="true">${ICONS[id][1]}</svg>`;
+
 const ITEMS = [
-  { id: 'couch',    en: 'Couch',            es: 'Sofá',               u: 8, c: '#c43333' },
-  { id: 'mattress', en: 'Mattress',         es: 'Colchón',            u: 5, c: '#c43333' },
-  { id: 'recliner', en: 'Recliner',         es: 'Sillón reclinable',  u: 4, c: '#c43333' },
-  { id: 'dresser',  en: 'Dresser',          es: 'Cómoda',             u: 4, c: '#c43333' },
-  { id: 'table',    en: 'Table',            es: 'Mesa',               u: 4, c: '#c43333' },
-  { id: 'chair',    en: 'Chair',            es: 'Silla',              u: 1, c: '#c43333' },
-  { id: 'fridge',   en: 'Fridge',           es: 'Refrigerador',       u: 6, c: '#fcbf42' },
-  { id: 'washer',   en: 'Washer / dryer',   es: 'Lavadora / secadora', u: 4, c: '#fcbf42' },
-  { id: 'tv',       en: 'TV',               es: 'Televisor',          u: 2, c: '#fcbf42' },
-  { id: 'bags',     en: 'Bags & boxes',     es: 'Bolsas y cajas',     u: 1, c: '#fff6ea' },
-  { id: 'yard',     en: 'Yard debris pile', es: 'Montón de ramas',    u: 6, c: '#8d8b85' },
-  { id: 'build',    en: 'Construction debris', es: 'Escombros de obra', u: 8, c: '#8d8b85' },
-  { id: 'hottub',   en: 'Hot tub',          es: 'Jacuzzi',            u: 24, c: '#6b6a66' },
-  { id: 'shed',     en: 'Small shed',       es: 'Cobertizo pequeño',  u: 30, c: '#6b6a66' },
+  { id: 'couch',    en: 'Couch',            es: 'Sofá',               u: 8, c: '#c43333', w: 25 },
+  { id: 'mattress', en: 'Mattress',         es: 'Colchón',            u: 5, c: '#c43333', w: 24 },
+  { id: 'recliner', en: 'Recliner',         es: 'Sillón reclinable',  u: 4, c: '#c43333', w: 13 },
+  { id: 'dresser',  en: 'Dresser',          es: 'Cómoda',             u: 4, c: '#c43333', w: 11 },
+  { id: 'table',    en: 'Table',            es: 'Mesa',               u: 4, c: '#c43333', w: 17 },
+  { id: 'chair',    en: 'Chair',            es: 'Silla',              u: 1, c: '#c43333', w: 7 },
+  { id: 'fridge',   en: 'Fridge',           es: 'Refrigerador',       u: 6, c: '#fcbf42', w: 8 },
+  { id: 'washer',   en: 'Washer / dryer',   es: 'Lavadora / secadora', u: 4, c: '#fcbf42', w: 11 },
+  { id: 'tv',       en: 'TV',               es: 'Televisor',          u: 2, c: '#fcbf42', w: 13 },
+  { id: 'bags',     en: 'Bags & boxes',     es: 'Bolsas y cajas',     u: 1, c: '#fff6ea', w: 11 },
+  { id: 'yard',     en: 'Yard debris pile', es: 'Montón de ramas',    u: 6, c: '#8d8b85', w: 17 },
+  { id: 'build',    en: 'Construction debris', es: 'Escombros de obra', u: 8, c: '#8d8b85', w: 17 },
+  { id: 'hottub',   en: 'Hot tub',          es: 'Jacuzzi',            u: 24, c: '#6b6a66', w: 36 },
+  { id: 'shed',     en: 'Small shed',       es: 'Cobertizo pequeño',  u: 30, c: '#6b6a66', w: 40 },
 ];
-const COLS = 15, ROWS = 6, CAP = COLS * ROWS;
+const CAP = 90;
 const counts = Object.fromEntries(ITEMS.map(i => [i.id, 0]));
 const lang = () => document.documentElement.lang === 'es' ? 'es' : 'en';
 const T = {
   en: { empty: 'Empty bed', emptyNote: 'Add items to see how big the job is.', nothing: 'Nothing added yet.',
         sizes: [['Small job', 'A few items. Quick in, quick out.'], ['Medium job', 'A solid load. Room to spare.'], ['Big job', 'Most of the bed. Good thing we lift.'], ['Very big job', "Full bed or more. We'll plan the trips."]],
-        over: n => `+${n} more`, send: 'Text this list to us', hi: 'Hi Strong Point Hauling! I need a quote to haul away:', tail: "I'll send a photo too. (Sent from your website)" },
+        over: n => `+${n} more on the next trip`, send: 'Text this list to us', hi: 'Hi Strong Point Hauling! I need a quote to haul away:', tail: "I'll send a photo too. (Sent from your website)" },
   es: { empty: 'Caja vacía', emptyNote: 'Agregue artículos para ver el tamaño del trabajo.', nothing: 'Todavía no hay nada.',
         sizes: [['Trabajo pequeño', 'Pocas cosas. Rápido y listo.'], ['Trabajo mediano', 'Una buena carga. Sobra espacio.'], ['Trabajo grande', 'Casi toda la caja. Para eso estamos.'], ['Trabajo muy grande', 'Caja llena o más. Planeamos los viajes.']],
-        over: n => `+${n} más`, send: 'Envíenos esta lista por texto', hi: '¡Hola, Strong Point Hauling! Necesito una cotización para que se lleven:', tail: 'También le envío una foto. (Enviado desde su sitio web)' },
+        over: n => `+${n} más en el siguiente viaje`, send: 'Envíenos esta lista por texto', hi: '¡Hola, Strong Point Hauling! Necesito una cotización para que se lleven:', tail: 'También le envío una foto. (Enviado desde su sitio web)' },
 };
+
 
 const chipsEl = document.getElementById('chips');
 ITEMS.forEach(it => {
   const b = document.createElement('button');
   b.type = 'button'; b.className = 'chip'; b.dataset.id = it.id;
-  b.innerHTML = `<i class="sw" style="background:${it.c}"></i><span class="nm"></span><span class="ct">+</span>`;
+  b.innerHTML = `<span class="ic">${icon(it.id)}</span><span class="nm"></span><span class="ct">+</span>`;
   b.addEventListener('click', () => { counts[it.id]++; render(it.id); });
   b.addEventListener('contextmenu', e => { e.preventDefault(); if (counts[it.id]) { counts[it.id]--; render(); } });
   let t; b.addEventListener('touchstart', () => { t = setTimeout(() => { if (counts[it.id]) { counts[it.id]--; render(); b.dataset.held = 1; } }, 550); }, { passive: true });
@@ -489,26 +585,18 @@ ITEMS.forEach(it => {
   chipsEl.appendChild(b);
 });
 
-const svg = document.getElementById('truck');
-const NS = 'http://www.w3.org/2000/svg';
-const BED = { x: 20, y: 70, w: 420, h: 168 };
-const cw = BED.w / COLS, ch = BED.h / ROWS;
-svg.innerHTML = `
-  <rect x="${BED.x - 8}" y="${BED.y - 8}" width="${BED.w + 16}" height="${BED.h + 8}" rx="4" fill="none" stroke="#fff6ea" stroke-opacity=".18" stroke-width="2" stroke-dasharray="6 6"/>
+document.getElementById('truck').innerHTML = `
+  <rect x="12" y="62" width="436" height="176" rx="4" fill="#1b1b1c" stroke="#fff6ea" stroke-opacity=".18" stroke-width="2" stroke-dasharray="6 6"/>
   <path d="M452 120h70c14 0 22 6 30 18l34 48c6 8 8 14 8 24v28H452z" fill="#a82222"/>
   <path d="M470 134h50c8 0 12 3 17 10l22 32h-89z" fill="#121212" opacity=".85"/>
   <rect x="12" y="238" width="590" height="22" rx="4" fill="#741515"/>
   <rect x="440" y="120" width="14" height="140" fill="#741515"/>
   <g fill="#121212" stroke="#3a3a3c" stroke-width="7"><circle cx="110" cy="262" r="30"/><circle cx="520" cy="262" r="30"/></g>
-  <g fill="#8d8b85"><circle cx="110" cy="262" r="9"/><circle cx="520" cy="262" r="9"/></g>
-  <g id="cells"></g>
-  <text id="ovf" class="overflow" x="${BED.x + BED.w}" y="${BED.y - 18}" text-anchor="end"></text>`;
-const cellsG = svg.querySelector('#cells'), ovf = svg.querySelector('#ovf');
-let drawn = 0;
+  <g fill="#8d8b85"><circle cx="110" cy="262" r="9"/><circle cx="520" cy="262" r="9"/></g>`;
+const bed = document.getElementById('bed'), ovf = document.getElementById('ovf');
 
 function render(addedId) {
   const L = T[lang()];
-  // chips
   chipsEl.querySelectorAll('.chip').forEach(b => {
     const it = ITEMS.find(i => i.id === b.dataset.id), n = counts[it.id];
     b.querySelector('.nm').textContent = it[lang()];
@@ -516,33 +604,36 @@ function render(addedId) {
     b.classList.toggle('on', n > 0);
     b.setAttribute('aria-label', `${it[lang()]}${n ? ' × ' + n : ''}`);
   });
-  // cells: build color sequence
-  const seq = [];
-  ITEMS.forEach(it => { for (let k = 0; k < counts[it.id] * it.u; k++) seq.push(it.c); });
-  const total = seq.length, shown = Math.min(total, CAP);
-  // redraw only diff for drop animation on new cells
-  if (shown < drawn) { while (cellsG.childNodes.length > shown) cellsG.lastChild.remove(); }
-  [...cellsG.childNodes].forEach((r, i) => r.setAttribute('fill', seq[i]));
-  for (let i = cellsG.childNodes.length; i < shown; i++) {
-    const row = Math.floor(i / COLS), col = i % COLS;
-    const r = document.createElementNS(NS, 'rect');
-    r.setAttribute('x', BED.x + col * cw + 1.5); r.setAttribute('y', BED.y + BED.h - (row + 1) * ch + 1.5);
-    r.setAttribute('width', cw - 3); r.setAttribute('height', ch - 3); r.setAttribute('rx', 2);
-    r.setAttribute('fill', seq[i]); r.setAttribute('class', 'cell drop');
-    r.style.animationDelay = ((i - drawn) * 0.012) + 's';
-    cellsG.appendChild(r);
-  }
-  drawn = shown;
-  ovf.textContent = total > CAP ? L.over(Math.ceil((total - CAP) / COLS) + ' ' + (lang() === 'es' ? 'filas' : 'rows')) : '';
-  // size label
+  // Pack items into the bed, biggest first so they sit on the bottom
+  const inst = [];
+  [...ITEMS].sort((a, b) => b.u - a.u).forEach(it => { for (let k = 0; k < counts[it.id]; k++) inst.push([it, k]); });
+  const existing = new Map([...bed.children].map(el => [el.dataset.key, el]));
+  const frag = document.createDocumentFragment();
+  inst.forEach(([it, k]) => {
+    const key = it.id + ':' + k;
+    let el = existing.get(key);
+    if (!el) {
+      el = document.createElement('span'); el.className = 'itm'; el.dataset.key = key;
+      el.style.width = it.w + '%'; el.innerHTML = icon(it.id);
+      if (it.id === addedId) el.classList.add('drop');
+    }
+    el.title = it[lang()]; el.hidden = false;
+    frag.appendChild(el);
+  });
+  bed.replaceChildren(frag);
+  // Anything that doesn't fit goes on "the next trip"
+  let hiddenN = 0;
+  [...bed.children].forEach(el => { if (el.offsetTop < -2) { el.hidden = true; hiddenN++; } });
+  ovf.textContent = hiddenN ? L.over(hiddenN) : '';
+  ovf.hidden = !hiddenN;
+  const total = ITEMS.reduce((s, it) => s + counts[it.id] * it.u, 0);
   const sizeEl = document.getElementById('size');
-  if (!total) { sizeEl.firstChild.nodeValue = L.empty; document.getElementById('sizeNote').textContent = L.emptyNote; }
+  if (!total) { sizeEl.firstChild.nodeValue = L.empty; document.getElementById('sizeNote').textContent = L.emptyNote; sizeEl.style.color = ''; }
   else {
     const f = total / CAP, k = f <= .25 ? 0 : f <= .55 ? 1 : f <= .85 ? 2 : 3;
     sizeEl.firstChild.nodeValue = L.sizes[k][0]; document.getElementById('sizeNote').textContent = L.sizes[k][1];
-    sizeEl.style.color = k === 3 ? 'var(--red)' : 'var(--gold)';
+    sizeEl.style.color = k === 3 ? 'var(--red-hi)' : 'var(--gold)';
   }
-  // list + sms
   const chosen = ITEMS.filter(i => counts[i.id]).map(i => `${counts[i.id]} × ${i[lang()]}`);
   document.getElementById('list').innerHTML = chosen.length ? chosen.map(s => `<b>${s}</b>`).join(' · ') : L.nothing;
   const body = chosen.length ? `${L.hi}\n${chosen.map(s => '- ' + s).join('\n')}\n${L.tail}` : L.hi;
@@ -550,10 +641,9 @@ function render(addedId) {
   document.getElementById('sendLabel').textContent = L.send;
 }
 document.getElementById('reset').addEventListener('click', () => { Object.keys(counts).forEach(k => counts[k] = 0); render(); });
+addEventListener('resize', () => render());
+counts.couch = 1; counts.mattress = 1; counts.bags = 2;
 render();
-// Start with a sample so the bed isn't empty on arrival
-counts.couch = 1; counts.mattress = 1; counts.bags = 4;
-setTimeout(() => render(), 400);
 
 /* ---------- Reveal on scroll (content visible by default) ---------- */
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
@@ -566,7 +656,7 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObse
 (() => {
   const ES = {"Concept demo only. Not an official Strong Point Hauling website.": "Demo de concepto. No es un sitio oficial de Strong Point Hauling.", "Build your load": "Arme su carga", "Services": "Servicios", "How it works": "Cómo funciona", "Call 678-350-6348": "Llame al 678-350-6348", "Junk removal · Demolition · Metro Atlanta": "Retiro de basura · Demolición · Área de Atlanta", "We lift": "Cargamos", "what you": "lo que usted", "can't.": "no puede.", "Old couches, dead appliances, a shed that has to go.": "Sofás viejos, electrodomésticos que ya no sirven, un cobertizo que tiene que irse.", "Text us a photo of the job": "Envíenos una foto del trabajo por texto", "and we'll get back to you with a quote.": "y le respondemos con una cotización.", "Text a photo": "Enviar una foto", "Build your load ↓": "Arme su carga ↓", "Licensed & insured": "Con licencia y seguro", "Junk removal": "Retiro de basura", "Demolition": "Demolición", "Licensed & insured · Licensed & insured ·": "Con licencia y seguro · Con licencia y seguro ·", "Couches": "Sofás", "Mattresses": "Colchones", "Fridges": "Refrigeradores", "Washers & dryers": "Lavadoras y secadoras", "Hot tubs": "Jacuzzis", "Sheds": "Cobertizos", "Decks": "Terrazas de madera", "Garage cleanouts": "Limpieza de garajes", "Yard debris": "Restos de jardín", "Construction debris": "Escombros de obra", "Tap what's going.": "Toque lo que se va.", "Watch it stack up.": "Mire cómo se apila.", "Pick the items you want gone. We'll turn your list into a text you can send straight to us, so the quote starts with the details.": "Elija lo que quiere sacar. Convertimos su lista en un mensaje de texto que nos puede enviar directamente, para que la cotización empiece con todos los detalles.", "Tap to add. Tap again for more. Hold or right-click to remove one.": "Toque para agregar. Toque otra vez para sumar. Mantenga presionado o haga clic derecho para quitar uno.", "Clear": "Borrar", "Rough size only, to help with the quote. Add a photo to the text for the most accurate price.": "Tamaño aproximado, solo para ayudar con la cotización. Agregue una foto al mensaje para un precio más exacto.", "What we do": "Lo que hacemos", "Two jobs.": "Dos trabajos.", "Both heavy.": "Los dos pesados.", "Junk": "Basura", "Service 01": "Servicio 01", "Service 02": "Servicio 02", "Point at it and it's gone. We do the lifting, loading and hauling.": "Usted lo señala y desaparece. Nosotros lo levantamos, lo cargamos y nos lo llevamos.", "Furniture": "Muebles", "Appliances": "Electrodomésticos", "Attic & basement": "Ático y sótano", "Move-out cleanouts": "Limpiezas de mudanza", "Small structures and tear-outs, broken down and carried off.": "Estructuras pequeñas y desmontajes, derribados y retirados.", "Fences": "Cercas", "Playsets": "Juegos infantiles", "Interior tear-outs": "Demolición interior", "Three steps.": "Tres pasos.", "Zero lifting for you.": "Usted no carga nada.", "Snap the pile, the room or the shed and text it to 678-350-6348.": "Tómele una foto al montón, al cuarto o al cobertizo y envíela al 678-350-6348.", "Get a quote": "Reciba una cotización", "We look at the job and send you a price. You decide if it works.": "Revisamos el trabajo y le enviamos un precio. Usted decide si le conviene.", "We haul it": "Nos lo llevamos", "We show up, load it and drive it away. You point. We lift.": "Llegamos, lo cargamos y nos lo llevamos. Usted señala. Nosotros cargamos.", "Ask every hauler": "Hágale esta pregunta", "this question.": "a cada empresa.", "If someone gets hurt carrying your old fridge down the stairs, or a wall gets scraped on the way out, an uninsured hauler can leave you holding the bill.": "Si alguien se lastima bajando su refrigerador viejo por las escaleras, o se raspa una pared al sacarlo, una empresa sin seguro lo puede dejar a usted pagando la cuenta.", "Strong Point Hauling is licensed and insured.": "Strong Point Hauling tiene licencia y seguro.", "Hire the crew that's covered.": "Contrate al equipo que está asegurado.", "Got something": "¿Tiene algo", "heavy?": "pesado?", "Call now": "Llame ahora", "Call": "Llamar", "Strong Point Hauling · Licensed & insured · Metro Atlanta": "Strong Point Hauling · Con licencia y seguro · Área de Atlanta", "@Strong Point Hauling home": "Inicio de Strong Point Hauling", "@Strong Point Hauling logo: a gold flexed arm in a shield, with the company name and phone number": "Logo de Strong Point Hauling: un brazo dorado flexionado dentro de un escudo, con el nombre y el teléfono", "@A truck bed that fills up as you add items": "La caja de un camión que se llena a medida que agrega artículos"};
   const texts = [], attrs = [];
-  const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode: n => ['SCRIPT','STYLE'].includes(n.parentNode.nodeName) || n.parentNode.closest('#chips,#truck,#list,#size,#sendList') ? 2 : 1 });
+  const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, { acceptNode: n => ['SCRIPT','STYLE'].includes(n.parentNode.nodeName) || n.parentNode.closest('#chips,#truck,#bed,#ovf,#list,#size,#sendList,#bot,#botFab') ? 2 : 1 });
   let n; while ((n = w.nextNode())) { const k = n.nodeValue.replace(/\s+/g, ' ').trim(); if (ES[k]) { const v = n.nodeValue; texts.push([n, v, v.match(/^\s*/)[0] + ES[k] + v.match(/\s*$/)[0]]); } }
   document.querySelectorAll('[aria-label],img[alt]').forEach(el => ['aria-label','alt'].forEach(a => { const v = el.getAttribute(a); if (v && ES['@' + v]) attrs.push([el, a, v, ES['@' + v]]); }));
   const photoLinks = [...document.querySelectorAll('a[href^="sms:"]:not(#sendList)')];
@@ -584,12 +674,186 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObse
     btn.setAttribute('aria-label', es ? 'View in English' : 'Ver en español');
     btn.setAttribute('aria-pressed', es);
     if (typeof render === 'function') render();
+    document.dispatchEvent(new Event('langchange'));
     try { localStorage.setItem('sp-lang', document.documentElement.lang); } catch (e) {}
   };
   btn.addEventListener('click', () => set(document.documentElement.lang === 'es' ? 'en' : 'es'));
   let start = new URLSearchParams(location.search).get('lang');
   if (!start) { try { start = localStorage.getItem('sp-lang'); } catch (e) {} }
   if (start === 'es') set('es');
+})();
+</script>
+<script>
+/* ---------- Chat assistant (FAQ, runs in the browser; no data is sent anywhere) ----------
+   Answers marked CONFIRM should be checked with the owner before launch. */
+(() => {
+  const PHONE = '678-350-6348', TEL = 'tel:+16783506348';
+  const sms = body => 'sms:+16783506348?body=' + encodeURIComponent(body);
+  const L = () => document.documentElement.lang === 'es' ? 'es' : 'en';
+  const UI = {
+    en: { title: 'Strong Point Assistant', sub: 'Instant answers · real people by text', ph: 'Ask a question…', note: `Automated answers. For anything else, text ${PHONE}.`,
+          hint: 'Questions? Ask here.', hello: "Hi! I can answer common questions about junk removal and demolition, or help you get a quote. What do you need?",
+          fallback: "I don't have an answer for that one, but the crew does. Text or call and you'll get a straight answer:",
+          askItems: "Let's get you a quote. What needs to go? (For example: a couch, an old fridge and some boxes.)",
+          askWhere: 'Got it. What city or ZIP code is the job in?',
+          ready: (items, where) => `Here's your request:<ul><li><b>Items:</b> ${items}</li><li><b>Location:</b> ${where}</li></ul>Tap below to send it as a text. Add a photo to the text for the most accurate price.`,
+          quoteBody: (items, where) => `Hi Strong Point Hauling! Quote request from your website:\nItems: ${items}\nLocation: ${where}\n(I'll attach a photo)`,
+          photoBody: "Hi Strong Point Hauling! Here's a photo of what I need hauled:",
+          btn: { text: 'Text a photo', call: 'Call', builder: 'Open the load builder', send: 'Send by text', quote: 'Get a quote' } },
+    es: { title: 'Asistente Strong Point', sub: 'Respuestas al instante · personas reales por texto', ph: 'Escriba su pregunta…', note: `Respuestas automáticas. Para lo demás, envíe un texto al ${PHONE}.`,
+          hint: '¿Preguntas? Escríbanos aquí.', hello: '¡Hola! Puedo contestar preguntas comunes sobre retiro de basura y demolición, o ayudarle a pedir una cotización. ¿Qué necesita?',
+          fallback: 'No tengo respuesta para esa pregunta, pero el equipo sí. Envíe un texto o llame y le contestan directamente:',
+          askItems: 'Vamos con su cotización. ¿Qué necesita sacar? (Por ejemplo: un sofá, un refrigerador viejo y unas cajas.)',
+          askWhere: 'Entendido. ¿En qué ciudad o código postal es el trabajo?',
+          ready: (items, where) => `Esta es su solicitud:<ul><li><b>Artículos:</b> ${items}</li><li><b>Ubicación:</b> ${where}</li></ul>Toque abajo para enviarla por texto. Agregue una foto al mensaje para un precio más exacto.`,
+          quoteBody: (items, where) => `¡Hola, Strong Point Hauling! Solicitud de cotización desde su sitio web:\nArtículos: ${items}\nUbicación: ${where}\n(Adjunto una foto)`,
+          photoBody: '¡Hola, Strong Point Hauling! Aquí va una foto de lo que necesito retirar:',
+          btn: { text: 'Enviar una foto', call: 'Llamar', builder: 'Abrir el armador de carga', send: 'Enviar por texto', quote: 'Pedir cotización' } },
+  };
+  // Knowledge base. keys are matched against the visitor's words (accents ignored).
+  const KB = [
+    { id: 'quote', q: { en: 'Get a quote', es: 'Pedir cotización' }, keys: [], flow: true },
+    { id: 'price', q: { en: 'How much?', es: '¿Cuánto cuesta?' },
+      keys: ['price','cost','how much','charge','fee','rate','estimate','expensive','cheap','cuanto','cuesta','cuestan','precio','costo','cobran','cobra','vale','tarifa','estimado','presupuesto'],
+      a: { en: "Every job is priced on what's going and how much room it takes in the truck, so there's no one-size price. The fastest way to a real number: text a photo of the job to " + PHONE + '.',
+           es: 'Cada trabajo se cotiza según lo que hay que sacar y cuánto espacio ocupa en el camión, así que no hay un precio único. La forma más rápida de saber el precio: envíe una foto del trabajo al ' + PHONE + '.' },
+      acts: ['text', 'builder'] },
+    { id: 'take', q: { en: 'What do you take?', es: '¿Qué se llevan?' },
+      keys: ['take','accept','haul','remove','pick up','pickup','items','furniture','appliance','mattress','couch','sofa','fridge','refrigerator','washer','dryer','tv','boxes','garage','attic','basement','cleanout','clean out','junk','trash','debris','llevan','recogen','muebles','colchon','refrigerador','lavadora','basura','escombros','garaje','limpieza'],
+      a: { en: 'Most household and job-site junk, including:<ul><li>Furniture and mattresses</li><li>Appliances (fridges, washers, dryers)</li><li>Garage, attic, basement and move-out cleanouts</li><li>Yard debris and construction debris</li></ul>Not sure about something? Text a photo.',
+           es: 'La mayoría de la basura de casa y de obra, por ejemplo:<ul><li>Muebles y colchones</li><li>Electrodomésticos (refrigeradores, lavadoras, secadoras)</li><li>Limpieza de garajes, áticos, sótanos y mudanzas</li><li>Restos de jardín y escombros de obra</li></ul>¿No está seguro de algo? Envíe una foto.' },
+      acts: ['builder', 'text'] },
+    { id: 'demo', q: { en: 'Demolition', es: 'Demolición' },
+      keys: ['demo','demolition','demolish','tear','teardown','tear down','shed','deck','fence','hot tub','hottub','jacuzzi','spa','playset','swing set','interior','demoler','demolicion','derribar','cobertizo','cerca','terraza'],
+      a: { en: 'Yes. We take down and haul away small structures: sheds, decks, fences, hot tubs, playsets and interior tear-outs. Text a photo of the structure and we\'ll quote it.',
+           es: 'Sí. Derribamos y retiramos estructuras pequeñas: cobertizos, terrazas, cercas, jacuzzis, juegos infantiles y demolición interior. Envíe una foto de la estructura y le damos el precio.' },
+      acts: ['text'] },
+    { id: 'insured', q: { en: 'Licensed & insured?', es: '¿Tienen licencia y seguro?' },
+      keys: ['insured','insurance','license','licensed','bonded','liability','damage','seguro','asegurado','licencia','daño'],
+      a: { en: 'Yes. Strong Point Hauling is licensed and insured, so you\'re covered if something gets damaged or someone gets hurt on the job.',
+           es: 'Sí. Strong Point Hauling tiene licencia y seguro, así que usted está cubierto si algo se daña o alguien se lastima durante el trabajo.' },
+      acts: [] },
+    { id: 'area', q: { en: 'Service area', es: 'Zona de servicio' },
+      keys: ['area','where','serve','service area','location','city','near','county','zip','atlanta','marietta','come to','travel','zona','donde','ciudad','condado','codigo postal','cerca de'],
+      // CONFIRM exact cities/counties with the owner
+      a: { en: 'We serve Metro Atlanta. Text your city or ZIP code to ' + PHONE + ' and we\'ll confirm we can get to you.',
+           es: 'Damos servicio en el área de Atlanta. Envíe su ciudad o código postal al ' + PHONE + ' y le confirmamos si llegamos hasta usted.' },
+      acts: ['text'] },
+    { id: 'when', q: { en: 'How soon?', es: '¿Qué tan pronto?' },
+      keys: ['when','soon','schedule','today','same day','same-day','tomorrow','available','availability','appointment','book','weekend','saturday','sunday','hours','open','cuando','hoy','mañana','manana','disponible','cita','agendar','fin de semana','horario'],
+      // CONFIRM hours / same-day policy with the owner
+      a: { en: 'Availability changes day to day. Call or text ' + PHONE + ' and you\'ll get the soonest time open.',
+           es: 'La disponibilidad cambia día a día. Llame o envíe un texto al ' + PHONE + ' y le damos el horario más pronto disponible.' },
+      acts: ['call', 'text'] },
+    { id: 'haz', q: { en: 'Paint, chemicals, tires?', es: '¿Pintura, químicos, llantas?' },
+      keys: ['paint','chemical','chemicals','hazard','hazardous','oil','tire','tires','battery','batteries','propane','gas','asbestos','pintura','quimico','quimicos','aceite','llanta','llantas','bateria','propano','asbesto'],
+      a: { en: 'Some items, like paint, chemicals, propane tanks and anything with asbestos, need special handling and can\'t always go in a regular load. Text a photo and we\'ll tell you what we can take.',
+           es: 'Algunos artículos, como pintura, químicos, tanques de propano o cualquier cosa con asbesto, necesitan manejo especial y no siempre pueden ir en una carga normal. Envíe una foto y le decimos qué podemos llevar.' },
+      acts: ['text'] },
+    { id: 'how', q: { en: 'How does it work?', es: '¿Cómo funciona?' },
+      keys: ['how does','how it works','process','steps','what happens','do i need to be','be home','be there','present','lift','carry','como funciona','proceso','pasos','tengo que estar','estar en casa','cargar'],
+      a: { en: 'Three steps:<ul><li>Text a photo of the job</li><li>Get a price</li><li>We show up, load it and haul it away</li></ul>We do all the lifting. If you won\'t be home, mention it when you book.',
+           es: 'Tres pasos:<ul><li>Envíe una foto del trabajo</li><li>Reciba un precio</li><li>Llegamos, lo cargamos y nos lo llevamos</li></ul>Nosotros cargamos todo. Si no va a estar en casa, avísenos al agendar.' },
+      acts: ['text'] },
+    { id: 'pay', q: { en: 'Payment', es: 'Formas de pago' },
+      keys: ['pay','payment','cash','card','credit','debit','venmo','zelle','cashapp','check','invoice','pago','pagar','efectivo','tarjeta','cheque','factura'],
+      // CONFIRM accepted payment methods with the owner
+      a: { en: 'Ask when you get your quote and you\'ll get the payment options for your job.',
+           es: 'Pregunte cuando reciba su cotización y le dicen las formas de pago para su trabajo.' },
+      acts: ['text'] },
+    { id: 'donate', q: { en: 'Donate or recycle?', es: '¿Donar o reciclar?' },
+      keys: ['donate','donation','recycle','recycling','landfill','dump','eco','green','reuse','donar','donacion','reciclar','reciclaje','basurero'],
+      a: { en: 'If there\'s something you\'d rather see donated or recycled than thrown out, say so when you book and the crew will tell you what\'s possible.',
+           es: 'Si prefiere que algo se done o se recicle en vez de tirarse, dígalo al agendar y el equipo le dirá qué se puede hacer.' },
+      acts: ['text'] },
+    { id: 'human', q: { en: 'Talk to a person', es: 'Hablar con una persona' },
+      keys: ['person','human','someone','agent','talk','call','phone','number','contact','speak','reach','persona','alguien','hablar','llamar','telefono','numero','contacto'],
+      a: { en: 'Easy. Call or text ' + PHONE + ' and you\'ll reach the crew directly.',
+           es: 'Claro. Llame o envíe un texto al ' + PHONE + ' y habla directamente con el equipo.' },
+      acts: ['call', 'text'] },
+    { id: 'hi', hidden: true, keys: ['hi','hello','hey','good morning','good afternoon','hola','buenas','buenos dias','buenas tardes'],
+      a: { en: 'Hi there! What can I help with? Pick a topic below or type your question.', es: '¡Hola! ¿En qué le ayudo? Elija un tema abajo o escriba su pregunta.' }, acts: [] },
+    { id: 'thanks', hidden: true, keys: ['thanks','thank you','thx','appreciate','gracias','muchas gracias'],
+      a: { en: 'Anytime! If you need anything hauled, we\'re a text away.', es: '¡Con gusto! Si necesita sacar algo, estamos a un texto de distancia.' }, acts: [] },
+  ];
+  const norm = t => t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
+  KB.forEach(k => k.nkeys = k.keys.map(norm));
+  // Broad words count for less, so 'do you take paint' lands on paint, not the general list
+  const GENERIC = new Set(['take','accept','haul','remove','pick up','pickup','items','junk','trash','llevan','recogen','basura','call','talk','contact','where','when','cuando','donde'].map(norm));
+  function match(text) {
+    const t = ' ' + norm(text) + ' ';
+    let best = null, score = 0;
+    KB.forEach(k => { let sc = 0; k.nkeys.forEach(key => { if (t.includes(' ' + key + ' ') || (key.length > 4 && t.includes(key))) sc += GENERIC.has(key) ? 0.5 : key.includes(' ') ? 2 : 1; }); if (sc > score) { score = sc; best = k; } });
+    return best;
+  }
+
+  const fab = document.getElementById('botFab'), panel = document.getElementById('bot'), log = document.getElementById('botLog');
+  const quick = document.getElementById('botQuick'), form = document.getElementById('botForm'), input = document.getElementById('botIn');
+  const hint = document.getElementById('botHint');
+  let flow = null, quoteItems = '', started = false;
+
+  const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  function actHTML(acts, body) {
+    const B = UI[L()].btn;
+    const map = { text: `<a class="g" href="${sms(body || UI[L()].photoBody)}">${B.text}</a>`, call: `<a class="r" href="${TEL}">${B.call}</a>`,
+                  builder: `<button type="button" class="o" data-go="builder">${B.builder}</button>`, send: `<a class="g" href="${sms(body)}">${B.send}</a>` };
+    return acts && acts.length ? `<div class="acts">${acts.map(a => map[a]).join('')}</div>` : '';
+  }
+  function add(who, html) {
+    const m = document.createElement('div'); m.className = 'msg ' + who;
+    if (who === 'u') m.textContent = html; else m.innerHTML = html;
+    log.appendChild(m); log.scrollTop = log.scrollHeight; return m;
+  }
+  function botSay(html, delay = 550) {
+    const t = document.createElement('div'); t.className = 'msg b typing'; t.innerHTML = '<i></i><i></i><i></i>';
+    log.appendChild(t); log.scrollTop = log.scrollHeight;
+    setTimeout(() => { t.remove(); add('b', html); }, matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : delay);
+  }
+  function renderQuick() {
+    quick.innerHTML = '';
+    KB.filter(k => !k.hidden).forEach(k => {
+      const b = document.createElement('button'); b.type = 'button'; b.textContent = k.q[L()];
+      b.addEventListener('click', () => handle(k.q[L()], k)); quick.appendChild(b);
+    });
+  }
+  function renderUI() {
+    const U = UI[L()];
+    document.getElementById('botTitle').textContent = U.title; document.getElementById('botSub').textContent = U.sub;
+    document.getElementById('botNote').textContent = U.note; input.placeholder = U.ph; hint.textContent = U.hint;
+    fab.setAttribute('aria-label', L() === 'es' ? 'Chatear con nosotros' : 'Chat with us');
+    renderQuick();
+  }
+  function handle(text, forced) {
+    const U = UI[L()];
+    add('u', text);
+    if (flow === 'items' && !forced) { quoteItems = esc(text); flow = 'where'; return botSay(U.askWhere); }
+    if (flow === 'where' && !forced) { const where = esc(text); flow = null; return botSay(U.ready(quoteItems, where) + actHTML(['send'], U.quoteBody(quoteItems, where).replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"'))); }
+    flow = null;
+    const k = forced || match(text);
+    if (k && k.flow) { flow = 'items'; return botSay(U.askItems); }
+    if (!k) return botSay(U.fallback + actHTML(['text', 'call']));
+    botSay(k.a[L()] + actHTML(k.acts));
+  }
+  function open() {
+    panel.hidden = false; fab.setAttribute('aria-expanded', 'true'); hint.hidden = true;
+    if (!started) { started = true; renderUI(); botSay(UI[L()].hello, 300); }
+    setTimeout(() => input.focus(), 50);
+  }
+  function close() { panel.hidden = true; fab.setAttribute('aria-expanded', 'false'); fab.focus(); }
+  fab.addEventListener('click', () => panel.hidden ? open() : close());
+  document.getElementById('botClose').addEventListener('click', close);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !panel.hidden) close(); });
+  form.addEventListener('submit', e => { e.preventDefault(); const v = input.value.trim(); if (!v) return; input.value = ''; handle(v); });
+  log.addEventListener('click', e => {
+    const b = e.target.closest('[data-go="builder"]'); if (!b) return;
+    if (matchMedia('(max-width: 600px)').matches) close();
+    document.getElementById('build').scrollIntoView({ behavior: 'smooth' });
+  });
+  document.addEventListener('langchange', renderUI);
+  renderUI();
+  setTimeout(() => { if (panel.hidden && !started) hint.hidden = false; }, 6000);
+  setTimeout(() => { hint.hidden = true; }, 16000);
+  hint.addEventListener('click', open);
 })();
 </script>
 </body>
