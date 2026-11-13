@@ -341,6 +341,45 @@ footer .tag { font: italic 400 1.3rem/1 var(--f-display); color: var(--ivory); }
   .portrait img { transform: none; }
   #sparks { display: none; }
 }
+
+/* ===== "One night" pinned scroll scene ===== */
+.night { position: relative; height: 520vh; background: var(--lacquer); }
+.night-pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.night canvas { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; }
+.night-scrim { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(15,10,9,.92) 0%, rgba(15,10,9,.7) 30%, rgba(15,10,9,0) 56%); }
+.night-ui { position: relative; height: 100%; display: grid; grid-template-rows: auto 1fr auto; padding-top: clamp(84px, 12vh, 120px); padding-bottom: clamp(28px, 6vh, 56px); }
+.night-head { display: grid; gap: 1rem; max-width: 30rem; }
+.night-head h2 { font-size: var(--s-2); }
+.beats { list-style: none; margin: 0; padding: 0; position: relative; align-self: center; max-width: 27rem; min-height: 15rem; }
+.beat { position: absolute; inset: 0 auto auto 0; display: grid; gap: .9rem; opacity: 0; transform: translateY(18px); transition: opacity .6s var(--ease), transform .6s var(--ease); pointer-events: none; }
+.beat.on { opacity: 1; transform: none; pointer-events: auto; }
+.beat .n { font: 400 .78rem/1 var(--f-caps); letter-spacing: .32em; color: var(--gold); }
+.beat h3 { font-size: var(--s-3); font-style: italic; }
+.beat p { color: var(--ivory); opacity: .86; }
+.beat .gear { font: 400 .72rem/1.7 var(--f-caps); letter-spacing: .2em; text-transform: uppercase; color: var(--ivory-soft); opacity: 1; }
+.night-steps { display: flex; gap: 10px; align-items: center; max-width: 27rem; }
+.night-steps button { all: unset; cursor: pointer; flex: 1; display: grid; gap: 8px; font: 400 .66rem/1.2 var(--f-caps); letter-spacing: .2em; text-transform: uppercase; color: var(--ivory-soft); transition: color .3s; padding: 8px 0; }
+.night-steps button::before { content: ""; height: 2px; background: var(--line); background-image: linear-gradient(var(--gold), var(--gold)); background-repeat: no-repeat; background-size: var(--f, 0%) 100%; }
+.night-steps button[aria-current="step"] { color: var(--gold); }
+.night-steps button:hover { color: var(--ivory); }
+.night-steps button:focus-visible { outline: 1.5px solid var(--gold); outline-offset: 4px; }
+@media (max-width: 760px) {
+  .night { height: 440vh; }
+  .night-scrim { background: linear-gradient(0deg, rgba(15,10,9,.96) 0%, rgba(15,10,9,.88) 30%, rgba(15,10,9,0) 46%), linear-gradient(180deg, rgba(15,10,9,.85) 0%, rgba(15,10,9,0) 24%); }
+  .night-ui { grid-template-rows: auto 1fr auto auto; padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
+  .night-head h2 { font-size: clamp(1.8rem, 8vw, 2.4rem); }
+  .beats { align-self: end; min-height: 12.5rem; margin-bottom: .6rem; }
+  .beat p { font-size: .98rem; line-height: 1.55; }
+  .night-steps button { font-size: .58rem; letter-spacing: .12em; }
+}
+/* Reduced motion: no pin, no scrub. A still of the dance floor and all four moments as a list. */
+.night.static { height: auto; }
+.night.static .night-pin { position: relative; height: auto; }
+.night.static canvas { position: relative; height: 56vh; }
+.night.static .night-scrim, .night.static .night-steps { display: none; }
+.night.static .night-ui { display: block; padding-block: 3rem 5rem; }
+.night.static .beats { display: grid; gap: 2.4rem; margin-top: 2.4rem; min-height: 0; max-width: 40rem; }
+.night.static .beat { position: static; opacity: 1; transform: none; }
 </style>
 </head>
 <body>
@@ -461,6 +500,28 @@ footer .tag { font: italic 400 1.3rem/1 var(--f-display); color: var(--ivory); }
           <p>LED walls and projection for slideshows and the live feed, plus an online stream for family who can't fly in.</p>
           <p class="list">LED screens · Projection · Live feed · Online streaming</p>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="night" id="night" aria-labelledby="nightH">
+    <div class="night-pin">
+      <canvas id="room" aria-hidden="true"></canvas>
+      <div class="night-scrim" aria-hidden="true"></div>
+      <div class="wrap night-ui">
+        <div class="night-head">
+          <span class="caps">The reception</span>
+          <h2 id="nightH">One night. <em class="gold">Scroll through it.</em></h2>
+        </div>
+        <ol class="beats" id="beats">
+          <li class="beat on"><span class="n">01 · Grand entrance</span><h3>The doors open.</h3><p>Your MC calls you in, and cold sparks fountain up on either side as you walk into the room.</p><p class="gear">Cold sparklers · MC · Uplighting</p></li>
+          <li class="beat"><span class="n">02 · Toasts</span><h3>The room leans in.</h3><p>The party drops to a warm glow so every word from the head table reaches the last row.</p><p class="gear">Wireless mics · Sound sized to the room</p></li>
+          <li class="beat"><span class="n">03 · First dance</span><h3>Dancing on a cloud.</h3><p>Low fog rolls across the floor while your monogram glows underneath it.</p><p class="gear">Dancing on clouds · Monogram lighting</p></li>
+          <li class="beat"><span class="n">04 · The dance floor</span><h3>Then it becomes a party.</h3><p>Moving heads sweep the room, lasers cut through the haze, the floor lights up and CO2 hits on the drop.</p><p class="gear">Moving heads · Lasers · CO2 · LED starlit floor</p></li>
+        </ol>
+        <nav class="night-steps" id="nightSteps" aria-label="Jump to a moment">
+          <button type="button" data-i="0">Entrance</button><button type="button" data-i="1">Toasts</button><button type="button" data-i="2">First dance</button><button type="button" data-i="3">Party</button>
+        </nav>
       </div>
     </div>
   </section>
@@ -769,6 +830,190 @@ footer .tag { font: italic 400 1.3rem/1 var(--f-display); color: var(--ivory); }
       }
     });
   });
+
+  /* ===== "One night" scroll scene: the reception, drawn live and scrubbed by scroll ===== */
+  (() => {
+    const sec = document.getElementById('night'); if (!sec) return;
+    const cv = document.getElementById('room'), ctx = cv.getContext('2d');
+    const beats = [...document.querySelectorAll('#beats .beat')], steps = [...document.querySelectorAll('#nightSteps button')];
+    const VW = 1600, VH = 900, FLOOR = 540;
+    const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+    const ramp = (p, a, b) => clamp((p - a) / (b - a));
+    const win = (p, a, b, c, d) => Math.min(ramp(p, a, b), 1 - ramp(p, c, d));
+    const bump = (p, c, w) => Math.max(0, 1 - Math.abs(p - c) / w);
+    const mix = (a, b, k) => a.map((v, i) => v + (b[i] - v) * k);
+    const rgba = (c, a) => 'rgba(' + c.map(Math.round).join(',') + ',' + clamp(a).toFixed(3) + ')';
+    const GOLD = [227, 195, 138], AMBER = [205, 140, 70], IVORY = [244, 233, 213], SINDOOR = [215, 38, 30], BLUSH = [232, 170, 150];
+    let W = 0, H = 0, S = 1, OX = 0, OY = 0, dpr = 1, cur = -1, running = false, p = 0, sparks = [];
+
+    /* Floor stars, fixed so scrubbing back and forth looks the same */
+    let seed = 7; const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+    const stars = Array.from({ length: 300 }, () => { const u = rnd(), v = Math.pow(rnd(), 1.5); const hw = 560 + v * 540; return { x: 800 + (u - .5) * 2 * hw, y: FLOOR + 6 + v * 350, s: .8 + v * 2.4, ph: rnd() * 6.28, g: rnd() < .7 }; });
+
+    function size() {
+      const r = cv.getBoundingClientRect(); W = r.width; H = r.height;
+      dpr = Math.min(devicePixelRatio || 1, W < 760 ? 1.5 : 2);
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      if (W < 760) {            /* phones: frame the floor, not the whole hall, above the text */
+        S = W / 900; OX = W / 2 - 800 * S; OY = H * .43 - 700 * S;
+      } else {
+        S = Math.max(W / VW, H / VH);
+        OX = (W - VW * S) / 2 + (W > 900 ? W * .13 : 0); OY = (H - VH * S) / 2;
+      }
+    }
+
+    function initials() {
+      const v = (document.getElementById('i-names') || {}).value || '';
+      const parts = v.split(/\s*(?:&|\band\b|,|\+)\s*/i).map(s => s.trim()).filter(Boolean);
+      return parts.length >= 2 ? (parts[0][0] + ' & ' + parts[1][0]).toUpperCase() : 'P & A';
+    }
+
+    function draw(t) {
+      const party = ramp(p, .74, .8), spark = win(p, -.01, .03, .2, .27), spot = win(p, .24, .3, .46, .53);
+      const dance = win(p, .48, .55, .73, .8), fog = dance + party * .2, mono = ramp(p, .5, .58) * (1 - .45 * party);
+      const co2 = Math.max(bump(p, .84, .035), bump(p, .935, .035));
+      const level = .6 - spot * .38 + party * .45;
+      let up = mix(GOLD, AMBER, spot); up = mix(up, BLUSH, dance * .7);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.fillStyle = '#0f0a09'; ctx.fillRect(0, 0, W, H);
+      ctx.setTransform(dpr * S, 0, 0, dpr * S, dpr * OX, dpr * OY);
+
+      /* Back wall with draped pleats */
+      let g = ctx.createLinearGradient(0, 0, 0, FLOOR); g.addColorStop(0, '#0d0807'); g.addColorStop(1, '#1b110e');
+      ctx.fillStyle = g; ctx.fillRect(-600, -1400, VW + 1200, FLOOR + 1400);
+      ctx.strokeStyle = 'rgba(244,233,213,.035)'; ctx.lineWidth = 2;
+      for (let x = -560; x < VW + 600; x += 38) { ctx.beginPath(); ctx.moveTo(x, -1400); ctx.quadraticCurveTo(x + 10, FLOOR / 2, x, FLOOR); ctx.stroke(); }
+
+      ctx.globalCompositeOperation = 'lighter';
+      /* Uplights washing the drape */
+      for (let i = 0; i < 11; i++) {
+        const x = -280 + i * 216; let c = up;
+        if (party) c = mix(up, (i + Math.floor(t * 1.2)) % 2 ? SINDOOR : GOLD, party);
+        g = ctx.createRadialGradient(x, FLOOR, 4, x, FLOOR - 120, 360);
+        g.addColorStop(0, rgba(c, .5 * level)); g.addColorStop(.45, rgba(c, .16 * level)); g.addColorStop(1, rgba(c, 0));
+        ctx.fillStyle = g; ctx.fillRect(x - 380, FLOOR - 520, 760, 540);
+      }
+      /* Gold arch over the head table */
+      g = ctx.createRadialGradient(800, 380, 10, 800, 380, 320); g.addColorStop(0, rgba(GOLD, .1 + spot * .22)); g.addColorStop(1, rgba(GOLD, 0));
+      ctx.fillStyle = g; ctx.fillRect(480, 60, 640, 480);
+      ctx.globalCompositeOperation = 'source-over';
+      const arch = (inset) => { ctx.beginPath(); ctx.moveTo(560 + inset, FLOOR); ctx.lineTo(560 + inset, 300); ctx.bezierCurveTo(560 + inset, 220, 640, 180, 720, 150); ctx.bezierCurveTo(770, 132, 792, 110, 800, 70 + inset * 1.6); ctx.bezierCurveTo(808, 110, 830, 132, 880, 150); ctx.bezierCurveTo(960, 180, 1040 - inset, 220, 1040 - inset, 300); ctx.lineTo(1040 - inset, FLOOR); };
+      ctx.lineWidth = 2.4; ctx.strokeStyle = rgba(GOLD, .55 + spot * .3); arch(0); ctx.stroke();
+      ctx.lineWidth = 1; ctx.strokeStyle = rgba(GOLD, .3); arch(16); ctx.stroke();
+      /* Head table */
+      ctx.fillStyle = '#140c0a'; ctx.fillRect(640, 470, 320, 70);
+      ctx.fillStyle = rgba(IVORY, .08 + spot * .25); ctx.fillRect(640, 470, 320, 3);
+
+      /* Floor */
+      g = ctx.createLinearGradient(0, FLOOR, 0, VH); g.addColorStop(0, '#1d1310'); g.addColorStop(1, '#0c0706');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(-700, VH + 40); ctx.lineTo(240, FLOOR); ctx.lineTo(1360, FLOOR); ctx.lineTo(2300, VH + 40); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#120b09'; ctx.beginPath(); ctx.moveTo(-700, VH + 40); ctx.lineTo(240, FLOOR); ctx.lineTo(-700, FLOOR); ctx.fill(); ctx.beginPath(); ctx.moveTo(2300, VH + 40); ctx.lineTo(1360, FLOOR); ctx.lineTo(2300, FLOOR); ctx.fill();
+      ctx.strokeStyle = 'rgba(227,195,138,.08)'; ctx.lineWidth = 1;
+      for (let k = 0; k <= 12; k++) { const u = k / 12; ctx.beginPath(); ctx.moveTo(240 + u * 1120, FLOOR); ctx.lineTo(-700 + u * 3000, VH + 40); ctx.stroke(); }
+
+      ctx.globalCompositeOperation = 'lighter';
+      /* Starlit LED floor */
+      const starOn = Math.max(party, dance * .25);
+      if (starOn > .01) for (const s of stars) {
+        const a = starOn * (.35 + .65 * (.5 + .5 * Math.sin(t * 3 + s.ph)));
+        ctx.fillStyle = rgba(s.g ? IVORY : GOLD, a * .85); ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, 6.283); ctx.fill();
+      }
+      /* Monogram on the floor */
+      if (mono > .01) {
+        ctx.save(); ctx.translate(800, 700); ctx.scale(1, .3);
+        g = ctx.createRadialGradient(0, 0, 10, 0, 0, 300); g.addColorStop(0, rgba(GOLD, .32 * mono)); g.addColorStop(1, rgba(GOLD, 0));
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, 300, 0, 6.283); ctx.fill();
+        ctx.strokeStyle = rgba(GOLD, .8 * mono); ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(0, 0, 230, 0, 6.283); ctx.stroke();
+        ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(0, 0, 205, 0, 6.283); ctx.stroke();
+        ctx.fillStyle = rgba(IVORY, .85 * mono); ctx.font = 'italic 400 170px "Bodoni Moda", Georgia, serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(initials(), 0, 8); ctx.restore();
+      }
+      /* Toasts: one warm spot on the head table */
+      if (spot > .01) {
+        g = ctx.createLinearGradient(800, -40, 800, 560); g.addColorStop(0, rgba(AMBER, .3 * spot)); g.addColorStop(1, rgba(AMBER, .05 * spot));
+        ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(760, -40); ctx.lineTo(840, -40); ctx.lineTo(1000, 560); ctx.lineTo(600, 560); ctx.closePath(); ctx.fill();
+        ctx.save(); ctx.translate(800, 556); ctx.scale(1, .22); g = ctx.createRadialGradient(0, 0, 10, 0, 0, 260); g.addColorStop(0, rgba(AMBER, .45 * spot)); g.addColorStop(1, rgba(AMBER, 0)); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, 260, 0, 6.283); ctx.fill(); ctx.restore();
+      }
+      /* First dance pool of light */
+      if (dance > .01) { ctx.save(); ctx.translate(800, 700); ctx.scale(1, .32); g = ctx.createRadialGradient(0, 0, 10, 0, 0, 420); g.addColorStop(0, rgba(IVORY, .2 * dance)); g.addColorStop(1, rgba(IVORY, 0)); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, 420, 0, 6.283); ctx.fill(); ctx.restore(); }
+
+      /* Moving heads on the truss */
+      if (party > .01) {
+        for (let i = 0; i < 6; i++) {
+          const hx = 380 + i * 168, a = Math.sin(t * .9 + i * 1.3) * .5 + (i < 3 ? .18 : -.18), c = [GOLD, SINDOOR, IVORY][i % 3];
+          const ex = hx + Math.sin(a) * 1100, ey = 30 + Math.cos(a) * 1100, sp = 110;
+          g = ctx.createLinearGradient(hx, 30, ex, ey); g.addColorStop(0, rgba(c, .34 * party)); g.addColorStop(1, rgba(c, 0));
+          ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(hx, 30); ctx.lineTo(ex - Math.cos(a) * sp, ey + Math.sin(a) * sp); ctx.lineTo(ex + Math.cos(a) * sp, ey - Math.sin(a) * sp); ctx.closePath(); ctx.fill();
+        }
+        /* Lasers */
+        const fl = .55 + .45 * Math.sin(t * 17);
+        ctx.strokeStyle = rgba(SINDOOR, .55 * party * fl); ctx.lineWidth = 1.4;
+        for (let k = 0; k < 16; k++) { const u = k / 15, sw = Math.sin(t * 1.7) * 260; ctx.beginPath(); ctx.moveTo(800, 96); ctx.lineTo(-200 + u * 2000 + sw, VH); ctx.stroke(); }
+      }
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = '#2a201b'; ctx.fillRect(330, 22, 940, 10);
+      for (let i = 0; i < 6; i++) { ctx.fillStyle = '#3a2d25'; ctx.fillRect(366 + i * 168, 30, 28, 18); }
+
+      ctx.globalCompositeOperation = 'lighter';
+      /* Dancing on clouds: low fog rolling across the floor */
+      if (fog > .01) for (let i = 0; i < 12; i++) {
+        const dir = i % 2 ? 1 : -1, x = ((i * 190 + t * 26 * dir) % 2200 + 2200) % 2200 - 300, y = 640 + (i % 4) * 70;
+        ctx.save(); ctx.translate(x, y); ctx.scale(1, .42); g = ctx.createRadialGradient(0, 0, 10, 0, 0, 300);
+        g.addColorStop(0, rgba(IVORY, .2 * fog)); g.addColorStop(1, rgba(IVORY, 0)); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, 300, 0, 6.283); ctx.fill(); ctx.restore();
+      }
+      /* CO2 blasts on the drop */
+      if (co2 > .01) for (const bx of [330, 1270]) for (let k = 0; k < 7; k++) {
+        const y = 880 - k * 95 * co2, r = 60 + k * 30 * co2;
+        g = ctx.createRadialGradient(bx, y, 4, bx, y, r); g.addColorStop(0, rgba(IVORY, .35 * co2)); g.addColorStop(1, rgba(IVORY, 0));
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(bx, y, r, 0, 6.283); ctx.fill();
+      }
+      /* Cold sparks for the entrance */
+      for (const bx of [520, 1080]) for (let k = 0; k < Math.round(spark * 7); k++) sparks.push({ x: bx + (Math.random() - .5) * 14, y: 820, vx: (Math.random() - .5) * 2.4, vy: -9 - Math.random() * 7, life: 0, max: 40 + Math.random() * 30 });
+      sparks = sparks.filter(s => (s.life++ < s.max));
+      for (const s of sparks) {
+        s.x += s.vx; s.y += s.vy; s.vy += .2;
+        const a = 1 - s.life / s.max;
+        ctx.fillStyle = rgba([255, 226, 170], a); ctx.beginPath(); ctx.arc(s.x, s.y, 2.2, 0, 6.283); ctx.fill();
+        ctx.fillStyle = rgba(GOLD, a * .25); ctx.beginPath(); ctx.arc(s.x, s.y, 7, 0, 6.283); ctx.fill();
+      }
+      for (const bx of [520, 1080]) { g = ctx.createRadialGradient(bx, 820, 2, bx, 820, 140); g.addColorStop(0, rgba(GOLD, .4 * spark)); g.addColorStop(1, rgba(GOLD, 0)); ctx.fillStyle = g; ctx.fillRect(bx - 140, 680, 280, 280); }
+      ctx.globalCompositeOperation = 'source-over';
+
+      /* Vignette */
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      g = ctx.createRadialGradient(W * .6, H * .55, Math.min(W, H) * .3, W * .6, H * .55, Math.max(W, H) * .8);
+      g.addColorStop(0, 'rgba(15,10,9,0)'); g.addColorStop(1, 'rgba(15,10,9,.75)'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    }
+
+    function setBeat(i) {
+      if (i === cur) return; cur = i;
+      beats.forEach((b, j) => { b.classList.toggle('on', j === i); b.setAttribute('aria-hidden', String(j !== i)); });
+      steps.forEach((b, j) => j === i ? b.setAttribute('aria-current', 'step') : b.removeAttribute('aria-current'));
+    }
+    function progress() {
+      const r = sec.getBoundingClientRect();
+      p = clamp(-r.top / Math.max(1, r.height - innerHeight));
+      setBeat(Math.min(3, Math.floor(p * 4)));
+      steps.forEach((b, j) => b.style.setProperty('--f', (clamp(p * 4 - j) * 100) + '%'));
+    }
+    function loop(ts) { if (!running) return; progress(); draw(ts / 1000); requestAnimationFrame(loop); }
+
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    steps.forEach((b) => b.addEventListener('click', () => {
+      const i = +b.dataset.i, r = sec.getBoundingClientRect(), span = r.height - innerHeight;
+      scrollTo({ top: scrollY + r.top + span * (i / 4 + .1), behavior: 'smooth' });
+    }));
+    if (reduce) {
+      sec.classList.add('static'); beats.forEach(b => { b.classList.add('on'); b.removeAttribute('aria-hidden'); });
+      const still = () => { size(); p = .9; draw(2); };
+      (document.fonts ? document.fonts.ready : Promise.resolve()).then(still); new ResizeObserver(still).observe(cv);
+      return;
+    }
+    size(); new ResizeObserver(size).observe(cv);
+    beats.forEach((b, j) => b.setAttribute('aria-hidden', String(j !== 0)));
+    new IntersectionObserver((e) => { const was = running; running = e[0].isIntersecting; if (running && !was) requestAnimationFrame(loop); }).observe(sec);
+  })();
+
 })();
 </script>
 </body>
