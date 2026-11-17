@@ -8,16 +8,16 @@
 <meta name="theme-color" content="#ffffff">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter+Tight:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 /* A one-page review memo for the owner: the urgent fix first, then numbers, then the side-by-side, then next steps. */
-:root{--ink:#0d0c10;--paper:#ffffff;--pink:#d1064f;--soft:#f3f2f5;--muted:#5d5a66;--line:rgba(13,12,16,.12);--warn:#fff1f5;
-  --f-d:"Syne",system-ui,sans-serif;--f-b:"Inter Tight",system-ui,sans-serif;--f-m:"Space Mono",ui-monospace,monospace}
+:root{--ink:#0d0c10;--paper:#ffffff;--pink:#b00404;--soft:#f3f2f5;--muted:#5d5a66;--line:rgba(13,12,16,.12);--warn:#fdf2f2;
+  --f-d:"Inter Tight",system-ui,sans-serif;--f-b:"Inter Tight",system-ui,sans-serif;--f-m:"Space Mono",ui-monospace,monospace}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.6 var(--f-b);-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block;height:auto}
 a{color:var(--pink)}
-h1,h2,h3{font-family:var(--f-d);font-weight:800;line-height:1.02;letter-spacing:-.02em;margin:0;text-wrap:balance}
+h1,h2,h3{font-family:var(--f-d);font-weight:500;text-transform:uppercase;line-height:1.04;letter-spacing:.005em;margin:0;text-wrap:balance}
 p{margin:0;text-wrap:pretty}
 .wrap{width:min(980px,100% - 32px);margin-inline:auto}
 .lbl{font:700 .76rem/1.3 var(--f-m);letter-spacing:.14em;text-transform:uppercase;color:var(--pink)}
@@ -25,8 +25,8 @@ p{margin:0;text-wrap:pretty}
 header{padding-block:56px 40px;border-bottom:2px solid var(--ink)}
 header h1{font-size:clamp(2.4rem,1.4rem + 4vw,4.4rem);margin:16px 0 18px}
 header p{color:var(--muted);font-size:1.15rem;max-width:44rem}
-.btn{display:inline-flex;align-items:center;gap:.5em;min-height:50px;padding:.8em 1.4em;border-radius:999px;background:var(--pink);color:#fff;font-weight:600;text-decoration:none;transition:background-color .2s}
-.btn:hover{background:#a8003c}
+.btn{display:inline-flex;align-items:center;gap:.5em;min-height:52px;padding:.8em 1.5em;text-transform:uppercase;letter-spacing:.04em;border-radius:0;background:var(--pink);color:#fff;font-weight:600;text-decoration:none;transition:background-color .2s}
+.btn:hover{background:#8c0303}
 .btn.line{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
 .btn.line:hover{background:var(--soft)}
 .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
@@ -35,7 +35,7 @@ section h2{font-size:clamp(1.8rem,1.2rem + 2vw,2.6rem);margin:12px 0 18px}
 section > .wrap > p{color:var(--muted);max-width:46rem}
 .urgent{background:var(--warn)}
 pre{margin:22px 0;padding:16px 18px;background:var(--ink);color:#f3f2f5;border-radius:8px;overflow-x:auto;font:400 .8rem/1.6 var(--f-m)}
-pre mark{background:#ffd0df;color:#0d0c10;padding:0 2px}
+pre mark{background:#ffd6d6;color:#0d0c10;padding:0 2px}
 .doms{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
 .doms li{font:700 .8rem/1 var(--f-m);padding:8px 10px;border:1px solid var(--pink);color:var(--pink);border-radius:6px;background:#fff}
 .steps{margin:22px 0 0;padding-left:1.3em;display:grid;gap:10px}
@@ -44,8 +44,8 @@ pre mark{background:#ffd0df;color:#0d0c10;padding:0 2px}
 .stat{border:1px solid var(--line);border-radius:10px;padding:18px}
 .stat .k{font:700 .74rem/1.3 var(--f-m);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .stat .v{display:flex;align-items:baseline;gap:10px;margin-top:10px;font-variant-numeric:tabular-nums}
-.stat .old{font:800 1.9rem/1 var(--f-d)}
-.stat .new{font:800 1.9rem/1 var(--f-d);color:var(--pink)}
+.stat .old{font:500 1.9rem/1 var(--f-d)}
+.stat .new{font:500 1.9rem/1 var(--f-d);color:var(--pink)}
 .stat .arrow{color:var(--muted)}
 .stat .u{display:block;font-size:.84rem;color:var(--muted);margin-top:6px}
 .fine{font-size:.86rem;color:var(--muted);margin-top:14px}
@@ -65,7 +65,7 @@ td.new::before{content:"→ ";color:var(--pink);font-weight:700}
 .shots .wide{grid-column:1/-1}
 .next{list-style:none;margin:24px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .next li{border:1px solid var(--line);border-radius:10px;padding:18px}
-.next b{display:block;font:800 1.15rem/1.2 var(--f-d);margin:8px 0 6px}
+.next b{display:block;font:500 1.15rem/1.2 var(--f-d);text-transform:uppercase;margin:8px 0 6px}
 .next p{color:var(--muted);font-size:.95rem}
 footer{padding-block:40px 60px;color:var(--muted);font-size:.9rem}
 @media (max-width:760px){.stats,.shots,.next{grid-template-columns:1fr}}
@@ -76,7 +76,7 @@ footer{padding-block:40px 60px;color:var(--muted);font-size:.9rem}
   <div class="wrap">
     <span class="lbl">Prepared for Awaaz Entertainment · November 2026</span>
     <h1>Your website, reviewed. And a new one, built.</h1>
-    <p>I’m a local AI consultant who specializes in web design. I reviewed awaazent.com and found one thing you should fix this week, whatever you decide about a redesign. Then I built a concept of what your site could be, using your own photos, words and reviews.</p>
+    <p>I’m a local AI consultant who specializes in web design. I reviewed awaazent.com and found one thing you should fix this week, whatever you decide about a redesign. Then I built a concept of what your site could be, in your own brand colors, using your own photos, words and reviews.</p>
     <div class="ctas"><a class="btn" href="../">Open the New Concept</a><a class="btn line" href="#compare">See the Comparison</a></div>
   </div>
 </header>
@@ -123,8 +123,8 @@ Golden-Genie-Casino.co.uk&lt;/a&gt; can often be seen in discussions …&lt;/p&g
       <tbody>
         <tr><td>Security</td><td class="now">5 hidden casino links in the homepage code</td><td class="new">Clean, single-file site with nothing hidden</td></tr>
         <tr><td>Media page</td><td class="now">The Albums tab shows raw plugin code, “[instagram-feed feed=4]”, on a blank black box</td><td class="new">A real gallery of your event photos, with photographers credited</td></tr>
-        <tr><td>First impression</td><td class="now">“We create unforgettable memories” over a photo collage</td><td class="new">“We don’t just play the bangers. We build to them.” over your best dance-floor shot</td></tr>
-        <tr><td>Your philosophy</td><td class="now">Your best writing (timing, tempo, volume, mood) sits halfway down the page</td><td class="new">Turned into an interactive Energy Curve that walks couples through the night</td></tr>
+        <tr><td>First impression</td><td class="now">Your “We create unforgettable memories” collage, part of a 20 MB homepage</td><td class="new">The same tagline and collage idea, rebuilt as a fast photo mosaic in your black, white and red</td></tr>
+        <tr><td>Your philosophy</td><td class="now">Your best writing (timing, tempo, volume, mood) sits halfway down the page</td><td class="new">Its own section beside your dance-floor photo, with “Real DJs. Real live mixing.”</td></tr>
         <tr><td>Services</td><td class="now">Lighting details live on a separate page</td><td class="new">DJs &amp; MCs, your 6-part lighting design, LED walls and dhol on one scroll</td></tr>
         <tr><td>DJs</td><td class="now">Names on a separate page</td><td class="new">The full roster on the homepage, with mixes and review quotes</td></tr>
         <tr><td>Inquiries</td><td class="now">A general form; no phone or email shown anywhere</td><td class="new">Events, guest count and date picked in seconds, sent as a ready-written email</td></tr>
@@ -134,9 +134,8 @@ Golden-Genie-Casino.co.uk&lt;/a&gt; can often be seen in discussions …&lt;/p&g
     </table></div>
     <div class="shots">
       <figure><img src="assets/before.jpg" width="1200" height="750" loading="lazy" alt="Screenshot of the current awaazent.com homepage: a photo collage with the words We Create Unforgettable Memories"><figcaption>Today: awaazent.com</figcaption></figure>
-      <figure><img src="assets/after.jpg" width="1200" height="750" loading="lazy" alt="Screenshot of the new concept homepage: a lit dance floor with the headline We don’t just play the bangers. We build to them."><figcaption>The new concept</figcaption></figure>
-      <figure class="wide"><img src="assets/energy.jpg" width="1200" height="750" loading="lazy" alt="Screenshot of the Energy Curve: a pink line rising and falling across eight moments of a wedding night, with The Drop selected"><figcaption>The Energy Curve: tap any moment of the night to see what the DJ, MC and lighting crew are doing.</figcaption></figure>
-      <figure class="wide"><img src="assets/media-bug.jpg" width="1200" height="383" loading="lazy" alt="Screenshot of the current Media page Albums tab: an empty black box with the text [instagram-feed feed=4]"><figcaption>Today: the Albums tab on your Media page.</figcaption></figure>
+      <figure><img src="assets/after.jpg" width="1200" height="750" loading="lazy" alt="Screenshot of the new concept homepage: a mosaic of wedding photos with the headline We create unforgettable memories"><figcaption>The new concept</figcaption></figure>
+      <figure class="wide"><img src="assets/media-bug.jpg" width="1280" height="378" loading="lazy" alt="Screenshot of the current Media page Albums tab: an empty black box with the text [instagram-feed feed=4]"><figcaption>Today: the Albums tab on your Media page.</figcaption></figure>
     </div>
   </div>
 </section>
