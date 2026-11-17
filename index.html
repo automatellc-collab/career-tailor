@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Atlanta Drainage Professionals · French Drains, Catch Basins & Yard Drainage</title>
+<meta name="description" content="Residential drainage in metro Atlanta: French drains, catch basins, dry creek beds, channel drains, retaining walls and more. Free drone-based design plan. 5-year warranty on labor and materials. Call or text 404-956-9727.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0b0f14">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/icon.png">
+<style>
+/* Atlanta Drainage Professionals' own identity: black house, sky-blue water (#37B6FF), wide spaced capitals.
+   Photo-led: their finished yards up top, their drone shots telling the design story. */
+:root{
+  --ink:#0b0f14; --paper:#ffffff; --sky:#37b6ff;
+  --mist:#f1f5f8; --line:#dfe5ea; --muted:#56606b; --muted-d:rgba(255,255,255,.74); --line-d:rgba(255,255,255,.16); --sky-dk:#0a6fa8;
+  --f-d:"Archivo","Helvetica Neue",Arial,sans-serif; --f-b:"Figtree",system-ui,sans-serif;
+  --wrap:1240px; --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.65 var(--f-b);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block;height:auto}
+a{color:inherit}
+h1,h2,h3{font-family:var(--f-d);font-stretch:118%;font-weight:700;line-height:1.04;margin:0;text-wrap:balance;letter-spacing:-.005em}
+p{margin:0;text-wrap:pretty}
+.wrap{width:min(var(--wrap),100% - 32px);margin-inline:auto}
+.kick{display:inline-block;font:700 .76rem/1.2 var(--f-d);font-stretch:125%;letter-spacing:.18em;text-transform:uppercase;color:var(--sky-dk)}
+.dark .kick{color:var(--sky)}
+.skip{position:absolute;left:12px;top:-60px;background:var(--ink);color:#fff;padding:10px 14px;z-index:100;font-weight:600}
+.skip:focus{top:12px}
+:focus-visible{outline:3px solid var(--sky);outline-offset:3px}
+section[id]{scroll-margin-top:84px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55em;min-height:52px;padding:0 1.4em;border-radius:6px;font:700 1rem/1 var(--f-b);text-decoration:none;border:1.5px solid transparent;cursor:pointer;transition:background-color .2s,color .2s,border-color .2s}
+.btn svg{width:18px;height:18px;flex:none}
+.btn-sky{background:var(--sky);color:var(--ink)}
+.btn-sky:hover{background:#6fcbff}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-ink:hover{background:#26303b}
+.btn-line{border-color:currentColor;color:inherit;background:transparent}
+.btn-line:hover{background:rgba(255,255,255,.1)}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* Header */
+.top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+.top .bar{display:flex;align-items:center;gap:20px;min-height:72px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;min-width:0}
+.brand img{width:40px;height:auto}
+.brand b{display:block;font:700 .92rem/1.1 var(--f-d);font-stretch:125%;letter-spacing:.14em;text-transform:uppercase}
+.brand small{display:block;font:600 .62rem/1.2 var(--f-d);font-stretch:125%;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+.nav{display:flex;gap:2px;margin-left:auto}
+.nav a{padding:10px 12px;font-weight:600;font-size:.95rem;text-decoration:none;color:var(--muted);border-radius:6px;transition:color .2s}
+.nav a:hover{color:var(--ink)}
+.top .btn{min-height:44px;font-size:.95rem}
+@media (max-width:1020px){.nav{display:none}.top .btn{margin-left:auto}}
+@media (max-width:560px){.brand small{display:none}.brand b{font-size:.78rem;letter-spacing:.1em}.top .call-txt{display:none}}
+
+/* Hero */
+.hero{position:relative;background:var(--ink);color:#fff;overflow:hidden;isolation:isolate}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(11,15,20,.9) 0%,rgba(11,15,20,.72) 42%,rgba(11,15,20,.15) 75%)}
+.hero .grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:48px;align-items:end;padding-block:clamp(72px,10vw,140px) clamp(48px,6vw,80px)}
+.hero h1{font-size:clamp(2.4rem,1.4rem + 3.4vw,4.3rem);text-transform:uppercase;font-stretch:112%}
+.hero h1 span{color:var(--sky)}
+.hero .lede{margin-top:20px;font-size:1.2rem;color:var(--muted-d);max-width:36rem}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.drone{background:#fff;color:var(--ink);border-radius:10px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.6);max-width:360px;justify-self:end}
+.drone img{aspect-ratio:3/2;object-fit:cover;width:100%}
+.drone div{padding:14px 16px}
+.drone b{display:block;font:700 .74rem/1.2 var(--f-d);font-stretch:125%;letter-spacing:.14em;text-transform:uppercase;color:var(--sky-dk)}
+.drone p{font-size:.94rem;margin-top:6px;color:var(--muted)}
+@media (max-width:860px){.hero .grid{grid-template-columns:1fr}.drone{justify-self:start}.hero::before{background:linear-gradient(0deg,rgba(11,15,20,.92) 30%,rgba(11,15,20,.55) 100%)}}
+
+/* Proof strip */
+.proof{background:var(--ink);color:#fff;border-top:1px solid var(--line-d)}
+.proof ul{list-style:none;margin:0 auto;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.proof li{padding:20px 18px;border-left:1px solid var(--line-d)}
+.proof li:first-child{border-left:0;padding-left:0}
+.proof b{display:block;font:700 1.35rem/1.1 var(--f-d);font-stretch:112%;color:var(--sky)}
+.proof span{display:block;color:var(--muted-d);font-size:.92rem;margin-top:4px}
+@media (max-width:860px){.proof ul{grid-template-columns:1fr 1fr}.proof li{border-left:0;border-top:1px solid var(--line-d);padding-left:0}.proof li:nth-child(-n+2){border-top:0}}
+
+/* Water finder */
+.finder{padding-block:clamp(72px,9vw,120px);background:var(--mist)}
+.head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:16px 56px;align-items:end;margin-bottom:clamp(28px,4vw,44px)}
+.head h2{font-size:clamp(2rem,1.3rem + 2.6vw,3.4rem);margin-top:12px}
+.head p{color:var(--muted);font-size:1.1rem}
+@media (max-width:860px){.head{grid-template-columns:1fr}}
+.fgrid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:24px;align-items:start}
+.probs{display:grid;gap:8px;margin:0;padding:0;border:0}
+.probs legend{font-weight:600;margin-bottom:10px;padding:0}
+.prob{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border:1.5px solid var(--line);border-radius:8px;cursor:pointer;font-weight:600;transition:border-color .2s,background-color .2s;min-height:56px}
+.prob:hover{border-color:var(--muted)}
+.prob input{accent-color:var(--sky-dk);width:18px;height:18px;margin:0;flex:none}
+.prob:has(input:checked){border-color:var(--ink);background:var(--ink);color:#fff}
+.prob:has(input:focus-visible){outline:3px solid var(--sky);outline-offset:2px}
+.answer{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;position:sticky;top:96px}
+.answer .ph{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px;background:var(--line)}
+.answer .ph img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.answer .body{padding:22px;display:grid;gap:14px}
+.answer h3{font-size:1.45rem}
+.answer ol{margin:0;padding:0;list-style:none;display:grid;gap:12px;counter-reset:s}
+.answer li{display:grid;grid-template-columns:auto 1fr;gap:12px;counter-increment:s}
+.answer li::before{content:counter(s);font:700 .85rem/1 var(--f-d);width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--sky);color:var(--ink)}
+.answer li b{display:block}
+.answer li span{color:var(--muted);font-size:.95rem}
+.answer .acts{display:flex;flex-wrap:wrap;gap:10px}
+.answer .done{color:var(--sky-dk);font-weight:600;font-size:.92rem}
+.answer .done:empty{display:none}
+@media (max-width:860px){.fgrid{grid-template-columns:1fr}.answer{position:static}}
+
+/* Process */
+.process{padding-block:clamp(72px,9vw,120px)}
+.pgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px 64px;align-items:center}
+.pgrid figure{margin:0;display:grid;gap:10px}
+.pgrid figure img{width:100%;border-radius:8px}
+.pgrid figure img:first-child{aspect-ratio:3/2;object-fit:cover}
+.pgrid figcaption{font-size:.88rem;color:var(--muted)}
+.steps{list-style:none;margin:24px 0 0;padding:0;display:grid;gap:0}
+.steps li{display:grid;grid-template-columns:56px 1fr;gap:4px 14px;padding:16px 0;border-top:1px solid var(--line)}
+.steps li:last-child{border-bottom:1px solid var(--line)}
+.steps .n{font:800 1.5rem/1 var(--f-d);color:var(--sky-dk);grid-row:span 2}
+.steps b{font-weight:700}
+.steps span{color:var(--muted);font-size:.96rem}
+@media (max-width:860px){.pgrid{grid-template-columns:1fr}}
+
+/* Services */
+.services{padding-block:clamp(72px,9vw,120px);background:var(--ink);color:#fff}
+.services .head p{color:var(--muted-d)}
+.sgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.svc{background:#141a21;border:1px solid var(--line-d);border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
+.svc img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.svc div{padding:16px 18px 20px}
+.svc h3{font-size:1.05rem;text-transform:uppercase;letter-spacing:.04em}
+.svc p{color:var(--muted-d);font-size:.93rem;margin-top:6px}
+.more{margin-top:20px;color:var(--muted-d)}
+.more b{color:#fff}
+@media (max-width:1020px){.sgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){.sgrid{grid-template-columns:1fr 1fr}}
+@media (max-width:440px){.sgrid{grid-template-columns:1fr}}
+
+/* Work */
+.work{padding-block:clamp(72px,9vw,120px)}
+.wgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.wgrid figure{margin:0;overflow:hidden;border-radius:6px;position:relative}
+.wgrid img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+.wgrid figure:hover img{transform:scale(1.03)}
+.wgrid figcaption{position:absolute;left:8px;bottom:8px;background:rgba(11,15,20,.82);color:#fff;font-size:.8rem;padding:5px 9px;border-radius:4px}
+.wgrid figure{aspect-ratio:1}
+.w1{grid-column:span 2;grid-row:span 2}
+.w6{grid-column:span 2;aspect-ratio:2/1}
+@media (max-width:760px){.wgrid{grid-template-columns:1fr 1fr}.w1{grid-column:span 2;grid-row:auto;aspect-ratio:1}.w6{grid-column:span 2}}
+.quote{margin:40px 0 0;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px 40px;align-items:end;padding:28px;border-radius:10px;background:var(--mist)}
+.quote blockquote{margin:0;font:600 clamp(1.2rem,1rem + .8vw,1.6rem)/1.4 var(--f-b)}
+.quote figcaption{margin-top:12px;color:var(--muted);font-weight:600}
+@media (max-width:760px){.quote{grid-template-columns:1fr}}
+
+/* FAQ */
+.faq{padding-block:clamp(64px,8vw,104px);background:var(--mist)}
+.faq .list{display:grid;gap:10px;max-width:860px}
+details{background:#fff;border:1px solid var(--line);border-radius:8px}
+summary{cursor:pointer;list-style:none;padding:18px 52px 18px 20px;font-weight:700;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:20px;top:50%;transform:translateY(-50%);font:700 1.4rem/1 var(--f-d);color:var(--sky-dk)}
+details[open] summary::after{content:"–"}
+details p{padding:0 20px 20px;color:var(--muted)}
+
+/* Contact */
+.contact{padding-block:clamp(72px,9vw,120px);background:var(--ink);color:#fff}
+.cgrid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:40px 64px;align-items:start}
+.contact h2{font-size:clamp(2rem,1.3rem + 2.6vw,3.4rem);margin-top:12px}
+.contact .side p{color:var(--muted-d);margin-top:18px;font-size:1.1rem}
+.big{display:inline-block;margin-top:24px;font:800 clamp(1.9rem,1.3rem + 2vw,2.8rem)/1 var(--f-d);color:var(--sky);text-decoration:none}
+.big:hover{text-decoration:underline}
+.hours{margin-top:26px;border-top:1px solid var(--line-d)}
+.hours div{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line-d);color:var(--muted-d)}
+.hours div b{color:#fff;font-weight:600}
+form.f{background:#fff;color:var(--ink);border-radius:10px;padding:clamp(20px,3vw,32px);display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fld{display:grid;gap:6px;min-width:0}
+.fld.full{grid-column:1/-1}
+.fld label,.fld legend{font-weight:700;font-size:.9rem;padding:0}
+.fld input,.fld textarea{font:inherit;font-size:1rem;color:var(--ink);background:#fff;border:1.5px solid #c9d2da;border-radius:6px;padding:12px 14px;min-height:50px;width:100%}
+.fld textarea{min-height:96px;resize:vertical}
+.fld input:focus-visible,.fld textarea:focus-visible{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(55,182,255,.45)}
+.fld [aria-invalid="true"]{border-color:#c0261d}
+fieldset.fld{border:0;margin:0;padding:0}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.checks label{display:inline-flex;align-items:center;gap:8px;border:1.5px solid #c9d2da;border-radius:6px;padding:10px 12px;cursor:pointer;font-weight:600;font-size:.92rem}
+.checks input{accent-color:var(--sky-dk);width:16px;height:16px;margin:0}
+.checks label:has(input:checked){border-color:var(--ink);background:var(--mist)}
+.checks label:has(input:focus-visible){outline:3px solid var(--sky);outline-offset:2px}
+.err{color:#b3261e;font-size:.86rem;font-weight:600}
+.err:empty{display:none}
+.f .acts{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:10px}
+.f .fine{grid-column:1/-1;font-size:.84rem;color:var(--muted)}
+@media (max-width:860px){.cgrid{grid-template-columns:1fr}}
+@media (max-width:520px){form.f{grid-template-columns:1fr}}
+
+footer{background:var(--ink);color:var(--muted-d);border-top:1px solid var(--line-d);padding-block:36px calc(36px + env(safe-area-inset-bottom));font-size:.9rem}
+footer .row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+footer a{color:#fff}
+.concept{margin-top:16px;font-size:.78rem;opacity:.8}
+
+.dock{display:none}
+@media (max-width:720px){.dock{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(11,15,20,.96);border-top:1px solid var(--line-d)}.dock .btn{min-height:50px}body{padding-bottom:76px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#main" aria-label="Atlanta Drainage Professionals, home"><img src="assets/icon.png" width="40" height="47" alt=""><span><b>Atlanta Drainage Professionals</b><small>Your local storm water management specialists</small></span></a>
+    <nav class="nav" aria-label="Main"><a href="#finder">Find Your Fix</a><a href="#process">Our Process</a><a href="#services">Services</a><a href="#work">Our Work</a><a href="#faq">FAQs</a></nav>
+    <a class="btn btn-ink" href="tel:+14049569727"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg><span class="call-txt tnum">404-956-9727</span></a>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" aria-labelledby="h1">
+  <img src="assets/retaining-wall.jpg" width="1440" height="1083" fetchpriority="high" alt="A finished stone retaining wall with steps, fresh black mulch and a green lawn behind a house">
+  <div class="wrap grid">
+    <div>
+      <span class="kick" style="color:var(--sky)">Residential drainage · Metro Atlanta</span>
+      <h1 id="h1" style="margin-top:14px">Dry yards. Dry basements. <span>Designed from above.</span></h1>
+      <p class="lede">French drains, catch basins, dry creek beds and retaining walls, planned from a drone photo of your yard and blended into your landscaping, with a 5-year warranty on labor and materials.</p>
+      <div class="ctas">
+        <a class="btn btn-sky" href="tel:+14049569727"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"/></svg>Call or Text <span class="tnum">404-956-9727</span></a>
+        <a class="btn btn-line" href="#contact">Get a Free Design Plan</a>
+      </div>
+    </div>
+    <figure class="drone" style="margin:0"><img src="assets/drone-aerial.jpg" width="1500" height="1000" alt="Drone photo looking straight down at a backyard trench with new drainage pipe running between two houses"><div><b>Every plan starts up here</b><p>We photograph your yard by drone, design the system on that photo and send you the plan as a PDF.</p></div></figure>
+  </div>
+</section>
+
+<div class="proof"><ul class="wrap">
+  <li><b>5-year</b><span>Warranty on labor &amp; materials</span></li>
+  <li><b>Free</b><span>Design plan, sent as a PDF</span></li>
+  <li><b class="tnum">1–5 days</b><span>Typical installation</span></li>
+  <li><b>ADS &amp; NDS</b><span>Double-wall pipe, NDS drains</span></li>
+</ul></div>
+
+<section class="finder" id="finder" aria-labelledby="fH">
+  <div class="wrap">
+    <div class="head">
+      <div><span class="kick">Find your fix</span><h2 id="fH">Where is the water going?</h2></div>
+      <p>Pick what you’re seeing after a heavy rain. You’ll see the systems that usually solve it, then add it to your free consultation.</p>
+    </div>
+    <div class="fgrid">
+      <fieldset class="probs" id="probs"><legend>After a storm, I see…</legend></fieldset>
+      <div class="answer" id="answer" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section class="process" id="process" aria-labelledby="pH">
+  <div class="wrap pgrid">
+    <figure><img src="assets/drone-trench.jpg" width="1500" height="844" loading="lazy" alt="Overhead drone view of an open trench with black drain pipe along the back of a house"><figcaption>A drone view of a system going in. Your design plan is drawn on a photo like this before anyone digs.</figcaption></figure>
+    <div>
+      <span class="kick">Our process</span>
+      <h2 id="pH" style="font-size:clamp(2rem,1.3rem + 2.6vw,3.4rem);margin-top:12px">Nothing left to question.</h2>
+      <ol class="steps">
+        <li><span class="n">1</span><b>Call or send the form</b><span>Schedule an in-person or virtual walk-through of the problem, as you’ve seen it.</span></li>
+        <li><span class="n">2</span><b>Meet your design consultant</b><span>Talk through your goals. Initial designs are easy to adjust.</span></li>
+        <li><span class="n">3</span><b>Drone design</b><span>On site, we photograph the space from above and design your system on it.</span></li>
+        <li><span class="n">4</span><b>Your plan, as a PDF</b><span>You see exactly where every pipe, basin and outlet will go.</span></li>
+        <li><span class="n">5</span><b>Install, then maintain</b><span>Our crew installs with laser precision and keeps you posted. We clean and flush the system afterward, with annual maintenance plans available.</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="services dark" id="services" aria-labelledby="sH">
+  <div class="wrap">
+    <div class="head"><div><span class="kick">Products &amp; services</span><h2 id="sH">Built to move water, made to look like landscaping.</h2></div><p>“The difference between something good and something great is attention to detail.”</p></div>
+    <div class="sgrid" id="sgrid"></div>
+    <p class="more"><b>Also:</b> flow wells, NDS pop-up emitters, backfill restoration and grading, drain cleaning and flushing, sod, plants and finishing details.</p>
+  </div>
+</section>
+
+<section class="work" id="work" aria-labelledby="wH">
+  <div class="wrap">
+    <div class="head"><div><span class="kick">In the trenches</span><h2 id="wH">When we’re done, you can’t tell we dug.</h2></div><p>Recent systems around metro Atlanta, from first trench to finished yard.</p></div>
+    <div class="wgrid">
+      <figure class="w1"><img src="assets/catch-basin.jpg" width="1427" height="1500" loading="lazy" alt="A catch basin grate tucked under stacked boulders in a planted bed"><figcaption>Catch basin, set in stone</figcaption></figure>
+      <figure class="w2"><img src="assets/turf-pavers.jpg" width="1500" height="1125" loading="lazy" alt="Artificial turf putting green with square pavers in a backyard"><figcaption>Turf and pavers</figcaption></figure>
+      <figure class="w3"><img src="assets/gravel-patio.jpg" width="1500" height="618" loading="lazy" alt="A gravel border and river-rock edge around a backyard patio"><figcaption>Patio drainage border</figcaption></figure>
+      <figure class="w4"><img src="assets/french-drain-2.jpg" width="1500" height="1125" loading="lazy" alt="An open trench with drain pipe running beside a house"><figcaption>French drain going in</figcaption></figure>
+      <figure class="w5"><img src="assets/dry-creek-3.jpg" width="1500" height="1269" loading="lazy" alt="A dry creek bed of river rock and boulders along a fence"><figcaption>Dry creek bed</figcaption></figure>
+      <figure class="w6"><img src="assets/channel-drain.jpg" width="1125" height="1500" loading="lazy" alt="A long channel drain across a driveway in front of a garage"><figcaption>Channel drain</figcaption></figure>
+      <figure class="w7"><img src="assets/timber-wall.jpg" width="1200" height="1500" loading="lazy" alt="A new timber retaining wall with gravel"><figcaption>Retaining wall</figcaption></figure>
+      <figure class="w8"><img src="assets/finished-path.jpg" width="1125" height="1500" loading="lazy" alt="A finished stone and river-rock path beside a fence"><figcaption>Finished and restored</figcaption></figure>
+    </div>
+    <figure class="quote">
+      <div><blockquote>“Jarrod and his crew installed all new drainage for my home. Went above and beyond getting the job done. When he was done you could not even tell they had dug up the yard. It came out excellent, and he was very informative the whole time. Highly recommend this company.”</blockquote><figcaption>Brandon B., Google review</figcaption></div>
+      <a class="btn btn-ink" href="https://share.google/v9KLXTPmGNwW8E1h8" target="_blank" rel="noopener">Read Our Google Reviews</a>
+    </figure>
+  </div>
+</section>
+
+<section class="faq" id="faq" aria-labelledby="qH">
+  <div class="wrap">
+    <span class="kick">FAQs</span><h2 id="qH" style="font-size:clamp(2rem,1.3rem + 2.6vw,3.4rem);margin:12px 0 28px">Straight answers.</h2>
+    <div class="list">
+      <details><summary>How do I know if I need drainage work?</summary><p>Standing water in the yard, a wet basement or crawl space, soggy soil that never dries, erosion, or water pooling against your foundation are the usual signs. Catching them early avoids water damage to the house.</p></details>
+      <details><summary>How much does it cost?</summary><p>It depends on the size of your property, the system you need and how bad the problem is. After we evaluate the property, you get a detailed estimate, and we can discuss financing options if you need them.</p></details>
+      <details><summary>How long does installation take?</summary><p>It depends on the scope of work, but generally 1 to 5 days.</p></details>
+      <details><summary>What warranty do you offer?</summary><p>5 years on both labor and the materials in your drainage system.</p></details>
+      <details><summary>What pipe and drains do you use?</summary><p>ADS double-wall pipe in varying sizes, with NDS catch basins, pop-up emitters and channel drains, plus French drains, flow wells and downspout extensions.</p></details>
+      <details><summary>Can these systems get clogged?</summary><p>Yes, and they can almost always be unclogged if the system is inspected and maintained. We offer annual maintenance plans on all our systems.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="contact dark" id="contact" aria-labelledby="cH">
+  <div class="wrap cgrid">
+    <div class="side">
+      <span class="kick">Free consultation</span>
+      <h2 id="cH">Tell us where the water goes.</h2>
+      <p>Send this and your phone opens a text to our team with everything written. We’ll call to schedule your walk-through promptly.</p>
+      <a class="big tnum" href="tel:+14049569727">404-956-9727</a>
+      <p style="margin-top:8px"><a href="mailto:contact@atldrainpros.com" style="color:#fff">contact@atldrainpros.com</a></p>
+      <div class="hours"><div><b>Mon–Fri</b><span>8:00 am – 6:00 pm</span></div><div><b>Saturday</b><span>9:00 am – 5:00 pm</span></div><div><b>Sunday</b><span>Closed</span></div></div>
+    </div>
+    <form class="f" id="inq" novalidate>
+      <div class="fld"><label for="i-first">First name</label><input id="i-first" name="first" autocomplete="given-name" placeholder="Jordan…" aria-describedby="e-first"><p class="err" id="e-first"></p></div>
+      <div class="fld"><label for="i-last">Last name</label><input id="i-last" name="last" autocomplete="family-name" placeholder="Smith…"></div>
+      <div class="fld"><label for="i-phone">Phone</label><input id="i-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(678) 555-0142…" aria-describedby="e-phone"><p class="err" id="e-phone"></p></div>
+      <div class="fld"><label for="i-email">Email</label><input id="i-email" name="email" type="email" autocomplete="email" spellcheck="false" placeholder="you@example.com…"></div>
+      <div class="fld full"><label for="i-addr">Address</label><input id="i-addr" name="address" autocomplete="street-address" placeholder="Street, city…" aria-describedby="e-addr"><p class="err" id="e-addr"></p></div>
+      <fieldset class="fld full"><legend>Check all that apply</legend><div class="checks" id="checks"></div></fieldset>
+      <div class="fld full"><label for="i-notes">What are you seeing?</label><textarea id="i-notes" name="notes" autocomplete="off" placeholder="Water pools by the back patio every time it rains…"></textarea></div>
+      <div class="acts"><button class="btn btn-ink" type="submit">Text My Request</button><a class="btn" style="border-color:#c9d2da" href="tel:+14049569727">Call Instead</a></div>
+      <p class="fine">Nothing is sent until you press send in your messages app.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="row"><span>Atlanta Drainage Professionals · Your local storm water management specialists</span><span><a href="tel:+14049569727" class="tnum">404-956-9727</a> · <a href="https://www.instagram.com/atldrainpros/" target="_blank" rel="noopener">Instagram @atldrainpros</a></span></div>
+    <p class="concept">Concept redesign prepared for Atlanta Drainage Professionals. Not the official site. Photos, services and reviews come from atldrainpros.com.</p>
+  </div>
+</footer>
+<div class="dock"><a class="btn btn-line" style="color:#fff" href="tel:+14049569727">Call</a><a class="btn btn-sky" href="#contact">Free Design Plan</a></div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const SV = {
+    french:{t:'French drains', d:'Perforated pipe in gravel that dries out consistently soggy areas.', img:'french-drain.jpg'},
+    basin:{t:'Catch basins', d:'Collection points where surface water enters the system; they double as access points.', img:'catch-basin.jpg'},
+    creek:{t:'Dry creek beds', d:'River rock that slows storm water, controls erosion and sends it where you want.', img:'dry-creek.jpg'},
+    channel:{t:'Channel drains', d:'Slim grates in front of garages and doorways that catch water running off pavement.', img:'channel-drain-door.jpg'},
+    wall:{t:'Retaining walls', d:'Hold back slopes and slow and redirect storm water.', img:'timber-wall.jpg'},
+    downspout:{t:'Downspout extensions', d:'Gutter water piped underground and away from the house.', img:'downspout-run.jpg'},
+    turf:{t:'Artificial turf', d:'Drains through its backing: no mud, no puddles, no bare spots.', img:'turf-green.jpg'},
+    flow:{t:'Flow wells', d:'Capture runoff and let it soak back into the ground away from the house.', img:'flow-well.jpg'},
+    emitter:{t:'NDS pop-up emitters', d:'Where the pipe surfaces and releases water out in the yard.', img:'pop-up-emitter.jpg'},
+    backfill:{t:'Backfill restoration', d:'Rebuilds the slope around the house so water drains away from the foundation.', img:'excavation.jpg'},
+    clean:{t:'Drain cleaning', d:'A pressurized flush that clears debris and blockages from existing lines.', img:'pipe.jpg'},
+    plants:{t:'Sod, plants & finishing', d:'Roots and ground cover that hold soil in place and finish the job.', img:'finished-path.jpg'}
+  };
+  const P = [
+    {id:'soggy', t:'Standing water or a lawn that stays soggy', s:['french','basin','flow'], c:'Drainage'},
+    {id:'basement', t:'Water in the basement or crawl space', s:['downspout','backfill','french'], c:'Water in basement'},
+    {id:'foundation', t:'Water pooling against the foundation', s:['backfill','downspout','basin'], c:'Drainage'},
+    {id:'erosion', t:'Mulch and soil washing out, erosion on a slope', s:['creek','wall','plants'], c:'Erosion'},
+    {id:'garage', t:'Water running into the garage or across the patio', s:['channel','basin','emitter'], c:'Drainage'},
+    {id:'gutters', t:'Downspouts dumping right next to the house', s:['downspout','emitter','flow'], c:'Drainage'},
+    {id:'mud', t:'Muddy, bare spots where grass won’t grow', s:['turf','french','plants'], c:'Landscaping/Other'},
+    {id:'clogged', t:'An existing drain that’s backing up', s:['clean','basin','french'], c:'Drain Cleaning'}
+  ];
+  $('probs').insertAdjacentHTML('beforeend', P.map((p, i) => `<label class="prob"><input type="radio" name="prob" value="${p.id}"${i === 0 ? ' checked' : ''}>${p.t}</label>`).join(''));
+  $('sgrid').innerHTML = ['french','basin','creek','channel','wall','downspout','turf','flow'].map(k => `<article class="svc"><img src="assets/${SV[k].img}" width="1125" height="1500" loading="lazy" alt="${SV[k].t} installed by Atlanta Drainage Professionals"><div><h3>${SV[k].t}</h3><p>${SV[k].d}</p></div></article>`).join('');
+  let cur = P[0];
+  function show(id) {
+    cur = P.find(p => p.id === id) || P[0];
+    const [a, b] = cur.s;
+    $('answer').innerHTML = `<div class="ph"><img src="assets/${SV[a].img}" width="1125" height="1500" alt="${SV[a].t}"><img src="assets/${SV[b].img}" width="1125" height="1500" alt="${SV[b].t}"></div>
+      <div class="body"><span class="kick">What usually fixes it</span><h3>${cur.t}</h3>
+      <ol>${cur.s.map(k => `<li><div><b>${SV[k].t}</b><span>${SV[k].d}</span></div></li>`).join('')}</ol>
+      <div class="acts"><a class="btn btn-ink" href="#contact" id="addFix">Add to My Free Consultation</a><a class="btn btn-sky" href="tel:+14049569727">Call or Text</a></div>
+      <p class="done" id="fixDone"></p></div>`;
+  }
+  $('probs').addEventListener('change', e => { if (e.target.name === 'prob') show(e.target.value); });
+  show('soggy');
+
+  /* Consultation form -> text message (their site says Call or Text) */
+  const C = ['Drainage', 'Erosion', 'Water in basement', 'Drain Cleaning', 'Landscaping/Other'];
+  $('checks').innerHTML = C.map(c => `<label><input type="checkbox" name="need" value="${c}">${c}</label>`).join('');
+  document.addEventListener('click', e => {
+    if (e.target.id !== 'addFix') return;
+    document.querySelectorAll('input[name="need"]').forEach(i => { if (i.value === cur.c) i.checked = true; });
+    const n = $('i-notes'), line = 'I’m seeing: ' + cur.t.toLowerCase() + '.';
+    if (!n.value.includes(line)) n.value = n.value ? n.value + '\n' + line : line;
+    setTimeout(() => $('i-first').focus({preventScroll:true}), 500);
+  });
+  const err = (id, m) => { $('e-' + id).textContent = m || ''; m ? $('i-' + id).setAttribute('aria-invalid', 'true') : $('i-' + id).removeAttribute('aria-invalid'); return !m; };
+  $('inq').addEventListener('submit', ev => {
+    ev.preventDefault();
+    const v = id => $('i-' + id).value.trim(), digits = v('phone').replace(/\D/g, '');
+    const bad = [
+      ['first', v('first') ? '' : 'Add your first name so we know who to ask for.'],
+      ['phone', (digits.length === 10 || (digits.length === 11 && digits[0] === '1')) ? '' : 'Add a 10-digit phone number so we can call to schedule.'],
+      ['addr', v('addr') ? '' : 'Add your address so we can plan the walk-through.']
+    ].filter(([id, m]) => !err(id, m)).map(([id]) => id);
+    if (bad.length) { $('i-' + bad[0]).focus(); return; }
+    const needs = [...document.querySelectorAll('input[name="need"]:checked')].map(i => i.value).join(', ') || 'Not sure';
+    const body = `Hi Atlanta Drainage Professionals, I'd like a free consultation.\nName: ${v('first')} ${v('last')}\nPhone: ${v('phone')}${v('email') ? '\nEmail: ' + v('email') : ''}\nAddress: ${v('addr')}\nNeeds: ${needs}${v('notes') ? '\nDetails: ' + v('notes') : ''}`;
+    const sep = /iPhone|iPad|Mac/.test(navigator.userAgent) ? '&' : '?';
+    location.href = 'sms:+14049569727' + sep + 'body=' + encodeURIComponent(body);
+  });
+  ['first','phone','addr'].forEach(id => $('i-' + id).addEventListener('input', () => err(id, '')));
+})();
+</script>
+</body>
+</html>
