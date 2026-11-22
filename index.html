@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gleam Pro Clean · House, Airbnb & Office Cleaning in Atlanta</title>
+<meta name="description" content="Meticulous, on-time home, Airbnb and office cleaning across metro Atlanta from Nayane and her team. Free estimates. Call or text (470) 659-2815.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2b1d33">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=Parisienne&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/logo.png">
+<style>
+/* Gleam's own identity, from her Instagram: logo purple (#A4529C), plum ink, wide spaced capitals,
+   one script accent ("better days"), sparkle-and-line dividers. Her real before/after photos carry the page. */
+:root{
+  --plum:#a4529c; --ink:#2b1d33; --paper:#fdfbfd;
+  --mist:#f5eef6; --line:#e6dbe8; --muted:#64576b; --muted-d:rgba(255,255,255,.76); --line-d:rgba(255,255,255,.16); --plum-dk:#7d3a77; --plum-lt:#e9c6e4;
+  --f:"Jost","Helvetica Neue",Arial,system-ui,sans-serif; --script:"Parisienne","Brush Script MT",cursive;
+  --wrap:1200px; --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.65 var(--f);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block;height:auto}
+a{color:inherit}
+h1,h2,h3{font-weight:500;text-transform:uppercase;letter-spacing:.06em;line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0;text-wrap:pretty}
+.wrap{width:min(var(--wrap),100% - 32px);margin-inline:auto}
+.script{font-family:var(--script);text-transform:none;letter-spacing:0;font-weight:400;color:var(--plum)}
+.kick{display:inline-flex;align-items:center;gap:10px;font-weight:500;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--plum-dk)}
+.kick::before{content:"✦";color:var(--plum);font-size:.9rem;letter-spacing:0}
+.dark .kick{color:var(--plum-lt)}.dark .kick::before{color:var(--plum-lt)}
+.skip{position:absolute;left:12px;top:-60px;background:var(--ink);color:#fff;padding:10px 14px;z-index:100}
+.skip:focus{top:12px}
+:focus-visible{outline:3px solid var(--plum);outline-offset:3px;border-radius:4px}
+section[id]{scroll-margin-top:84px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:52px;padding:0 1.5em;border-radius:999px;font:500 .95rem/1 var(--f);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:1.5px solid transparent;cursor:pointer;transition:background-color .2s,color .2s,border-color .2s}
+.btn-plum{background:var(--plum-dk);color:#fff}
+.btn-plum:hover{background:#63285e}
+.btn-line{border-color:currentColor;background:transparent;color:inherit}
+.btn-line:hover{background:rgba(164,82,156,.08)}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* Header */
+.top{position:sticky;top:0;z-index:50;background:rgba(253,251,253,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top)}
+.top .bar{display:flex;align-items:center;gap:18px;min-height:74px}
+.logo img{height:46px;width:auto}
+.nav{display:flex;gap:2px;margin-left:auto}
+.nav a{padding:10px 11px;font-size:.88rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--muted);transition:color .2s}
+.nav a:hover{color:var(--plum-dk)}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px}
+.lang button{all:unset;cursor:pointer;font:500 .78rem/1 var(--f);letter-spacing:.08em;padding:9px 11px;border-radius:999px;color:var(--muted)}
+.lang button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.lang button:focus-visible{outline:3px solid var(--plum);outline-offset:2px}
+.top .btn{min-height:44px;font-size:.8rem}
+@media (max-width:1080px){.nav{display:none}.lang{margin-left:auto}}
+@media (max-width:560px){.top .btn{display:none}.logo img{height:38px}}
+
+/* Hero */
+.hero{padding-block:clamp(36px,6vw,80px) clamp(48px,6vw,88px);background:linear-gradient(180deg,var(--mist),var(--paper))}
+.hgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:center}
+.hero h1{font-size:clamp(2.4rem,1.4rem + 3.6vw,4.4rem);margin-top:16px}
+.hero h1 .script{display:block;font-size:1.25em;line-height:1;margin-top:.1em}
+.divider{display:flex;align-items:center;gap:12px;margin:22px 0;color:var(--plum);max-width:340px}
+.divider::after{content:"";flex:1;height:1px;background:var(--plum);opacity:.5}
+.hero .lede{font-size:1.15rem;color:var(--muted);max-width:32rem}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.hero .note{margin-top:16px;font-size:.92rem;color:var(--muted)}
+.wipe{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:1;background:#ddd;box-shadow:0 30px 60px -30px rgba(43,29,51,.45)}
+.wipe img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.wipe .after{clip-path:inset(0 0 0 var(--cut,100%))}
+.wipe .edge{position:absolute;top:0;bottom:0;left:var(--cut,100%);width:3px;margin-left:-1.5px;background:#fff;box-shadow:0 0 18px rgba(255,255,255,.9)}
+.wipe .edge::after{content:"✦";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:1.6rem;text-shadow:0 0 12px rgba(164,82,156,.9)}
+.wipe .tag{position:absolute;top:14px;padding:6px 12px;border-radius:999px;font-size:.74rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;background:rgba(43,29,51,.78);color:#fff}
+.wipe .tb{left:14px}.wipe .ta{right:14px;background:rgba(125,58,119,.92)}
+.wipe .cap{position:absolute;left:14px;bottom:14px;right:70px;color:#fff;font-weight:500;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.wipe .pause{position:absolute;right:12px;bottom:12px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:var(--ink);cursor:pointer;display:grid;place-items:center}
+.wipe .pause svg{width:18px;height:18px}
+@media (max-width:860px){.hgrid{grid-template-columns:1fr}.wipe{max-width:520px}}
+
+/* Trust */
+.trust{border-block:1px solid var(--line);background:#fff}
+.trust ul{list-style:none;margin:0 auto;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+.trust li{padding:18px 14px;display:flex;gap:10px;align-items:flex-start;font-size:.95rem;border-left:1px solid var(--line)}
+.trust li:first-child{border-left:0;padding-left:0}
+.trust li::before{content:"✦";color:var(--plum)}
+@media (max-width:980px){.trust ul{grid-template-columns:1fr 1fr}.trust li{border-left:0;padding-left:0}}
+
+/* Finder */
+.sec{padding-block:clamp(64px,8vw,112px)}
+.head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:14px 56px;align-items:end;margin-bottom:clamp(26px,4vw,40px)}
+.head h2{font-size:clamp(1.8rem,1.2rem + 2.2vw,3rem);margin-top:12px}
+.head h2 .script{font-size:1.2em}
+.head p{color:var(--muted);font-size:1.08rem}
+@media (max-width:860px){.head{grid-template-columns:1fr}}
+.fgrid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:22px;align-items:start}
+.sits{display:grid;gap:8px;margin:0;padding:0;border:0}
+.sits legend{padding:0;margin-bottom:10px;font-weight:500}
+.sit{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fff;border:1.5px solid var(--line);border-radius:14px;cursor:pointer;font-weight:500;min-height:56px;transition:border-color .2s,background-color .2s}
+.sit:hover{border-color:var(--plum)}
+.sit input{accent-color:var(--plum-dk);width:18px;height:18px;margin:0;flex:none}
+.sit:has(input:checked){background:var(--ink);border-color:var(--ink);color:#fff}
+.sit:has(input:focus-visible){outline:3px solid var(--plum);outline-offset:2px}
+.result{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;position:sticky;top:96px}
+.result img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.result .body{padding:22px;display:grid;gap:12px}
+.result h3{font-size:1.4rem}
+.result p{color:var(--muted)}
+.result .acts{display:flex;flex-wrap:wrap;gap:10px}
+@media (max-width:860px){.fgrid{grid-template-columns:1fr}.result{position:static}}
+
+/* Before & after */
+.ba{background:var(--ink);color:#fff}
+.ba .head p{color:var(--muted-d)}
+.bgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.slider{margin:0}
+.slider .frame{position:relative;aspect-ratio:1;border-radius:16px;overflow:hidden;--pos:50%;background:#222}
+.slider img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slider .a{clip-path:inset(0 0 0 var(--pos))}
+.slider .knob{position:absolute;top:0;bottom:0;left:var(--pos);width:2px;margin-left:-1px;background:#fff;pointer-events:none}
+.slider .knob::after{content:"⟷";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:#fff;color:var(--ink);display:grid;place-items:center;font-size:1rem}
+.slider input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.slider input:focus-visible + .knob::after{outline:3px solid var(--plum-lt);outline-offset:2px}
+.slider .lb,.slider .la{position:absolute;top:10px;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:5px 9px;border-radius:999px;background:rgba(0,0,0,.6);pointer-events:none}
+.slider .lb{left:10px}.slider .la{right:10px;background:rgba(125,58,119,.9)}
+.slider figcaption{margin-top:10px;color:var(--muted-d);font-size:.95rem}
+.details{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.3fr);gap:18px;align-items:center;margin-top:26px;padding-top:26px;border-top:1px solid var(--line-d)}
+.details img{border-radius:14px;aspect-ratio:1;object-fit:cover;width:100%}
+.details h3{font-size:1.2rem}
+.details p{color:var(--muted-d);margin-top:8px}
+.gsrc{margin-top:18px;color:var(--muted-d);font-size:.88rem}
+@media (max-width:900px){.bgrid{grid-template-columns:1fr 1fr}.details{grid-template-columns:1fr 1fr}.details div{grid-column:1/-1}}
+@media (max-width:520px){.bgrid{grid-template-columns:1fr}}
+
+/* Team */
+.tgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.member{margin:0;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.member img{width:100%;aspect-ratio:1;object-fit:cover}
+.member figcaption{padding:16px 18px}
+.member b{display:block;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+.member span{display:block;color:var(--muted);font-size:.92rem}
+.member.lead{border-color:var(--plum)}
+.member.lead b::after{content:" ✦";color:var(--plum)}
+.tnote{margin-top:18px;color:var(--muted)}
+@media (max-width:900px){.tgrid{grid-template-columns:1fr 1fr}}
+
+/* Reviews */
+.reviews{background:var(--mist)}
+.rgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.rev{margin:0;background:#fff;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;border:1px solid var(--line)}
+.rev .stars{color:var(--plum);letter-spacing:.15em}
+.rev blockquote{margin:0;font-size:1.05rem}
+.rev figcaption{margin-top:auto;font-weight:500;letter-spacing:.06em;text-transform:uppercase;font-size:.85rem;color:var(--plum-dk)}
+.racts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+@media (max-width:900px){.rgrid{grid-template-columns:1fr}}
+
+/* Areas + FAQ */
+.chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+.chips li{padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:.95rem}
+.faq{display:grid;gap:10px;max-width:880px}
+details{background:#fff;border:1px solid var(--line);border-radius:14px}
+summary{cursor:pointer;list-style:none;padding:18px 52px 18px 20px;font-weight:500;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:1.4rem;color:var(--plum)}
+details[open] summary::after{content:"–"}
+details p{padding:0 20px 20px;color:var(--muted)}
+
+/* Contact */
+.contact{background:var(--ink);color:#fff}
+.cgrid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:40px 64px;align-items:start}
+.contact h2{font-size:clamp(1.8rem,1.2rem + 2.2vw,3rem);margin-top:12px}
+.contact .side p{color:var(--muted-d);margin-top:16px}
+.big{display:inline-block;margin-top:22px;font-size:clamp(1.8rem,1.3rem + 1.6vw,2.5rem);font-weight:500;letter-spacing:.04em;color:#fff;text-decoration:none;border-bottom:2px solid var(--plum)}
+.hours{margin-top:24px;border-top:1px solid var(--line-d)}
+.hours div{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line-d);color:var(--muted-d)}
+.hours b{color:#fff;font-weight:500}
+form.f{background:#fff;color:var(--ink);border-radius:20px;padding:clamp(20px,3vw,32px);display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fld{display:grid;gap:6px;min-width:0}
+.fld.full{grid-column:1/-1}
+.fld label{font-weight:500;font-size:.9rem}
+.fld input,.fld select,.fld textarea{font:inherit;font-size:1rem;color:var(--ink);background:#fff;border:1.5px solid #d8cbdb;border-radius:12px;padding:11px 13px;min-height:48px;width:100%}
+.fld select{background-color:#fff;color:var(--ink)}
+.fld textarea{min-height:90px;resize:vertical}
+.fld input:focus-visible,.fld select:focus-visible,.fld textarea:focus-visible{outline:none;border-color:var(--plum-dk);box-shadow:0 0 0 3px rgba(164,82,156,.28)}
+.fld [aria-invalid="true"]{border-color:#b3261e}
+.err{color:#b3261e;font-size:.86rem;font-weight:500}
+.err:empty{display:none}
+.f .acts{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:10px}
+.f .fine{grid-column:1/-1;font-size:.84rem;color:var(--muted)}
+@media (max-width:860px){.cgrid{grid-template-columns:1fr}}
+@media (max-width:520px){form.f{grid-template-columns:1fr}}
+
+footer{background:var(--ink);color:var(--muted-d);border-top:1px solid var(--line-d);padding-block:34px calc(34px + env(safe-area-inset-bottom));font-size:.9rem}
+footer .row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px}
+footer a{color:#fff}
+.concept{margin-top:14px;font-size:.78rem;opacity:.8}
+.dock{display:none}
+@media (max-width:720px){.dock{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(43,29,51,.96)}.dock .btn{min-height:50px;font-size:.82rem}body{padding-bottom:76px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-t="skip">Skip to content</a>
+<header class="top">
+  <div class="wrap bar">
+    <a class="logo" href="#main" aria-label="Gleam Pro Clean, home"><img src="assets/logo.png" width="138" height="46" alt="Gleam Pro Clean"></a>
+    <nav class="nav" aria-label="Main"><a href="#finder" data-t="nServices">Services</a><a href="#results" data-t="nResults">Before &amp; After</a><a href="#team" data-t="nTeam">Team</a><a href="#reviews" data-t="nReviews">Reviews</a><a href="#faq" data-t="nFaq">FAQ</a></nav>
+    <div class="lang" role="group" aria-label="Language / Idioma"><button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button><button type="button" data-lang="pt" lang="pt-BR" aria-pressed="false">PT</button></div>
+    <a class="btn btn-plum" href="https://gleamproclean.com/calculator" target="_blank" rel="noopener" data-t="instant">Instant Price</a>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" aria-labelledby="h1">
+  <div class="wrap hgrid">
+    <div>
+      <span class="kick" data-t="eyebrow">House · Airbnb · Office cleaning in Atlanta</span>
+      <h1 id="h1"><span data-t="h1a">Clean spaces,</span> <span class="script" data-t="h1b">better days.</span></h1>
+      <div class="divider" aria-hidden="true">✦</div>
+      <p class="lede" data-t="lede">Meticulous, on-time cleaning for homes, Airbnbs and offices across metro Atlanta, from Nayane and a team you’ll get to know by name.</p>
+      <div class="ctas">
+        <a class="btn btn-plum" href="https://gleamproclean.com/calculator" target="_blank" rel="noopener" data-t="ctaPrice">Get My Instant Price</a>
+        <a class="btn btn-line" href="tel:+14706592815"><span data-t="ctaCall">Call or Text</span>&nbsp;<span class="tnum">(470) 659-2815</span></a>
+      </div>
+      <p class="note" data-t="heroNote">Free estimates · Insured &amp; bonded · 100% rework guarantee</p>
+    </div>
+    <figure class="wipe" id="wipe" style="margin:0" aria-roledescription="before and after" aria-label="Before and after photos of real Gleam Pro Clean jobs">
+      <img id="wB" src="assets/ba-oven-before.jpg" width="588" height="584" alt="">
+      <img id="wA" class="after" src="assets/ba-oven-after.jpg" width="588" height="584" alt="">
+      <span class="edge" aria-hidden="true"></span>
+      <span class="tag tb" data-t="before">Before</span><span class="tag ta" data-t="after">After</span>
+      <figcaption class="cap" id="wCap" aria-live="off"></figcaption>
+      <button class="pause" id="wPause" type="button" aria-pressed="false" aria-label="Pause slideshow"><svg viewBox="0 0 24 24" aria-hidden="true"><path id="wIcon" fill="currentColor" d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
+    </figure>
+  </div>
+</section>
+
+<div class="trust"><ul class="wrap">
+  <li data-t="t1">Insured &amp; bonded</li><li data-t="t2">Background-checked team</li><li data-t="t3">Eco-friendly, family-safe products</li><li data-t="t4">100% rework guarantee</li><li data-t="t5">Text updates before we arrive</li>
+</ul></div>
+
+<section class="sec" id="finder" aria-labelledby="fH">
+  <div class="wrap">
+    <div class="head"><div><span class="kick" data-t="fK">Our services</span><h2 id="fH"><span data-t="fH1">Which clean</span> <span class="script" data-t="fH2">do I need?</span></h2></div><p data-t="fP">Tell us what’s going on and we’ll point you to the right service. Then get an instant price or send us a text.</p></div>
+    <div class="fgrid">
+      <fieldset class="sits" id="sits"><legend data-t="fL">My home or space is…</legend></fieldset>
+      <div class="result" id="result" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec ba dark" id="results" aria-labelledby="bH">
+  <div class="wrap">
+    <div class="head"><div><span class="kick" data-t="bK">The Gleam difference</span><h2 id="bH"><span data-t="bH1">Real homes.</span> <span class="script" style="color:var(--plum-lt)" data-t="bH2">Real results.</span></h2></div><p data-t="bP">Drag each slider to compare. Every photo is from a Gleam Pro Clean job, not stock.</p></div>
+    <div class="bgrid" id="bgrid"></div>
+    <div class="details">
+      <img src="assets/ba-details-d1.jpg" width="588" height="584" loading="lazy" alt="A candle and a fan-folded tissue on a freshly cleaned bathroom counter" data-t-alt="d1Alt">
+      <img src="assets/ba-details-d2.jpg" width="588" height="584" loading="lazy" alt="A paper towel roll finished with a folded bow on a clean kitchen counter" data-t-alt="d2Alt">
+      <div><h3 data-t="dH">The finishing touch</h3><p data-t="dP">Folded ends, staged counters, a room that feels cared for. It’s the detail clients mention in their reviews.</p></div>
+    </div>
+    <p class="gsrc" data-t="gsrc">Photos from Gleam Pro Clean’s Google business profile.</p>
+  </div>
+</section>
+
+<section class="sec" id="team" aria-labelledby="tH">
+  <div class="wrap">
+    <div class="head"><div><span class="kick" data-t="tK">Meet the team</span><h2 id="tH"><span data-t="tH1">You’ll know us</span> <span class="script" data-t="tH2">by name.</span></h2></div><p data-t="tP">Every team member is background-checked, bonded and trained to the same standard. We keep the same team on your home whenever we can.</p></div>
+    <div class="tgrid">
+      <figure class="member lead"><img src="assets/team-nayane.jpg" width="640" height="639" loading="lazy" alt="Nayane, owner of Gleam Pro Clean, in a purple Gleam polo"><figcaption><b>Nayane</b><span data-t="rOwner">Owner · Cleaning specialist</span></figcaption></figure>
+      <figure class="member"><img src="assets/team-anna.jpg" width="640" height="641" loading="lazy" alt="Anna Rafaella in a purple Gleam polo"><figcaption><b>Anna Rafaella</b><span data-t="rSpec">Cleaning specialist</span></figcaption></figure>
+      <figure class="member"><img src="assets/team-andreia.jpg" width="640" height="640" loading="lazy" alt="Andréia Lima in a purple Gleam polo"><figcaption><b>Andréia Lima</b><span data-t="rSpec">Cleaning specialist</span></figcaption></figure>
+      <figure class="member"><img src="assets/team-tayna.jpg" width="640" height="639" loading="lazy" alt="Tayna Alvez in a purple Gleam polo"><figcaption><b>Tayna Alvez</b><span data-t="rSpec">Cleaning specialist</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="sec reviews" id="reviews" aria-labelledby="rH">
+  <div class="wrap">
+    <div class="head"><div><span class="kick" data-t="rK">Google reviews</span><h2 id="rH"><span data-t="rH1">What clients</span> <span class="script" data-t="rH2">say.</span></h2></div><p data-t="rP">Reviews shown in their original English.</p></div>
+    <div class="rgrid" lang="en">
+      <figure class="rev"><span class="stars" aria-label="5 stars">★★★★★</span><blockquote>“Nayane and her team are amazing! We love the way they clean and their attention to detail is impeccable!”</blockquote><figcaption>Margo &amp; Reginald J.</figcaption></figure>
+      <figure class="rev"><span class="stars" aria-label="5 stars">★★★★★</span><blockquote>“These guys have been coming to me for close to 2 years and I am so happy with Nayane and team. The team is always so polite and considerate of noise with my newborn.”</blockquote><figcaption>Minna K.</figcaption></figure>
+      <figure class="rev"><span class="stars" aria-label="5 stars">★★★★★</span><blockquote>“Very reliable cleaning service. Meticulous cleaning. On time. Efficient. Send texts updates about arrival times and reminders.”</blockquote><figcaption>Mona S.</figcaption></figure>
+      <figure class="rev"><span class="stars" aria-label="5 stars">★★★★★</span><blockquote>“Gleam Pro Clean does a great job cleaning my houses before tenants and guests arrive. They are very reliable, professional, and always make sure everything is ready on time.”</blockquote><figcaption>Bardia Z.</figcaption></figure>
+      <figure class="rev"><span class="stars" aria-label="5 stars">★★★★★</span><blockquote>“Especially thanks to Nayane’s excellent service. Everything was handled with professionalism, attention to detail, and care.”</blockquote><figcaption>Ed S.</figcaption></figure>
+      <figure class="rev"><span class="stars" aria-label="5 stars">★★★★★</span><blockquote>“She is incredibly patient and thorough, taking her time to ensure every corner of the house is spotless and fresh!”</blockquote><figcaption>DeeDee P.</figcaption></figure>
+    </div>
+    <div class="racts"><a class="btn btn-plum" href="https://www.google.com/maps?ftid=0x4b58756dc7d6bf1:0xfa7f67d160498fb1" target="_blank" rel="noopener" data-t="readG">Read Our Google Reviews</a></div>
+  </div>
+</section>
+
+<section class="sec" aria-labelledby="aH" style="padding-top:0">
+  <div class="wrap">
+    <div class="head"><div><span class="kick" data-t="aK">Service areas</span><h2 id="aH" data-t="aH">24 cities across metro Atlanta</h2></div><p data-t="aP">Don’t see yours? Text us. We may still cover it.</p></div>
+    <ul class="chips" translate="no">
+      <li>Acworth</li><li>Alpharetta</li><li>Atlanta</li><li>Cartersville</li><li>Chamblee</li><li>College Park</li><li>Dallas</li><li>Decatur</li><li>Doraville</li><li>Duluth</li><li>Dunwoody</li><li>East Point</li><li>Fayetteville</li><li>Kennesaw</li><li>Lithonia</li><li>Loganville</li><li>Mableton</li><li>Marietta</li><li>Peachtree City</li><li>Roswell</li><li>Sandy Springs</li><li>Smyrna</li><li>Sugar Hill</li><li>Woodstock</li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec" id="faq" aria-labelledby="qH" style="padding-top:0">
+  <div class="wrap">
+    <div class="head"><div><span class="kick" data-t="qK">Questions</span><h2 id="qH" data-t="qH">Good to know</h2></div></div>
+    <div class="faq" id="faqList"></div>
+  </div>
+</section>
+
+<section class="sec contact dark" id="contact" aria-labelledby="cH">
+  <div class="wrap cgrid">
+    <div class="side">
+      <span class="kick" data-t="cK">Free estimate</span>
+      <h2 id="cH" data-t="cH">Tell us about your space</h2>
+      <p data-t="cP">Send this and your phone opens a text to Nayane with everything written for you. Want a number right now? Use the instant price calculator.</p>
+      <a class="big tnum" href="tel:+14706592815">(470) 659-2815</a>
+      <p style="margin-top:10px"><a href="mailto:Cleaningnayane@gmail.com" style="color:#fff">Cleaningnayane@gmail.com</a></p>
+      <div class="hours"><div><b data-t="hMF">Mon–Fri</b><span>7:00 am – 7:00 pm</span></div><div><b data-t="hSat">Saturday</b><span>8:00 am – 5:00 pm</span></div><div><b data-t="hSun">Sunday</b><span data-t="closed">Closed</span></div></div>
+    </div>
+    <form class="f" id="inq" novalidate>
+      <div class="fld"><label for="i-name" data-t="fName">Your name</label><input id="i-name" name="name" autocomplete="name" placeholder="Jordan Smith…" aria-describedby="e-name"><p class="err" id="e-name"></p></div>
+      <div class="fld"><label for="i-phone" data-t="fPhone">Phone</label><input id="i-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(470) 555-0123…" aria-describedby="e-phone"><p class="err" id="e-phone"></p></div>
+      <div class="fld full"><label for="i-svc" data-t="fSvc">Service</label><select id="i-svc" name="service" autocomplete="off"></select></div>
+      <div class="fld"><label for="i-bed" data-t="fBed">Bedrooms</label><select id="i-bed" name="bed" autocomplete="off"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5+</option></select></div>
+      <div class="fld"><label for="i-bath" data-t="fBath">Bathrooms</label><select id="i-bath" name="bath" autocomplete="off"><option>1</option><option>1.5</option><option selected>2</option><option>2.5</option><option>3</option><option>3.5+</option></select></div>
+      <div class="fld"><label for="i-city" data-t="fCity">City</label><input id="i-city" name="city" autocomplete="address-level2" placeholder="Marietta…" data-t-ph="phCity" aria-describedby="e-city"><p class="err" id="e-city"></p></div>
+      <div class="fld"><label for="i-date" data-t="fDate">Preferred date</label><input id="i-date" name="date" type="date"></div>
+      <div class="fld full"><label for="i-notes" data-t="fNotes">Anything we should know?</label><textarea id="i-notes" name="notes" autocomplete="off" placeholder="Two dogs, gate code, focus on the kitchen…" data-t-ph="phNotes"></textarea></div>
+      <div class="acts"><button class="btn btn-plum" type="submit" data-t="send">Text My Request</button><a class="btn btn-line" href="https://gleamproclean.com/calculator" target="_blank" rel="noopener" data-t="ctaPrice">Get My Instant Price</a></div>
+      <p class="fine" data-t="fine">Nothing is sent until you press send in your messages app.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="row"><span>Gleam Pro Clean · <span data-t="foot">House, Airbnb &amp; office cleaning · Atlanta, GA</span></span><span><a href="tel:+14706592815" class="tnum">(470) 659-2815</a> · <a href="https://www.instagram.com/gleamproclean_/" target="_blank" rel="noopener">Instagram</a></span></div>
+    <p class="concept" data-t="concept">Concept redesign prepared for Gleam Pro Clean. Not the official site. Photos and reviews come from Gleam Pro Clean’s website and Google profile.</p>
+  </div>
+</footer>
+<div class="dock"><a class="btn btn-line" style="color:#fff" href="tel:+14706592815" data-t="dockCall">Call / Text</a><a class="btn btn-plum" href="https://gleamproclean.com/calculator" target="_blank" rel="noopener" data-t="instant">Instant Price</a></div>
+
+<script>
+(() => {
+  const T = {
+    en:{skip:"Skip to content",nServices:"Services",nResults:"Before & After",nTeam:"Team",nReviews:"Reviews",nFaq:"FAQ",instant:"Instant Price",
+      eyebrow:"House · Airbnb · Office cleaning in Atlanta",h1a:"Clean spaces,",h1b:"better days.",
+      lede:"Meticulous, on-time cleaning for homes, Airbnbs and offices across metro Atlanta, from Nayane and a team you’ll get to know by name.",
+      ctaPrice:"Get My Instant Price",ctaCall:"Call or Text",heroNote:"Free estimates · Insured & bonded · 100% rework guarantee",before:"Before",after:"After",
+      pause:"Pause slideshow",play:"Play slideshow",
+      t1:"Insured & bonded",t2:"Background-checked team",t3:"Eco-friendly, family-safe products",t4:"100% rework guarantee",t5:"Text updates before we arrive",
+      fK:"Our services",fH1:"Which clean",fH2:"do I need?",fP:"Tell us what’s going on and we’ll point you to the right service. Then get an instant price or send us a text.",fL:"My home or space is…",
+      bK:"The Gleam difference",bH1:"Real homes.",bH2:"Real results.",bP:"Drag each slider to compare. Every photo is from a Gleam Pro Clean job, not stock.",
+      dH:"The finishing touch",dP:"Folded ends, staged counters, a room that feels cared for. It’s the detail clients mention in their reviews.",gsrc:"Photos from Gleam Pro Clean’s Google business profile.",
+      d1Alt:"A candle and a fan-folded tissue on a freshly cleaned bathroom counter",d2Alt:"A paper towel roll finished with a folded bow on a clean kitchen counter",
+      tK:"Meet the team",tH1:"You’ll know us",tH2:"by name.",tP:"Every team member is background-checked, bonded and trained to the same standard. We keep the same team on your home whenever we can.",
+      rOwner:"Owner · Cleaning specialist",rSpec:"Cleaning specialist",
+      rK:"Google reviews",rH1:"What clients",rH2:"say.",rP:"Reviews shown in their original English.",readG:"Read Our Google Reviews",
+      aK:"Service areas",aH:"24 cities across metro Atlanta",aP:"Don’t see yours? Text us. We may still cover it.",qK:"Questions",qH:"Good to know",
+      cK:"Free estimate",cH:"Tell us about your space",cP:"Send this and your phone opens a text to Nayane with everything written for you. Want a number right now? Use the instant price calculator.",
+      hMF:"Mon–Fri",hSat:"Saturday",hSun:"Sunday",closed:"Closed",
+      fName:"Your name",fPhone:"Phone",fSvc:"Service",fBed:"Bedrooms",fBath:"Bathrooms",fCity:"City",phCity:"Marietta…",fDate:"Preferred date",fNotes:"Anything we should know?",phNotes:"Two dogs, gate code, focus on the kitchen…",
+      send:"Text My Request",fine:"Nothing is sent until you press send in your messages app.",foot:"House, Airbnb & office cleaning · Atlanta, GA",dockCall:"Call / Text",
+      concept:"Concept redesign prepared for Gleam Pro Clean. Not the official site. Photos and reviews come from Gleam Pro Clean’s website and Google profile.",
+      eName:"Add your name so we know who to text back.",ePhone:"Add a 10-digit phone number so we can confirm your estimate.",eCity:"Add your city so we can check your area.",
+      msg:"Hi Nayane! I'd like a free cleaning estimate.",mName:"Name",mPhone:"Phone",mSvc:"Service",mSize:"Home",mBed:"bed",mBath:"bath",mCity:"City",mDate:"Preferred date",mNotes:"Notes",
+      sendPrice:"Get My Instant Price",textUs:"Text Us About It"},
+    pt:{skip:"Ir para o conteúdo",nServices:"Serviços",nResults:"Antes e Depois",nTeam:"Equipe",nReviews:"Avaliações",nFaq:"Dúvidas",instant:"Preço na Hora",
+      eyebrow:"Limpeza de casas · Airbnb · Escritórios em Atlanta",h1a:"Espaços limpos,",h1b:"dias melhores.",
+      lede:"Limpeza caprichada e pontual para casas, Airbnbs e escritórios na região de Atlanta, feita pela Nayane e por uma equipe que você vai conhecer pelo nome.",
+      ctaPrice:"Ver Meu Preço na Hora",ctaCall:"Ligue ou Mande Mensagem",heroNote:"Orçamento grátis · Seguro e garantia · Refazemos 100% se algo faltar",before:"Antes",after:"Depois",
+      pause:"Pausar apresentação",play:"Continuar apresentação",
+      t1:"Com seguro e garantia",t2:"Equipe com antecedentes verificados",t3:"Produtos ecológicos e seguros para a família",t4:"Garantia de refazer 100%",t5:"Avisamos por mensagem antes de chegar",
+      fK:"Nossos serviços",fH1:"Qual limpeza",fH2:"eu preciso?",fP:"Conte o que está acontecendo e indicamos o serviço certo. Depois é só ver o preço na hora ou mandar uma mensagem.",fL:"Minha casa ou espaço está…",
+      bK:"A diferença Gleam",bH1:"Casas reais.",bH2:"Resultados reais.",bP:"Arraste cada controle para comparar. Todas as fotos são de trabalhos da Gleam Pro Clean, não de banco de imagens.",
+      dH:"O toque final",dP:"Pontas dobradas, bancadas organizadas, um ambiente que mostra cuidado. É o detalhe que os clientes citam nas avaliações.",gsrc:"Fotos do perfil da Gleam Pro Clean no Google.",
+      d1Alt:"Uma vela e um lenço dobrado em leque na bancada do banheiro recém-limpa",d2Alt:"Um rolo de papel-toalha com laço dobrado em uma bancada de cozinha limpa",
+      tK:"Conheça a equipe",tH1:"Você vai nos conhecer",tH2:"pelo nome.",tP:"Toda a equipe passa por verificação de antecedentes, tem garantia e é treinada no mesmo padrão. Sempre que possível, mantemos a mesma equipe na sua casa.",
+      rOwner:"Dona · Especialista em limpeza",rSpec:"Especialista em limpeza",
+      rK:"Avaliações no Google",rH1:"O que os clientes",rH2:"dizem.",rP:"Avaliações mostradas no inglês original.",readG:"Ver Avaliações no Google",
+      aK:"Áreas atendidas",aH:"24 cidades na região de Atlanta",aP:"Não achou a sua? Mande uma mensagem. Talvez a gente atenda.",qK:"Dúvidas",qH:"Bom saber",
+      cK:"Orçamento grátis",cH:"Conte sobre o seu espaço",cP:"Envie e o seu celular abre uma mensagem para a Nayane com tudo já escrito. Quer um valor agora? Use a calculadora de preço na hora.",
+      hMF:"Seg–Sex",hSat:"Sábado",hSun:"Domingo",closed:"Fechado",
+      fName:"Seu nome",fPhone:"Telefone",fSvc:"Serviço",fBed:"Quartos",fBath:"Banheiros",fCity:"Cidade",phCity:"Marietta…",fDate:"Data preferida",fNotes:"Algo que devemos saber?",phNotes:"Dois cachorros, código do portão, foco na cozinha…",
+      send:"Enviar Pedido por Mensagem",fine:"Nada é enviado até você tocar em enviar no seu app de mensagens.",foot:"Limpeza de casas, Airbnb e escritórios · Atlanta, GA",dockCall:"Ligar / Mensagem",
+      concept:"Proposta de novo site preparada para a Gleam Pro Clean. Não é o site oficial. Fotos e avaliações vêm do site e do perfil no Google da Gleam Pro Clean.",
+      eName:"Coloque seu nome para sabermos a quem responder.",ePhone:"Coloque um telefone com 10 dígitos para confirmarmos seu orçamento.",eCity:"Coloque sua cidade para verificarmos a área.",
+      msg:"Oi Nayane! Gostaria de um orçamento de limpeza grátis.",mName:"Nome",mPhone:"Telefone",mSvc:"Serviço",mSize:"Casa",mBed:"quartos",mBath:"banheiros",mCity:"Cidade",mDate:"Data preferida",mNotes:"Observações",
+      sendPrice:"Ver Meu Preço na Hora",textUs:"Mandar Mensagem"}
+  };
+  const SVC = {
+    standard:{img:'svc-standard.jpg',en:['Standard Cleaning','Regular upkeep for a home that’s already maintained: bathrooms, kitchen, surfaces, dusting, vacuuming and mopping. Weekly, biweekly or monthly.'],pt:['Limpeza Padrão','Manutenção para casas já bem cuidadas: banheiros, cozinha, superfícies, poeira, aspirar e passar pano. Semanal, quinzenal ou mensal.']},
+    deep:{img:'svc-deep.jpg',en:['Deep Cleaning','Much more detailed, for a home that needs extra attention. We often recommend it before starting recurring cleanings, so the first visit takes longer.'],pt:['Limpeza Pesada','Bem mais detalhada, para casas que precisam de atenção extra. Costumamos recomendar antes de começar as limpezas recorrentes, por isso a primeira visita demora mais.']},
+    move:{img:'svc-move.jpg',en:['Move-In / Move-Out','Designed for empty or partly empty homes, so we reach areas that are normally hard to get to. Inside cabinets is common with this service.'],pt:['Mudança (Entrada/Saída)','Feita para casas vazias ou quase vazias, alcançando áreas normalmente difíceis. Limpar dentro dos armários é comum neste serviço.']},
+    airbnb:{img:'svc-spring.jpg',en:['Airbnb & Rental Turnovers','Your place reset and ready on time before the next guests or tenants arrive.'],pt:['Airbnb e Aluguéis','Seu imóvel pronto e no horário antes da chegada dos próximos hóspedes ou inquilinos.']},
+    commercial:{img:'svc-commercial.jpg',en:['Commercial Cleaning','Offices and commercial spaces, cleaned around your schedule.'],pt:['Limpeza Comercial','Escritórios e espaços comerciais, limpos no horário que funciona para você.']},
+    post:{img:'svc-post.jpg',en:['Post-Construction','The dust and debris after a renovation or new build, cleaned up so you can move in.'],pt:['Pós-Obra','Poeira e sujeira de reforma ou obra nova, limpas para você poder entrar.']}
+  };
+  const SITS = [
+    {k:'standard',en:'Already tidy, I just want it kept that way',pt:'Já está organizada, só quero manter assim'},
+    {k:'deep',en:'Overdue for a real clean, or this is our first visit',pt:'Precisando de uma limpeza de verdade, ou é a primeira visita'},
+    {k:'move',en:'Empty or packed up, someone is moving',pt:'Vazia ou encaixotada, alguém vai se mudar'},
+    {k:'airbnb',en:'An Airbnb or rental between guests',pt:'Um Airbnb ou aluguel entre hóspedes'},
+    {k:'commercial',en:'An office or business space',pt:'Um escritório ou espaço comercial'},
+    {k:'post',en:'Just renovated or newly built',pt:'Acabou de ser reformada ou construída'}
+  ];
+  const FAQ = [
+    {en:['Do I need to be home?','No. Many clients leave a key, door code, garage access or entry instructions so the team can clean while they’re away.'],pt:['Preciso estar em casa?','Não. Muitos clientes deixam chave, código da porta, acesso pela garagem ou instruções para a equipe limpar enquanto estão fora.']},
+    {en:['Do I need to provide supplies?','No. The team brings the products and equipment. If you want a specific product used on a surface, just let us know ahead of time.'],pt:['Preciso fornecer os produtos?','Não. A equipe leva os produtos e equipamentos. Se quiser um produto específico em alguma superfície, é só avisar antes.']},
+    {en:['Will the same team come every time?','Whenever possible. Changes can happen for vacations, days off or scheduling, but consistency is the goal.'],pt:['A mesma equipe vem sempre?','Sempre que possível. Pode haver mudanças por férias, folgas ou agenda, mas o objetivo é manter a mesma equipe.']},
+    {en:['Is the inside of the oven and fridge included?','It depends on the service, and it may be an add-on. Cleaning inside cabinets is common with Move-In/Move-Out.'],pt:['Dentro do forno e da geladeira está incluído?','Depende do serviço e pode ser um adicional. Limpar dentro dos armários é comum na limpeza de mudança.']},
+    {en:['Do you clean homes with pets?','Yes. Just let us know about any special instructions, like a pet that needs to stay in a certain room.'],pt:['Vocês limpam casas com pets?','Sim. É só avisar sobre instruções especiais, como um pet que precisa ficar em um cômodo.']},
+    {en:['How is the price calculated?','By home size, bedrooms and bathrooms, type of cleaning, frequency, current condition and any extras. The instant price calculator gives you a number in about a minute.'],pt:['Como o preço é calculado?','Pelo tamanho da casa, quartos e banheiros, tipo de limpeza, frequência, condição atual e adicionais. A calculadora mostra um valor em cerca de um minuto.']}
+  ];
+  const PAIRS = [
+    {k:'oven',en:'Oven interior',pt:'Dentro do forno'},{k:'tile',en:'Tub surround tile',pt:'Azulejo da banheira'},
+    {k:'toilet',en:'Toilet & floor tile',pt:'Vaso e piso'},{k:'vent',en:'Floor vent',pt:'Grade de ventilação'},{k:'fan',en:'Ceiling fan',pt:'Ventilador de teto'}
+  ];
+  let lang = 'en';
+  const t = k => T[lang][k] ?? T.en[k] ?? k;
+  const $ = id => document.getElementById(id);
+
+  /* Build dynamic parts */
+  $('sits').insertAdjacentHTML('beforeend', SITS.map((s, i) => `<label class="sit"><input type="radio" name="sit" value="${s.k}"${i === 1 ? ' checked' : ''}><span data-sit="${i}"></span></label>`).join(''));
+  $('bgrid').innerHTML = PAIRS.map(p => `<figure class="slider"><div class="frame"><img src="assets/ba-${p.k}-before.jpg" width="588" height="584" loading="lazy" alt=""><img class="a" src="assets/ba-${p.k}-after.jpg" width="588" height="584" loading="lazy" alt=""><input type="range" min="0" max="100" value="50" data-pair="${p.k}"><span class="knob" aria-hidden="true"></span><span class="lb" data-t="before">Before</span><span class="la" data-t="after">After</span></div><figcaption data-pair-cap="${p.k}"></figcaption></figure>`).join('');
+  $('bgrid').addEventListener('input', e => { if (e.target.type === 'range') e.target.closest('.frame').style.setProperty('--pos', e.target.value + '%'); });
+  const svcSel = $('i-svc');
+
+  function renderResult() {
+    const k = (document.querySelector('input[name="sit"]:checked') || {}).value || 'deep', s = SVC[k];
+    $('result').innerHTML = `<img src="assets/${s.img}" width="1000" height="562" alt=""><div class="body"><span class="kick">${t('fK')}</span><h3>${s[lang][0]}</h3><p>${s[lang][1]}</p><div class="acts"><a class="btn btn-plum" href="https://gleamproclean.com/calculator" target="_blank" rel="noopener">${t('sendPrice')}</a><a class="btn btn-line" href="#contact" data-pick="${k}">${t('textUs')}</a></div></div>`;
+  }
+  function apply(l) {
+    lang = l; document.documentElement.lang = l === 'pt' ? 'pt-BR' : 'en';
+    document.querySelectorAll('[data-t]').forEach(el => { el.textContent = t(el.dataset.t); });
+    document.querySelectorAll('[data-t-ph]').forEach(el => el.placeholder = t(el.dataset.tPh));
+    document.querySelectorAll('[data-t-alt]').forEach(el => el.alt = t(el.dataset.tAlt));
+    document.querySelectorAll('[data-sit]').forEach(el => el.textContent = SITS[+el.dataset.sit][l]);
+    document.querySelectorAll('[data-pair-cap]').forEach(el => el.textContent = PAIRS.find(p => p.k === el.dataset.pairCap)[l]);
+    document.querySelectorAll('#bgrid input[type=range]').forEach(r => r.setAttribute('aria-label', (l === 'pt' ? 'Comparar antes e depois: ' : 'Compare before and after: ') + PAIRS.find(p => p.k === r.dataset.pair)[l]));
+    document.querySelectorAll('#bgrid .frame').forEach(f => { const k = f.querySelector('input').dataset.pair, n = PAIRS.find(p => p.k === k)[l]; const [b, a] = f.querySelectorAll('img'); b.alt = (l === 'pt' ? 'Antes: ' : 'Before: ') + n; a.alt = (l === 'pt' ? 'Depois: ' : 'After: ') + n; });
+    $('faqList').innerHTML = FAQ.map(q => `<details><summary>${q[l][0]}</summary><p>${q[l][1]}</p></details>`).join('');
+    const cur = svcSel.value; svcSel.innerHTML = Object.keys(SVC).map(k => `<option value="${k}">${SVC[k][l][0]}</option>`).join(''); if (cur) svcSel.value = cur;
+    document.querySelectorAll('.lang button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
+    renderResult(); setWipeCap(); syncPause();
+    try { localStorage.setItem('gleam-lang', l); } catch (e) {}
+    const u = new URL(location.href); l === 'pt' ? u.searchParams.set('lang', 'pt') : u.searchParams.delete('lang'); history.replaceState(null, '', u);
+  }
+  document.querySelectorAll('.lang button').forEach(b => b.addEventListener('click', () => apply(b.dataset.lang)));
+  $('sits').addEventListener('change', renderResult);
+  document.addEventListener('click', e => { const p = e.target.closest('[data-pick]'); if (p) { svcSel.value = p.dataset.pick; setTimeout(() => $('i-name').focus({preventScroll:true}), 500); } });
+
+  /* Hero wipe: real before/after pairs, a sparkle line sweeps to reveal the after */
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const wipe = $('wipe'); let wi = 0, paused = reduce, raf = 0, t0 = 0;
+  function setWipeCap() { $('wCap').textContent = PAIRS[wi][lang]; }
+  function show(i) { wi = i; $('wB').src = `assets/ba-${PAIRS[i].k}-before.jpg`; $('wA').src = `assets/ba-${PAIRS[i].k}-after.jpg`; setWipeCap(); }
+  function frame(now) {
+    if (paused) return;
+    if (!t0) t0 = now;
+    const p = (now - t0) / 4200; /* 0..1 sweep + hold */
+    let cut = 100;
+    if (p < .15) cut = 100; else if (p < .55) cut = 100 - ((p - .15) / .4) * 100; else cut = 0;
+    wipe.style.setProperty('--cut', cut.toFixed(2) + '%');
+    if (p >= 1) { t0 = now; show((wi + 1) % PAIRS.length); }
+    raf = requestAnimationFrame(frame);
+  }
+  function syncPause() { const b = $('wPause'); b.setAttribute('aria-pressed', String(paused)); b.setAttribute('aria-label', t(paused ? 'play' : 'pause')); $('wIcon').setAttribute('d', paused ? 'M8 5v14l11-7z' : 'M7 5h4v14H7zM13 5h4v14h-4z'); }
+  $('wPause').addEventListener('click', () => { paused = !paused; syncPause(); if (!paused) { t0 = 0; raf = requestAnimationFrame(frame); } else cancelAnimationFrame(raf); });
+  if (reduce) wipe.style.setProperty('--cut', '50%'); else raf = requestAnimationFrame(frame);
+  new IntersectionObserver(es => { if (!es[0].isIntersecting) { cancelAnimationFrame(raf); } else if (!paused) { t0 = 0; raf = requestAnimationFrame(frame); } }).observe(wipe);
+
+  /* Quote form -> text message to Nayane */
+  const err = (id, k) => { $('e-' + id).textContent = k ? t(k) : ''; k ? $('i-' + id).setAttribute('aria-invalid', 'true') : $('i-' + id).removeAttribute('aria-invalid'); return !k; };
+  $('inq').addEventListener('submit', ev => {
+    ev.preventDefault();
+    const v = id => $('i-' + id).value.trim(), d = v('phone').replace(/\D/g, '');
+    const bad = [['name', v('name') ? '' : 'eName'], ['phone', (d.length === 10 || (d.length === 11 && d[0] === '1')) ? '' : 'ePhone'], ['city', v('city') ? '' : 'eCity']].filter(([id, k]) => !err(id, k)).map(([id]) => id);
+    if (bad.length) { $('i-' + bad[0]).focus(); return; }
+    const date = v('date') ? new Intl.DateTimeFormat(lang === 'pt' ? 'pt-BR' : 'en-US', {dateStyle:'long'}).format(new Date(v('date') + 'T12:00:00')) : '';
+    const body = [t('msg'), `${t('mName')}: ${v('name')}`, `${t('mPhone')}: ${v('phone')}`, `${t('mSvc')}: ${svcSel.options[svcSel.selectedIndex].text}`, `${t('mSize')}: ${v('bed')} ${t('mBed')}, ${v('bath')} ${t('mBath')}`, `${t('mCity')}: ${v('city')}`].concat(date ? [`${t('mDate')}: ${date}`] : []).concat(v('notes') ? [`${t('mNotes')}: ${v('notes')}`] : []).join('\n');
+    location.href = 'sms:+14706592815' + (/iPhone|iPad|Mac/.test(navigator.userAgent) ? '&' : '?') + 'body=' + encodeURIComponent(body);
+  });
+  ['name','phone','city'].forEach(id => $('i-' + id).addEventListener('input', () => err(id, '')));
+
+  /* Start language: ?lang=pt, then saved choice, then browser language */
+  let l0 = new URLSearchParams(location.search).get('lang');
+  if (l0 !== 'pt' && l0 !== 'en') { try { l0 = localStorage.getItem('gleam-lang'); } catch (e) { l0 = null; } }
+  if (l0 !== 'pt' && l0 !== 'en') l0 = (navigator.languages || [navigator.language]).some(x => /^pt\b/i.test(x)) ? 'pt' : 'en';
+  apply(l0);
+})();
+</script>
+</body>
+</html>
